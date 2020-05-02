@@ -6,16 +6,19 @@ import 'package:jumpets_app/models/ads/animal_ad.dart';
 import 'package:built_collection/built_collection.dart';
 import 'package:jumpets_app/models/serializers/serializers.dart';
 import 'package:jumpets_app/models/state/ads_state.dart';
+import 'package:jumpets_app/models/state/auth/auth_state.dart';
 
 part 'app_state.g.dart';
 
 abstract class AppState implements Built<AppState, AppStateBuilder> {
   AdsState get adsState;
+  AuthState get authState;
 
   AppState._();
 
   factory AppState.initial() {
-    return _$AppState._(adsState: AdsState.initial());
+    return _$AppState._(
+        adsState: AdsState.initial(), authState: AuthState.initial());
   }
 
   factory AppState([updates(AppStateBuilder b)]) = _$AppState;

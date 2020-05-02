@@ -56,6 +56,10 @@ class _$BunnyAdSerializer implements StructuredSerializer<BunnyAd> {
       serializers.serialize(object.personality,
           specifiedType:
               const FullType(BuiltList, const [const FullType(String)])),
+      'deliveryInfo',
+      serializers.serialize(object.deliveryInfo,
+          specifiedType: const FullType(
+              BuiltList, const [const FullType(DeliveryStatus)])),
     ];
     if (object.mustKnow != null) {
       result
@@ -162,6 +166,12 @@ class _$BunnyAdSerializer implements StructuredSerializer<BunnyAd> {
           result.breed = serializers.deserialize(value,
               specifiedType: const FullType(String)) as String;
           break;
+        case 'deliveryInfo':
+          result.deliveryInfo.replace(serializers.deserialize(value,
+                  specifiedType: const FullType(
+                      BuiltList, const [const FullType(DeliveryStatus)]))
+              as BuiltList<Object>);
+          break;
       }
     }
 
@@ -202,6 +212,8 @@ class _$BunnyAd extends BunnyAd {
   final BuiltList<DeliveryStatus> deliveryStatuses;
   @override
   final String breed;
+  @override
+  final BuiltList<DeliveryStatus> deliveryInfo;
 
   factory _$BunnyAd([void Function(BunnyAdBuilder) updates]) =>
       (new BunnyAdBuilder()..update(updates)).build();
@@ -222,7 +234,8 @@ class _$BunnyAd extends BunnyAd {
       this.personality,
       this.mustKnow,
       this.deliveryStatuses,
-      this.breed})
+      this.breed,
+      this.deliveryInfo})
       : super._() {
     if (id == null) {
       throw new BuiltValueNullFieldError('BunnyAd', 'id');
@@ -263,6 +276,9 @@ class _$BunnyAd extends BunnyAd {
     if (personality == null) {
       throw new BuiltValueNullFieldError('BunnyAd', 'personality');
     }
+    if (deliveryInfo == null) {
+      throw new BuiltValueNullFieldError('BunnyAd', 'deliveryInfo');
+    }
   }
 
   @override
@@ -291,7 +307,8 @@ class _$BunnyAd extends BunnyAd {
         personality == other.personality &&
         mustKnow == other.mustKnow &&
         deliveryStatuses == other.deliveryStatuses &&
-        breed == other.breed;
+        breed == other.breed &&
+        deliveryInfo == other.deliveryInfo;
   }
 
   @override
@@ -311,23 +328,25 @@ class _$BunnyAd extends BunnyAd {
                                                     $jc(
                                                         $jc(
                                                             $jc(
-                                                                $jc(0,
-                                                                    id.hashCode),
-                                                                date.hashCode),
-                                                            tags.hashCode),
-                                                        photos.hashCode),
-                                                    owner.hashCode),
-                                                name.hashCode),
-                                            description.hashCode),
-                                        activityLevel.hashCode),
-                                    birthDate.hashCode),
-                                male.hashCode),
-                            adoptionTax.hashCode),
-                        weight.hashCode),
-                    personality.hashCode),
-                mustKnow.hashCode),
-            deliveryStatuses.hashCode),
-        breed.hashCode));
+                                                                $jc(
+                                                                    $jc(0,
+                                                                        id.hashCode),
+                                                                    date.hashCode),
+                                                                tags.hashCode),
+                                                            photos.hashCode),
+                                                        owner.hashCode),
+                                                    name.hashCode),
+                                                description.hashCode),
+                                            activityLevel.hashCode),
+                                        birthDate.hashCode),
+                                    male.hashCode),
+                                adoptionTax.hashCode),
+                            weight.hashCode),
+                        personality.hashCode),
+                    mustKnow.hashCode),
+                deliveryStatuses.hashCode),
+            breed.hashCode),
+        deliveryInfo.hashCode));
   }
 
   @override
@@ -348,7 +367,8 @@ class _$BunnyAd extends BunnyAd {
           ..add('personality', personality)
           ..add('mustKnow', mustKnow)
           ..add('deliveryStatuses', deliveryStatuses)
-          ..add('breed', breed))
+          ..add('breed', breed)
+          ..add('deliveryInfo', deliveryInfo))
         .toString();
   }
 }
@@ -426,6 +446,12 @@ class BunnyAdBuilder implements Builder<BunnyAd, BunnyAdBuilder> {
   String get breed => _$this._breed;
   set breed(String breed) => _$this._breed = breed;
 
+  ListBuilder<DeliveryStatus> _deliveryInfo;
+  ListBuilder<DeliveryStatus> get deliveryInfo =>
+      _$this._deliveryInfo ??= new ListBuilder<DeliveryStatus>();
+  set deliveryInfo(ListBuilder<DeliveryStatus> deliveryInfo) =>
+      _$this._deliveryInfo = deliveryInfo;
+
   BunnyAdBuilder();
 
   BunnyAdBuilder get _$this {
@@ -446,6 +472,7 @@ class BunnyAdBuilder implements Builder<BunnyAd, BunnyAdBuilder> {
       _mustKnow = _$v.mustKnow;
       _deliveryStatuses = _$v.deliveryStatuses?.toBuilder();
       _breed = _$v.breed;
+      _deliveryInfo = _$v.deliveryInfo?.toBuilder();
       _$v = null;
     }
     return this;
@@ -485,7 +512,8 @@ class BunnyAdBuilder implements Builder<BunnyAd, BunnyAdBuilder> {
               personality: personality.build(),
               mustKnow: mustKnow,
               deliveryStatuses: _deliveryStatuses?.build(),
-              breed: breed);
+              breed: breed,
+              deliveryInfo: deliveryInfo.build());
     } catch (_) {
       String _$failedField;
       try {
@@ -499,6 +527,9 @@ class BunnyAdBuilder implements Builder<BunnyAd, BunnyAdBuilder> {
 
         _$failedField = 'deliveryStatuses';
         _deliveryStatuses?.build();
+
+        _$failedField = 'deliveryInfo';
+        deliveryInfo.build();
       } catch (e) {
         throw new BuiltValueNestedFieldError(
             'BunnyAd', _$failedField, e.toString());

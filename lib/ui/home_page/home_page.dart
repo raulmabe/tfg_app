@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:jumpets_app/ui/components/bottombar/bottombar.dart';
 import 'package:jumpets_app/ui/components/profile_icon.dart';
 import 'package:jumpets_app/ui/components/searchbar/searchbar.dart';
+import 'package:jumpets_app/ui/home_page/pages/favourites_page_vm.dart';
 import 'package:jumpets_app/ui/home_page/pages/main_page_vm.dart';
 
 class HomePage extends StatefulWidget {
@@ -13,6 +14,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   PageController _pageController;
+  ScrollController _scrollController;
   int _pageIndex;
 
   @override
@@ -25,6 +27,15 @@ class _HomePageState extends State<HomePage> {
     );
     _pageController.addListener(
         () => setState(() => _pageIndex = _pageController.page.toInt()));
+
+    _scrollController = ScrollController();
+  }
+
+  @override
+  void dispose() {
+    _pageController.dispose();
+    _scrollController.dispose();
+    super.dispose();
   }
 
   @override
@@ -36,7 +47,11 @@ class _HomePageState extends State<HomePage> {
         actions: <Widget>[
           Padding(
               padding: EdgeInsets.symmetric(horizontal: 20),
-              child: ProfileIcon()),
+              child: ProfileIcon(
+                withBorder: true,
+                url:
+                    'https://pbs.twimg.com/profile_images/977547096244047872/6x1ugfRC_400x400.jpg',
+              )),
         ],
       ),
       body: Stack(
@@ -53,8 +68,10 @@ class _HomePageState extends State<HomePage> {
                   physics: NeverScrollableScrollPhysics(),
                   controller: _pageController,
                   children: [
-                    Container(color: Colors.blueAccent),
-                    MainPageBuilder(),
+                    FavouritesPageBuilder(),
+                    MainPageBuilder(
+                      scrollController: _scrollController,
+                    ),
                     Container(color: Colors.tealAccent),
                   ]),
             ),
@@ -66,9 +83,10 @@ class _HomePageState extends State<HomePage> {
               child: BottomBar(
                 onTap: (int index) => _pageController.jumpToPage(
                   index,
-                  /* duration: Duration(milliseconds: 600),
-                    curve: Curves.easeInOut */
                 ),
+                onDoubleMainTap: () => _scrollController.animateTo(0,
+                    duration: Duration(milliseconds: 600),
+                    curve: Curves.bounceIn),
                 pageSelected: _pageIndex,
               ))
         ],

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:jumpets_app/models/enums/categories.dart';
 import 'package:jumpets_app/ui/components/category_button.dart';
+import 'package:jumpets_app/ui/components/info_card.dart';
 import 'package:jumpets_app/ui/components/jumpets_icons_icons.dart';
 import 'package:jumpets_app/ui/components/vertical_grid/vertical_grid.dart';
 import 'package:jumpets_app/ui/home_page/pages/main_page_vm.dart';
@@ -9,12 +10,14 @@ import 'package:jumpets_app/models/extensions/string_extension.dart';
 
 class MainPage extends StatelessWidget {
   final MainPageViewModel viewModel;
+  final ScrollController scrollController;
 
-  MainPage({@required this.viewModel});
+  MainPage({@required this.viewModel, this.scrollController});
 
   @override
   Widget build(BuildContext context) {
     return LiquidPullToRefresh(
+      scrollController: scrollController,
       showChildOpacityTransition: false,
       onRefresh: viewModel.onRefreshAnimalAds,
       child: ListView(
@@ -28,7 +31,7 @@ class MainPage extends StatelessWidget {
               children: <Widget>[
                 Expanded(
                   child: Text(viewModel.category.name.capitalize(),
-                      style: Theme.of(context).primaryTextTheme.display2),
+                      style: Theme.of(context).textTheme.display2),
                 ),
                 IconButton(
                     icon: Icon(
@@ -77,6 +80,11 @@ class MainPage extends StatelessWidget {
           ),
           Divider(),
           VerticalGrid(
+            widgetInjection: InfoCard(
+              title: 'Jumpets',
+              message:
+                  'Check our last update! This new version (2.2v) comes with 3 new functionalities.',
+            ),
             ads: viewModel.animalAds,
           ),
         ],

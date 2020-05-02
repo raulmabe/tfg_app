@@ -6,22 +6,25 @@ import 'package:jumpets_app/models/ads/animal_ad.dart';
 import 'package:jumpets_app/models/enums/categories.dart';
 import 'package:jumpets_app/models/state/app_state.dart';
 import 'package:jumpets_app/redux/actions/actions.dart';
-import 'package:jumpets_app/ui/home_page/home_page.dart';
 import 'package:jumpets_app/ui/home_page/pages/main_page.dart';
 import 'package:redux/redux.dart';
 
 class MainPageBuilder extends StatelessWidget {
+  final ScrollController scrollController;
+  MainPageBuilder({this.scrollController});
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, MainPageViewModel>(
       converter: (store) => MainPageViewModel.create(store),
       onInit: (store) {
         if (store.state.adsState.animalAds.isEmpty) {
-          print('YEAAAAA');
           store.dispatch(GetAnimalAds(completer: new Completer()));
         }
       },
-      builder: (context, viewModel) => MainPage(viewModel: viewModel),
+      builder: (context, viewModel) => MainPage(
+        viewModel: viewModel,
+        scrollController: scrollController,
+      ),
     );
   }
 }

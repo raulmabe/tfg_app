@@ -56,6 +56,10 @@ class _$CatAdSerializer implements StructuredSerializer<CatAd> {
               const FullType(BuiltList, const [const FullType(String)])),
       'owner',
       serializers.serialize(object.owner, specifiedType: const FullType(User)),
+      'deliveryInfo',
+      serializers.serialize(object.deliveryInfo,
+          specifiedType: const FullType(
+              BuiltList, const [const FullType(DeliveryStatus)])),
     ];
     if (object.mustKnow != null) {
       result
@@ -162,6 +166,12 @@ class _$CatAdSerializer implements StructuredSerializer<CatAd> {
           result.owner = serializers.deserialize(value,
               specifiedType: const FullType(User)) as User;
           break;
+        case 'deliveryInfo':
+          result.deliveryInfo.replace(serializers.deserialize(value,
+                  specifiedType: const FullType(
+                      BuiltList, const [const FullType(DeliveryStatus)]))
+              as BuiltList<Object>);
+          break;
       }
     }
 
@@ -202,6 +212,8 @@ class _$CatAd extends CatAd {
   final String breed;
   @override
   final User owner;
+  @override
+  final BuiltList<DeliveryStatus> deliveryInfo;
 
   factory _$CatAd([void Function(CatAdBuilder) updates]) =>
       (new CatAdBuilder()..update(updates)).build();
@@ -222,7 +234,8 @@ class _$CatAd extends CatAd {
       this.mustKnow,
       this.deliveryStatuses,
       this.breed,
-      this.owner})
+      this.owner,
+      this.deliveryInfo})
       : super._() {
     if (id == null) {
       throw new BuiltValueNullFieldError('CatAd', 'id');
@@ -263,6 +276,9 @@ class _$CatAd extends CatAd {
     if (owner == null) {
       throw new BuiltValueNullFieldError('CatAd', 'owner');
     }
+    if (deliveryInfo == null) {
+      throw new BuiltValueNullFieldError('CatAd', 'deliveryInfo');
+    }
   }
 
   @override
@@ -291,7 +307,8 @@ class _$CatAd extends CatAd {
         mustKnow == other.mustKnow &&
         deliveryStatuses == other.deliveryStatuses &&
         breed == other.breed &&
-        owner == other.owner;
+        owner == other.owner &&
+        deliveryInfo == other.deliveryInfo;
   }
 
   @override
@@ -311,23 +328,25 @@ class _$CatAd extends CatAd {
                                                     $jc(
                                                         $jc(
                                                             $jc(
-                                                                $jc(0,
-                                                                    id.hashCode),
-                                                                date.hashCode),
-                                                            tags.hashCode),
-                                                        photos.hashCode),
-                                                    name.hashCode),
-                                                description.hashCode),
-                                            activityLevel.hashCode),
-                                        birthDate.hashCode),
-                                    male.hashCode),
-                                adoptionTax.hashCode),
-                            weight.hashCode),
-                        personality.hashCode),
-                    mustKnow.hashCode),
-                deliveryStatuses.hashCode),
-            breed.hashCode),
-        owner.hashCode));
+                                                                $jc(
+                                                                    $jc(0,
+                                                                        id.hashCode),
+                                                                    date.hashCode),
+                                                                tags.hashCode),
+                                                            photos.hashCode),
+                                                        name.hashCode),
+                                                    description.hashCode),
+                                                activityLevel.hashCode),
+                                            birthDate.hashCode),
+                                        male.hashCode),
+                                    adoptionTax.hashCode),
+                                weight.hashCode),
+                            personality.hashCode),
+                        mustKnow.hashCode),
+                    deliveryStatuses.hashCode),
+                breed.hashCode),
+            owner.hashCode),
+        deliveryInfo.hashCode));
   }
 
   @override
@@ -348,7 +367,8 @@ class _$CatAd extends CatAd {
           ..add('mustKnow', mustKnow)
           ..add('deliveryStatuses', deliveryStatuses)
           ..add('breed', breed)
-          ..add('owner', owner))
+          ..add('owner', owner)
+          ..add('deliveryInfo', deliveryInfo))
         .toString();
   }
 }
@@ -426,6 +446,12 @@ class CatAdBuilder implements Builder<CatAd, CatAdBuilder> {
   User get owner => _$this._owner;
   set owner(User owner) => _$this._owner = owner;
 
+  ListBuilder<DeliveryStatus> _deliveryInfo;
+  ListBuilder<DeliveryStatus> get deliveryInfo =>
+      _$this._deliveryInfo ??= new ListBuilder<DeliveryStatus>();
+  set deliveryInfo(ListBuilder<DeliveryStatus> deliveryInfo) =>
+      _$this._deliveryInfo = deliveryInfo;
+
   CatAdBuilder();
 
   CatAdBuilder get _$this {
@@ -446,6 +472,7 @@ class CatAdBuilder implements Builder<CatAd, CatAdBuilder> {
       _deliveryStatuses = _$v.deliveryStatuses?.toBuilder();
       _breed = _$v.breed;
       _owner = _$v.owner;
+      _deliveryInfo = _$v.deliveryInfo?.toBuilder();
       _$v = null;
     }
     return this;
@@ -485,7 +512,8 @@ class CatAdBuilder implements Builder<CatAd, CatAdBuilder> {
               mustKnow: mustKnow,
               deliveryStatuses: _deliveryStatuses?.build(),
               breed: breed,
-              owner: owner);
+              owner: owner,
+              deliveryInfo: deliveryInfo.build());
     } catch (_) {
       String _$failedField;
       try {
@@ -499,6 +527,9 @@ class CatAdBuilder implements Builder<CatAd, CatAdBuilder> {
 
         _$failedField = 'deliveryStatuses';
         _deliveryStatuses?.build();
+
+        _$failedField = 'deliveryInfo';
+        deliveryInfo.build();
       } catch (e) {
         throw new BuiltValueNestedFieldError(
             'CatAd', _$failedField, e.toString());

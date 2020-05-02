@@ -8,12 +8,14 @@ class BottomBar extends StatelessWidget {
 
   final int pageSelected;
   final Function(int) onTap;
+  final Function onDoubleMainTap;
 
   BottomBar(
       {this.elevation = 10,
       this.mainIconSize = 65,
       @required this.pageSelected,
-      @required this.onTap});
+      @required this.onTap,
+      this.onDoubleMainTap});
 
   @override
   Widget build(BuildContext context) {
@@ -83,7 +85,12 @@ class BottomBar extends StatelessWidget {
                       shape: CircleBorder(),
                       child: InkWell(
                         customBorder: CircleBorder(),
-                        onTap: () => onTap(1),
+                        onTap: () {
+                          if (onDoubleMainTap != null && pageSelected == 1)
+                            onDoubleMainTap();
+
+                          onTap(1);
+                        },
                         child: Icon(
                           JumpetsIcons.nariz_jumpets,
                           color: pageSelected == 1

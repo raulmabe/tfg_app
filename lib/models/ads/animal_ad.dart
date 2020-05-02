@@ -42,10 +42,8 @@ abstract class AnimalAd implements Ad {
   @nullable
   String get mustKnow;
 
-  @nullable
-  BuiltList<DeliveryStatus> get deliveryStatuses;
+  BuiltList<DeliveryStatus> get deliveryInfo;
 
-  @nullable
   String get breed;
 
   static AnimalAd fromJson(Map<String, dynamic> json) {

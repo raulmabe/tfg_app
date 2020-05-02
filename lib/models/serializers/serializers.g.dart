@@ -10,6 +10,7 @@ Serializers _$serializers = (new Serializers().toBuilder()
       ..add(ActivityLevel.serializer)
       ..add(AdsState.serializer)
       ..add(AppState.serializer)
+      ..add(AuthState.serializer)
       ..add(BirdAd.serializer)
       ..add(BunnyAd.serializer)
       ..add(CatAd.serializer)
@@ -17,6 +18,7 @@ Serializers _$serializers = (new Serializers().toBuilder()
       ..add(DeliveryStatus.serializer)
       ..add(DogAd.serializer)
       ..add(DogSize.serializer)
+      ..add(FavAdsState.serializer)
       ..add(FishAd.serializer)
       ..add(OtherAd.serializer)
       ..add(Particular.serializer)
@@ -26,6 +28,8 @@ Serializers _$serializers = (new Serializers().toBuilder()
       ..add(ReptileAd.serializer)
       ..add(RodentAd.serializer)
       ..add(ServiceAd.serializer)
+      ..addBuilderFactory(const FullType(BuiltList, const [const FullType(Ad)]),
+          () => new ListBuilder<Ad>())
       ..addBuilderFactory(const FullType(BuiltList, const [const FullType(Ad)]),
           () => new ListBuilder<Ad>())
       ..addBuilderFactory(
@@ -59,14 +63,20 @@ Serializers _$serializers = (new Serializers().toBuilder()
           const FullType(BuiltList, const [const FullType(DeliveryStatus)]),
           () => new ListBuilder<DeliveryStatus>())
       ..addBuilderFactory(
-          const FullType(BuiltList, const [const FullType(String)]),
-          () => new ListBuilder<String>())
+          const FullType(BuiltList, const [const FullType(DeliveryStatus)]),
+          () => new ListBuilder<DeliveryStatus>())
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(String)]),
           () => new ListBuilder<String>())
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(String)]),
           () => new ListBuilder<String>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(String)]),
+          () => new ListBuilder<String>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(DeliveryStatus)]),
+          () => new ListBuilder<DeliveryStatus>())
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(DeliveryStatus)]),
           () => new ListBuilder<DeliveryStatus>())
@@ -83,14 +93,20 @@ Serializers _$serializers = (new Serializers().toBuilder()
           const FullType(BuiltList, const [const FullType(DeliveryStatus)]),
           () => new ListBuilder<DeliveryStatus>())
       ..addBuilderFactory(
-          const FullType(BuiltList, const [const FullType(String)]),
-          () => new ListBuilder<String>())
+          const FullType(BuiltList, const [const FullType(DeliveryStatus)]),
+          () => new ListBuilder<DeliveryStatus>())
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(String)]),
           () => new ListBuilder<String>())
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(String)]),
           () => new ListBuilder<String>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(String)]),
+          () => new ListBuilder<String>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(DeliveryStatus)]),
+          () => new ListBuilder<DeliveryStatus>())
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(DeliveryStatus)]),
           () => new ListBuilder<DeliveryStatus>())
@@ -107,14 +123,20 @@ Serializers _$serializers = (new Serializers().toBuilder()
           const FullType(BuiltList, const [const FullType(DeliveryStatus)]),
           () => new ListBuilder<DeliveryStatus>())
       ..addBuilderFactory(
-          const FullType(BuiltList, const [const FullType(String)]),
-          () => new ListBuilder<String>())
+          const FullType(BuiltList, const [const FullType(DeliveryStatus)]),
+          () => new ListBuilder<DeliveryStatus>())
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(String)]),
           () => new ListBuilder<String>())
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(String)]),
           () => new ListBuilder<String>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(String)]),
+          () => new ListBuilder<String>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(DeliveryStatus)]),
+          () => new ListBuilder<DeliveryStatus>())
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(DeliveryStatus)]),
           () => new ListBuilder<DeliveryStatus>())
@@ -131,14 +153,20 @@ Serializers _$serializers = (new Serializers().toBuilder()
           const FullType(BuiltList, const [const FullType(DeliveryStatus)]),
           () => new ListBuilder<DeliveryStatus>())
       ..addBuilderFactory(
-          const FullType(BuiltList, const [const FullType(String)]),
-          () => new ListBuilder<String>())
+          const FullType(BuiltList, const [const FullType(DeliveryStatus)]),
+          () => new ListBuilder<DeliveryStatus>())
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(String)]),
           () => new ListBuilder<String>())
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(String)]),
           () => new ListBuilder<String>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(String)]),
+          () => new ListBuilder<String>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(DeliveryStatus)]),
+          () => new ListBuilder<DeliveryStatus>())
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(DeliveryStatus)]),
           () => new ListBuilder<DeliveryStatus>()))

@@ -56,6 +56,10 @@ class _$RodentAdSerializer implements StructuredSerializer<RodentAd> {
       serializers.serialize(object.personality,
           specifiedType:
               const FullType(BuiltList, const [const FullType(String)])),
+      'deliveryInfo',
+      serializers.serialize(object.deliveryInfo,
+          specifiedType: const FullType(
+              BuiltList, const [const FullType(DeliveryStatus)])),
     ];
     if (object.mustKnow != null) {
       result
@@ -162,6 +166,12 @@ class _$RodentAdSerializer implements StructuredSerializer<RodentAd> {
           result.breed = serializers.deserialize(value,
               specifiedType: const FullType(String)) as String;
           break;
+        case 'deliveryInfo':
+          result.deliveryInfo.replace(serializers.deserialize(value,
+                  specifiedType: const FullType(
+                      BuiltList, const [const FullType(DeliveryStatus)]))
+              as BuiltList<Object>);
+          break;
       }
     }
 
@@ -202,6 +212,8 @@ class _$RodentAd extends RodentAd {
   final BuiltList<DeliveryStatus> deliveryStatuses;
   @override
   final String breed;
+  @override
+  final BuiltList<DeliveryStatus> deliveryInfo;
 
   factory _$RodentAd([void Function(RodentAdBuilder) updates]) =>
       (new RodentAdBuilder()..update(updates)).build();
@@ -222,7 +234,8 @@ class _$RodentAd extends RodentAd {
       this.personality,
       this.mustKnow,
       this.deliveryStatuses,
-      this.breed})
+      this.breed,
+      this.deliveryInfo})
       : super._() {
     if (id == null) {
       throw new BuiltValueNullFieldError('RodentAd', 'id');
@@ -263,6 +276,9 @@ class _$RodentAd extends RodentAd {
     if (personality == null) {
       throw new BuiltValueNullFieldError('RodentAd', 'personality');
     }
+    if (deliveryInfo == null) {
+      throw new BuiltValueNullFieldError('RodentAd', 'deliveryInfo');
+    }
   }
 
   @override
@@ -291,7 +307,8 @@ class _$RodentAd extends RodentAd {
         personality == other.personality &&
         mustKnow == other.mustKnow &&
         deliveryStatuses == other.deliveryStatuses &&
-        breed == other.breed;
+        breed == other.breed &&
+        deliveryInfo == other.deliveryInfo;
   }
 
   @override
@@ -311,23 +328,25 @@ class _$RodentAd extends RodentAd {
                                                     $jc(
                                                         $jc(
                                                             $jc(
-                                                                $jc(0,
-                                                                    id.hashCode),
-                                                                date.hashCode),
-                                                            tags.hashCode),
-                                                        photos.hashCode),
-                                                    owner.hashCode),
-                                                name.hashCode),
-                                            description.hashCode),
-                                        activityLevel.hashCode),
-                                    birthDate.hashCode),
-                                male.hashCode),
-                            adoptionTax.hashCode),
-                        weight.hashCode),
-                    personality.hashCode),
-                mustKnow.hashCode),
-            deliveryStatuses.hashCode),
-        breed.hashCode));
+                                                                $jc(
+                                                                    $jc(0,
+                                                                        id.hashCode),
+                                                                    date.hashCode),
+                                                                tags.hashCode),
+                                                            photos.hashCode),
+                                                        owner.hashCode),
+                                                    name.hashCode),
+                                                description.hashCode),
+                                            activityLevel.hashCode),
+                                        birthDate.hashCode),
+                                    male.hashCode),
+                                adoptionTax.hashCode),
+                            weight.hashCode),
+                        personality.hashCode),
+                    mustKnow.hashCode),
+                deliveryStatuses.hashCode),
+            breed.hashCode),
+        deliveryInfo.hashCode));
   }
 
   @override
@@ -348,7 +367,8 @@ class _$RodentAd extends RodentAd {
           ..add('personality', personality)
           ..add('mustKnow', mustKnow)
           ..add('deliveryStatuses', deliveryStatuses)
-          ..add('breed', breed))
+          ..add('breed', breed)
+          ..add('deliveryInfo', deliveryInfo))
         .toString();
   }
 }
@@ -426,6 +446,12 @@ class RodentAdBuilder implements Builder<RodentAd, RodentAdBuilder> {
   String get breed => _$this._breed;
   set breed(String breed) => _$this._breed = breed;
 
+  ListBuilder<DeliveryStatus> _deliveryInfo;
+  ListBuilder<DeliveryStatus> get deliveryInfo =>
+      _$this._deliveryInfo ??= new ListBuilder<DeliveryStatus>();
+  set deliveryInfo(ListBuilder<DeliveryStatus> deliveryInfo) =>
+      _$this._deliveryInfo = deliveryInfo;
+
   RodentAdBuilder();
 
   RodentAdBuilder get _$this {
@@ -446,6 +472,7 @@ class RodentAdBuilder implements Builder<RodentAd, RodentAdBuilder> {
       _mustKnow = _$v.mustKnow;
       _deliveryStatuses = _$v.deliveryStatuses?.toBuilder();
       _breed = _$v.breed;
+      _deliveryInfo = _$v.deliveryInfo?.toBuilder();
       _$v = null;
     }
     return this;
@@ -485,7 +512,8 @@ class RodentAdBuilder implements Builder<RodentAd, RodentAdBuilder> {
               personality: personality.build(),
               mustKnow: mustKnow,
               deliveryStatuses: _deliveryStatuses?.build(),
-              breed: breed);
+              breed: breed,
+              deliveryInfo: deliveryInfo.build());
     } catch (_) {
       String _$failedField;
       try {
@@ -499,6 +527,9 @@ class RodentAdBuilder implements Builder<RodentAd, RodentAdBuilder> {
 
         _$failedField = 'deliveryStatuses';
         _deliveryStatuses?.build();
+
+        _$failedField = 'deliveryInfo';
+        deliveryInfo.build();
       } catch (e) {
         throw new BuiltValueNestedFieldError(
             'RodentAd', _$failedField, e.toString());

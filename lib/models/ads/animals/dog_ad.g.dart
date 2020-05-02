@@ -59,6 +59,10 @@ class _$DogAdSerializer implements StructuredSerializer<DogAd> {
       'size',
       serializers.serialize(object.size,
           specifiedType: const FullType(DogSize)),
+      'deliveryInfo',
+      serializers.serialize(object.deliveryInfo,
+          specifiedType: const FullType(
+              BuiltList, const [const FullType(DeliveryStatus)])),
     ];
     if (object.mustKnow != null) {
       result
@@ -169,6 +173,12 @@ class _$DogAdSerializer implements StructuredSerializer<DogAd> {
           result.size = serializers.deserialize(value,
               specifiedType: const FullType(DogSize)) as DogSize;
           break;
+        case 'deliveryInfo':
+          result.deliveryInfo.replace(serializers.deserialize(value,
+                  specifiedType: const FullType(
+                      BuiltList, const [const FullType(DeliveryStatus)]))
+              as BuiltList<Object>);
+          break;
       }
     }
 
@@ -211,6 +221,8 @@ class _$DogAd extends DogAd {
   final String breed;
   @override
   final DogSize size;
+  @override
+  final BuiltList<DeliveryStatus> deliveryInfo;
 
   factory _$DogAd([void Function(DogAdBuilder) updates]) =>
       (new DogAdBuilder()..update(updates)).build();
@@ -232,7 +244,8 @@ class _$DogAd extends DogAd {
       this.mustKnow,
       this.deliveryStatuses,
       this.breed,
-      this.size})
+      this.size,
+      this.deliveryInfo})
       : super._() {
     if (id == null) {
       throw new BuiltValueNullFieldError('DogAd', 'id');
@@ -276,6 +289,9 @@ class _$DogAd extends DogAd {
     if (size == null) {
       throw new BuiltValueNullFieldError('DogAd', 'size');
     }
+    if (deliveryInfo == null) {
+      throw new BuiltValueNullFieldError('DogAd', 'deliveryInfo');
+    }
   }
 
   @override
@@ -305,7 +321,8 @@ class _$DogAd extends DogAd {
         mustKnow == other.mustKnow &&
         deliveryStatuses == other.deliveryStatuses &&
         breed == other.breed &&
-        size == other.size;
+        size == other.size &&
+        deliveryInfo == other.deliveryInfo;
   }
 
   @override
@@ -326,24 +343,26 @@ class _$DogAd extends DogAd {
                                                         $jc(
                                                             $jc(
                                                                 $jc(
-                                                                    $jc(0,
-                                                                        id.hashCode),
-                                                                    date.hashCode),
-                                                                tags.hashCode),
-                                                            photos.hashCode),
-                                                        owner.hashCode),
-                                                    name.hashCode),
-                                                description.hashCode),
-                                            activityLevel.hashCode),
-                                        birthDate.hashCode),
-                                    male.hashCode),
-                                adoptionTax.hashCode),
-                            weight.hashCode),
-                        personality.hashCode),
-                    mustKnow.hashCode),
-                deliveryStatuses.hashCode),
-            breed.hashCode),
-        size.hashCode));
+                                                                    $jc(
+                                                                        $jc(0,
+                                                                            id.hashCode),
+                                                                        date.hashCode),
+                                                                    tags.hashCode),
+                                                                photos.hashCode),
+                                                            owner.hashCode),
+                                                        name.hashCode),
+                                                    description.hashCode),
+                                                activityLevel.hashCode),
+                                            birthDate.hashCode),
+                                        male.hashCode),
+                                    adoptionTax.hashCode),
+                                weight.hashCode),
+                            personality.hashCode),
+                        mustKnow.hashCode),
+                    deliveryStatuses.hashCode),
+                breed.hashCode),
+            size.hashCode),
+        deliveryInfo.hashCode));
   }
 
   @override
@@ -365,7 +384,8 @@ class _$DogAd extends DogAd {
           ..add('mustKnow', mustKnow)
           ..add('deliveryStatuses', deliveryStatuses)
           ..add('breed', breed)
-          ..add('size', size))
+          ..add('size', size)
+          ..add('deliveryInfo', deliveryInfo))
         .toString();
   }
 }
@@ -447,6 +467,12 @@ class DogAdBuilder implements Builder<DogAd, DogAdBuilder> {
   DogSize get size => _$this._size;
   set size(DogSize size) => _$this._size = size;
 
+  ListBuilder<DeliveryStatus> _deliveryInfo;
+  ListBuilder<DeliveryStatus> get deliveryInfo =>
+      _$this._deliveryInfo ??= new ListBuilder<DeliveryStatus>();
+  set deliveryInfo(ListBuilder<DeliveryStatus> deliveryInfo) =>
+      _$this._deliveryInfo = deliveryInfo;
+
   DogAdBuilder();
 
   DogAdBuilder get _$this {
@@ -468,6 +494,7 @@ class DogAdBuilder implements Builder<DogAd, DogAdBuilder> {
       _deliveryStatuses = _$v.deliveryStatuses?.toBuilder();
       _breed = _$v.breed;
       _size = _$v.size;
+      _deliveryInfo = _$v.deliveryInfo?.toBuilder();
       _$v = null;
     }
     return this;
@@ -508,7 +535,8 @@ class DogAdBuilder implements Builder<DogAd, DogAdBuilder> {
               mustKnow: mustKnow,
               deliveryStatuses: _deliveryStatuses?.build(),
               breed: breed,
-              size: size);
+              size: size,
+              deliveryInfo: deliveryInfo.build());
     } catch (_) {
       String _$failedField;
       try {
@@ -522,6 +550,9 @@ class DogAdBuilder implements Builder<DogAd, DogAdBuilder> {
 
         _$failedField = 'deliveryStatuses';
         _deliveryStatuses?.build();
+
+        _$failedField = 'deliveryInfo';
+        deliveryInfo.build();
       } catch (e) {
         throw new BuiltValueNestedFieldError(
             'DogAd', _$failedField, e.toString());

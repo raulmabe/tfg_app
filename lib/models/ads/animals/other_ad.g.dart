@@ -56,6 +56,10 @@ class _$OtherAdSerializer implements StructuredSerializer<OtherAd> {
       serializers.serialize(object.personality,
           specifiedType:
               const FullType(BuiltList, const [const FullType(String)])),
+      'deliveryInfo',
+      serializers.serialize(object.deliveryInfo,
+          specifiedType: const FullType(
+              BuiltList, const [const FullType(DeliveryStatus)])),
     ];
     if (object.mustKnow != null) {
       result
@@ -162,6 +166,12 @@ class _$OtherAdSerializer implements StructuredSerializer<OtherAd> {
           result.breed = serializers.deserialize(value,
               specifiedType: const FullType(String)) as String;
           break;
+        case 'deliveryInfo':
+          result.deliveryInfo.replace(serializers.deserialize(value,
+                  specifiedType: const FullType(
+                      BuiltList, const [const FullType(DeliveryStatus)]))
+              as BuiltList<Object>);
+          break;
       }
     }
 
@@ -202,6 +212,8 @@ class _$OtherAd extends OtherAd {
   final BuiltList<DeliveryStatus> deliveryStatuses;
   @override
   final String breed;
+  @override
+  final BuiltList<DeliveryStatus> deliveryInfo;
 
   factory _$OtherAd([void Function(OtherAdBuilder) updates]) =>
       (new OtherAdBuilder()..update(updates)).build();
@@ -222,7 +234,8 @@ class _$OtherAd extends OtherAd {
       this.personality,
       this.mustKnow,
       this.deliveryStatuses,
-      this.breed})
+      this.breed,
+      this.deliveryInfo})
       : super._() {
     if (id == null) {
       throw new BuiltValueNullFieldError('OtherAd', 'id');
@@ -263,6 +276,9 @@ class _$OtherAd extends OtherAd {
     if (personality == null) {
       throw new BuiltValueNullFieldError('OtherAd', 'personality');
     }
+    if (deliveryInfo == null) {
+      throw new BuiltValueNullFieldError('OtherAd', 'deliveryInfo');
+    }
   }
 
   @override
@@ -291,7 +307,8 @@ class _$OtherAd extends OtherAd {
         personality == other.personality &&
         mustKnow == other.mustKnow &&
         deliveryStatuses == other.deliveryStatuses &&
-        breed == other.breed;
+        breed == other.breed &&
+        deliveryInfo == other.deliveryInfo;
   }
 
   @override
@@ -311,23 +328,25 @@ class _$OtherAd extends OtherAd {
                                                     $jc(
                                                         $jc(
                                                             $jc(
-                                                                $jc(0,
-                                                                    id.hashCode),
-                                                                date.hashCode),
-                                                            tags.hashCode),
-                                                        photos.hashCode),
-                                                    owner.hashCode),
-                                                name.hashCode),
-                                            description.hashCode),
-                                        activityLevel.hashCode),
-                                    birthDate.hashCode),
-                                male.hashCode),
-                            adoptionTax.hashCode),
-                        weight.hashCode),
-                    personality.hashCode),
-                mustKnow.hashCode),
-            deliveryStatuses.hashCode),
-        breed.hashCode));
+                                                                $jc(
+                                                                    $jc(0,
+                                                                        id.hashCode),
+                                                                    date.hashCode),
+                                                                tags.hashCode),
+                                                            photos.hashCode),
+                                                        owner.hashCode),
+                                                    name.hashCode),
+                                                description.hashCode),
+                                            activityLevel.hashCode),
+                                        birthDate.hashCode),
+                                    male.hashCode),
+                                adoptionTax.hashCode),
+                            weight.hashCode),
+                        personality.hashCode),
+                    mustKnow.hashCode),
+                deliveryStatuses.hashCode),
+            breed.hashCode),
+        deliveryInfo.hashCode));
   }
 
   @override
@@ -348,7 +367,8 @@ class _$OtherAd extends OtherAd {
           ..add('personality', personality)
           ..add('mustKnow', mustKnow)
           ..add('deliveryStatuses', deliveryStatuses)
-          ..add('breed', breed))
+          ..add('breed', breed)
+          ..add('deliveryInfo', deliveryInfo))
         .toString();
   }
 }
@@ -426,6 +446,12 @@ class OtherAdBuilder implements Builder<OtherAd, OtherAdBuilder> {
   String get breed => _$this._breed;
   set breed(String breed) => _$this._breed = breed;
 
+  ListBuilder<DeliveryStatus> _deliveryInfo;
+  ListBuilder<DeliveryStatus> get deliveryInfo =>
+      _$this._deliveryInfo ??= new ListBuilder<DeliveryStatus>();
+  set deliveryInfo(ListBuilder<DeliveryStatus> deliveryInfo) =>
+      _$this._deliveryInfo = deliveryInfo;
+
   OtherAdBuilder();
 
   OtherAdBuilder get _$this {
@@ -446,6 +472,7 @@ class OtherAdBuilder implements Builder<OtherAd, OtherAdBuilder> {
       _mustKnow = _$v.mustKnow;
       _deliveryStatuses = _$v.deliveryStatuses?.toBuilder();
       _breed = _$v.breed;
+      _deliveryInfo = _$v.deliveryInfo?.toBuilder();
       _$v = null;
     }
     return this;
@@ -485,7 +512,8 @@ class OtherAdBuilder implements Builder<OtherAd, OtherAdBuilder> {
               personality: personality.build(),
               mustKnow: mustKnow,
               deliveryStatuses: _deliveryStatuses?.build(),
-              breed: breed);
+              breed: breed,
+              deliveryInfo: deliveryInfo.build());
     } catch (_) {
       String _$failedField;
       try {
@@ -499,6 +527,9 @@ class OtherAdBuilder implements Builder<OtherAd, OtherAdBuilder> {
 
         _$failedField = 'deliveryStatuses';
         _deliveryStatuses?.build();
+
+        _$failedField = 'deliveryInfo';
+        deliveryInfo.build();
       } catch (e) {
         throw new BuiltValueNestedFieldError(
             'OtherAd', _$failedField, e.toString());
