@@ -7,12 +7,13 @@ import 'package:jumpets_app/models/serializers/serializers.dart';
 part 'fav_ads_state.g.dart';
 
 abstract class FavAdsState implements Built<FavAdsState, FavAdsStateBuilder> {
+  @nullable
   BuiltList<Ad> get favAds;
+  @nullable
   bool get isLoading;
 
   factory FavAdsState.initial() {
     return _$FavAdsState._(
-      favAds: BuiltList([]),
       isLoading: false,
     );
   }

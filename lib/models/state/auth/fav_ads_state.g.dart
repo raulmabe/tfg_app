@@ -17,15 +17,20 @@ class _$FavAdsStateSerializer implements StructuredSerializer<FavAdsState> {
   @override
   Iterable<Object> serialize(Serializers serializers, FavAdsState object,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = <Object>[
-      'favAds',
-      serializers.serialize(object.favAds,
-          specifiedType: const FullType(BuiltList, const [const FullType(Ad)])),
-      'isLoading',
-      serializers.serialize(object.isLoading,
-          specifiedType: const FullType(bool)),
-    ];
-
+    final result = <Object>[];
+    if (object.favAds != null) {
+      result
+        ..add('favAds')
+        ..add(serializers.serialize(object.favAds,
+            specifiedType:
+                const FullType(BuiltList, const [const FullType(Ad)])));
+    }
+    if (object.isLoading != null) {
+      result
+        ..add('isLoading')
+        ..add(serializers.serialize(object.isLoading,
+            specifiedType: const FullType(bool)));
+    }
     return result;
   }
 
@@ -66,14 +71,7 @@ class _$FavAdsState extends FavAdsState {
   factory _$FavAdsState([void Function(FavAdsStateBuilder) updates]) =>
       (new FavAdsStateBuilder()..update(updates)).build();
 
-  _$FavAdsState._({this.favAds, this.isLoading}) : super._() {
-    if (favAds == null) {
-      throw new BuiltValueNullFieldError('FavAdsState', 'favAds');
-    }
-    if (isLoading == null) {
-      throw new BuiltValueNullFieldError('FavAdsState', 'isLoading');
-    }
-  }
+  _$FavAdsState._({this.favAds, this.isLoading}) : super._();
 
   @override
   FavAdsState rebuild(void Function(FavAdsStateBuilder) updates) =>
@@ -144,12 +142,12 @@ class FavAdsStateBuilder implements Builder<FavAdsState, FavAdsStateBuilder> {
     _$FavAdsState _$result;
     try {
       _$result = _$v ??
-          new _$FavAdsState._(favAds: favAds.build(), isLoading: isLoading);
+          new _$FavAdsState._(favAds: _favAds?.build(), isLoading: isLoading);
     } catch (_) {
       String _$failedField;
       try {
         _$failedField = 'favAds';
-        favAds.build();
+        _favAds?.build();
       } catch (e) {
         throw new BuiltValueNestedFieldError(
             'FavAdsState', _$failedField, e.toString());
