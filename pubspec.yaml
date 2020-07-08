@@ -36,6 +36,8 @@ dependencies:
   font_awesome_flutter: ^8.8.1
   animations: ^1.0.0+5
   google_fonts: ^1.0.0
+  tinycolor: ^1.0.2
+  overlay_support: ^1.0.4
 
 dev_dependencies:
   flutter_test:

@@ -5,7 +5,7 @@ class SearchBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-          color: Theme.of(context).primaryColorDark,
+          color: Theme.of(context).backgroundColor,
           borderRadius: BorderRadius.circular(32)),
       child: Row(children: [
         IconButton(

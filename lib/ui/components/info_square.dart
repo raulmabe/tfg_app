@@ -13,7 +13,7 @@ class InfoSquare extends StatelessWidget {
       height: 75,
       width: 75,
       decoration: BoxDecoration(
-          color: Theme.of(context).primaryColorDark,
+          color: Theme.of(context).backgroundColor,
           borderRadius: BorderRadius.circular(10)),
       child:
           Column(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [

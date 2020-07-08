@@ -60,7 +60,7 @@ class _HomePageState extends State<HomePage> {
           Container(
             margin: EdgeInsets.only(top: 10),
             decoration: BoxDecoration(
-                color: Theme.of(context).primaryColorDark,
+                color: Theme.of(context).backgroundColor,
                 borderRadius: BorderRadius.vertical(top: Radius.circular(32))),
             child: ClipRRect(
               borderRadius: BorderRadius.circular(32),

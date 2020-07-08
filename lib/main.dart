@@ -12,13 +12,10 @@ import 'package:redux_logging/redux_logging.dart';
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
-  static JumpetsAPI webService =
-      new JumpetsAPI(baseURI: 'http://192.168.1.129:5000/graphql');
-
   final Store<AppState> store =
       Store<AppState>(reducer, initialState: AppState.initial(), middleware: [
     (store, action, dispatcher) =>
-        appStateMiddleware(store, action, dispatcher, webService),
+        appStateMiddleware(store, action, dispatcher, JumpetsAPI()),
     new LoggingMiddleware.printer()
   ]);
 

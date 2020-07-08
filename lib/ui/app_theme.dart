@@ -7,15 +7,17 @@ class AppTheme {
   static const Color kPrimaryColor = Colors.white;
   static const Color kSecondaryBackgroundColor =
       Color(0xffF7F7FF); //Color(0xffF8FAFC);
+  static const Color kerrorColor = Color(0xffff6b81);
+  static const Color kSecondaryColor = Color(0xffa29bfe); //Color(0xffa29bfe);
 
   static ThemeData getTheme({bool isLight = true}) {
     ThemeData baseTheme = isLight ? ThemeData.light() : ThemeData.dark();
 
     return baseTheme.copyWith(
         scaffoldBackgroundColor: kPrimaryColor,
-        backgroundColor: kPrimaryColor,
+        backgroundColor: kSecondaryBackgroundColor,
         primaryColor: kPrimaryColor,
-        primaryColorDark: kSecondaryBackgroundColor,
+        primaryColorDark: kSecondaryColor,
         accentColor: kAccentColor,
         iconTheme: _getIconTheme(baseTheme.primaryIconTheme),
         appBarTheme: _getAppBarTheme(baseTheme.appBarTheme),
