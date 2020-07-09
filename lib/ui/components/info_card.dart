@@ -8,37 +8,45 @@ class InfoCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.all(10),
-      decoration: BoxDecoration(
+    TinyColor tinycolor =
+        TinyColor(color ?? Theme.of(context).primaryColorDark);
+
+    return Material(
+      elevation: 5,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(10),
+      ),
+      child: Container(
+        padding: EdgeInsets.all(10),
+        decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
-          gradient: LinearGradient(
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-              colors: [
-                TinyColor(color ?? Theme.of(context).primaryColorDark)
-                    .lighten(0)
-                    .color,
-                TinyColor(color ?? Theme.of(context).primaryColorDark)
-                    .darken(10)
-                    .color
-              ])),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: <Widget>[
-          title != null
-              ? Text(title,
+          color: tinycolor.color,
+          /* gradient: LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                colors: [
+                  tinycolor.lighten(10).color,
+                  tinycolor.darken(0).color
+                ]) */
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: <Widget>[
+            title != null
+                ? Text(title,
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold, color: Colors.white))
+                : Container(),
+            Padding(
+              padding: const EdgeInsets.only(top: 5, right: 5, left: 5),
+              child: Text(message,
                   style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    color:
-                        Colors.white, // color ?? Theme.of(context).accentColor,
-                  ))
-              : Container(),
-          Text(message,
-              style: TextStyle(
-                color: Colors.white, //color ?? Theme.of(context).accentColor,
-              )),
-        ],
+                      color: Colors
+                          .white //Colors.white, //color ?? Theme.of(context).accentColor,
+                      )),
+            ),
+          ],
+        ),
       ),
     );
   }
