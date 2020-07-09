@@ -31,7 +31,7 @@ class MainPageBuilder extends StatelessWidget {
 
 class MainPageViewModel {
   final List<AnimalAd> animalAds;
-  final Function onRefreshAnimalAds;
+  final Future<dynamic> Function() onRefreshAnimalAds;
   final Category category;
   MainPageViewModel(
       {@required this.animalAds,

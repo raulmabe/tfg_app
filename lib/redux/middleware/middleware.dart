@@ -8,8 +8,18 @@ void appStateMiddleware(
   next(action);
 
   if (action is GetAnimalAds) {
-    api
-        .getAnimalAds(actionCompleter: action.completer)
-        .then((action) => store.dispatch(action));
+    try {
+      var ads = await api.getAnimalAds();
+      store.dispatch(GotAnimalAds(ads: ads, error: null));
+    } catch (e) {
+      store.dispatch(GotAnimalAds(ads: null, error: e.toString()));
+    }
+
+    /* api.getAnimalAds()
+      ..then((ads) => store.dispatch(GotAnimalAds(ads: ads, error: null)))
+      ..catchError(
+          (e) => store.dispatch(GotAnimalAds(ads: null, error: e.toString()))); */
+
+    action.completer.complete();
   }
 }

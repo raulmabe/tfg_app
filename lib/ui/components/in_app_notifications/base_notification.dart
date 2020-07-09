@@ -1,38 +1,53 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:overlay_support/overlay_support.dart';
+import 'package:tinycolor/tinycolor.dart';
 
 class BaseNotification extends StatelessWidget {
-  final String title, text, emoji;
+  final String title, text;
+  final IconData icon;
   final bool success;
 
-  BaseNotification({this.title, @required this.text, this.emoji, this.success});
+  BaseNotification({this.title, @required this.text, this.success, this.icon});
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      color: success ? null : Theme.of(context).errorColor,
-      margin: const EdgeInsets.symmetric(horizontal: 4),
-      child: SafeArea(
-        child: ListTile(
-          leading: emoji != null
-              ? SizedBox.fromSize(
-                  size: const Size(40, 40),
-                  child: ClipOval(
-                      child: Container(
-                    child: Center(
-                      child: Text(emoji),
-                    ),
-                  )))
-              : null,
-          title: Text(title ?? 'Hey!'),
-          subtitle: Text(text),
-          trailing: IconButton(
-              icon: Icon(Icons.close),
-              onPressed: () {
-                OverlaySupportEntry.of(context).dismiss();
-              }),
+    TinyColor bgColor =
+        TinyColor(success ? Colors.white : Theme.of(context).errorColor);
+
+    return SafeArea(
+      child: Card(
+        elevation: 7,
+        color: bgColor.color,
+        margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 3),
+          child: ListTile(
+            leading: chooseAvatar(context),
+            title: title != null
+                ? Text(title,
+                    style:
+                        Theme.of(context).primaryTextTheme.subtitle1.copyWith(
+                              color: Colors.black87,
+                            ))
+                : null,
+            subtitle: Text(text,
+                style: Theme.of(context).primaryTextTheme.subtitle1.copyWith(
+                      color: Colors.black54,
+                    )),
+            trailing: IconButton(
+                icon: Icon(Icons.close),
+                onPressed: () {
+                  OverlaySupportEntry.of(context).dismiss();
+                }),
+          ),
         ),
       ),
     );
+  }
+
+  Widget chooseAvatar(context) {
+    return Icon(
+        success ? FontAwesomeIcons.check : FontAwesomeIcons.exclamation);
   }
 }

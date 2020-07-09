@@ -20,34 +20,30 @@ class ApiBaseHelper {
     return responseJson;
   }
 
-  Future<dynamic> post(dynamic body, {Function onError}) async {
+  Future<dynamic> post(dynamic body) async {
     var responseJson;
     try {
       final response = await http.post(baseUrl, body: body);
-      responseJson = _returnResponse(response, onError: onError);
+      responseJson = _returnResponse(response);
     } on SocketException {
-      onError();
       throw FetchDataException('No Internet connection');
     }
     return responseJson;
   }
 
-  dynamic _returnResponse(http.Response response, {Function onError}) {
+  dynamic _returnResponse(http.Response response) {
     switch (response.statusCode) {
       case 200:
         var responseJson = json.decode(response.body.toString());
-        print(responseJson);
+
         return responseJson;
       case 400:
-        onError();
         throw BadRequestException(response.body.toString());
       case 401:
       case 403:
-        onError();
         throw UnauthorisedException(response.body.toString());
       case 500:
       default:
-        onError();
         throw FetchDataException(
             'Error occured while Communication with Server with StatusCode : ${response.statusCode}');
     }

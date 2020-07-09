@@ -21,6 +21,7 @@ import 'package:jumpets_app/models/state/ads_state.dart';
 import 'package:jumpets_app/models/state/app_state.dart';
 import 'package:jumpets_app/models/state/auth/auth_state.dart';
 import 'package:jumpets_app/models/state/auth/fav_ads_state.dart';
+import 'package:jumpets_app/models/state/errors_state.dart';
 import 'package:jumpets_app/models/users/particular.dart';
 import 'package:jumpets_app/models/users/profesional.dart';
 import 'package:jumpets_app/models/users/protectora.dart';
@@ -33,6 +34,7 @@ part 'serializers.g.dart';
   AuthState,
   FavAdsState,
   AdsState,
+  ErrorsState,
   AppState,
   DogAd,
   ReptileAd,

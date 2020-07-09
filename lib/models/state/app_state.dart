@@ -7,18 +7,24 @@ import 'package:built_collection/built_collection.dart';
 import 'package:jumpets_app/models/serializers/serializers.dart';
 import 'package:jumpets_app/models/state/ads_state.dart';
 import 'package:jumpets_app/models/state/auth/auth_state.dart';
+import 'package:jumpets_app/models/state/errors_state.dart';
 
 part 'app_state.g.dart';
 
+/* flutter packages pub run build_runner build --delete-conflicting-outputs*/
 abstract class AppState implements Built<AppState, AppStateBuilder> {
   AdsState get adsState;
   AuthState get authState;
+  ErrorsState get errorsState;
 
   AppState._();
 
   factory AppState.initial() {
     return _$AppState._(
-        adsState: AdsState.initial(), authState: AuthState.initial());
+      adsState: AdsState.initial(),
+      authState: AuthState.initial(),
+      errorsState: ErrorsState.initial(),
+    );
   }
 
   factory AppState([updates(AppStateBuilder b)]) = _$AppState;

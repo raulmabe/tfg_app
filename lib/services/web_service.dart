@@ -13,11 +13,12 @@ class JumpetsAPI {
   JumpetsAPI()
       : this._api = ApiBaseHelper(baseUrl: 'http://192.168.1.133:5000/graphql');
 
-  Future<GotAnimalAds> getAnimalAds({Completer actionCompleter}) async {
-    Completer<GotAnimalAds> completer = new Completer();
+  Future<List<AnimalAd>> getAnimalAds() async {
+    Completer<List<AnimalAd>> completer = new Completer<List<AnimalAd>>();
 
-    var decodedJson = await _api.post({
-      'query': ''' query {
+    try {
+      var decodedJson = await _api.post({
+        'query': ''' query {
     animalsAds {
       type: __typename
       id
@@ -55,16 +56,16 @@ class JumpetsAPI {
 
     }
   }'''
-    },
-        onError: () =>
-            completer.completeError(GotAnimalAds(ads: null, error: '')));
+      });
+      List array = decodedJson['data']['animalsAds'];
 
-    List array = decodedJson['data']['animalsAds'];
+      List<AnimalAd> animalAds =
+          array.map((animalAd) => AnimalAd.fromJson(animalAd)).toList();
 
-    List<AnimalAd> animalAds =
-        array.map((animalAd) => AnimalAd.fromJson(animalAd)).toList();
-
-    completer.complete(GotAnimalAds(ads: animalAds, error: null));
+      completer.complete(animalAds);
+    } catch (e) {
+      completer.completeError(e);
+    }
 
     return completer.future;
   }

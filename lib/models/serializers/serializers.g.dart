@@ -18,6 +18,7 @@ Serializers _$serializers = (new Serializers().toBuilder()
       ..add(DeliveryStatus.serializer)
       ..add(DogAd.serializer)
       ..add(DogSize.serializer)
+      ..add(ErrorsState.serializer)
       ..add(FavAdsState.serializer)
       ..add(FishAd.serializer)
       ..add(OtherAd.serializer)
@@ -38,6 +39,9 @@ Serializers _$serializers = (new Serializers().toBuilder()
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(Protectora)]),
           () => new ListBuilder<Protectora>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(Object)]),
+          () => new ListBuilder<Object>())
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(String)]),
           () => new ListBuilder<String>())
