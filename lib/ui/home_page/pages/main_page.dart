@@ -17,10 +17,10 @@ class MainPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return LiquidPullToRefresh(
-      scrollController: scrollController,
       showChildOpacityTransition: false,
       onRefresh: viewModel.onRefreshAnimalAds,
       child: ListView(
+        controller: scrollController,
         shrinkWrap: true,
         children: [
           Padding(
