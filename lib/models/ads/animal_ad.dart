@@ -47,25 +47,26 @@ abstract class AnimalAd implements Ad {
   String get breed;
 
   static AnimalAd fromJson(Map<String, dynamic> json) {
-    switch (json['type']) {
-      case 'Dog':
+    var fromJson = CatAd.fromJson(json);
+    switch (json['type'].toString().toUpperCase()) {
+      case "DOG":
         return DogAd.fromJson(json);
-      case 'Cat':
-        return CatAd.fromJson(json);
-      case 'Bird':
+      case "CAT":
+        return fromJson;
+      case "BIRD":
         return BirdAd.fromJson(json);
-      case 'Fish':
+      case "FISH":
         return FishAd.fromJson(json);
-      case 'Other':
+      case "OTHER":
         return OtherAd.fromJson(json);
-      case 'Reptile':
+      case "REPTILE":
         return ReptileAd.fromJson(json);
-      case 'Rodent':
+      case "RODENT":
         return RodentAd.fromJson(json);
-      case 'Bunny':
+      case "BUNNY":
         return BunnyAd.fromJson(json);
       default:
-        throw ArgumentError('Ad did not found __typename in json');
+        throw ArgumentError('Ad did not found type in json');
     }
   }
 }
