@@ -1,32 +1,32 @@
 import 'dart:async';
 import 'dart:convert';
 
-import 'package:http/http.dart' as http;
-import 'package:jumpets_app/models/ads/ad.dart';
-import 'package:jumpets_app/models/ads/animal_ad.dart';
 import 'package:jumpets_app/models/enums/categories.dart';
-import 'package:jumpets_app/redux/actions/actions.dart';
-import 'package:jumpets_app/services/api_base_helper.dart';
+import 'package:jumpets_app/data/api_base_helper.dart';
 
-class JumpetsAPI {
+class AdsProvider {
   final ApiBaseHelper _api;
 
-  JumpetsAPI()
+  AdsProvider()
       : this._api = ApiBaseHelper(baseUrl: 'http://192.168.1.45:3030/graphql');
 
   Future<dynamic> getPaginatedAds(
-      {Category category, GetPaginatedAds action}) async {
-    Completer<dynamic> completer = new Completer();
-
-    var decodedJson = await _api.post({
+      {Category category,
+      int first,
+      String after,
+      int photosWidth,
+      int photosHeight,
+      int thumbnailWidth,
+      int thumbnailHeight}) async {
+    return _api.post({
       'query': ''' query {
-    ads(category: $category, first: ${action.first}, after: ${action.after}) {
+    ads(category: $category, first: $first, after: $after) {
       totalCount
       edges{
         node{
           id: _id
           tags
-          photos(options: {width: ${action.photosWidth}, height: ${action.photosHeight}})
+          photos(options: {width: $photosWidth, height: $photosHeight})
           ... on ProductAd {
             title
             description
@@ -61,8 +61,8 @@ class JumpetsAPI {
             id: _id
             type: __typename
             thumbnail(options: {
-              width: ${action.thumbnailWidth},
-              height: ${action.thumbnailHeight}
+              width: $thumbnailWidth,
+              height: $thumbnailHeight
             })
             name
             address
@@ -83,22 +83,6 @@ class JumpetsAPI {
       }
     }
   }'''
-    },
-        onError: (status, msg) => completer
-            .completeError(GotPaginatedAdsError(status: status, msg: msg)));
-
-    List edgesArray = decodedJson['data']['ads']['edges'];
-
-    List<Ad> animalAds = edgesArray.map((edge) {
-      print(edge);
-      return Ad.fromJson(edge['node']);
-    }).toList();
-
-    completer.complete(GotPaginatedAds(
-        ads: animalAds,
-        hasMore: decodedJson['data']['ads']['pageInfo']['hasNextPage'],
-        lastCursor: decodedJson['data']['ads']['pageInfo']['endCursor']));
-
-    return completer.future;
+    });
   }
 }

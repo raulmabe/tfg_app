@@ -115,7 +115,7 @@ class _WelcomePageState extends State<WelcomePage> {
                       crossAxisCount: 3,
                       children: List.generate(
                           Category.values.length,
-                          (index) => CategoryButtonBuilder.fromCategory(
+                          (index) => CategoryButton.fromCategory(
                               category: Category.values.toList()[index]))),
                 ],
               ),

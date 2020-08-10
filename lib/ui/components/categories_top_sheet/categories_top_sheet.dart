@@ -177,7 +177,7 @@ class _CategoriesTopSheetState extends State<CategoriesTopSheet>
         width: iconSize,
         child: Opacity(
           opacity: widget.selectedCategory == category ? 1 : opacityCategories,
-          child: CategoryButtonBuilder.fromCategory(
+          child: CategoryButton.fromCategory(
             onTriggered: _toggle,
             category: category,
             size: iconSize,

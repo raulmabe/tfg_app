@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:jumpets_app/bloc/ads_bloc.dart';
+import 'package:jumpets_app/data/repositories/ads_repository.dart';
 import 'package:jumpets_app/ui/components/bottombar/bottombar.dart';
 import 'package:jumpets_app/ui/components/profile_icon.dart';
 import 'package:jumpets_app/ui/components/searchbar/searchbar.dart';
-import 'package:jumpets_app/ui/home_page/pages/favourites_page_vm.dart';
-import 'package:jumpets_app/ui/home_page/pages/main_page_vm.dart';
+import 'package:jumpets_app/ui/home_page/pages/favourites_page.dart';
+import 'package:jumpets_app/ui/home_page/pages/main_page.dart';
 
 class HomePage extends StatefulWidget {
-  final viewModel;
-  HomePage({this.viewModel});
+  HomePage();
   @override
   _HomePageState createState() => _HomePageState();
 }
@@ -15,6 +17,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   PageController _pageController;
   ScrollController _scrollController;
+  final _scrollThreshold = 200.0;
   int _pageIndex;
 
   @override
@@ -29,6 +32,15 @@ class _HomePageState extends State<HomePage> {
         () => setState(() => _pageIndex = _pageController.page.toInt()));
 
     _scrollController = ScrollController();
+    _scrollController.addListener(_onScroll);
+  }
+
+  void _onScroll() {
+    final maxScroll = _scrollController.position.maxScrollExtent;
+    final currentScroll = _scrollController.position.pixels;
+    if (maxScroll - currentScroll <= _scrollThreshold) {
+      BlocProvider.of<AdsBloc>(context).add(AdsFetched());
+    }
   }
 
   @override
@@ -68,8 +80,8 @@ class _HomePageState extends State<HomePage> {
                   physics: NeverScrollableScrollPhysics(),
                   controller: _pageController,
                   children: [
-                    FavouritesPageBuilder(),
-                    MainPageBuilder(
+                    FavouritesPage(),
+                    MainPage(
                       scrollController: _scrollController,
                     ),
                     Container(color: Colors.tealAccent),

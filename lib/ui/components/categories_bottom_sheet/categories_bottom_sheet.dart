@@ -159,7 +159,7 @@ class _CategoriesBottomSheetState extends State<CategoriesBottomSheet>
         left: iconLeftMargin(index),
         height: iconSize,
         width: iconSize,
-        child: CategoryButtonBuilder.fromCategory(
+        child: CategoryButton.fromCategory(
           category: category,
           size: iconSize,
           borderRadius: lerp(8, 24),

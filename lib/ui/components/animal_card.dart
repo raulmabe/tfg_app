@@ -2,7 +2,7 @@ import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:jumpets_app/models/ads/animal_ad.dart';
-import 'package:jumpets_app/ui/ad_page/ad_page_vm.dart';
+import 'package:jumpets_app/ui/ad_page/ad_page.dart';
 import 'package:jumpets_app/ui/components/sex_icon.dart';
 import 'package:transparent_image/transparent_image.dart';
 
@@ -18,7 +18,7 @@ class AnimalCard extends StatelessWidget {
     return OpenContainer(
       closedElevation: 0,
       closedColor: Colors.transparent,
-      openBuilder: (context, action) => AdPageBuilder(
+      openBuilder: (context, action) => AdPage(
         ad: animalAd,
       ),
       closedBuilder: (context, action) => Stack(

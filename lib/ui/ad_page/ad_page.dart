@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:jumpets_app/models/ads/animal_ad.dart';
 import 'package:jumpets_app/models/ads/animals/dog_ad.dart';
 import 'package:jumpets_app/models/enums/delivery_status.dart';
-import 'package:jumpets_app/ui/ad_page/ad_page_vm.dart';
 import 'package:jumpets_app/ui/components/info_square.dart';
 import 'package:jumpets_app/models/extensions/string_extension.dart';
 import 'package:jumpets_app/models/extensions/bool_extension.dart';
@@ -12,11 +11,9 @@ import 'package:jumpets_app/ui/components/sex_icon.dart';
 import 'package:jumpets_app/ui/components/tags.dart';
 
 class AdPage extends StatelessWidget {
-  final AdPageViewModel viewModel;
   final AnimalAd ad;
   final double edgePadding;
-  AdPage(
-      {@required this.viewModel, @required this.ad, this.edgePadding = 20.0});
+  AdPage({@required this.ad, this.edgePadding = 20.0});
 
   @override
   Widget build(BuildContext context) {

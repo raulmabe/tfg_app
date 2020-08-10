@@ -3,61 +3,18 @@ import 'package:jumpets_app/models/enums/categories.dart';
 import 'package:jumpets_app/models/extensions/categories_extension.dart';
 
 import 'dart:async';
-
-import 'package:flutter_redux/flutter_redux.dart';
 import 'package:jumpets_app/models/state/app_state.dart';
-import 'package:jumpets_app/redux/actions/actions.dart';
-import 'package:redux/redux.dart';
 
-class CategoryButtonBuilder extends StatelessWidget {
-  final Category category;
-
-  final Function onTriggered;
-
-  final bool isCollapsed;
-
-  final double size;
-  final double borderRadius;
-
-  final bool isSelected;
-
-  CategoryButtonBuilder.fromCategory(
+class CategoryButton extends StatelessWidget {
+  CategoryButton.fromCategory(
       {@required this.category,
       this.isSelected = false,
       this.onTriggered,
       this.size = 120,
       this.borderRadius = 25,
-      this.isCollapsed = false});
+      this.isCollapsed = false,
+      this.onTap});
 
-  @override
-  Widget build(BuildContext context) {
-    return StoreConnector<AppState, CategoryButtonViewModel>(
-      converter: (store) => CategoryButtonViewModel.create(store),
-      builder: (context, viewModel) => CategoryButton(
-        isSelected: isSelected,
-        category: category,
-        onTriggered: onTriggered,
-        onTap: viewModel.onTap,
-        isCollapsed: isCollapsed,
-        size: size,
-        borderRadius: borderRadius,
-      ),
-    );
-  }
-}
-
-class CategoryButtonViewModel {
-  final Function(Category) onTap;
-  CategoryButtonViewModel({@required this.onTap});
-
-  factory CategoryButtonViewModel.create(Store<AppState> store) {
-    return CategoryButtonViewModel(
-      onTap: (Category category) => store.dispatch(SelectCategory(category)),
-    );
-  }
-}
-
-class CategoryButton extends StatelessWidget {
   final Category category;
 
   final bool isCollapsed;
