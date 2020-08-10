@@ -14,9 +14,9 @@ void main() => runApp(MyApp());
 class MyApp extends StatelessWidget {
   final Store<AppState> store =
       Store<AppState>(reducer, initialState: AppState.initial(), middleware: [
-    (store, action, dispatcher) =>
-        appStateMiddleware(store, action, dispatcher, JumpetsAPI()),
-    new LoggingMiddleware.printer()
+    new LoggingMiddleware.printer(),
+    (store, action, next) =>
+        appStateMiddleware(store, action, next, JumpetsAPI())
   ]);
 
   @override

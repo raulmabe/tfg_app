@@ -21,7 +21,7 @@ abstract class ServiceAd implements Ad, Built<ServiceAd, ServiceAdBuilder> {
   BuiltList<String> get photos;
 
   @override
-  User get owner;
+  User get creator;
 
   String get title;
   double get priceHour;

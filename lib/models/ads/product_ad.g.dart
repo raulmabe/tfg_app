@@ -31,8 +31,9 @@ class _$ProductAdSerializer implements StructuredSerializer<ProductAd> {
       serializers.serialize(object.photos,
           specifiedType:
               const FullType(BuiltList, const [const FullType(String)])),
-      'owner',
-      serializers.serialize(object.owner, specifiedType: const FullType(User)),
+      'creator',
+      serializers.serialize(object.creator,
+          specifiedType: const FullType(User)),
       'title',
       serializers.serialize(object.title,
           specifiedType: const FullType(String)),
@@ -78,8 +79,8 @@ class _$ProductAdSerializer implements StructuredSerializer<ProductAd> {
                       const FullType(BuiltList, const [const FullType(String)]))
               as BuiltList<Object>);
           break;
-        case 'owner':
-          result.owner = serializers.deserialize(value,
+        case 'creator':
+          result.creator = serializers.deserialize(value,
               specifiedType: const FullType(User)) as User;
           break;
         case 'title':
@@ -111,7 +112,7 @@ class _$ProductAd extends ProductAd {
   @override
   final BuiltList<String> photos;
   @override
-  final User owner;
+  final User creator;
   @override
   final String title;
   @override
@@ -127,7 +128,7 @@ class _$ProductAd extends ProductAd {
       this.date,
       this.tags,
       this.photos,
-      this.owner,
+      this.creator,
       this.title,
       this.price,
       this.description})
@@ -144,8 +145,8 @@ class _$ProductAd extends ProductAd {
     if (photos == null) {
       throw new BuiltValueNullFieldError('ProductAd', 'photos');
     }
-    if (owner == null) {
-      throw new BuiltValueNullFieldError('ProductAd', 'owner');
+    if (creator == null) {
+      throw new BuiltValueNullFieldError('ProductAd', 'creator');
     }
     if (title == null) {
       throw new BuiltValueNullFieldError('ProductAd', 'title');
@@ -173,7 +174,7 @@ class _$ProductAd extends ProductAd {
         date == other.date &&
         tags == other.tags &&
         photos == other.photos &&
-        owner == other.owner &&
+        creator == other.creator &&
         title == other.title &&
         price == other.price &&
         description == other.description;
@@ -189,7 +190,7 @@ class _$ProductAd extends ProductAd {
                         $jc($jc($jc(0, id.hashCode), date.hashCode),
                             tags.hashCode),
                         photos.hashCode),
-                    owner.hashCode),
+                    creator.hashCode),
                 title.hashCode),
             price.hashCode),
         description.hashCode));
@@ -202,7 +203,7 @@ class _$ProductAd extends ProductAd {
           ..add('date', date)
           ..add('tags', tags)
           ..add('photos', photos)
-          ..add('owner', owner)
+          ..add('creator', creator)
           ..add('title', title)
           ..add('price', price)
           ..add('description', description))
@@ -230,9 +231,9 @@ class ProductAdBuilder implements Builder<ProductAd, ProductAdBuilder> {
       _$this._photos ??= new ListBuilder<String>();
   set photos(ListBuilder<String> photos) => _$this._photos = photos;
 
-  User _owner;
-  User get owner => _$this._owner;
-  set owner(User owner) => _$this._owner = owner;
+  User _creator;
+  User get creator => _$this._creator;
+  set creator(User creator) => _$this._creator = creator;
 
   String _title;
   String get title => _$this._title;
@@ -254,7 +255,7 @@ class ProductAdBuilder implements Builder<ProductAd, ProductAdBuilder> {
       _date = _$v.date;
       _tags = _$v.tags?.toBuilder();
       _photos = _$v.photos?.toBuilder();
-      _owner = _$v.owner;
+      _creator = _$v.creator;
       _title = _$v.title;
       _price = _$v.price;
       _description = _$v.description;
@@ -286,7 +287,7 @@ class ProductAdBuilder implements Builder<ProductAd, ProductAdBuilder> {
               date: date,
               tags: tags.build(),
               photos: photos.build(),
-              owner: owner,
+              creator: creator,
               title: title,
               price: price,
               description: description);

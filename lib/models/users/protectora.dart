@@ -25,6 +25,12 @@ abstract class Protectora
 
   String get web;
 
+  @nullable
+  int get distance;
+
+  @nullable
+  int get travelTime;
+
   Protectora._();
   factory Protectora([void Function(ProtectoraBuilder) updates]) = _$Protectora;
 

@@ -28,7 +28,7 @@ abstract class AnimalAd implements Ad {
   BuiltList<String> get photos;
 
   @override
-  User get owner;
+  User get creator;
 
   String get name;
   String get description;

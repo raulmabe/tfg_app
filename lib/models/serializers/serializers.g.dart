@@ -36,6 +36,12 @@ Serializers _$serializers = (new Serializers().toBuilder()
           const FullType(BuiltList, const [const FullType(AnimalAd)]),
           () => new ListBuilder<AnimalAd>())
       ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(ServiceAd)]),
+          () => new ListBuilder<ServiceAd>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(ProductAd)]),
+          () => new ListBuilder<ProductAd>())
+      ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(Protectora)]),
           () => new ListBuilder<Protectora>())
       ..addBuilderFactory(

@@ -22,6 +22,14 @@ class _$AdsStateSerializer implements StructuredSerializer<AdsState> {
       serializers.serialize(object.animalAds,
           specifiedType:
               const FullType(BuiltList, const [const FullType(AnimalAd)])),
+      'serviceAds',
+      serializers.serialize(object.serviceAds,
+          specifiedType:
+              const FullType(BuiltList, const [const FullType(ServiceAd)])),
+      'productAds',
+      serializers.serialize(object.productAds,
+          specifiedType:
+              const FullType(BuiltList, const [const FullType(ProductAd)])),
       'protectoraAds',
       serializers.serialize(object.protectoraAds,
           specifiedType:
@@ -51,6 +59,18 @@ class _$AdsStateSerializer implements StructuredSerializer<AdsState> {
                       BuiltList, const [const FullType(AnimalAd)]))
               as BuiltList<Object>);
           break;
+        case 'serviceAds':
+          result.serviceAds.replace(serializers.deserialize(value,
+                  specifiedType: const FullType(
+                      BuiltList, const [const FullType(ServiceAd)]))
+              as BuiltList<Object>);
+          break;
+        case 'productAds':
+          result.productAds.replace(serializers.deserialize(value,
+                  specifiedType: const FullType(
+                      BuiltList, const [const FullType(ProductAd)]))
+              as BuiltList<Object>);
+          break;
         case 'protectoraAds':
           result.protectoraAds.replace(serializers.deserialize(value,
                   specifiedType: const FullType(
@@ -72,6 +92,10 @@ class _$AdsState extends AdsState {
   @override
   final BuiltList<AnimalAd> animalAds;
   @override
+  final BuiltList<ServiceAd> serviceAds;
+  @override
+  final BuiltList<ProductAd> productAds;
+  @override
   final BuiltList<Protectora> protectoraAds;
   @override
   final Category selectedCategory;
@@ -79,10 +103,21 @@ class _$AdsState extends AdsState {
   factory _$AdsState([void Function(AdsStateBuilder) updates]) =>
       (new AdsStateBuilder()..update(updates)).build();
 
-  _$AdsState._({this.animalAds, this.protectoraAds, this.selectedCategory})
+  _$AdsState._(
+      {this.animalAds,
+      this.serviceAds,
+      this.productAds,
+      this.protectoraAds,
+      this.selectedCategory})
       : super._() {
     if (animalAds == null) {
       throw new BuiltValueNullFieldError('AdsState', 'animalAds');
+    }
+    if (serviceAds == null) {
+      throw new BuiltValueNullFieldError('AdsState', 'serviceAds');
+    }
+    if (productAds == null) {
+      throw new BuiltValueNullFieldError('AdsState', 'productAds');
     }
     if (protectoraAds == null) {
       throw new BuiltValueNullFieldError('AdsState', 'protectoraAds');
@@ -104,13 +139,19 @@ class _$AdsState extends AdsState {
     if (identical(other, this)) return true;
     return other is AdsState &&
         animalAds == other.animalAds &&
+        serviceAds == other.serviceAds &&
+        productAds == other.productAds &&
         protectoraAds == other.protectoraAds &&
         selectedCategory == other.selectedCategory;
   }
 
   @override
   int get hashCode {
-    return $jf($jc($jc($jc(0, animalAds.hashCode), protectoraAds.hashCode),
+    return $jf($jc(
+        $jc(
+            $jc($jc($jc(0, animalAds.hashCode), serviceAds.hashCode),
+                productAds.hashCode),
+            protectoraAds.hashCode),
         selectedCategory.hashCode));
   }
 
@@ -118,6 +159,8 @@ class _$AdsState extends AdsState {
   String toString() {
     return (newBuiltValueToStringHelper('AdsState')
           ..add('animalAds', animalAds)
+          ..add('serviceAds', serviceAds)
+          ..add('productAds', productAds)
           ..add('protectoraAds', protectoraAds)
           ..add('selectedCategory', selectedCategory))
         .toString();
@@ -132,6 +175,18 @@ class AdsStateBuilder implements Builder<AdsState, AdsStateBuilder> {
       _$this._animalAds ??= new ListBuilder<AnimalAd>();
   set animalAds(ListBuilder<AnimalAd> animalAds) =>
       _$this._animalAds = animalAds;
+
+  ListBuilder<ServiceAd> _serviceAds;
+  ListBuilder<ServiceAd> get serviceAds =>
+      _$this._serviceAds ??= new ListBuilder<ServiceAd>();
+  set serviceAds(ListBuilder<ServiceAd> serviceAds) =>
+      _$this._serviceAds = serviceAds;
+
+  ListBuilder<ProductAd> _productAds;
+  ListBuilder<ProductAd> get productAds =>
+      _$this._productAds ??= new ListBuilder<ProductAd>();
+  set productAds(ListBuilder<ProductAd> productAds) =>
+      _$this._productAds = productAds;
 
   ListBuilder<Protectora> _protectoraAds;
   ListBuilder<Protectora> get protectoraAds =>
@@ -149,6 +204,8 @@ class AdsStateBuilder implements Builder<AdsState, AdsStateBuilder> {
   AdsStateBuilder get _$this {
     if (_$v != null) {
       _animalAds = _$v.animalAds?.toBuilder();
+      _serviceAds = _$v.serviceAds?.toBuilder();
+      _productAds = _$v.productAds?.toBuilder();
       _protectoraAds = _$v.protectoraAds?.toBuilder();
       _selectedCategory = _$v.selectedCategory;
       _$v = null;
@@ -176,6 +233,8 @@ class AdsStateBuilder implements Builder<AdsState, AdsStateBuilder> {
       _$result = _$v ??
           new _$AdsState._(
               animalAds: animalAds.build(),
+              serviceAds: serviceAds.build(),
+              productAds: productAds.build(),
               protectoraAds: protectoraAds.build(),
               selectedCategory: selectedCategory);
     } catch (_) {
@@ -183,6 +242,10 @@ class AdsStateBuilder implements Builder<AdsState, AdsStateBuilder> {
       try {
         _$failedField = 'animalAds';
         animalAds.build();
+        _$failedField = 'serviceAds';
+        serviceAds.build();
+        _$failedField = 'productAds';
+        productAds.build();
         _$failedField = 'protectoraAds';
         protectoraAds.build();
       } catch (e) {

@@ -23,7 +23,7 @@ abstract class FishAd implements AnimalAd, Built<FishAd, FishAdBuilder> {
   BuiltList<String> get photos;
 
   @override
-  User get owner;
+  User get creator;
 
   @override
   String get name;

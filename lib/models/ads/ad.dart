@@ -9,13 +9,13 @@ abstract class Ad {
   DateTime get date;
   BuiltList<String> get tags;
   BuiltList<String> get photos;
-  User get owner;
+  User get creator;
 
   static Ad fromJson(Map<String, dynamic> json) {
-    switch (json['__typename']) {
-      case 'ProductAd':
+    switch (json['type'].toString().toUpperCase()) {
+      case 'PRODUCTAD':
         return ProductAd.fromJson(json);
-      case 'ServiceAd':
+      case 'SERVICEAD':
         return ServiceAd.fromJson(json);
       default:
         return AnimalAd.fromJson(json);

@@ -17,7 +17,7 @@ class FavouritesPageBuilder extends StatelessWidget {
       converter: (store) => FavouritesPageViewModel.create(store),
       onInit: (store) {
         if (store.state.adsState.animalAds.isEmpty) {
-          store.dispatch(GetFavAds());
+          /*  store.dispatch(GetFavAds()); */
         }
       },
       builder: (context, viewModel) => FavouritesPage(viewModel: viewModel),

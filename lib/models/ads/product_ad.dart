@@ -21,7 +21,7 @@ abstract class ProductAd implements Ad, Built<ProductAd, ProductAdBuilder> {
   BuiltList<String> get photos;
 
   @override
-  User get owner;
+  User get creator;
 
   String get title;
   double get price;

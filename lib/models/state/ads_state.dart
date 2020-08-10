@@ -2,6 +2,8 @@ import 'package:built_collection/built_collection.dart';
 import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
 import 'package:jumpets_app/models/ads/animal_ad.dart';
+import 'package:jumpets_app/models/ads/product_ad.dart';
+import 'package:jumpets_app/models/ads/service_ad.dart';
 import 'package:jumpets_app/models/enums/categories.dart';
 import 'package:jumpets_app/models/serializers/serializers.dart';
 import 'package:jumpets_app/models/users/protectora.dart';
@@ -10,6 +12,9 @@ part 'ads_state.g.dart';
 
 abstract class AdsState implements Built<AdsState, AdsStateBuilder> {
   BuiltList<AnimalAd> get animalAds;
+  BuiltList<ServiceAd> get serviceAds;
+  BuiltList<ProductAd> get productAds;
+
   BuiltList<Protectora> get protectoraAds;
 
   Category get selectedCategory;

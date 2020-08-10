@@ -186,7 +186,7 @@ class AdPage extends StatelessWidget {
                 )),
             child: Row(children: [
               ProfileIcon(
-                url: ad.owner.thumbnail,
+                url: ad.creator.thumbnail,
               ),
               Expanded(
                 child: Padding(
@@ -195,8 +195,8 @@ class AdPage extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
-                        Text(ad.owner.name),
-                        Text(ad.owner.runtimeType.toString().substring(2))
+                        Text(ad.creator.name),
+                        Text(ad.creator.runtimeType.toString().substring(2))
                       ]),
                 ),
               ),

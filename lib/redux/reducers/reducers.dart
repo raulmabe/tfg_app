@@ -13,7 +13,7 @@ AppState reducer(AppState prevState, action) {
 }
 
 List<AnimalAd> reducerAds(List<AnimalAd> prevAnimalAds, action) {
-  if (action is GotAnimalAds && action.error == null) {
+  if (action is GotPaginatedAds && action.ads[0] is AnimalAd) {
     return action.ads;
   }
   return prevAnimalAds;

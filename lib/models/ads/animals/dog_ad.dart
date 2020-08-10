@@ -24,7 +24,7 @@ abstract class DogAd implements AnimalAd, Built<DogAd, DogAdBuilder> {
   BuiltList<String> get photos;
 
   @override
-  User get owner;
+  User get creator;
 
   @override
   String get name;

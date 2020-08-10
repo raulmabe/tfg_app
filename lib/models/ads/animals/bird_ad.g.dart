@@ -31,8 +31,9 @@ class _$BirdAdSerializer implements StructuredSerializer<BirdAd> {
       serializers.serialize(object.photos,
           specifiedType:
               const FullType(BuiltList, const [const FullType(String)])),
-      'owner',
-      serializers.serialize(object.owner, specifiedType: const FullType(User)),
+      'creator',
+      serializers.serialize(object.creator,
+          specifiedType: const FullType(User)),
       'name',
       serializers.serialize(object.name, specifiedType: const FullType(String)),
       'description',
@@ -114,8 +115,8 @@ class _$BirdAdSerializer implements StructuredSerializer<BirdAd> {
                       const FullType(BuiltList, const [const FullType(String)]))
               as BuiltList<Object>);
           break;
-        case 'owner':
-          result.owner = serializers.deserialize(value,
+        case 'creator':
+          result.creator = serializers.deserialize(value,
               specifiedType: const FullType(User)) as User;
           break;
         case 'name':
@@ -189,7 +190,7 @@ class _$BirdAd extends BirdAd {
   @override
   final BuiltList<String> photos;
   @override
-  final User owner;
+  final User creator;
   @override
   final String name;
   @override
@@ -223,7 +224,7 @@ class _$BirdAd extends BirdAd {
       this.date,
       this.tags,
       this.photos,
-      this.owner,
+      this.creator,
       this.name,
       this.description,
       this.activityLevel,
@@ -249,8 +250,8 @@ class _$BirdAd extends BirdAd {
     if (photos == null) {
       throw new BuiltValueNullFieldError('BirdAd', 'photos');
     }
-    if (owner == null) {
-      throw new BuiltValueNullFieldError('BirdAd', 'owner');
+    if (creator == null) {
+      throw new BuiltValueNullFieldError('BirdAd', 'creator');
     }
     if (name == null) {
       throw new BuiltValueNullFieldError('BirdAd', 'name');
@@ -296,7 +297,7 @@ class _$BirdAd extends BirdAd {
         date == other.date &&
         tags == other.tags &&
         photos == other.photos &&
-        owner == other.owner &&
+        creator == other.creator &&
         name == other.name &&
         description == other.description &&
         activityLevel == other.activityLevel &&
@@ -334,7 +335,7 @@ class _$BirdAd extends BirdAd {
                                                                     date.hashCode),
                                                                 tags.hashCode),
                                                             photos.hashCode),
-                                                        owner.hashCode),
+                                                        creator.hashCode),
                                                     name.hashCode),
                                                 description.hashCode),
                                             activityLevel.hashCode),
@@ -356,7 +357,7 @@ class _$BirdAd extends BirdAd {
           ..add('date', date)
           ..add('tags', tags)
           ..add('photos', photos)
-          ..add('owner', owner)
+          ..add('creator', creator)
           ..add('name', name)
           ..add('description', description)
           ..add('activityLevel', activityLevel)
@@ -393,9 +394,9 @@ class BirdAdBuilder implements Builder<BirdAd, BirdAdBuilder> {
       _$this._photos ??= new ListBuilder<String>();
   set photos(ListBuilder<String> photos) => _$this._photos = photos;
 
-  User _owner;
-  User get owner => _$this._owner;
-  set owner(User owner) => _$this._owner = owner;
+  User _creator;
+  User get creator => _$this._creator;
+  set creator(User creator) => _$this._creator = creator;
 
   String _name;
   String get name => _$this._name;
@@ -460,7 +461,7 @@ class BirdAdBuilder implements Builder<BirdAd, BirdAdBuilder> {
       _date = _$v.date;
       _tags = _$v.tags?.toBuilder();
       _photos = _$v.photos?.toBuilder();
-      _owner = _$v.owner;
+      _creator = _$v.creator;
       _name = _$v.name;
       _description = _$v.description;
       _activityLevel = _$v.activityLevel;
@@ -501,7 +502,7 @@ class BirdAdBuilder implements Builder<BirdAd, BirdAdBuilder> {
               date: date,
               tags: tags.build(),
               photos: photos.build(),
-              owner: owner,
+              creator: creator,
               name: name,
               description: description,
               activityLevel: activityLevel,

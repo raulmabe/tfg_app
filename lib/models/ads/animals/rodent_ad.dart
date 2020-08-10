@@ -23,7 +23,7 @@ abstract class RodentAd implements AnimalAd, Built<RodentAd, RodentAdBuilder> {
   BuiltList<String> get photos;
 
   @override
-  User get owner;
+  User get creator;
 
   @override
   String get name;

@@ -14,9 +14,8 @@ const Category _$OTHERS = const Category._('OTHERS');
 const Category _$BIRDS = const Category._('BIRDS');
 const Category _$RODENTS = const Category._('RODENTS');
 const Category _$FISHES = const Category._('FISHES');
-const Category _$ARTICLES = const Category._('ARTICLES');
+const Category _$PRODUCTS = const Category._('PRODUCTS');
 const Category _$SERVICES = const Category._('SERVICES');
-const Category _$VETS = const Category._('VETS');
 const Category _$SHELTERS = const Category._('SHELTERS');
 
 Category _$categoryValueOf(String name) {
@@ -37,12 +36,10 @@ Category _$categoryValueOf(String name) {
       return _$RODENTS;
     case 'FISHES':
       return _$FISHES;
-    case 'ARTICLES':
-      return _$ARTICLES;
+    case 'PRODUCTS':
+      return _$PRODUCTS;
     case 'SERVICES':
       return _$SERVICES;
-    case 'VETS':
-      return _$VETS;
     case 'SHELTERS':
       return _$SHELTERS;
     default:
@@ -60,9 +57,8 @@ final BuiltSet<Category> _$categoryValues =
   _$BIRDS,
   _$RODENTS,
   _$FISHES,
-  _$ARTICLES,
+  _$PRODUCTS,
   _$SERVICES,
-  _$VETS,
   _$SHELTERS,
 ]);
 

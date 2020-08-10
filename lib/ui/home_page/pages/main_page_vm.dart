@@ -41,7 +41,7 @@ class MainPageViewModel {
   factory MainPageViewModel.create(Store<AppState> store) {
     _onRefreshAnimalAds() {
       Completer completer = new Completer();
-      store.dispatch(GetAnimalAds(completer: completer));
+/*       /*  store.dispatch(GetAnimalAds(completer: completer)); */ */
       return completer.future;
     }
 

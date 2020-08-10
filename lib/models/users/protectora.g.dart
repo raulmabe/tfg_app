@@ -33,7 +33,18 @@ class _$ProtectoraSerializer implements StructuredSerializer<Protectora> {
       'web',
       serializers.serialize(object.web, specifiedType: const FullType(String)),
     ];
-
+    if (object.distance != null) {
+      result
+        ..add('distance')
+        ..add(serializers.serialize(object.distance,
+            specifiedType: const FullType(int)));
+    }
+    if (object.travelTime != null) {
+      result
+        ..add('travelTime')
+        ..add(serializers.serialize(object.travelTime,
+            specifiedType: const FullType(int)));
+    }
     return result;
   }
 
@@ -72,6 +83,14 @@ class _$ProtectoraSerializer implements StructuredSerializer<Protectora> {
           result.web = serializers.deserialize(value,
               specifiedType: const FullType(String)) as String;
           break;
+        case 'distance':
+          result.distance = serializers.deserialize(value,
+              specifiedType: const FullType(int)) as int;
+          break;
+        case 'travelTime':
+          result.travelTime = serializers.deserialize(value,
+              specifiedType: const FullType(int)) as int;
+          break;
       }
     }
 
@@ -92,12 +111,23 @@ class _$Protectora extends Protectora {
   final int phone;
   @override
   final String web;
+  @override
+  final int distance;
+  @override
+  final int travelTime;
 
   factory _$Protectora([void Function(ProtectoraBuilder) updates]) =>
       (new ProtectoraBuilder()..update(updates)).build();
 
   _$Protectora._(
-      {this.id, this.name, this.thumbnail, this.address, this.phone, this.web})
+      {this.id,
+      this.name,
+      this.thumbnail,
+      this.address,
+      this.phone,
+      this.web,
+      this.distance,
+      this.travelTime})
       : super._() {
     if (id == null) {
       throw new BuiltValueNullFieldError('Protectora', 'id');
@@ -135,7 +165,9 @@ class _$Protectora extends Protectora {
         thumbnail == other.thumbnail &&
         address == other.address &&
         phone == other.phone &&
-        web == other.web;
+        web == other.web &&
+        distance == other.distance &&
+        travelTime == other.travelTime;
   }
 
   @override
@@ -143,11 +175,15 @@ class _$Protectora extends Protectora {
     return $jf($jc(
         $jc(
             $jc(
-                $jc($jc($jc(0, id.hashCode), name.hashCode),
-                    thumbnail.hashCode),
-                address.hashCode),
-            phone.hashCode),
-        web.hashCode));
+                $jc(
+                    $jc(
+                        $jc($jc($jc(0, id.hashCode), name.hashCode),
+                            thumbnail.hashCode),
+                        address.hashCode),
+                    phone.hashCode),
+                web.hashCode),
+            distance.hashCode),
+        travelTime.hashCode));
   }
 
   @override
@@ -158,7 +194,9 @@ class _$Protectora extends Protectora {
           ..add('thumbnail', thumbnail)
           ..add('address', address)
           ..add('phone', phone)
-          ..add('web', web))
+          ..add('web', web)
+          ..add('distance', distance)
+          ..add('travelTime', travelTime))
         .toString();
   }
 }
@@ -190,6 +228,14 @@ class ProtectoraBuilder implements Builder<Protectora, ProtectoraBuilder> {
   String get web => _$this._web;
   set web(String web) => _$this._web = web;
 
+  int _distance;
+  int get distance => _$this._distance;
+  set distance(int distance) => _$this._distance = distance;
+
+  int _travelTime;
+  int get travelTime => _$this._travelTime;
+  set travelTime(int travelTime) => _$this._travelTime = travelTime;
+
   ProtectoraBuilder();
 
   ProtectoraBuilder get _$this {
@@ -200,6 +246,8 @@ class ProtectoraBuilder implements Builder<Protectora, ProtectoraBuilder> {
       _address = _$v.address;
       _phone = _$v.phone;
       _web = _$v.web;
+      _distance = _$v.distance;
+      _travelTime = _$v.travelTime;
       _$v = null;
     }
     return this;
@@ -227,7 +275,9 @@ class ProtectoraBuilder implements Builder<Protectora, ProtectoraBuilder> {
             thumbnail: thumbnail,
             address: address,
             phone: phone,
-            web: web);
+            web: web,
+            distance: distance,
+            travelTime: travelTime);
     replace(_$result);
     return _$result;
   }

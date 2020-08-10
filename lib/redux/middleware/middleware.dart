@@ -7,9 +7,10 @@ void appStateMiddleware(
     Store<AppState> store, action, NextDispatcher next, JumpetsAPI api) async {
   next(action);
 
-  if (action is GetAnimalAds) {
+  if (action is GetPaginatedAds) {
     api
-        .getAnimalAds(actionCompleter: action.completer)
+        .getPaginatedAds(
+            category: store.state.adsState.selectedCategory, action: action)
         .then((action) => store.dispatch(action));
   }
 }

@@ -23,7 +23,7 @@ abstract class OtherAd implements AnimalAd, Built<OtherAd, OtherAdBuilder> {
   BuiltList<String> get photos;
 
   @override
-  User get owner;
+  User get creator;
 
   @override
   String get name;

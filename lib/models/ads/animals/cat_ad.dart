@@ -22,8 +22,8 @@ abstract class CatAd implements AnimalAd, Built<CatAd, CatAdBuilder> {
   @override
   BuiltList<String> get photos;
 
-  /*  @override
-  User get owner; */
+  @override
+  User get creator;
 
   @override
   String get name;

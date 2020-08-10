@@ -31,6 +31,9 @@ class _$CatAdSerializer implements StructuredSerializer<CatAd> {
       serializers.serialize(object.photos,
           specifiedType:
               const FullType(BuiltList, const [const FullType(String)])),
+      'creator',
+      serializers.serialize(object.creator,
+          specifiedType: const FullType(User)),
       'name',
       serializers.serialize(object.name, specifiedType: const FullType(String)),
       'description',
@@ -54,8 +57,6 @@ class _$CatAdSerializer implements StructuredSerializer<CatAd> {
       serializers.serialize(object.personality,
           specifiedType:
               const FullType(BuiltList, const [const FullType(String)])),
-      'owner',
-      serializers.serialize(object.owner, specifiedType: const FullType(User)),
       'deliveryInfo',
       serializers.serialize(object.deliveryInfo,
           specifiedType: const FullType(
@@ -114,6 +115,10 @@ class _$CatAdSerializer implements StructuredSerializer<CatAd> {
                       const FullType(BuiltList, const [const FullType(String)]))
               as BuiltList<Object>);
           break;
+        case 'creator':
+          result.creator = serializers.deserialize(value,
+              specifiedType: const FullType(User)) as User;
+          break;
         case 'name':
           result.name = serializers.deserialize(value,
               specifiedType: const FullType(String)) as String;
@@ -162,10 +167,6 @@ class _$CatAdSerializer implements StructuredSerializer<CatAd> {
           result.breed = serializers.deserialize(value,
               specifiedType: const FullType(String)) as String;
           break;
-        case 'owner':
-          result.owner = serializers.deserialize(value,
-              specifiedType: const FullType(User)) as User;
-          break;
         case 'deliveryInfo':
           result.deliveryInfo.replace(serializers.deserialize(value,
                   specifiedType: const FullType(
@@ -189,6 +190,8 @@ class _$CatAd extends CatAd {
   @override
   final BuiltList<String> photos;
   @override
+  final User creator;
+  @override
   final String name;
   @override
   final String description;
@@ -211,8 +214,6 @@ class _$CatAd extends CatAd {
   @override
   final String breed;
   @override
-  final User owner;
-  @override
   final BuiltList<DeliveryStatus> deliveryInfo;
 
   factory _$CatAd([void Function(CatAdBuilder) updates]) =>
@@ -223,6 +224,7 @@ class _$CatAd extends CatAd {
       this.date,
       this.tags,
       this.photos,
+      this.creator,
       this.name,
       this.description,
       this.activityLevel,
@@ -234,7 +236,6 @@ class _$CatAd extends CatAd {
       this.mustKnow,
       this.deliveryStatuses,
       this.breed,
-      this.owner,
       this.deliveryInfo})
       : super._() {
     if (id == null) {
@@ -248,6 +249,9 @@ class _$CatAd extends CatAd {
     }
     if (photos == null) {
       throw new BuiltValueNullFieldError('CatAd', 'photos');
+    }
+    if (creator == null) {
+      throw new BuiltValueNullFieldError('CatAd', 'creator');
     }
     if (name == null) {
       throw new BuiltValueNullFieldError('CatAd', 'name');
@@ -273,9 +277,6 @@ class _$CatAd extends CatAd {
     if (personality == null) {
       throw new BuiltValueNullFieldError('CatAd', 'personality');
     }
-    if (owner == null) {
-      throw new BuiltValueNullFieldError('CatAd', 'owner');
-    }
     if (deliveryInfo == null) {
       throw new BuiltValueNullFieldError('CatAd', 'deliveryInfo');
     }
@@ -296,6 +297,7 @@ class _$CatAd extends CatAd {
         date == other.date &&
         tags == other.tags &&
         photos == other.photos &&
+        creator == other.creator &&
         name == other.name &&
         description == other.description &&
         activityLevel == other.activityLevel &&
@@ -307,7 +309,6 @@ class _$CatAd extends CatAd {
         mustKnow == other.mustKnow &&
         deliveryStatuses == other.deliveryStatuses &&
         breed == other.breed &&
-        owner == other.owner &&
         deliveryInfo == other.deliveryInfo;
   }
 
@@ -334,18 +335,18 @@ class _$CatAd extends CatAd {
                                                                     date.hashCode),
                                                                 tags.hashCode),
                                                             photos.hashCode),
-                                                        name.hashCode),
-                                                    description.hashCode),
-                                                activityLevel.hashCode),
-                                            birthDate.hashCode),
-                                        male.hashCode),
-                                    adoptionTax.hashCode),
-                                weight.hashCode),
-                            personality.hashCode),
-                        mustKnow.hashCode),
-                    deliveryStatuses.hashCode),
-                breed.hashCode),
-            owner.hashCode),
+                                                        creator.hashCode),
+                                                    name.hashCode),
+                                                description.hashCode),
+                                            activityLevel.hashCode),
+                                        birthDate.hashCode),
+                                    male.hashCode),
+                                adoptionTax.hashCode),
+                            weight.hashCode),
+                        personality.hashCode),
+                    mustKnow.hashCode),
+                deliveryStatuses.hashCode),
+            breed.hashCode),
         deliveryInfo.hashCode));
   }
 
@@ -356,6 +357,7 @@ class _$CatAd extends CatAd {
           ..add('date', date)
           ..add('tags', tags)
           ..add('photos', photos)
+          ..add('creator', creator)
           ..add('name', name)
           ..add('description', description)
           ..add('activityLevel', activityLevel)
@@ -367,7 +369,6 @@ class _$CatAd extends CatAd {
           ..add('mustKnow', mustKnow)
           ..add('deliveryStatuses', deliveryStatuses)
           ..add('breed', breed)
-          ..add('owner', owner)
           ..add('deliveryInfo', deliveryInfo))
         .toString();
   }
@@ -392,6 +393,10 @@ class CatAdBuilder implements Builder<CatAd, CatAdBuilder> {
   ListBuilder<String> get photos =>
       _$this._photos ??= new ListBuilder<String>();
   set photos(ListBuilder<String> photos) => _$this._photos = photos;
+
+  User _creator;
+  User get creator => _$this._creator;
+  set creator(User creator) => _$this._creator = creator;
 
   String _name;
   String get name => _$this._name;
@@ -442,10 +447,6 @@ class CatAdBuilder implements Builder<CatAd, CatAdBuilder> {
   String get breed => _$this._breed;
   set breed(String breed) => _$this._breed = breed;
 
-  User _owner;
-  User get owner => _$this._owner;
-  set owner(User owner) => _$this._owner = owner;
-
   ListBuilder<DeliveryStatus> _deliveryInfo;
   ListBuilder<DeliveryStatus> get deliveryInfo =>
       _$this._deliveryInfo ??= new ListBuilder<DeliveryStatus>();
@@ -460,6 +461,7 @@ class CatAdBuilder implements Builder<CatAd, CatAdBuilder> {
       _date = _$v.date;
       _tags = _$v.tags?.toBuilder();
       _photos = _$v.photos?.toBuilder();
+      _creator = _$v.creator;
       _name = _$v.name;
       _description = _$v.description;
       _activityLevel = _$v.activityLevel;
@@ -471,7 +473,6 @@ class CatAdBuilder implements Builder<CatAd, CatAdBuilder> {
       _mustKnow = _$v.mustKnow;
       _deliveryStatuses = _$v.deliveryStatuses?.toBuilder();
       _breed = _$v.breed;
-      _owner = _$v.owner;
       _deliveryInfo = _$v.deliveryInfo?.toBuilder();
       _$v = null;
     }
@@ -501,6 +502,7 @@ class CatAdBuilder implements Builder<CatAd, CatAdBuilder> {
               date: date,
               tags: tags.build(),
               photos: photos.build(),
+              creator: creator,
               name: name,
               description: description,
               activityLevel: activityLevel,
@@ -512,7 +514,6 @@ class CatAdBuilder implements Builder<CatAd, CatAdBuilder> {
               mustKnow: mustKnow,
               deliveryStatuses: _deliveryStatuses?.build(),
               breed: breed,
-              owner: owner,
               deliveryInfo: deliveryInfo.build());
     } catch (_) {
       String _$failedField;

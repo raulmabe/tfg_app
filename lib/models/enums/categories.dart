@@ -15,9 +15,9 @@ class Category extends EnumClass {
   static const Category RODENTS = _$RODENTS;
   static const Category FISHES = _$FISHES;
 
-  static const Category ARTICLES = _$ARTICLES;
+  static const Category PRODUCTS = _$PRODUCTS;
   static const Category SERVICES = _$SERVICES;
-  static const Category VETS = _$VETS;
+/*   static const Category VETS = _$VETS; */
   static const Category SHELTERS = _$SHELTERS;
 
   const Category._(String name) : super(name);

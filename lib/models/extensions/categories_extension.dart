@@ -23,12 +23,12 @@ extension Iconnable on Category {
         return JumpetsIcons.roedores;
       case Category.SERVICES:
         return JumpetsIcons.servicios;
-      case Category.ARTICLES:
+      case Category.PRODUCTS:
         return JumpetsIcons.articulos;
       case Category.SHELTERS:
         return JumpetsIcons.protectoras;
-      case Category.VETS:
-        return JumpetsIcons.veterinarios;
+      /* case Category.VETS:
+        return JumpetsIcons.veterinarios; */
       default:
         return JumpetsIcons.filtra;
         break;

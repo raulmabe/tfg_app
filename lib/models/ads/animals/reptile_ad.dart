@@ -24,7 +24,7 @@ abstract class ReptileAd
   BuiltList<String> get photos;
 
   @override
-  User get owner;
+  User get creator;
 
   @override
   String get name;
