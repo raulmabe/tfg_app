@@ -30,10 +30,13 @@ class _$ProfesionalSerializer implements StructuredSerializer<Profesional> {
           specifiedType: const FullType(String)),
       'phone',
       serializers.serialize(object.phone, specifiedType: const FullType(int)),
-      'web',
-      serializers.serialize(object.web, specifiedType: const FullType(String)),
     ];
-
+    if (object.web != null) {
+      result
+        ..add('web')
+        ..add(serializers.serialize(object.web,
+            specifiedType: const FullType(String)));
+    }
     return result;
   }
 
@@ -113,9 +116,6 @@ class _$Profesional extends Profesional {
     }
     if (phone == null) {
       throw new BuiltValueNullFieldError('Profesional', 'phone');
-    }
-    if (web == null) {
-      throw new BuiltValueNullFieldError('Profesional', 'web');
     }
   }
 

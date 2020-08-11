@@ -6,7 +6,7 @@ import 'package:jumpets_app/models/users/user.dart';
 
 abstract class Ad {
   String get id;
-  DateTime get date;
+  DateTime get createdAt;
   BuiltList<String> get tags;
   BuiltList<String> get photos;
   User get creator;

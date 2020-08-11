@@ -2,19 +2,18 @@ part of 'ads_bloc.dart';
 
 @immutable
 abstract class AdsState {
-  final Category category;
-  AdsState({this.category = Category.DOGS});
+  AdsState();
 }
 
-class AdsInitial extends AdsState {
-  AdsInitial({category}) : super(category: category);
-}
+class AdsInitial extends AdsState {}
+
+class AdsLoading extends AdsState {}
 
 class AdsSuccess extends AdsState {
   final PaginatedAds paginatedAds;
-  AdsSuccess({this.paginatedAds, category}) : super(category: category);
+  AdsSuccess({
+    this.paginatedAds,
+  });
 }
 
-class AdsFailure extends AdsState {
-  AdsFailure({category}) : super(category: category);
-}
+class AdsFailure extends AdsState {}

@@ -19,7 +19,7 @@ class AdsProvider {
       int thumbnailWidth,
       int thumbnailHeight}) async {
     return _api.post({
-      'query': ''' query {
+      'query': '''{
     ads(category: $category, first: $first, after: $after) {
       totalCount
       edges{
@@ -51,9 +51,12 @@ class AdsProvider {
             mustKnow
             deliveryInfo
             breed
-            type
             ... on Dog {
               size
+              type
+            }
+            ... on OtherAnimal {
+              type
             }
           }
           createdAt
@@ -77,7 +80,8 @@ class AdsProvider {
         }
         cursor
       }
-      pageInfo: {
+      pageInfo {
+        hasPreviousPage
         hasNextPage
         endCursor
       }

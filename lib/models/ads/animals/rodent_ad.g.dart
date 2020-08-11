@@ -20,8 +20,8 @@ class _$RodentAdSerializer implements StructuredSerializer<RodentAd> {
     final result = <Object>[
       'id',
       serializers.serialize(object.id, specifiedType: const FullType(String)),
-      'date',
-      serializers.serialize(object.date,
+      'createdAt',
+      serializers.serialize(object.createdAt,
           specifiedType: const FullType(DateTime)),
       'tags',
       serializers.serialize(object.tags,
@@ -99,8 +99,8 @@ class _$RodentAdSerializer implements StructuredSerializer<RodentAd> {
           result.id = serializers.deserialize(value,
               specifiedType: const FullType(String)) as String;
           break;
-        case 'date':
-          result.date = serializers.deserialize(value,
+        case 'createdAt':
+          result.createdAt = serializers.deserialize(value,
               specifiedType: const FullType(DateTime)) as DateTime;
           break;
         case 'tags':
@@ -184,7 +184,7 @@ class _$RodentAd extends RodentAd {
   @override
   final String id;
   @override
-  final DateTime date;
+  final DateTime createdAt;
   @override
   final BuiltList<String> tags;
   @override
@@ -221,7 +221,7 @@ class _$RodentAd extends RodentAd {
 
   _$RodentAd._(
       {this.id,
-      this.date,
+      this.createdAt,
       this.tags,
       this.photos,
       this.creator,
@@ -241,8 +241,8 @@ class _$RodentAd extends RodentAd {
     if (id == null) {
       throw new BuiltValueNullFieldError('RodentAd', 'id');
     }
-    if (date == null) {
-      throw new BuiltValueNullFieldError('RodentAd', 'date');
+    if (createdAt == null) {
+      throw new BuiltValueNullFieldError('RodentAd', 'createdAt');
     }
     if (tags == null) {
       throw new BuiltValueNullFieldError('RodentAd', 'tags');
@@ -294,7 +294,7 @@ class _$RodentAd extends RodentAd {
     if (identical(other, this)) return true;
     return other is RodentAd &&
         id == other.id &&
-        date == other.date &&
+        createdAt == other.createdAt &&
         tags == other.tags &&
         photos == other.photos &&
         creator == other.creator &&
@@ -330,9 +330,12 @@ class _$RodentAd extends RodentAd {
                                                         $jc(
                                                             $jc(
                                                                 $jc(
-                                                                    $jc(0,
-                                                                        id.hashCode),
-                                                                    date.hashCode),
+                                                                    $jc(
+                                                                        0,
+                                                                        id
+                                                                            .hashCode),
+                                                                    createdAt
+                                                                        .hashCode),
                                                                 tags.hashCode),
                                                             photos.hashCode),
                                                         creator.hashCode),
@@ -354,7 +357,7 @@ class _$RodentAd extends RodentAd {
   String toString() {
     return (newBuiltValueToStringHelper('RodentAd')
           ..add('id', id)
-          ..add('date', date)
+          ..add('createdAt', createdAt)
           ..add('tags', tags)
           ..add('photos', photos)
           ..add('creator', creator)
@@ -381,9 +384,9 @@ class RodentAdBuilder implements Builder<RodentAd, RodentAdBuilder> {
   String get id => _$this._id;
   set id(String id) => _$this._id = id;
 
-  DateTime _date;
-  DateTime get date => _$this._date;
-  set date(DateTime date) => _$this._date = date;
+  DateTime _createdAt;
+  DateTime get createdAt => _$this._createdAt;
+  set createdAt(DateTime createdAt) => _$this._createdAt = createdAt;
 
   ListBuilder<String> _tags;
   ListBuilder<String> get tags => _$this._tags ??= new ListBuilder<String>();
@@ -458,7 +461,7 @@ class RodentAdBuilder implements Builder<RodentAd, RodentAdBuilder> {
   RodentAdBuilder get _$this {
     if (_$v != null) {
       _id = _$v.id;
-      _date = _$v.date;
+      _createdAt = _$v.createdAt;
       _tags = _$v.tags?.toBuilder();
       _photos = _$v.photos?.toBuilder();
       _creator = _$v.creator;
@@ -499,7 +502,7 @@ class RodentAdBuilder implements Builder<RodentAd, RodentAdBuilder> {
       _$result = _$v ??
           new _$RodentAd._(
               id: id,
-              date: date,
+              createdAt: createdAt,
               tags: tags.build(),
               photos: photos.build(),
               creator: creator,

@@ -12,7 +12,7 @@ abstract class ServiceAd implements Ad, Built<ServiceAd, ServiceAdBuilder> {
   String get id;
 
   @override
-  DateTime get date;
+  DateTime get createdAt;
 
   @override
   BuiltList<String> get tags;

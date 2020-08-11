@@ -14,7 +14,7 @@ abstract class OtherAd implements AnimalAd, Built<OtherAd, OtherAdBuilder> {
   String get id;
 
   @override
-  DateTime get date;
+  DateTime get createdAt;
 
   @override
   BuiltList<String> get tags;

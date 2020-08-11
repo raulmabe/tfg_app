@@ -19,7 +19,7 @@ abstract class AnimalAd implements Ad {
   String get id;
 
   @override
-  DateTime get date;
+  DateTime get createdAt;
 
   @override
   BuiltList<String> get tags;

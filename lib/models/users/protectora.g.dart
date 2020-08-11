@@ -30,9 +30,13 @@ class _$ProtectoraSerializer implements StructuredSerializer<Protectora> {
           specifiedType: const FullType(String)),
       'phone',
       serializers.serialize(object.phone, specifiedType: const FullType(int)),
-      'web',
-      serializers.serialize(object.web, specifiedType: const FullType(String)),
     ];
+    if (object.web != null) {
+      result
+        ..add('web')
+        ..add(serializers.serialize(object.web,
+            specifiedType: const FullType(String)));
+    }
     if (object.distance != null) {
       result
         ..add('distance')
@@ -143,9 +147,6 @@ class _$Protectora extends Protectora {
     }
     if (phone == null) {
       throw new BuiltValueNullFieldError('Protectora', 'phone');
-    }
-    if (web == null) {
-      throw new BuiltValueNullFieldError('Protectora', 'web');
     }
   }
 

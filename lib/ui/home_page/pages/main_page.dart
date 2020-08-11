@@ -6,6 +6,7 @@ import 'package:jumpets_app/ui/components/category_button.dart';
 import 'package:jumpets_app/ui/components/info_card.dart';
 import 'package:jumpets_app/ui/components/jumpets_icons_icons.dart';
 import 'package:jumpets_app/ui/components/vertical_grid/vertical_grid.dart';
+import 'package:jumpets_app/models/models.dart';
 
 class MainPage extends StatelessWidget {
   final ScrollController scrollController;
@@ -14,17 +15,7 @@ class MainPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<AdsBloc, AdsState>(
-      builder: (context, state) {
-        if (state is AdsSuccess) {
-          return _buildBody(context, state.category, state.paginatedAds.ads);
-        }
-        return _buildBody(context, state.category, []);
-      },
-    );
-  }
-
-  _buildBody(context, category, ads) {
+    var adsBloc = BlocProvider.of<AdsBloc>(context);
     return ListView(
       controller: scrollController,
       shrinkWrap: true,
@@ -36,7 +27,7 @@ class MainPage extends StatelessWidget {
           child: Row(
             children: <Widget>[
               Expanded(
-                child: Text(category.name.capitalize(),
+                child: Text(adsBloc.category.name.capitalize(),
                     style: Theme.of(context).textTheme.display2),
               ),
               IconButton(
@@ -70,17 +61,19 @@ class MainPage extends StatelessWidget {
                 )
               ]..addAll(Category.values
                   .toList()
-                  .map((category2) => Padding(
+                  .map((category) => Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 10),
                         child: CategoryButton.fromCategory(
-                          isSelected: category == category2,
-                          category: category2,
+                          isSelected: adsBloc.category == category,
+                          category: category,
                           size: 50,
                           isCollapsed: true,
                           borderRadius: 10,
-                          onTap: (category) => BlocProvider.of<AdsBloc>(context)
-                            ..add(CategorySelected(category: category))
-                            ..add(AdsFetched()),
+                          onTap: (category) {
+                            adsBloc
+                              ..add(CategorySelected(category: category))
+                              ..add(AdsFetched());
+                          },
                         ),
                       ))
                   .toList()),
@@ -88,16 +81,31 @@ class MainPage extends StatelessWidget {
           ),
         ),
         Divider(),
-        ads.length > 0
-            ? VerticalGrid(
+        BlocBuilder<AdsBloc, AdsState>(
+          builder: (context, state) {
+            if (state is AdsLoading) {
+              return Center(child: CircularProgressIndicator());
+            }
+            if (state is AdsSuccess) {
+              return VerticalGrid(
                 widgetInjection: InfoCard(
                   title: 'Jumpets',
                   message:
                       'Check our last update! This new version (2.2v) comes with 3 new functionalities.',
                 ),
-                ads: ads,
-              )
-            : CircularProgressIndicator(),
+                ads: state.paginatedAds.ads.asList(),
+              );
+            }
+            if (state is AdsFailure) {
+              return FittedBox(
+                child: Text('Error'),
+              );
+            }
+            return FittedBox(
+              child: Text('Initializing'),
+            );
+          },
+        ),
       ],
     );
   }

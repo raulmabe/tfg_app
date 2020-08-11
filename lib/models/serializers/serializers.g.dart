@@ -8,9 +8,6 @@ part of 'serializers.dart';
 
 Serializers _$serializers = (new Serializers().toBuilder()
       ..add(ActivityLevel.serializer)
-      ..add(AdsState.serializer)
-      ..add(AppState.serializer)
-      ..add(AuthState.serializer)
       ..add(BirdAd.serializer)
       ..add(BunnyAd.serializer)
       ..add(CatAd.serializer)
@@ -18,7 +15,6 @@ Serializers _$serializers = (new Serializers().toBuilder()
       ..add(DeliveryStatus.serializer)
       ..add(DogAd.serializer)
       ..add(DogSize.serializer)
-      ..add(FavAdsState.serializer)
       ..add(FishAd.serializer)
       ..add(OtherAd.serializer)
       ..add(Particular.serializer)
@@ -30,20 +26,6 @@ Serializers _$serializers = (new Serializers().toBuilder()
       ..add(ServiceAd.serializer)
       ..addBuilderFactory(const FullType(BuiltList, const [const FullType(Ad)]),
           () => new ListBuilder<Ad>())
-      ..addBuilderFactory(const FullType(BuiltList, const [const FullType(Ad)]),
-          () => new ListBuilder<Ad>())
-      ..addBuilderFactory(
-          const FullType(BuiltList, const [const FullType(AnimalAd)]),
-          () => new ListBuilder<AnimalAd>())
-      ..addBuilderFactory(
-          const FullType(BuiltList, const [const FullType(ServiceAd)]),
-          () => new ListBuilder<ServiceAd>())
-      ..addBuilderFactory(
-          const FullType(BuiltList, const [const FullType(ProductAd)]),
-          () => new ListBuilder<ProductAd>())
-      ..addBuilderFactory(
-          const FullType(BuiltList, const [const FullType(Protectora)]),
-          () => new ListBuilder<Protectora>())
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(String)]),
           () => new ListBuilder<String>())

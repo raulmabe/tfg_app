@@ -14,7 +14,7 @@ abstract class FishAd implements AnimalAd, Built<FishAd, FishAdBuilder> {
   String get id;
 
   @override
-  DateTime get date;
+  DateTime get createdAt;
 
   @override
   BuiltList<String> get tags;

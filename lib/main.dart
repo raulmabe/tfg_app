@@ -18,12 +18,8 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       theme: AppTheme.getTheme(),
       home: BlocProvider(
-        create: (context) => AdsBloc(repository: AdsRepository())
-          ..add(AdsFetched(
-              photosWidth: MediaQuery.of(context).size.width.toInt(),
-              photosHeight: 200,
-              thumbnailHeight: 50,
-              thumbnailWidth: 50)),
+        create: (context) =>
+            AdsBloc(repository: AdsRepository())..add(AdsFetched()),
         child: HomePage(),
       ),
     );

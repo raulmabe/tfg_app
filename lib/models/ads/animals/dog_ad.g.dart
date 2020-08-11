@@ -20,8 +20,8 @@ class _$DogAdSerializer implements StructuredSerializer<DogAd> {
     final result = <Object>[
       'id',
       serializers.serialize(object.id, specifiedType: const FullType(String)),
-      'date',
-      serializers.serialize(object.date,
+      'createdAt',
+      serializers.serialize(object.createdAt,
           specifiedType: const FullType(DateTime)),
       'tags',
       serializers.serialize(object.tags,
@@ -102,8 +102,8 @@ class _$DogAdSerializer implements StructuredSerializer<DogAd> {
           result.id = serializers.deserialize(value,
               specifiedType: const FullType(String)) as String;
           break;
-        case 'date':
-          result.date = serializers.deserialize(value,
+        case 'createdAt':
+          result.createdAt = serializers.deserialize(value,
               specifiedType: const FullType(DateTime)) as DateTime;
           break;
         case 'tags':
@@ -191,7 +191,7 @@ class _$DogAd extends DogAd {
   @override
   final String id;
   @override
-  final DateTime date;
+  final DateTime createdAt;
   @override
   final BuiltList<String> tags;
   @override
@@ -230,7 +230,7 @@ class _$DogAd extends DogAd {
 
   _$DogAd._(
       {this.id,
-      this.date,
+      this.createdAt,
       this.tags,
       this.photos,
       this.creator,
@@ -251,8 +251,8 @@ class _$DogAd extends DogAd {
     if (id == null) {
       throw new BuiltValueNullFieldError('DogAd', 'id');
     }
-    if (date == null) {
-      throw new BuiltValueNullFieldError('DogAd', 'date');
+    if (createdAt == null) {
+      throw new BuiltValueNullFieldError('DogAd', 'createdAt');
     }
     if (tags == null) {
       throw new BuiltValueNullFieldError('DogAd', 'tags');
@@ -307,7 +307,7 @@ class _$DogAd extends DogAd {
     if (identical(other, this)) return true;
     return other is DogAd &&
         id == other.id &&
-        date == other.date &&
+        createdAt == other.createdAt &&
         tags == other.tags &&
         photos == other.photos &&
         creator == other.creator &&
@@ -345,11 +345,16 @@ class _$DogAd extends DogAd {
                                                             $jc(
                                                                 $jc(
                                                                     $jc(
-                                                                        $jc(0,
-                                                                            id.hashCode),
-                                                                        date.hashCode),
-                                                                    tags.hashCode),
-                                                                photos.hashCode),
+                                                                        $jc(
+                                                                            0,
+                                                                            id
+                                                                                .hashCode),
+                                                                        createdAt
+                                                                            .hashCode),
+                                                                    tags
+                                                                        .hashCode),
+                                                                photos
+                                                                    .hashCode),
                                                             creator.hashCode),
                                                         name.hashCode),
                                                     description.hashCode),
@@ -370,7 +375,7 @@ class _$DogAd extends DogAd {
   String toString() {
     return (newBuiltValueToStringHelper('DogAd')
           ..add('id', id)
-          ..add('date', date)
+          ..add('createdAt', createdAt)
           ..add('tags', tags)
           ..add('photos', photos)
           ..add('creator', creator)
@@ -398,9 +403,9 @@ class DogAdBuilder implements Builder<DogAd, DogAdBuilder> {
   String get id => _$this._id;
   set id(String id) => _$this._id = id;
 
-  DateTime _date;
-  DateTime get date => _$this._date;
-  set date(DateTime date) => _$this._date = date;
+  DateTime _createdAt;
+  DateTime get createdAt => _$this._createdAt;
+  set createdAt(DateTime createdAt) => _$this._createdAt = createdAt;
 
   ListBuilder<String> _tags;
   ListBuilder<String> get tags => _$this._tags ??= new ListBuilder<String>();
@@ -479,7 +484,7 @@ class DogAdBuilder implements Builder<DogAd, DogAdBuilder> {
   DogAdBuilder get _$this {
     if (_$v != null) {
       _id = _$v.id;
-      _date = _$v.date;
+      _createdAt = _$v.createdAt;
       _tags = _$v.tags?.toBuilder();
       _photos = _$v.photos?.toBuilder();
       _creator = _$v.creator;
@@ -521,7 +526,7 @@ class DogAdBuilder implements Builder<DogAd, DogAdBuilder> {
       _$result = _$v ??
           new _$DogAd._(
               id: id,
-              date: date,
+              createdAt: createdAt,
               tags: tags.build(),
               photos: photos.build(),
               creator: creator,

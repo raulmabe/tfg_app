@@ -12,7 +12,7 @@ abstract class ProductAd implements Ad, Built<ProductAd, ProductAdBuilder> {
   String get id;
 
   @override
-  DateTime get date;
+  DateTime get createdAt;
 
   @override
   BuiltList<String> get tags;

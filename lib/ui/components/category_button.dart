@@ -3,7 +3,6 @@ import 'package:jumpets_app/models/enums/categories.dart';
 import 'package:jumpets_app/models/extensions/categories_extension.dart';
 
 import 'dart:async';
-import 'package:jumpets_app/models/state/app_state.dart';
 
 class CategoryButton extends StatelessWidget {
   CategoryButton.fromCategory(

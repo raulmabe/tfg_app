@@ -15,7 +15,7 @@ abstract class DogAd implements AnimalAd, Built<DogAd, DogAdBuilder> {
   String get id;
 
   @override
-  DateTime get date;
+  DateTime get createdAt;
 
   @override
   BuiltList<String> get tags;

@@ -23,6 +23,7 @@ abstract class Profesional
   @override
   int get phone;
 
+  @nullable
   String get web;
 
   Profesional._();

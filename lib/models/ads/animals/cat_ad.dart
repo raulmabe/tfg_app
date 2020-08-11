@@ -14,7 +14,7 @@ abstract class CatAd implements AnimalAd, Built<CatAd, CatAdBuilder> {
   String get id;
 
   @override
-  DateTime get date;
+  DateTime get createdAt;
 
   @override
   BuiltList<String> get tags;

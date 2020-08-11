@@ -23,6 +23,7 @@ abstract class Protectora
   @override
   int get phone;
 
+  @nullable
   String get web;
 
   @nullable

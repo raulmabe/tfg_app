@@ -1,3 +1,4 @@
+import 'dart:ffi';
 import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
@@ -24,7 +25,9 @@ class ApiBaseHelper {
   Future<dynamic> post(dynamic body) async {
     var responseJson;
     try {
-      final response = await http.post(baseUrl, body: body);
+      final response = await http.post(baseUrl,
+          headers: {'Content-type': 'application/json'},
+          body: json.encode(body));
       responseJson = _returnResponse(response);
     } on SocketException {
       throw FetchDataError(status: 600, msg: 'No internet connection');
@@ -36,10 +39,9 @@ class ApiBaseHelper {
     switch (response.statusCode) {
       case 200:
         var responseJson = json.decode(response.body.toString());
-        print(responseJson);
-        if (responseJson['errors']) {
+        if (responseJson['error'] != null) {
           throw UnauthorisedError(
-              status: 200, msg: responseJson['errors']['message']);
+              status: 200, msg: responseJson['error']['errors']['message']);
         }
         return responseJson;
       case 400:
@@ -49,7 +51,9 @@ class ApiBaseHelper {
         throw UnauthorisedError(status: 403, msg: '');
       case 500:
       default:
-        throw FetchDataError(status: -1, msg: '');
+        var responseJson = json.decode(response.body.toString());
+        throw FetchDataError(
+            status: -1, msg: responseJson['error']['errors']['message']);
     }
   }
 }

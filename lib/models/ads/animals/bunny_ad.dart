@@ -14,7 +14,7 @@ abstract class BunnyAd implements AnimalAd, Built<BunnyAd, BunnyAdBuilder> {
   String get id;
 
   @override
-  DateTime get date;
+  DateTime get createdAt;
 
   @override
   BuiltList<String> get tags;

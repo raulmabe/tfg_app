@@ -14,7 +14,7 @@ abstract class RodentAd implements AnimalAd, Built<RodentAd, RodentAdBuilder> {
   String get id;
 
   @override
-  DateTime get date;
+  DateTime get createdAt;
 
   @override
   BuiltList<String> get tags;

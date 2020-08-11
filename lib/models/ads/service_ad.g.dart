@@ -20,8 +20,8 @@ class _$ServiceAdSerializer implements StructuredSerializer<ServiceAd> {
     final result = <Object>[
       'id',
       serializers.serialize(object.id, specifiedType: const FullType(String)),
-      'date',
-      serializers.serialize(object.date,
+      'createdAt',
+      serializers.serialize(object.createdAt,
           specifiedType: const FullType(DateTime)),
       'tags',
       serializers.serialize(object.tags,
@@ -63,8 +63,8 @@ class _$ServiceAdSerializer implements StructuredSerializer<ServiceAd> {
           result.id = serializers.deserialize(value,
               specifiedType: const FullType(String)) as String;
           break;
-        case 'date':
-          result.date = serializers.deserialize(value,
+        case 'createdAt':
+          result.createdAt = serializers.deserialize(value,
               specifiedType: const FullType(DateTime)) as DateTime;
           break;
         case 'tags':
@@ -106,7 +106,7 @@ class _$ServiceAd extends ServiceAd {
   @override
   final String id;
   @override
-  final DateTime date;
+  final DateTime createdAt;
   @override
   final BuiltList<String> tags;
   @override
@@ -125,7 +125,7 @@ class _$ServiceAd extends ServiceAd {
 
   _$ServiceAd._(
       {this.id,
-      this.date,
+      this.createdAt,
       this.tags,
       this.photos,
       this.creator,
@@ -136,8 +136,8 @@ class _$ServiceAd extends ServiceAd {
     if (id == null) {
       throw new BuiltValueNullFieldError('ServiceAd', 'id');
     }
-    if (date == null) {
-      throw new BuiltValueNullFieldError('ServiceAd', 'date');
+    if (createdAt == null) {
+      throw new BuiltValueNullFieldError('ServiceAd', 'createdAt');
     }
     if (tags == null) {
       throw new BuiltValueNullFieldError('ServiceAd', 'tags');
@@ -171,7 +171,7 @@ class _$ServiceAd extends ServiceAd {
     if (identical(other, this)) return true;
     return other is ServiceAd &&
         id == other.id &&
-        date == other.date &&
+        createdAt == other.createdAt &&
         tags == other.tags &&
         photos == other.photos &&
         creator == other.creator &&
@@ -187,7 +187,7 @@ class _$ServiceAd extends ServiceAd {
             $jc(
                 $jc(
                     $jc(
-                        $jc($jc($jc(0, id.hashCode), date.hashCode),
+                        $jc($jc($jc(0, id.hashCode), createdAt.hashCode),
                             tags.hashCode),
                         photos.hashCode),
                     creator.hashCode),
@@ -200,7 +200,7 @@ class _$ServiceAd extends ServiceAd {
   String toString() {
     return (newBuiltValueToStringHelper('ServiceAd')
           ..add('id', id)
-          ..add('date', date)
+          ..add('createdAt', createdAt)
           ..add('tags', tags)
           ..add('photos', photos)
           ..add('creator', creator)
@@ -218,9 +218,9 @@ class ServiceAdBuilder implements Builder<ServiceAd, ServiceAdBuilder> {
   String get id => _$this._id;
   set id(String id) => _$this._id = id;
 
-  DateTime _date;
-  DateTime get date => _$this._date;
-  set date(DateTime date) => _$this._date = date;
+  DateTime _createdAt;
+  DateTime get createdAt => _$this._createdAt;
+  set createdAt(DateTime createdAt) => _$this._createdAt = createdAt;
 
   ListBuilder<String> _tags;
   ListBuilder<String> get tags => _$this._tags ??= new ListBuilder<String>();
@@ -252,7 +252,7 @@ class ServiceAdBuilder implements Builder<ServiceAd, ServiceAdBuilder> {
   ServiceAdBuilder get _$this {
     if (_$v != null) {
       _id = _$v.id;
-      _date = _$v.date;
+      _createdAt = _$v.createdAt;
       _tags = _$v.tags?.toBuilder();
       _photos = _$v.photos?.toBuilder();
       _creator = _$v.creator;
@@ -284,7 +284,7 @@ class ServiceAdBuilder implements Builder<ServiceAd, ServiceAdBuilder> {
       _$result = _$v ??
           new _$ServiceAd._(
               id: id,
-              date: date,
+              createdAt: createdAt,
               tags: tags.build(),
               photos: photos.build(),
               creator: creator,

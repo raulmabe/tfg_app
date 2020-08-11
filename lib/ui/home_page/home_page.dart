@@ -39,7 +39,7 @@ class _HomePageState extends State<HomePage> {
     final maxScroll = _scrollController.position.maxScrollExtent;
     final currentScroll = _scrollController.position.pixels;
     if (maxScroll - currentScroll <= _scrollThreshold) {
-      BlocProvider.of<AdsBloc>(context).add(AdsFetched());
+      BlocProvider.of<AdsBloc>(context).add(MoreAdsFetched());
     }
   }
 
