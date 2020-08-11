@@ -5,7 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jumpets_app/bloc/ads_bloc.dart';
 import 'package:jumpets_app/models/enums/categories.dart';
 import 'package:jumpets_app/ui/components/category_button.dart';
-import 'package:jumpets_app/ui/components/info_card.dart';
+import 'package:jumpets_app/ui/components/cards/info_card.dart';
 import 'package:jumpets_app/ui/components/jumpets_icons_icons.dart';
 import 'package:jumpets_app/ui/components/vertical_grid/vertical_grid.dart';
 import 'package:jumpets_app/models/models.dart';

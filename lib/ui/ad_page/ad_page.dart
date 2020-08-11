@@ -23,6 +23,7 @@ class AdPage extends StatelessWidget {
         children: <Widget>[
           CustomScrollView(slivers: [
             SliverAppBar(
+              pinned: true,
               stretch: true,
               backgroundColor: Theme.of(context).accentColor,
               expandedHeight: 250,
@@ -54,6 +55,9 @@ class AdPage extends StatelessWidget {
                       _about(context),
                       _morePhotosLayout(context),
                       _ownerInfo(context),
+                      SizedBox(
+                        height: kToolbarHeight * 2,
+                      )
                     ]),
               ),
             )

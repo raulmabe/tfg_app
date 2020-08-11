@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:jumpets_app/models/ads/ad.dart';
 import 'package:jumpets_app/models/ads/animal_ad.dart';
-import 'package:jumpets_app/ui/components/animal_card.dart';
+import 'package:jumpets_app/ui/components/cards/animal_card.dart';
 
 class VerticalGrid extends StatelessWidget {
   final List<Ad> ads;
