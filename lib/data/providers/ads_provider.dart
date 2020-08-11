@@ -20,7 +20,7 @@ class AdsProvider {
       int thumbnailHeight}) async {
     return _api.post({
       'query': '''{
-    ads(category: $category, first: $first, after: $after) {
+    ads(category: $category, first: $first, after: \"$after\") {
       totalCount
       edges{
         node{

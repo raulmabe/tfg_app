@@ -5,6 +5,7 @@ import 'package:jumpets_app/models/ads/animal_ad.dart';
 import 'package:jumpets_app/ui/ad_page/ad_page.dart';
 import 'package:jumpets_app/ui/components/sex_icon.dart';
 import 'package:transparent_image/transparent_image.dart';
+import 'package:jumpets_app/models/models.dart';
 
 class AnimalCard extends StatelessWidget {
   final AnimalAd animalAd;
@@ -38,7 +39,7 @@ class AnimalCard extends StatelessWidget {
                       Row(
                         children: <Widget>[
                           Expanded(
-                            child: Text(animalAd.name,
+                            child: Text(animalAd.name.capitalize(),
                                 style: Theme.of(context).textTheme.body2),
                           ),
                           SexIcon(male: animalAd.male)
@@ -63,6 +64,7 @@ class AnimalCard extends StatelessWidget {
             child: ClipRRect(
               borderRadius: BorderRadius.circular(10),
               child: FadeInImage.memoryNetwork(
+                fadeInDuration: Duration(milliseconds: 250),
                 width: double.infinity,
                 height: height,
                 placeholder: kTransparentImage,

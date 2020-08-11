@@ -16,6 +16,7 @@ class AdsBloc extends Bloc<AdsEvent, AdsState> {
   final AdsRepository repository;
   String _currentEndCursor;
   Category category;
+  List<Ad> _lastestAdsFetched = [];
 
   AdsBloc({@required this.repository, this.category = Category.DOGS})
       : super(AdsInitial());
@@ -23,13 +24,12 @@ class AdsBloc extends Bloc<AdsEvent, AdsState> {
   @override
   void onTransition(Transition<AdsEvent, AdsState> transition) {
     super.onTransition(transition);
-    if (transition.event is CategorySelected) {
-      category = (transition.event as CategorySelected).category;
-    }
 
     if (transition.nextState is AdsSuccess) {
       _currentEndCursor =
           (transition.nextState as AdsSuccess).paginatedAds.pageInfo.endCursor;
+      _lastestAdsFetched =
+          (transition.nextState as AdsSuccess).paginatedAds.ads.toList();
     }
   }
 
@@ -43,8 +43,11 @@ class AdsBloc extends Bloc<AdsEvent, AdsState> {
         yield await _mapAdsFetchedToState(event);
         break;
       case MoreAdsFetched:
-        yield AdsLoading();
         yield await _mapMoreAdsFetchedToState(event);
+        break;
+      case CategorySelected:
+        category = (event as CategorySelected).category;
+        yield CategoryChanged(category: category);
         break;
       default:
         break;
@@ -52,26 +55,29 @@ class AdsBloc extends Bloc<AdsEvent, AdsState> {
   }
 
   Future<AdsState> _mapMoreAdsFetchedToState(MoreAdsFetched event) async {
-    try {
-      final paginatedAds = await repository.getPaginatedAds(
-        category: category,
-        first: 10,
-        after: _currentEndCursor,
-        photosWidth: event.photosWidth,
-        photosHeight: event.photosHeight,
-        thumbnailHeight: event.thumbnailHeight,
-        thumbnailWidth: event.thumbnailWidth,
-      );
-      return AdsSuccess(
-          paginatedAds: paginatedAds.rebuild((b) => b
-            ..ads = BuiltList<Ad>([]
-                  ..addAll((state as AdsSuccess).paginatedAds.ads)
-                  ..addAll(paginatedAds.ads))
-                .toBuilder()));
-    } catch (err, stacktrace) {
-      print('Ads BLoC OnCatch $err, $stacktrace');
-      return AdsFailure();
+    print('Trying to fetch more ads but: $_hasNextPage');
+    if (_hasNextPage) {
+      try {
+        final paginatedAds = await repository.getPaginatedAds(
+          category: category,
+          first: 10,
+          after: _currentEndCursor,
+          photosWidth: event.photosWidth,
+          photosHeight: event.photosHeight,
+          thumbnailHeight: event.thumbnailHeight,
+          thumbnailWidth: event.thumbnailWidth,
+        );
+        return AdsSuccess(
+            paginatedAds: paginatedAds.rebuild((b) => b
+              ..ads = BuiltList<Ad>(
+                      []..addAll(_lastestAdsFetched)..addAll(paginatedAds.ads))
+                  .toBuilder()));
+      } catch (err, stacktrace) {
+        print('Ads BLoC OnCatch $err, $stacktrace');
+        return AdsFailure();
+      }
     }
+    return state;
   }
 
   Future<AdsState> _mapAdsFetchedToState(AdsFetched event) async {
@@ -96,8 +102,13 @@ class AdsBloc extends Bloc<AdsEvent, AdsState> {
   Stream<Transition<AdsEvent, AdsState>> transformEvents(
       Stream<AdsEvent> events,
       TransitionFunction<AdsEvent, AdsState> transitionFn) {
+    final nonDebounceStream = events.where((event) => event is! MoreAdsFetched);
+    final debounceStream = events
+        .where((event) => event is MoreAdsFetched)
+        .debounceTime(Duration(milliseconds: 600));
+
     return super.transformEvents(
-        events.debounceTime(const Duration(milliseconds: 500)), transitionFn);
+        MergeStream([nonDebounceStream, debounceStream]), transitionFn);
   }
 
   bool get _hasNextPage =>

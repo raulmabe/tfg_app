@@ -36,24 +36,25 @@ class ApiBaseHelper {
   }
 
   dynamic _returnResponse(http.Response response) {
+    var responseMap = json.decode(response.body.toString());
     switch (response.statusCode) {
       case 200:
-        var responseJson = json.decode(response.body.toString());
-        if (responseJson['error'] != null) {
+        if (responseMap['errors'] != null) {
           throw UnauthorisedError(
-              status: 200, msg: responseJson['error']['errors']['message']);
+              status: 200, msg: responseMap['errors'][0]['message']);
         }
-        return responseJson;
+        return responseMap;
       case 400:
-        throw BadRequestError(status: 400, msg: '');
+        throw BadRequestError(
+            status: 400, msg: responseMap['errors'][0]['message']);
       case 401:
       case 403:
-        throw UnauthorisedError(status: 403, msg: '');
+        throw UnauthorisedError(
+            status: 403, msg: responseMap['errors'][0]['message']);
       case 500:
       default:
-        var responseJson = json.decode(response.body.toString());
         throw FetchDataError(
-            status: -1, msg: responseJson['error']['errors']['message']);
+            status: -1, msg: responseMap['errors'][0]['message']);
     }
   }
 }

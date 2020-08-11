@@ -29,6 +29,6 @@ class CategorySelected extends AdsEvent {
 
   @override
   String toString() {
-    return 'Searching with $category';
+    return 'Category event with $category';
   }
 }

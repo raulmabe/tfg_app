@@ -17,3 +17,8 @@ class AdsSuccess extends AdsState {
 }
 
 class AdsFailure extends AdsState {}
+
+class CategoryChanged extends AdsState {
+  final category;
+  CategoryChanged({this.category});
+}
