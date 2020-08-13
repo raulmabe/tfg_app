@@ -4,17 +4,20 @@ import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
-import 'package:jumpets_app/errors/network_error.dart';
+import 'package:jumpets_app/models/errors/network_error.dart';
 
 class ApiBaseHelper {
   final String baseUrl;
+  final int timeout;
 
-  ApiBaseHelper({@required this.baseUrl});
+  ApiBaseHelper({this.baseUrl = 'http://192.168.1.45:3030/graphql'})
+      : timeout = 7;
 
   Future<dynamic> get(String url) async {
     var responseJson;
     try {
-      final response = await http.get(baseUrl + url);
+      final response =
+          await http.get(baseUrl + url).timeout(Duration(seconds: timeout));
       responseJson = _returnResponse(response);
     } on SocketException {
       throw FetchDataError(status: 600, msg: 'No internet connection');
@@ -25,9 +28,11 @@ class ApiBaseHelper {
   Future<dynamic> post(dynamic body) async {
     var responseJson;
     try {
-      final response = await http.post(baseUrl,
-          headers: {'Content-type': 'application/json'},
-          body: json.encode(body));
+      final response = await http
+          .post(baseUrl,
+              headers: {'Content-type': 'application/json'},
+              body: json.encode(body))
+          .timeout(Duration(seconds: timeout));
       responseJson = _returnResponse(response);
     } on SocketException {
       throw FetchDataError(status: 600, msg: 'No internet connection');

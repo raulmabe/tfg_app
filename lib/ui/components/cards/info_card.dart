@@ -4,7 +4,8 @@ import 'package:tinycolor/tinycolor.dart';
 class InfoCard extends StatelessWidget {
   final String title, message;
   final Color color;
-  InfoCard({@required this.message, this.title, this.color});
+  final bool big;
+  InfoCard({@required this.message, this.title, this.color, this.big = false});
 
   @override
   Widget build(BuildContext context) {
@@ -19,16 +20,15 @@ class InfoCard extends StatelessWidget {
       child: Container(
         padding: EdgeInsets.all(10),
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10),
-          color: tinycolor.color,
-          /* gradient: LinearGradient(
+            borderRadius: BorderRadius.circular(10),
+            /* color: tinycolor.color, */
+            gradient: LinearGradient(
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
                 colors: [
-                  tinycolor.lighten(10).color,
-                  tinycolor.darken(0).color
-                ]) */
-        ),
+                  tinycolor.darken(5).color,
+                  tinycolor.lighten(5).color,
+                ])),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[

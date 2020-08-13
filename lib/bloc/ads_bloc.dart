@@ -105,7 +105,7 @@ class AdsBloc extends Bloc<AdsEvent, AdsState> {
     final nonDebounceStream = events.where((event) => event is! MoreAdsFetched);
     final debounceStream = events
         .where((event) => event is MoreAdsFetched)
-        .debounceTime(Duration(milliseconds: 600));
+        .debounceTime(Duration(seconds: 1));
 
     return super.transformEvents(
         MergeStream([nonDebounceStream, debounceStream]), transitionFn);

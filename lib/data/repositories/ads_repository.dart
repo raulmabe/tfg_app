@@ -5,7 +5,7 @@ import 'package:jumpets_app/models/wrappers/paginated_ads.dart';
 import 'package:built_collection/built_collection.dart';
 
 class AdsRepository {
-  final AdsProvider _jumpetsProvider = AdsProvider();
+  final AdsProvider _adsProvider = AdsProvider();
 
   Future<PaginatedAds> getPaginatedAds(
       {Category category,
@@ -15,7 +15,7 @@ class AdsRepository {
       int photosHeight,
       int thumbnailWidth,
       int thumbnailHeight}) async {
-    var json = await _jumpetsProvider.getPaginatedAds(
+    var json = await _adsProvider.getPaginatedAds(
         category: category,
         first: first,
         after: after,

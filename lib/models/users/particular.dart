@@ -4,6 +4,7 @@ import 'package:built_value/serializer.dart';
 import 'package:jumpets_app/models/ads/ad.dart';
 import 'package:jumpets_app/models/serializers/serializers.dart';
 import 'package:jumpets_app/models/users/user.dart';
+import 'package:jumpets_app/models/users/valuation.dart';
 
 part 'particular.g.dart';
 
@@ -24,7 +25,21 @@ abstract class Particular
   @override
   int get phone;
 
-  BuiltList<Ad> get preferredAds;
+  @override
+  String get email;
+
+  @override
+  @nullable
+  String get password;
+
+  @override
+  DateTime get createdAt;
+  @override
+  DateTime get updatedAt;
+
+  @override
+  @nullable
+  BuiltList<Valuation> get valuations;
 
   Particular._();
   factory Particular([void Function(ParticularBuilder) updates]) = _$Particular;

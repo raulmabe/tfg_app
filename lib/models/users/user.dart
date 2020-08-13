@@ -4,6 +4,8 @@ import 'package:jumpets_app/models/serializers/user_serializer.dart';
 import 'package:jumpets_app/models/users/particular.dart';
 import 'package:jumpets_app/models/users/profesional.dart';
 import 'package:jumpets_app/models/users/protectora.dart';
+import 'package:jumpets_app/models/users/valuation.dart';
+import 'package:built_collection/built_collection.dart';
 
 abstract class User {
   String get id;
@@ -11,6 +13,15 @@ abstract class User {
   String get thumbnail;
   String get address;
   int get phone;
+  String get email;
+  @nullable
+  String get password;
+
+  DateTime get createdAt;
+  DateTime get updatedAt;
+
+  @nullable
+  BuiltList<Valuation> get valuations;
 
   static User fromJson(Map<String, dynamic> json) {
     switch (json['type']) {

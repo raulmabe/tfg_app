@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:jumpets_app/ui/components/jumpets_icons_icons.dart';
 
 class BottomBar extends StatelessWidget {
@@ -51,7 +52,9 @@ class BottomBar extends StatelessWidget {
                     children: [
                       IconButton(
                         icon: Icon(
-                          Icons.favorite_border,
+                          pageSelected == 0
+                              ? Icons.favorite
+                              : Icons.favorite_border,
                           color: pageSelected == 0
                               ? Theme.of(context).accentColor
                               : Colors.grey.shade500,
@@ -63,13 +66,15 @@ class BottomBar extends StatelessWidget {
                           onPressed: null),
                       IconButton(
                         icon: Icon(
-                          Icons.person_outline,
+                          pageSelected == 2
+                              ? FontAwesomeIcons.solidComment
+                              : FontAwesomeIcons.comment,
                           color: pageSelected == 2
                               ? Theme.of(context).accentColor
                               : Colors.grey.shade500,
                         ),
                         onPressed: () => onTap(2),
-                      )
+                      ),
                     ]),
               ),
             ),

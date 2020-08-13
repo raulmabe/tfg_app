@@ -30,11 +30,29 @@ class _$ParticularSerializer implements StructuredSerializer<Particular> {
           specifiedType: const FullType(String)),
       'phone',
       serializers.serialize(object.phone, specifiedType: const FullType(int)),
-      'preferredAds',
-      serializers.serialize(object.preferredAds,
-          specifiedType: const FullType(BuiltList, const [const FullType(Ad)])),
+      'email',
+      serializers.serialize(object.email,
+          specifiedType: const FullType(String)),
+      'createdAt',
+      serializers.serialize(object.createdAt,
+          specifiedType: const FullType(DateTime)),
+      'updatedAt',
+      serializers.serialize(object.updatedAt,
+          specifiedType: const FullType(DateTime)),
     ];
-
+    if (object.password != null) {
+      result
+        ..add('password')
+        ..add(serializers.serialize(object.password,
+            specifiedType: const FullType(String)));
+    }
+    if (object.valuations != null) {
+      result
+        ..add('valuations')
+        ..add(serializers.serialize(object.valuations,
+            specifiedType:
+                const FullType(BuiltList, const [const FullType(Valuation)])));
+    }
     return result;
   }
 
@@ -69,10 +87,26 @@ class _$ParticularSerializer implements StructuredSerializer<Particular> {
           result.phone = serializers.deserialize(value,
               specifiedType: const FullType(int)) as int;
           break;
-        case 'preferredAds':
-          result.preferredAds.replace(serializers.deserialize(value,
-                  specifiedType:
-                      const FullType(BuiltList, const [const FullType(Ad)]))
+        case 'email':
+          result.email = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String;
+          break;
+        case 'password':
+          result.password = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String;
+          break;
+        case 'createdAt':
+          result.createdAt = serializers.deserialize(value,
+              specifiedType: const FullType(DateTime)) as DateTime;
+          break;
+        case 'updatedAt':
+          result.updatedAt = serializers.deserialize(value,
+              specifiedType: const FullType(DateTime)) as DateTime;
+          break;
+        case 'valuations':
+          result.valuations.replace(serializers.deserialize(value,
+                  specifiedType: const FullType(
+                      BuiltList, const [const FullType(Valuation)]))
               as BuiltList<Object>);
           break;
       }
@@ -94,7 +128,15 @@ class _$Particular extends Particular {
   @override
   final int phone;
   @override
-  final BuiltList<Ad> preferredAds;
+  final String email;
+  @override
+  final String password;
+  @override
+  final DateTime createdAt;
+  @override
+  final DateTime updatedAt;
+  @override
+  final BuiltList<Valuation> valuations;
 
   factory _$Particular([void Function(ParticularBuilder) updates]) =>
       (new ParticularBuilder()..update(updates)).build();
@@ -105,7 +147,11 @@ class _$Particular extends Particular {
       this.thumbnail,
       this.address,
       this.phone,
-      this.preferredAds})
+      this.email,
+      this.password,
+      this.createdAt,
+      this.updatedAt,
+      this.valuations})
       : super._() {
     if (id == null) {
       throw new BuiltValueNullFieldError('Particular', 'id');
@@ -122,8 +168,14 @@ class _$Particular extends Particular {
     if (phone == null) {
       throw new BuiltValueNullFieldError('Particular', 'phone');
     }
-    if (preferredAds == null) {
-      throw new BuiltValueNullFieldError('Particular', 'preferredAds');
+    if (email == null) {
+      throw new BuiltValueNullFieldError('Particular', 'email');
+    }
+    if (createdAt == null) {
+      throw new BuiltValueNullFieldError('Particular', 'createdAt');
+    }
+    if (updatedAt == null) {
+      throw new BuiltValueNullFieldError('Particular', 'updatedAt');
     }
   }
 
@@ -143,7 +195,11 @@ class _$Particular extends Particular {
         thumbnail == other.thumbnail &&
         address == other.address &&
         phone == other.phone &&
-        preferredAds == other.preferredAds;
+        email == other.email &&
+        password == other.password &&
+        createdAt == other.createdAt &&
+        updatedAt == other.updatedAt &&
+        valuations == other.valuations;
   }
 
   @override
@@ -151,11 +207,19 @@ class _$Particular extends Particular {
     return $jf($jc(
         $jc(
             $jc(
-                $jc($jc($jc(0, id.hashCode), name.hashCode),
-                    thumbnail.hashCode),
-                address.hashCode),
-            phone.hashCode),
-        preferredAds.hashCode));
+                $jc(
+                    $jc(
+                        $jc(
+                            $jc(
+                                $jc($jc($jc(0, id.hashCode), name.hashCode),
+                                    thumbnail.hashCode),
+                                address.hashCode),
+                            phone.hashCode),
+                        email.hashCode),
+                    password.hashCode),
+                createdAt.hashCode),
+            updatedAt.hashCode),
+        valuations.hashCode));
   }
 
   @override
@@ -166,7 +230,11 @@ class _$Particular extends Particular {
           ..add('thumbnail', thumbnail)
           ..add('address', address)
           ..add('phone', phone)
-          ..add('preferredAds', preferredAds))
+          ..add('email', email)
+          ..add('password', password)
+          ..add('createdAt', createdAt)
+          ..add('updatedAt', updatedAt)
+          ..add('valuations', valuations))
         .toString();
   }
 }
@@ -194,11 +262,27 @@ class ParticularBuilder implements Builder<Particular, ParticularBuilder> {
   int get phone => _$this._phone;
   set phone(int phone) => _$this._phone = phone;
 
-  ListBuilder<Ad> _preferredAds;
-  ListBuilder<Ad> get preferredAds =>
-      _$this._preferredAds ??= new ListBuilder<Ad>();
-  set preferredAds(ListBuilder<Ad> preferredAds) =>
-      _$this._preferredAds = preferredAds;
+  String _email;
+  String get email => _$this._email;
+  set email(String email) => _$this._email = email;
+
+  String _password;
+  String get password => _$this._password;
+  set password(String password) => _$this._password = password;
+
+  DateTime _createdAt;
+  DateTime get createdAt => _$this._createdAt;
+  set createdAt(DateTime createdAt) => _$this._createdAt = createdAt;
+
+  DateTime _updatedAt;
+  DateTime get updatedAt => _$this._updatedAt;
+  set updatedAt(DateTime updatedAt) => _$this._updatedAt = updatedAt;
+
+  ListBuilder<Valuation> _valuations;
+  ListBuilder<Valuation> get valuations =>
+      _$this._valuations ??= new ListBuilder<Valuation>();
+  set valuations(ListBuilder<Valuation> valuations) =>
+      _$this._valuations = valuations;
 
   ParticularBuilder();
 
@@ -209,7 +293,11 @@ class ParticularBuilder implements Builder<Particular, ParticularBuilder> {
       _thumbnail = _$v.thumbnail;
       _address = _$v.address;
       _phone = _$v.phone;
-      _preferredAds = _$v.preferredAds?.toBuilder();
+      _email = _$v.email;
+      _password = _$v.password;
+      _createdAt = _$v.createdAt;
+      _updatedAt = _$v.updatedAt;
+      _valuations = _$v.valuations?.toBuilder();
       _$v = null;
     }
     return this;
@@ -239,12 +327,16 @@ class ParticularBuilder implements Builder<Particular, ParticularBuilder> {
               thumbnail: thumbnail,
               address: address,
               phone: phone,
-              preferredAds: preferredAds.build());
+              email: email,
+              password: password,
+              createdAt: createdAt,
+              updatedAt: updatedAt,
+              valuations: _valuations?.build());
     } catch (_) {
       String _$failedField;
       try {
-        _$failedField = 'preferredAds';
-        preferredAds.build();
+        _$failedField = 'valuations';
+        _valuations?.build();
       } catch (e) {
         throw new BuiltValueNestedFieldError(
             'Particular', _$failedField, e.toString());

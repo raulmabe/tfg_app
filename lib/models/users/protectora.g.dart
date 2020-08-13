@@ -30,7 +30,29 @@ class _$ProtectoraSerializer implements StructuredSerializer<Protectora> {
           specifiedType: const FullType(String)),
       'phone',
       serializers.serialize(object.phone, specifiedType: const FullType(int)),
+      'email',
+      serializers.serialize(object.email,
+          specifiedType: const FullType(String)),
+      'createdAt',
+      serializers.serialize(object.createdAt,
+          specifiedType: const FullType(DateTime)),
+      'updatedAt',
+      serializers.serialize(object.updatedAt,
+          specifiedType: const FullType(DateTime)),
     ];
+    if (object.password != null) {
+      result
+        ..add('password')
+        ..add(serializers.serialize(object.password,
+            specifiedType: const FullType(String)));
+    }
+    if (object.valuations != null) {
+      result
+        ..add('valuations')
+        ..add(serializers.serialize(object.valuations,
+            specifiedType:
+                const FullType(BuiltList, const [const FullType(Valuation)])));
+    }
     if (object.web != null) {
       result
         ..add('web')
@@ -83,6 +105,28 @@ class _$ProtectoraSerializer implements StructuredSerializer<Protectora> {
           result.phone = serializers.deserialize(value,
               specifiedType: const FullType(int)) as int;
           break;
+        case 'email':
+          result.email = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String;
+          break;
+        case 'password':
+          result.password = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String;
+          break;
+        case 'createdAt':
+          result.createdAt = serializers.deserialize(value,
+              specifiedType: const FullType(DateTime)) as DateTime;
+          break;
+        case 'updatedAt':
+          result.updatedAt = serializers.deserialize(value,
+              specifiedType: const FullType(DateTime)) as DateTime;
+          break;
+        case 'valuations':
+          result.valuations.replace(serializers.deserialize(value,
+                  specifiedType: const FullType(
+                      BuiltList, const [const FullType(Valuation)]))
+              as BuiltList<Object>);
+          break;
         case 'web':
           result.web = serializers.deserialize(value,
               specifiedType: const FullType(String)) as String;
@@ -114,6 +158,16 @@ class _$Protectora extends Protectora {
   @override
   final int phone;
   @override
+  final String email;
+  @override
+  final String password;
+  @override
+  final DateTime createdAt;
+  @override
+  final DateTime updatedAt;
+  @override
+  final BuiltList<Valuation> valuations;
+  @override
   final String web;
   @override
   final int distance;
@@ -129,6 +183,11 @@ class _$Protectora extends Protectora {
       this.thumbnail,
       this.address,
       this.phone,
+      this.email,
+      this.password,
+      this.createdAt,
+      this.updatedAt,
+      this.valuations,
       this.web,
       this.distance,
       this.travelTime})
@@ -148,6 +207,15 @@ class _$Protectora extends Protectora {
     if (phone == null) {
       throw new BuiltValueNullFieldError('Protectora', 'phone');
     }
+    if (email == null) {
+      throw new BuiltValueNullFieldError('Protectora', 'email');
+    }
+    if (createdAt == null) {
+      throw new BuiltValueNullFieldError('Protectora', 'createdAt');
+    }
+    if (updatedAt == null) {
+      throw new BuiltValueNullFieldError('Protectora', 'updatedAt');
+    }
   }
 
   @override
@@ -166,6 +234,11 @@ class _$Protectora extends Protectora {
         thumbnail == other.thumbnail &&
         address == other.address &&
         phone == other.phone &&
+        email == other.email &&
+        password == other.password &&
+        createdAt == other.createdAt &&
+        updatedAt == other.updatedAt &&
+        valuations == other.valuations &&
         web == other.web &&
         distance == other.distance &&
         travelTime == other.travelTime;
@@ -178,10 +251,22 @@ class _$Protectora extends Protectora {
             $jc(
                 $jc(
                     $jc(
-                        $jc($jc($jc(0, id.hashCode), name.hashCode),
-                            thumbnail.hashCode),
-                        address.hashCode),
-                    phone.hashCode),
+                        $jc(
+                            $jc(
+                                $jc(
+                                    $jc(
+                                        $jc(
+                                            $jc(
+                                                $jc($jc(0, id.hashCode),
+                                                    name.hashCode),
+                                                thumbnail.hashCode),
+                                            address.hashCode),
+                                        phone.hashCode),
+                                    email.hashCode),
+                                password.hashCode),
+                            createdAt.hashCode),
+                        updatedAt.hashCode),
+                    valuations.hashCode),
                 web.hashCode),
             distance.hashCode),
         travelTime.hashCode));
@@ -195,6 +280,11 @@ class _$Protectora extends Protectora {
           ..add('thumbnail', thumbnail)
           ..add('address', address)
           ..add('phone', phone)
+          ..add('email', email)
+          ..add('password', password)
+          ..add('createdAt', createdAt)
+          ..add('updatedAt', updatedAt)
+          ..add('valuations', valuations)
           ..add('web', web)
           ..add('distance', distance)
           ..add('travelTime', travelTime))
@@ -225,6 +315,28 @@ class ProtectoraBuilder implements Builder<Protectora, ProtectoraBuilder> {
   int get phone => _$this._phone;
   set phone(int phone) => _$this._phone = phone;
 
+  String _email;
+  String get email => _$this._email;
+  set email(String email) => _$this._email = email;
+
+  String _password;
+  String get password => _$this._password;
+  set password(String password) => _$this._password = password;
+
+  DateTime _createdAt;
+  DateTime get createdAt => _$this._createdAt;
+  set createdAt(DateTime createdAt) => _$this._createdAt = createdAt;
+
+  DateTime _updatedAt;
+  DateTime get updatedAt => _$this._updatedAt;
+  set updatedAt(DateTime updatedAt) => _$this._updatedAt = updatedAt;
+
+  ListBuilder<Valuation> _valuations;
+  ListBuilder<Valuation> get valuations =>
+      _$this._valuations ??= new ListBuilder<Valuation>();
+  set valuations(ListBuilder<Valuation> valuations) =>
+      _$this._valuations = valuations;
+
   String _web;
   String get web => _$this._web;
   set web(String web) => _$this._web = web;
@@ -246,6 +358,11 @@ class ProtectoraBuilder implements Builder<Protectora, ProtectoraBuilder> {
       _thumbnail = _$v.thumbnail;
       _address = _$v.address;
       _phone = _$v.phone;
+      _email = _$v.email;
+      _password = _$v.password;
+      _createdAt = _$v.createdAt;
+      _updatedAt = _$v.updatedAt;
+      _valuations = _$v.valuations?.toBuilder();
       _web = _$v.web;
       _distance = _$v.distance;
       _travelTime = _$v.travelTime;
@@ -269,16 +386,34 @@ class ProtectoraBuilder implements Builder<Protectora, ProtectoraBuilder> {
 
   @override
   _$Protectora build() {
-    final _$result = _$v ??
-        new _$Protectora._(
-            id: id,
-            name: name,
-            thumbnail: thumbnail,
-            address: address,
-            phone: phone,
-            web: web,
-            distance: distance,
-            travelTime: travelTime);
+    _$Protectora _$result;
+    try {
+      _$result = _$v ??
+          new _$Protectora._(
+              id: id,
+              name: name,
+              thumbnail: thumbnail,
+              address: address,
+              phone: phone,
+              email: email,
+              password: password,
+              createdAt: createdAt,
+              updatedAt: updatedAt,
+              valuations: _valuations?.build(),
+              web: web,
+              distance: distance,
+              travelTime: travelTime);
+    } catch (_) {
+      String _$failedField;
+      try {
+        _$failedField = 'valuations';
+        _valuations?.build();
+      } catch (e) {
+        throw new BuiltValueNestedFieldError(
+            'Protectora', _$failedField, e.toString());
+      }
+      rethrow;
+    }
     replace(_$result);
     return _$result;
   }

@@ -3,6 +3,7 @@ import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
 import 'package:jumpets_app/models/serializers/serializers.dart';
 import 'package:jumpets_app/models/users/user.dart';
+import 'package:jumpets_app/models/users/valuation.dart';
 
 part 'protectora.g.dart';
 
@@ -22,6 +23,22 @@ abstract class Protectora
 
   @override
   int get phone;
+
+  @override
+  String get email;
+
+  @override
+  @nullable
+  String get password;
+
+  @override
+  DateTime get createdAt;
+  @override
+  DateTime get updatedAt;
+
+  @override
+  @nullable
+  BuiltList<Valuation> get valuations;
 
   @nullable
   String get web;

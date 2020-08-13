@@ -7,8 +7,7 @@ import 'package:jumpets_app/data/api_base_helper.dart';
 class AdsProvider {
   final ApiBaseHelper _api;
 
-  AdsProvider()
-      : this._api = ApiBaseHelper(baseUrl: 'http://192.168.1.45:3030/graphql');
+  AdsProvider() : this._api = ApiBaseHelper();
 
   Future<dynamic> getPaginatedAds(
       {Category category,
@@ -69,6 +68,7 @@ class AdsProvider {
             })
             name
             address
+            email
             phone
             ... on Protectora {
               web
@@ -76,6 +76,8 @@ class AdsProvider {
             ... on Profesional {
               web
             }
+            createdAt
+            updatedAt
           }
         }
         cursor

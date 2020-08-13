@@ -72,13 +72,14 @@ class _MainPageState extends State<MainPage> {
             builder: (context, state) => SingleChildScrollView(
               scrollDirection: Axis.horizontal,
               child: Padding(
-                padding: const EdgeInsets.symmetric(vertical: 10),
+                padding:
+                    const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
                 child: Row(
                   mainAxisSize: MainAxisSize.max,
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Padding(
-                      padding: const EdgeInsets.only(right: 10, left: 20),
+                      padding: const EdgeInsets.symmetric(horizontal: 10),
                       child: RoundedSquareButton(
                           size: 50,
                           borderRadius: 10,
