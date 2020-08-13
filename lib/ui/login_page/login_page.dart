@@ -5,7 +5,27 @@ import 'package:jumpets_app/blocs/auth_bloc/auth_bloc.dart';
 import 'package:jumpets_app/ui/components/raised_button.dart';
 import 'package:formz/formz.dart';
 
-class LoginPage extends StatelessWidget {
+class LoginPage extends StatefulWidget {
+  @override
+  _LoginPageState createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+    BlocProvider.of<AuthBloc>(context).add(AuthFieldsCleared());
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return _LoginPage();
+  }
+}
+
+class _LoginPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocListener<AuthBloc, AuthState>(
@@ -19,9 +39,13 @@ class LoginPage extends StatelessWidget {
       child: Scaffold(
           appBar: AppBar(
             elevation: 0,
+            title: Text(
+              'Bienvenido',
+              style: Theme.of(context).textTheme.display2,
+            ),
+            iconTheme: Theme.of(context).iconTheme.copyWith(color: Colors.grey),
             leading: IconButton(
                 icon: Icon(CupertinoIcons.back),
-                color: Colors.black54,
                 onPressed: () => Navigator.pop(context)),
           ),
           body: _getLoginForm()),
@@ -37,7 +61,14 @@ class LoginPage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Spacer(
-              flex: 2,
+              flex: 1,
+            ),
+            Image.asset(
+              'assets/img/pollo3.png',
+              height: 100,
+            ),
+            Spacer(
+              flex: 1,
             ),
             _EmailInput(),
             _PasswordInput(),
@@ -104,8 +135,8 @@ class _PasswordInput extends StatelessWidget {
                   borderSide: BorderSide(color: Colors.black54)),
               enabledBorder: UnderlineInputBorder(
                   borderSide: BorderSide(color: Colors.black54)),
-              suffixText: "Forgot your password?",
-              suffixStyle: TextStyle(color: Colors.black54),
+              /*  suffixText: "Forgot your password?",
+              suffixStyle: TextStyle(color: Colors.black54), */
               labelText: "Password",
               labelStyle: TextStyle(color: Colors.black54)),
         );

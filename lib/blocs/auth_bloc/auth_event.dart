@@ -15,6 +15,8 @@ class AuthPasswordChanged extends AuthEvent {
   final String password;
 }
 
+class AuthFieldsCleared extends AuthEvent {}
+
 class AuthLogInSubmitted extends AuthEvent {
   AuthLogInSubmitted();
 }

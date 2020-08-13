@@ -33,6 +33,6 @@ class AuthState {
 
   @override
   String toString() {
-    return '$authStatus with ${authData?.user}';
+    return '$formStatus';
   }
 }

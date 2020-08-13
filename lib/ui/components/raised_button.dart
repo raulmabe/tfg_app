@@ -30,30 +30,34 @@ class MyRaisedButton extends StatelessWidget {
       tag: text,
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 10),
-        child: Material(
-          shape: RoundedRectangleBorder(
-              side: BorderSide(
-                color: finalColor,
+        child: SizedBox(
+          height: 40,
+          child: Material(
+            shape: RoundedRectangleBorder(
+                side: BorderSide(
+                  color: finalColor,
+                ),
+                borderRadius: BorderRadius.circular(5)),
+            color: (filled ? finalColor : Colors.transparent),
+            child: InkWell(
+              onTap: blocked ? null : onPressed,
+              splashColor:
+                  color?.withOpacity(.3) ?? Colors.white.withOpacity(.3),
+              child: Padding(
+                padding: EdgeInsets.all(10.0),
+                child: child != null
+                    ? FittedBox(
+                        child: child,
+                      )
+                    : Text(
+                        text.toUpperCase(),
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                            fontWeight: FontWeight.w700,
+                            letterSpacing: 2,
+                            color: textColor ?? color ?? Colors.white),
+                      ),
               ),
-              borderRadius: BorderRadius.circular(5)),
-          color: (filled ? finalColor : Colors.transparent),
-          child: InkWell(
-            onTap: blocked ? null : onPressed,
-            splashColor: color?.withOpacity(.3) ?? Colors.white.withOpacity(.3),
-            child: Padding(
-              padding: EdgeInsets.all(10.0),
-              child: child != null
-                  ? FittedBox(
-                      child: child,
-                    )
-                  : Text(
-                      text.toUpperCase(),
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                          fontWeight: FontWeight.w700,
-                          letterSpacing: 2,
-                          color: textColor ?? color ?? Colors.white),
-                    ),
             ),
           ),
         ),

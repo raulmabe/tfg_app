@@ -24,6 +24,13 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     AuthEvent event,
   ) async* {
     switch (event.runtimeType) {
+      case AuthFieldsCleared:
+        yield state.copyWith(
+            password: const Password.pure(),
+            email: const Email.pure(),
+            formStatus:
+                Formz.validate([const Password.pure(), const Email.pure()]));
+        break;
       case AuthEmailChanged:
         yield _mapAuthEmailChangedToState(event);
         break;

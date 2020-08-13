@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:jumpets_app/blocs/ads_bloc/ads_bloc.dart';
+import 'package:jumpets_app/blocs/auth_bloc/auth_bloc.dart';
 import 'package:jumpets_app/blocs/search_bloc/search_ads_bloc.dart';
 import 'package:jumpets_app/models/models.dart';
 import 'package:jumpets_app/models/users/user.dart';
@@ -28,6 +29,31 @@ class _ProfilePageState extends State<ProfilePage> {
 
   @override
   Widget build(BuildContext context) {
+    return BlocBuilder<AuthBloc, AuthState>(
+        builder: (context, state) => _build(
+            context,
+            state.authStatus == AuthenticationStatus.authenticated &&
+                context.bloc<AuthBloc>().authData.user.id == user.id));
+  }
+
+  Widget _build(BuildContext context, bool isMyProfile) {
+    var actionsList = isMyProfile
+        ? [
+            IconButton(
+                icon: Icon(Icons.edit),
+                iconSize: 22,
+                onPressed: () => Navigator.of(context)
+                    .push(SoftTransition(widget: SettingsPage())),
+                color: Colors.black54),
+            IconButton(
+                icon: Icon(FontAwesomeIcons.slidersH),
+                iconSize: 22,
+                onPressed: () => Navigator.of(context)
+                    .push(SoftTransition(widget: SettingsPage())),
+                color: Colors.black54),
+          ]
+        : <Widget>[];
+
     return Scaffold(
       backgroundColor: Theme.of(context).primaryColor,
       appBar: AppBar(
@@ -55,20 +81,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   .copyWith(color: Theme.of(context).accentColor));
         }),
         centerTitle: true,
-        actions: [
-          IconButton(
-              icon: Icon(Icons.edit),
-              iconSize: 22,
-              onPressed: () => Navigator.of(context)
-                  .push(SoftTransition(widget: SettingsPage())),
-              color: Colors.black54),
-          IconButton(
-              icon: Icon(FontAwesomeIcons.slidersH),
-              iconSize: 22,
-              onPressed: () => Navigator.of(context)
-                  .push(SoftTransition(widget: SettingsPage())),
-              color: Colors.black54),
-        ],
+        actions: actionsList,
         iconTheme: Theme.of(context).iconTheme.copyWith(color: Colors.grey),
       ),
       body: Column(
