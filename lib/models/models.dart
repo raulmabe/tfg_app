@@ -13,6 +13,7 @@ export 'package:jumpets_app/models/ads/service_ad.dart';
 export 'package:jumpets_app/models/enums/activity_level.dart';
 export 'package:jumpets_app/models/enums/categories.dart';
 export 'package:jumpets_app/models/enums/delivery_status.dart';
+export 'package:jumpets_app/models/enums/animal_types.dart';
 export 'package:jumpets_app/models/enums/dog_size.dart';
 export 'package:jumpets_app/models/serializers/date_time_serializer_plugin.dart';
 export 'package:jumpets_app/models/serializers/user_serializer.dart';

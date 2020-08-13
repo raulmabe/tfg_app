@@ -45,7 +45,7 @@ class ApiBaseHelper {
     switch (response.statusCode) {
       case 200:
         if (responseMap['errors'] != null) {
-          throw UnauthorisedError(
+          throw FetchDataError(
               status: 200, msg: responseMap['errors'][0]['message']);
         }
         return responseMap;

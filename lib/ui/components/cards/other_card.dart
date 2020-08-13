@@ -6,14 +6,14 @@ import 'package:jumpets_app/ui/components/sex_icon.dart';
 import 'package:transparent_image/transparent_image.dart';
 import 'package:jumpets_app/models/models.dart';
 
-class AnimalCard extends StatelessWidget {
-  final AnimalAd animalAd;
+class OtherCard extends StatelessWidget {
+  final Ad ad;
   final bool extended;
   final double height;
   final double width;
 
-  AnimalCard(
-      {@required this.animalAd,
+  OtherCard(
+      {@required this.ad,
       this.extended = false,
       @required this.height,
       this.width = double.infinity});
@@ -24,7 +24,7 @@ class AnimalCard extends StatelessWidget {
       closedElevation: 0,
       closedColor: Colors.transparent,
       openBuilder: (context, action) => AdPage(
-        ad: animalAd,
+        ad: ad,
       ),
       closedBuilder: (context, action) => Stack(
         children: <Widget>[
@@ -43,21 +43,13 @@ class AnimalCard extends StatelessWidget {
                       Row(
                         children: <Widget>[
                           Expanded(
-                            child: Text(animalAd.name.capitalize(),
+                            child: Text(title.capitalize(),
                                 style: Theme.of(context).textTheme.body2),
                           ),
-                          SexIcon(male: animalAd.male)
+                          Text(price.toStringAsPrecision(3).capitalize(),
+                              style: Theme.of(context).textTheme.body2),
                         ],
                       ),
-                      Row(
-                        children: <Widget>[
-                          Expanded(
-                            child: Text(
-                              '${(DateTime.now().difference(animalAd.birthDate).inDays / 365).floor().toString()} años',
-                            ),
-                          ),
-                        ],
-                      )
                     ]),
                   )
                 ]),
@@ -72,8 +64,8 @@ class AnimalCard extends StatelessWidget {
                 width: width,
                 height: height,
                 placeholder: kTransparentImage,
-                image: animalAd.photos.first,
-                fit: BoxFit.cover,
+                image: ad.photos.first,
+                fit: isService ? BoxFit.cover : BoxFit.contain,
               ),
             ),
           )
@@ -81,4 +73,16 @@ class AnimalCard extends StatelessWidget {
       ),
     );
   }
+
+  bool get isService => ad is ServiceAd;
+  bool get isProduct => ad is ProductAd;
+
+  String get description =>
+      isProduct ? (ad as ProductAd).description : (ad as ServiceAd).description;
+
+  String get title =>
+      isProduct ? (ad as ProductAd).title : (ad as ServiceAd).title;
+
+  double get price =>
+      isProduct ? (ad as ProductAd).price : (ad as ServiceAd).priceHour;
 }

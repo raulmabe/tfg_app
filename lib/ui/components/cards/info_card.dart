@@ -5,7 +5,7 @@ class InfoCard extends StatelessWidget {
   final String title, message;
   final Color color;
   final bool big;
-  InfoCard({@required this.message, this.title, this.color, this.big = false});
+  InfoCard({@required this.message, this.title, this.color, this.big = true});
 
   @override
   Widget build(BuildContext context) {

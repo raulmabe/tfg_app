@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:jumpets_app/bloc/auth_bloc.dart';
+import 'package:jumpets_app/blocs/auth_bloc/auth_bloc.dart';
 import 'package:jumpets_app/ui/home_page/pages/favourites_page.dart';
 import 'package:jumpets_app/ui/home_page/pages/auth_page.dart';
 import 'package:jumpets_app/ui/home_page/pages/main_page.dart';

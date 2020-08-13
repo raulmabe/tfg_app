@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:jumpets_app/models/ads/animal_ad.dart';
 import 'package:jumpets_app/models/ads/animals/dog_ad.dart';
 import 'package:jumpets_app/models/enums/delivery_status.dart';
+import 'package:jumpets_app/models/models.dart';
 import 'package:jumpets_app/ui/components/info_square.dart';
 import 'package:jumpets_app/models/extensions/string_extension.dart';
 import 'package:jumpets_app/models/extensions/bool_extension.dart';
@@ -77,6 +78,9 @@ class AdPage extends StatelessWidget {
       ),
     );
   }
+
+  bool get isService => ad is ServiceAd;
+  bool get isProduct => ad is ProductAd;
 
   Widget _header(context) => Padding(
         padding: EdgeInsets.symmetric(

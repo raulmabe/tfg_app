@@ -7,41 +7,43 @@ import 'package:jumpets_app/models/ads/product_ad.dart';
 import 'package:jumpets_app/models/ads/service_ad.dart';
 import 'package:jumpets_app/ui/components/cards/animal_card.dart';
 import 'package:jumpets_app/ui/components/cards/info_card.dart';
-import 'package:jumpets_app/ui/components/cards/product_card.dart';
+import 'package:jumpets_app/ui/components/cards/other_card.dart';
 
 class VerticalGrid extends StatelessWidget {
   final List<Ad> ads;
   final Widget widgetInjection;
   final bool usePlaceholders;
   final bool insertPlaceholderAtLast;
+  final bool bigCards;
 
   VerticalGrid(
       {this.ads,
       this.widgetInjection,
       this.usePlaceholders = false,
-      this.insertPlaceholderAtLast = false});
+      this.insertPlaceholderAtLast = false,
+      this.bigCards = true});
 
   @override
   Widget build(BuildContext context) {
+    final double height = bigCards ? 210 : 110;
+    final double padding = 20;
+
     final list = usePlaceholders
         ? List<Widget>.generate(
             6,
             (index) => ContentPlaceholder(
-                  height: 210,
+                  height: height,
                 ))
         : List<Widget>.from(ads.map((ad) {
-            if (ad is ProductAd) {
-              return ProductCard(
-                productAd: ad,
+            if (ad is AnimalAd) {
+              return AnimalCard(
+                animalAd: ad,
+                height: height,
               );
             }
-            if (ad is ServiceAd) {
-              return ProductCard(
-                productAd: ad as ProductAd,
-              );
-            }
-            return AnimalCard(
-              animalAd: ad as AnimalAd,
+            return OtherCard(
+              ad: ad,
+              height: height,
             );
           }).toList());
 
@@ -59,10 +61,10 @@ class VerticalGrid extends StatelessWidget {
       child: StaggeredGridView.count(
           physics: NeverScrollableScrollPhysics(),
           shrinkWrap: true,
-          padding: EdgeInsets.symmetric(vertical: 20, horizontal: 20),
-          crossAxisSpacing: 20,
-          mainAxisSpacing: 20,
-          crossAxisCount: 2,
+          padding: EdgeInsets.symmetric(vertical: padding, horizontal: padding),
+          crossAxisSpacing: padding,
+          mainAxisSpacing: padding,
+          crossAxisCount: bigCards ? 2 : 3,
           children: list,
           staggeredTiles: List.generate(list.length, (int index) {
             if (list[index] is InfoCard && (list[index] as InfoCard).big) {

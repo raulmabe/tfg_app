@@ -1,3 +1,4 @@
+import 'package:jumpets_app/blocs/ads_bloc/ads_bloc.dart';
 import 'package:jumpets_app/data/providers/ads_provider.dart';
 import 'package:jumpets_app/models/ads/ad.dart';
 import 'package:jumpets_app/models/models.dart';
@@ -6,6 +7,36 @@ import 'package:built_collection/built_collection.dart';
 
 class AdsRepository {
   final AdsProvider _adsProvider = AdsProvider();
+
+  Future<List<Ad>> searchAds(
+      {String name,
+      List<String> tags,
+      String breed,
+      DogSize size,
+      List<DeliveryStatus> deliveryInfo,
+      bool male,
+      ActivityLevel activityLevel,
+      AnimalType type,
+      String creator}) async {
+    var json = await _adsProvider.searchAds(
+        name: name,
+        creator: creator,
+        size: size,
+        tags: tags,
+        deliveryInfo: deliveryInfo,
+        male: male,
+        type: type,
+        breed: breed,
+        activityLevel: activityLevel);
+
+    List adsList = json['data']['searchAds'];
+
+    List<Ad> ads = adsList.map((ad) {
+      return Ad.fromJson(ad);
+    }).toList();
+
+    return ads;
+  }
 
   Future<PaginatedAds> getPaginatedAds(
       {Category category,

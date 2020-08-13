@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:jumpets_app/bloc/ads_bloc.dart';
-import 'package:jumpets_app/bloc/auth_bloc.dart';
-import 'package:jumpets_app/bloc/bloc_delegate.dart';
+import 'package:jumpets_app/blocs/ads_bloc/ads_bloc.dart';
+import 'package:jumpets_app/blocs/auth_bloc/auth_bloc.dart';
+import 'package:jumpets_app/blocs/bloc_delegate.dart';
+import 'package:jumpets_app/blocs/search_bloc/search_ads_bloc.dart';
 import 'package:jumpets_app/data/repositories/ads_repository.dart';
 import 'package:jumpets_app/data/repositories/authentication_repository.dart';
 import 'package:jumpets_app/ui/app_theme.dart';
@@ -37,6 +38,9 @@ class MyApp extends StatelessWidget {
             BlocProvider<AuthBloc>(
               create: (context) =>
                   AuthBloc(authenticationRepository: authenticationRepository),
+            ),
+            BlocProvider<SearchAdsBloc>(
+              create: (context) => SearchAdsBloc(repository: adsRepository),
             ),
           ],
           child: MaterialApp(

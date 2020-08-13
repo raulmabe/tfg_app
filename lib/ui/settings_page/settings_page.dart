@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:jumpets_app/blocs/auth_bloc/auth_bloc.dart';
+import 'package:jumpets_app/ui/components/soft_transition.dart';
+import 'package:jumpets_app/ui/login_page/login_page.dart';
 
 class SettingsPage extends StatelessWidget {
   @override
@@ -18,15 +22,40 @@ class SettingsPage extends StatelessWidget {
             color: Colors.transparent,
           ),
           _header('Account', context),
-          ListTile(
-            title: Text('Email'),
-            subtitle: Text('swswsws'),
-            dense: true,
-          ),
-          ListTile(
-            title: Text('Password'),
-            subtitle: Text('swswswsw'),
-            dense: true,
+          BlocBuilder<AuthBloc, AuthState>(
+            builder: (context, state) {
+              if (state.authStatus == AuthenticationStatus.authenticated) {
+                return Column(
+                  children: [
+                    ListTile(
+                      title: Text('Email'),
+                      subtitle: Text(state.authData.user.email),
+                      dense: true,
+                    ),
+                    ListTile(
+                      title: Text('Password'),
+                      subtitle: Text('*****'),
+                      dense: true,
+                    ),
+                    Divider(),
+                    ListTile(
+                      trailing: Icon(Icons.exit_to_app),
+                      title: Text('Log out'),
+                      onTap: () =>
+                          context.bloc<AuthBloc>().add(AuthLogoutRequested()),
+                      dense: true,
+                    ),
+                  ],
+                );
+              }
+              return ListTile(
+                onTap: () => Navigator.push(
+                    context, SoftTransition(widget: LoginPage())),
+                title: Text('Identify youserlf'),
+                subtitle: Text('You are not signed in'),
+                dense: false,
+              );
+            },
           ),
           Divider(),
           _header('Advanced Settings', context),
@@ -80,7 +109,7 @@ class SettingsPage extends StatelessWidget {
       padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
       child: Text(
         text,
-        style: TextStyle(color: Theme.of(context).primaryColor),
+        style: TextStyle(color: Theme.of(context).accentColor),
       ),
     );
   }

@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:jumpets_app/bloc/ads_bloc.dart';
-import 'package:jumpets_app/bloc/auth_bloc.dart';
+import 'package:jumpets_app/blocs/ads_bloc/ads_bloc.dart';
+import 'package:jumpets_app/blocs/auth_bloc/auth_bloc.dart';
+import 'package:jumpets_app/blocs/search_bloc/search_ads_bloc.dart';
 import 'package:jumpets_app/data/repositories/ads_repository.dart';
 import 'package:jumpets_app/ui/components/bottombar/bottombar.dart';
 import 'package:jumpets_app/ui/components/profile_icon.dart';
 import 'package:jumpets_app/ui/components/searchbar/searchbar.dart';
 import 'package:jumpets_app/ui/components/soft_transition.dart';
 import 'package:jumpets_app/ui/home_page/page_view.dart';
+import 'package:jumpets_app/ui/profile_page/profile_page.dart';
 import 'package:jumpets_app/ui/settings_page/settings_page.dart';
 
 class HomePage extends StatefulWidget {
@@ -67,18 +69,22 @@ class _HomePageState extends State<HomePage> {
                 return IconButton(
                     icon: Icon(FontAwesomeIcons.slidersH),
                     iconSize: 22,
-                    onPressed: () => Navigator.of(context).push(SoftTransition(
-                        widget: SettingsPage())), // TODO Go to settings page
+                    onPressed: () => Navigator.of(context)
+                        .push(SoftTransition(widget: SettingsPage())),
                     color: Colors.black54);
               }
               return Padding(
                   padding: EdgeInsets.symmetric(horizontal: 20),
-                  child: InkWell(
-                    onTap: () {}, // TODO Go to profile page
-                    child: ProfileIcon(
-                      withBorder: true,
-                      url: state.authData.user.thumbnail,
-                    ),
+                  child: ProfileIcon(
+                    onTap: () => Navigator.of(context).push(SoftTransition(
+                        widget: BlocProvider.value(
+                      value: context.bloc<SearchAdsBloc>(),
+                      child: ProfilePage(
+                        user: state.authData.user,
+                      ),
+                    ))),
+                    withBorder: true,
+                    url: state.authData.user.thumbnail,
                   ));
             },
           ),
