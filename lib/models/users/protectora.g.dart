@@ -22,14 +22,6 @@ class _$ProtectoraSerializer implements StructuredSerializer<Protectora> {
       serializers.serialize(object.id, specifiedType: const FullType(String)),
       'name',
       serializers.serialize(object.name, specifiedType: const FullType(String)),
-      'thumbnail',
-      serializers.serialize(object.thumbnail,
-          specifiedType: const FullType(String)),
-      'address',
-      serializers.serialize(object.address,
-          specifiedType: const FullType(String)),
-      'phone',
-      serializers.serialize(object.phone, specifiedType: const FullType(int)),
       'email',
       serializers.serialize(object.email,
           specifiedType: const FullType(String)),
@@ -40,6 +32,24 @@ class _$ProtectoraSerializer implements StructuredSerializer<Protectora> {
       serializers.serialize(object.updatedAt,
           specifiedType: const FullType(DateTime)),
     ];
+    if (object.thumbnail != null) {
+      result
+        ..add('thumbnail')
+        ..add(serializers.serialize(object.thumbnail,
+            specifiedType: const FullType(String)));
+    }
+    if (object.address != null) {
+      result
+        ..add('address')
+        ..add(serializers.serialize(object.address,
+            specifiedType: const FullType(String)));
+    }
+    if (object.phone != null) {
+      result
+        ..add('phone')
+        ..add(serializers.serialize(object.phone,
+            specifiedType: const FullType(int)));
+    }
     if (object.password != null) {
       result
         ..add('password')
@@ -197,15 +207,6 @@ class _$Protectora extends Protectora {
     }
     if (name == null) {
       throw new BuiltValueNullFieldError('Protectora', 'name');
-    }
-    if (thumbnail == null) {
-      throw new BuiltValueNullFieldError('Protectora', 'thumbnail');
-    }
-    if (address == null) {
-      throw new BuiltValueNullFieldError('Protectora', 'address');
-    }
-    if (phone == null) {
-      throw new BuiltValueNullFieldError('Protectora', 'phone');
     }
     if (email == null) {
       throw new BuiltValueNullFieldError('Protectora', 'email');

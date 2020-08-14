@@ -2,30 +2,47 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jumpets_app/blocs/auth_bloc/auth_bloc.dart';
+import 'package:jumpets_app/blocs/auth_bloc/bloc/login_bloc.dart';
+import 'package:jumpets_app/blocs/auth_bloc/bloc/register_bloc.dart';
+import 'package:jumpets_app/data/repositories/authentication_repository.dart';
+import 'package:jumpets_app/models/enums/user_types.dart';
 import 'package:jumpets_app/models/models.dart';
+import 'package:jumpets_app/models/wrappers/auth_status.dart';
 import 'package:jumpets_app/ui/components/raised_button.dart';
 import 'package:jumpets_app/ui/components/soft_transition.dart';
-import 'package:jumpets_app/ui/components/login_form_components.dart';
+import 'package:jumpets_app/ui/components/auth/login_form_components.dart';
 import 'package:jumpets_app/ui/helper.dart';
 
+// ! AuthSheet solo es un wrapper
 class AuthSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DraggableScrollableSheet(
         initialChildSize: .6,
         minChildSize: .6,
-        maxChildSize: .8,
+        maxChildSize: .9,
         expand: false,
-        builder: (_, scrollController) => SafeArea(
-              child: SingleChildScrollView(
-                physics: NeverScrollableScrollPhysics(),
-                controller: scrollController,
-                child: AuthBody(),
+        builder: (_, scrollController) => BlocListener<AuthBloc, AuthState>(
+              listenWhen: (previous, current) =>
+                  previous.authStatus != current.authStatus,
+              listener: (context, state) {
+                if (state.authStatus.status ==
+                    AuthenticationStatus.authenticated) {
+                  Navigator.pop(context);
+                }
+              },
+              child: SafeArea(
+                child: SingleChildScrollView(
+                  physics: NeverScrollableScrollPhysics(),
+                  controller: scrollController,
+                  child: AuthBody(),
+                ),
               ),
             ));
   }
 }
 
+// ! AuthBody es el widget principal de la AUTH
 class AuthBody extends StatefulWidget {
   final bool isFlex;
   AuthBody({this.isFlex = false});
@@ -35,42 +52,60 @@ class AuthBody extends StatefulWidget {
 
 class _AuthBodyState extends State<AuthBody> {
   List<Widget> steps;
+  int index;
 
   @override
   void initState() {
     super.initState();
+    index = 0;
     steps = [
       Step1Body(
         isFlex: widget.isFlex,
+        onNext: () => setState(() {
+          index++;
+        }),
       ),
       Step2Body(
         isFlex: widget.isFlex,
+        onBack: () => setState(() {
+          index--;
+        }),
+        onNext: () => setState(() {
+          index++;
+        }),
       ),
       Step3Body(
         isFlex: widget.isFlex,
+        onBack: () => setState(() {
+          index--;
+        }),
       ),
     ];
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<AuthBloc, AuthState>(
-        listenWhen: (previous, current) =>
-            previous.authStatus != current.authStatus,
-        listener: (context, state) {
-          if (state.authStatus == AuthenticationStatus.authenticated) {
-            Navigator.pop(context);
-          }
-        },
-        child: steps[0]);
+    return MultiBlocProvider(providers: [
+      BlocProvider<LoginBloc>(
+        create: (context) => LoginBloc(
+          authenticationRepository:
+              RepositoryProvider.of<AuthenticationRepository>(context),
+        ),
+      ),
+      BlocProvider<RegisterBloc>(
+        create: (context) => RegisterBloc(
+          authenticationRepository:
+              RepositoryProvider.of<AuthenticationRepository>(context),
+        ),
+      )
+    ], child: steps[index]);
   }
 }
 
 class Step1Body extends StatelessWidget {
   final bool isFlex;
-  final VoidCallback onBack;
   final VoidCallback onNext;
-  Step1Body({this.isFlex = false, this.onBack, this.onNext});
+  Step1Body({this.isFlex = false, this.onNext});
 
   @override
   Widget build(BuildContext context) {
@@ -86,8 +121,8 @@ class Step1Body extends StatelessWidget {
               title: 'Bienvenido',
               imagePath: 'assets/img/pollo3.png',
             ),
-            EmailInput(),
-            PasswordInput(),
+            LoginEmailInput(),
+            LoginPasswordInput(),
             LoginButton(),
             maybeSpacer(flex: 1),
             Text(
@@ -96,15 +131,10 @@ class Step1Body extends StatelessWidget {
               style: Theme.of(context).textTheme.caption,
             ),
             MyRaisedButton(
-              text: 'Únete a jumpets',
-              filled: false,
-              color: Theme.of(context).accentColor,
-              onPressed: () {
-                /*  Navigator.push(context, MaterialPageRoute(builder: (context) {
-                        return RegisterPage();
-                      })); */
-              },
-            ),
+                text: 'Únete a jumpets',
+                filled: false,
+                color: Theme.of(context).accentColor,
+                onPressed: onNext),
             maybeSpacer(flex: 4),
           ],
         ),
@@ -135,13 +165,12 @@ class Step2Body extends StatelessWidget {
               title: 'Tus datos',
               imagePath: 'assets/img/pollo1.png',
             ),
-            EmailInput(),
-            PasswordInput(),
-            PasswordInput(),
-            MyRaisedButton(
-              text: 'Siguiente',
-              filled: true,
-              onPressed: onNext,
+            RegisterNameInput(),
+            RegisterEmailInput(),
+            RegisterPasswordInput(),
+            RegisterPasswordInput(isConfirmed: true),
+            RegisterStep2Button(
+              onTap: onNext,
             ),
             maybeSpacer(flex: 1),
             Text(
@@ -169,8 +198,7 @@ class Step2Body extends StatelessWidget {
 class Step3Body extends StatelessWidget {
   final bool isFlex;
   final VoidCallback onBack;
-  final VoidCallback onNext;
-  Step3Body({this.isFlex = false, this.onBack, this.onNext});
+  Step3Body({this.isFlex = false, this.onBack});
 
   @override
   Widget build(BuildContext context) {
@@ -186,36 +214,27 @@ class Step3Body extends StatelessWidget {
               title: 'Sólo un paso más',
               imagePath: 'assets/img/pollo2.png',
             ),
-            MyRaisedButton(
-              text: 'Continuar como particular',
-              filled: true,
-              color: Helper.getUserColorByType(Particular),
-              onPressed: onNext,
-              textColor: Colors.white,
+            RegisterButton(
+              title: 'Continuar como particular',
+              type: UserType.PARTICULAR,
             ),
             Text(
               'Encuentra tu mascota ideal, contrata un paseo, o pasea mascotas y gana dinero!',
               textAlign: TextAlign.center,
               style: Theme.of(context).textTheme.caption.copyWith(fontSize: 14),
             ),
-            MyRaisedButton(
-              text: 'Continuar como profesional',
-              color: Helper.getUserColorByType(Profesional),
-              filled: true,
-              onPressed: onNext,
-              textColor: Colors.white,
+            RegisterButton(
+              title: 'Continuar como profesional',
+              type: UserType.PROFESIONAL,
             ),
             Text(
               '¿Eres una tienda, un veterinario, o una empresa relacionada con productos animales?',
               textAlign: TextAlign.center,
               style: Theme.of(context).textTheme.caption.copyWith(fontSize: 14),
             ),
-            MyRaisedButton(
-              text: 'Continuar como protectora',
-              color: Helper.getUserColorByType(Protectora),
-              filled: true,
-              onPressed: onNext,
-              textColor: Colors.white,
+            RegisterButton(
+              title: 'Continuar como protectora',
+              type: UserType.PROTECTORA,
             ),
             Text(
               'Da mayor visibilidad a tu centro y aumenta las adopciones',

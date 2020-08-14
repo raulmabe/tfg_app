@@ -66,6 +66,7 @@ flutter:
    - assets/img/pollo1.png
    - assets/img/pollo2.png
    - assets/img/pollo3.png
+   - assets/img/default_avatar.png
    
   fonts:
     - family:  JumpetsIcons

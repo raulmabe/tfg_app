@@ -29,5 +29,4 @@ export 'package:jumpets_app/models/extensions/string_extension.dart';
 export 'package:jumpets_app/models/extensions/bool_extension.dart';
 export 'package:jumpets_app/models/extensions/user_extension.dart';
 export 'package:jumpets_app/models/extensions/categories_extension.dart';
-export 'package:jumpets_app/models/forms/email.dart';
-export 'package:jumpets_app/models/forms/password.dart';
+export 'package:jumpets_app/models/forms/forms.dart';

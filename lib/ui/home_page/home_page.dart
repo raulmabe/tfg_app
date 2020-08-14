@@ -5,6 +5,7 @@ import 'package:jumpets_app/blocs/ads_bloc/ads_bloc.dart';
 import 'package:jumpets_app/blocs/auth_bloc/auth_bloc.dart';
 import 'package:jumpets_app/blocs/search_bloc/search_ads_bloc.dart';
 import 'package:jumpets_app/data/repositories/ads_repository.dart';
+import 'package:jumpets_app/models/wrappers/auth_status.dart';
 import 'package:jumpets_app/ui/components/bottombar/bottombar.dart';
 import 'package:jumpets_app/ui/components/profile_icon.dart';
 import 'package:jumpets_app/ui/components/searchbar/searchbar.dart';
@@ -66,7 +67,8 @@ class _HomePageState extends State<HomePage> {
             buildWhen: (previous, current) =>
                 previous.authStatus != current.authStatus,
             builder: (context, state) {
-              if (state.authStatus != AuthenticationStatus.authenticated) {
+              if (state.authStatus.status !=
+                  AuthenticationStatus.authenticated) {
                 return IconButton(
                     icon: Icon(FontAwesomeIcons.slidersH),
                     iconSize: 22,
@@ -81,11 +83,11 @@ class _HomePageState extends State<HomePage> {
                         widget: BlocProvider.value(
                       value: context.bloc<SearchAdsBloc>(),
                       child: ProfilePage(
-                        user: state.authData.user,
+                        user: state.authStatus.authData.user,
                       ),
                     ))),
                     withBorder: true,
-                    url: state.authData.user.thumbnail,
+                    url: state.authStatus.authData.user.thumbnail,
                   ));
             },
           ),

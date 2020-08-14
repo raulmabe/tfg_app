@@ -22,14 +22,6 @@ class _$ProfesionalSerializer implements StructuredSerializer<Profesional> {
       serializers.serialize(object.id, specifiedType: const FullType(String)),
       'name',
       serializers.serialize(object.name, specifiedType: const FullType(String)),
-      'thumbnail',
-      serializers.serialize(object.thumbnail,
-          specifiedType: const FullType(String)),
-      'address',
-      serializers.serialize(object.address,
-          specifiedType: const FullType(String)),
-      'phone',
-      serializers.serialize(object.phone, specifiedType: const FullType(int)),
       'email',
       serializers.serialize(object.email,
           specifiedType: const FullType(String)),
@@ -40,6 +32,24 @@ class _$ProfesionalSerializer implements StructuredSerializer<Profesional> {
       serializers.serialize(object.updatedAt,
           specifiedType: const FullType(DateTime)),
     ];
+    if (object.thumbnail != null) {
+      result
+        ..add('thumbnail')
+        ..add(serializers.serialize(object.thumbnail,
+            specifiedType: const FullType(String)));
+    }
+    if (object.address != null) {
+      result
+        ..add('address')
+        ..add(serializers.serialize(object.address,
+            specifiedType: const FullType(String)));
+    }
+    if (object.phone != null) {
+      result
+        ..add('phone')
+        ..add(serializers.serialize(object.phone,
+            specifiedType: const FullType(int)));
+    }
     if (object.password != null) {
       result
         ..add('password')
@@ -171,15 +181,6 @@ class _$Profesional extends Profesional {
     }
     if (name == null) {
       throw new BuiltValueNullFieldError('Profesional', 'name');
-    }
-    if (thumbnail == null) {
-      throw new BuiltValueNullFieldError('Profesional', 'thumbnail');
-    }
-    if (address == null) {
-      throw new BuiltValueNullFieldError('Profesional', 'address');
-    }
-    if (phone == null) {
-      throw new BuiltValueNullFieldError('Profesional', 'phone');
     }
     if (email == null) {
       throw new BuiltValueNullFieldError('Profesional', 'email');

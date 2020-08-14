@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jumpets_app/blocs/auth_bloc/auth_bloc.dart';
+import 'package:jumpets_app/models/wrappers/auth_status.dart';
 import 'package:jumpets_app/ui/components/soft_transition.dart';
-import 'package:jumpets_app/ui/components/login_form_components.dart';
+import 'package:jumpets_app/ui/components/auth/login_form_components.dart';
 import 'package:jumpets_app/ui/helper.dart';
 
 class SettingsPage extends StatelessWidget {
@@ -25,12 +26,13 @@ class SettingsPage extends StatelessWidget {
           _header('Account', context),
           BlocBuilder<AuthBloc, AuthState>(
             builder: (context, state) {
-              if (state.authStatus == AuthenticationStatus.authenticated) {
+              if (state.authStatus.status ==
+                  AuthenticationStatus.authenticated) {
                 return Column(
                   children: [
                     ListTile(
                       title: Text('Email'),
-                      subtitle: Text(state.authData.user.email),
+                      subtitle: Text(state.authStatus.authData.user.email),
                       dense: true,
                     ),
                     ListTile(

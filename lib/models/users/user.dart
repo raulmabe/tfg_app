@@ -10,8 +10,11 @@ import 'package:built_collection/built_collection.dart';
 abstract class User {
   String get id;
   String get name;
+  @nullable
   String get thumbnail;
+  @nullable
   String get address;
+  @nullable
   int get phone;
   String get email;
   @nullable

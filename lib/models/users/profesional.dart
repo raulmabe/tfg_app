@@ -16,12 +16,15 @@ abstract class Profesional
   String get name;
 
   @override
+  @nullable
   String get thumbnail;
 
   @override
+  @nullable
   String get address;
 
   @override
+  @nullable
   int get phone;
 
   @override

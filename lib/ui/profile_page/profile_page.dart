@@ -7,8 +7,10 @@ import 'package:jumpets_app/blocs/auth_bloc/auth_bloc.dart';
 import 'package:jumpets_app/blocs/search_bloc/search_ads_bloc.dart';
 import 'package:jumpets_app/models/models.dart';
 import 'package:jumpets_app/models/users/user.dart';
+import 'package:jumpets_app/models/wrappers/auth_status.dart';
 import 'package:jumpets_app/ui/components/cards/animal_card.dart';
 import 'package:jumpets_app/ui/components/cards/other_card.dart';
+import 'package:jumpets_app/ui/components/profile_icon.dart';
 import 'package:jumpets_app/ui/components/soft_transition.dart';
 import 'package:jumpets_app/ui/settings_page/settings_page.dart';
 
@@ -32,8 +34,8 @@ class _ProfilePageState extends State<ProfilePage> {
     return BlocBuilder<AuthBloc, AuthState>(
         builder: (context, state) => _build(
             context,
-            state.authStatus == AuthenticationStatus.authenticated &&
-                context.bloc<AuthBloc>().authData.user.id == user.id));
+            state.authStatus.status == AuthenticationStatus.authenticated &&
+                state.authStatus.authData.user.id == user.id));
   }
 
   Widget _build(BuildContext context, bool isMyProfile) {
@@ -81,12 +83,7 @@ class _ProfilePageState extends State<ProfilePage> {
               children: [
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20),
-                  child: CircleAvatar(
-                    radius: 40,
-                    backgroundImage: NetworkImage(
-                      user.thumbnail,
-                    ),
-                  ),
+                  child: ProfileIcon(radius: 40, url: user.thumbnail),
                 ),
                 Expanded(
                   child: Padding(
@@ -98,14 +95,18 @@ class _ProfilePageState extends State<ProfilePage> {
                       children: [
                         Text(user.name,
                             style: Theme.of(context).textTheme.headline6),
-                        Text(
-                          user.address,
-                          style: Theme.of(context).textTheme.subtitle1,
-                        ),
-                        Text(
-                          user.phone.toString(),
-                          style: Theme.of(context).textTheme.subtitle1,
-                        ),
+                        user.address != null
+                            ? Text(
+                                user.address,
+                                style: Theme.of(context).textTheme.subtitle1,
+                              )
+                            : Container(),
+                        user.phone != null
+                            ? Text(
+                                user.phone.toString(),
+                                style: Theme.of(context).textTheme.subtitle1,
+                              )
+                            : Container(),
                         Padding(
                             padding: const EdgeInsets.only(top: 20),
                             child: user.valuationsStars)

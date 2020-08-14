@@ -27,7 +27,6 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return RepositoryProvider.value(
-      // TODO Quizas este widget sobra
       value: authenticationRepository,
       child: MultiBlocProvider(
           providers: [

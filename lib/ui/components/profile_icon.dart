@@ -18,18 +18,24 @@ class ProfileIcon extends StatelessWidget {
       child: InkWell(
         onTap: onTap,
         child: Material(
-          shape: CircleBorder(
-            side: BorderSide(
-                color: Theme.of(context).accentColor,
-                width: withBorder ? 2 : 0),
-          ),
-          child: CircleAvatar(
-            radius: radius,
-            backgroundImage: NetworkImage(
-              url,
+            shape: CircleBorder(
+              side: BorderSide(
+                  color: Theme.of(context).accentColor,
+                  width: withBorder ? 2 : 0),
             ),
-          ),
-        ),
+            child: url != null
+                ? CircleAvatar(
+                    radius: radius,
+                    backgroundImage: NetworkImage(
+                      url,
+                    ),
+                  )
+                : CircleAvatar(
+                    radius: radius,
+                    backgroundColor: Colors.white,
+                    child: ClipOval(
+                        child: Image.asset('assets/img/default_avatar.png')),
+                  )),
       ),
     );
   }

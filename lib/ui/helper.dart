@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:jumpets_app/models/enums/user_types.dart';
 import 'package:jumpets_app/models/models.dart';
 import 'package:jumpets_app/ui/components/auth/auth_sheet.dart';
 
@@ -20,10 +21,10 @@ class Helper {
             child: AuthSheet()));
   }
 
-  static Color getUserColorByType(var type) {
+  static Color getUserColorByType(UserType type) {
     var dummyUser;
     switch (type) {
-      case Protectora:
+      case UserType.PROTECTORA:
         dummyUser = Protectora((b) => b
           ..thumbnail = ''
           ..address = ''
@@ -34,7 +35,7 @@ class Helper {
           ..phone = 5
           ..name = '');
         return (dummyUser as Protectora).colorFromType;
-      case Profesional:
+      case UserType.PROFESIONAL:
         dummyUser = Profesional((b) => b
           ..thumbnail = ''
           ..address = ''
@@ -45,7 +46,7 @@ class Helper {
           ..phone = 5
           ..name = '');
         return (dummyUser as Profesional).colorFromType;
-      case Particular:
+      case UserType.PROTECTORA:
       default:
         dummyUser = Particular((b) => b
           ..thumbnail = ''
