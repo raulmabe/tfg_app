@@ -11,7 +11,7 @@ class ApiBaseHelper {
   final int timeout;
 
   ApiBaseHelper({this.baseUrl = 'http://192.168.1.45:3030/graphql'})
-      : timeout = 7;
+      : timeout = 50;
 
   Future<dynamic> get(String url) async {
     var responseJson;

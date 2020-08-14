@@ -3,74 +3,87 @@ import 'package:flutter/material.dart';
 import 'package:jumpets_app/models/ads/animal_ad.dart';
 import 'package:jumpets_app/ui/ad_page/ad_page.dart';
 import 'package:jumpets_app/ui/components/sex_icon.dart';
+import 'package:jumpets_app/ui/components/user_chip.dart';
 import 'package:transparent_image/transparent_image.dart';
 import 'package:jumpets_app/models/models.dart';
 
 class OtherCard extends StatelessWidget {
   final Ad ad;
-  final bool extended;
+  final bool small;
   final double height;
   final double width;
 
   OtherCard(
       {@required this.ad,
-      this.extended = false,
+      this.small = false,
       @required this.height,
       this.width = double.infinity});
 
   @override
   Widget build(BuildContext context) {
-    return OpenContainer(
-      closedElevation: 0,
-      closedColor: Colors.transparent,
-      openBuilder: (context, action) => AdPage(
-        ad: ad,
-      ),
-      closedBuilder: (context, action) => Stack(
-        children: <Widget>[
-          Container(
-            width: width,
-            decoration: BoxDecoration(borderRadius: BorderRadius.circular(10)),
-            child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  SizedBox(
-                    height: height,
-                  ),
-                  Container(
-                    padding: EdgeInsets.symmetric(vertical: 10),
-                    child: Column(children: [
-                      Row(
-                        children: <Widget>[
-                          Expanded(
-                            child: Text(title.capitalize(),
-                                style: Theme.of(context).textTheme.body2),
-                          ),
-                          Text(price.toStringAsPrecision(3).capitalize(),
-                              style: Theme.of(context).textTheme.body2),
-                        ],
-                      ),
-                    ]),
-                  )
-                ]),
-          ),
-          Material(
-            elevation: 3,
-            borderRadius: BorderRadius.circular(10),
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(10),
-              child: FadeInImage.memoryNetwork(
-                fadeInDuration: Duration(milliseconds: 250),
-                width: width,
-                height: height,
-                placeholder: kTransparentImage,
-                image: ad.photos.first,
-                fit: isService ? BoxFit.cover : BoxFit.contain,
-              ),
+    return Stack(
+      children: <Widget>[
+        Container(
+          margin: EdgeInsets.symmetric(horizontal: 5, vertical: 2),
+          width: width,
+          child:
+              Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
+            SizedBox(
+              height: height + 10,
             ),
-          )
-        ],
-      ),
+            Row(
+              children: <Widget>[
+                Expanded(
+                  child: Text(title.capitalize(),
+                      style: small
+                          ? Theme.of(context).textTheme.bodyText2
+                          : Theme.of(context).textTheme.subtitle1),
+                ),
+                Text(price.toStringAsPrecision(2),
+                    style: small
+                        ? Theme.of(context).textTheme.bodyText2
+                        : Theme.of(context).textTheme.subtitle1),
+              ],
+            )
+          ]),
+        ),
+        OpenContainer(
+          closedElevation: 3,
+          closedColor: Colors.transparent,
+          closedShape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
+          ),
+          openBuilder: (context, action) => AdPage(
+            ad: ad,
+          ),
+          closedBuilder: (context, action) => Stack(
+            children: [
+              ClipRRect(
+                borderRadius: BorderRadius.circular(10),
+                child: FadeInImage.memoryNetwork(
+                  fadeInDuration: Duration(milliseconds: 200),
+                  width: width,
+                  height: height,
+                  placeholder: kTransparentImage,
+                  image: ad.photos.first,
+                  fit: BoxFit.cover,
+                ),
+              ),
+              small
+                  ? Container()
+                  : Positioned(
+                      bottom: 0,
+                      right: 0,
+                      child: UserChip(
+                        tag: '${ad.id}-${ad.creator.id}',
+                        user: ad.creator,
+                        small: true,
+                      ),
+                    ),
+            ],
+          ),
+        ),
+      ],
     );
   }
 

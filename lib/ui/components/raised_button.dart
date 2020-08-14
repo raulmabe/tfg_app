@@ -7,10 +7,14 @@ class MyRaisedButton extends StatelessWidget {
   final Color textColor;
   final bool filled;
   final bool blocked;
+  final bool borders;
   final Widget child;
+  final String tag;
 
   const MyRaisedButton({
+    this.tag,
     this.blocked = false,
+    this.borders = true,
     this.child,
     @required this.text,
     this.onPressed,
@@ -27,7 +31,7 @@ class MyRaisedButton extends StatelessWidget {
         blocked ? Colors.grey : color ?? Theme.of(context).accentColor;
 
     return Hero(
-      tag: text,
+      tag: tag ?? text,
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 10),
         child: SizedBox(
@@ -35,8 +39,8 @@ class MyRaisedButton extends StatelessWidget {
           child: Material(
             shape: RoundedRectangleBorder(
                 side: BorderSide(
-                  color: finalColor,
-                ),
+                    width: borders ? 1 : 0,
+                    color: borders ? finalColor : Colors.transparent),
                 borderRadius: BorderRadius.circular(5)),
             color: (filled ? finalColor : Colors.transparent),
             child: InkWell(
@@ -49,13 +53,15 @@ class MyRaisedButton extends StatelessWidget {
                     ? FittedBox(
                         child: child,
                       )
-                    : Text(
-                        text.toUpperCase(),
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                            fontWeight: FontWeight.w700,
-                            letterSpacing: 2,
-                            color: textColor ?? color ?? Colors.white),
+                    : FittedBox(
+                        child: Text(
+                          text.toUpperCase(),
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              fontWeight: FontWeight.w700,
+                              letterSpacing: 2,
+                              color: textColor ?? color ?? Colors.white),
+                        ),
                       ),
               ),
             ),

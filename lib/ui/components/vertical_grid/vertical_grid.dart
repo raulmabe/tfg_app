@@ -64,7 +64,7 @@ class VerticalGrid extends StatelessWidget {
           padding: EdgeInsets.symmetric(vertical: padding, horizontal: padding),
           crossAxisSpacing: padding,
           mainAxisSpacing: padding,
-          crossAxisCount: bigCards ? 2 : 3,
+          crossAxisCount: 2,
           children: list,
           staggeredTiles: List.generate(list.length, (int index) {
             if (list[index] is InfoCard && (list[index] as InfoCard).big) {

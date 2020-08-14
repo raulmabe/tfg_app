@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jumpets_app/blocs/auth_bloc/auth_bloc.dart';
 import 'package:jumpets_app/ui/components/soft_transition.dart';
-import 'package:jumpets_app/ui/login_page/login_page.dart';
+import 'package:jumpets_app/ui/components/login_form_components.dart';
+import 'package:jumpets_app/ui/helper.dart';
 
 class SettingsPage extends StatelessWidget {
   @override
@@ -49,8 +50,7 @@ class SettingsPage extends StatelessWidget {
                 );
               }
               return ListTile(
-                onTap: () => Navigator.push(
-                    context, SoftTransition(widget: LoginPage())),
+                onTap: () => Helper.showLoginBottomSheet(context),
                 title: Text('Identify youserlf'),
                 subtitle: Text('You are not signed in'),
                 dense: false,

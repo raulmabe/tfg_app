@@ -3,16 +3,22 @@ import 'package:jumpets_app/models/ads/animal_ad.dart';
 import 'package:jumpets_app/models/ads/animals/dog_ad.dart';
 import 'package:jumpets_app/models/enums/delivery_status.dart';
 import 'package:jumpets_app/models/models.dart';
+import 'package:jumpets_app/ui/components/auth/auth_sheet.dart';
 import 'package:jumpets_app/ui/components/info_square.dart';
 import 'package:jumpets_app/models/extensions/string_extension.dart';
 import 'package:jumpets_app/models/extensions/bool_extension.dart';
 import 'package:jumpets_app/ui/components/photo_icon.dart';
 import 'package:jumpets_app/ui/components/profile_icon.dart';
+import 'package:jumpets_app/ui/components/raised_button.dart';
 import 'package:jumpets_app/ui/components/sex_icon.dart';
+import 'package:jumpets_app/ui/components/soft_transition.dart';
 import 'package:jumpets_app/ui/components/tags.dart';
+import 'package:jumpets_app/ui/components/user_chip.dart';
+import 'package:jumpets_app/ui/helper.dart';
+import 'package:jumpets_app/ui/profile_page/profile_page.dart';
 
 class AdPage extends StatelessWidget {
-  final AnimalAd ad;
+  final Ad ad;
   final double edgePadding;
   AdPage({@required this.ad, this.edgePadding = 20.0});
 
@@ -24,6 +30,12 @@ class AdPage extends StatelessWidget {
         children: <Widget>[
           CustomScrollView(slivers: [
             SliverAppBar(
+              actions: [
+                UserChip(
+                  user: ad.creator,
+                  tag: '${ad.id}-${ad.creator.id}',
+                )
+              ],
               pinned: true,
               stretch: true,
               backgroundColor: Theme.of(context).accentColor,
@@ -51,11 +63,12 @@ class AdPage extends StatelessWidget {
                 child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
-                      _header(context),
-                      _infoSquares(context),
+                      isAnimal
+                          ? _animalHeader(context)
+                          : _othersHeader(context),
+                      isAnimal ? _InfoSquares(ad: ad) : Container(),
                       _about(context),
                       _morePhotosLayout(context),
-                      _ownerInfo(context),
                       SizedBox(
                         height: kToolbarHeight * 2,
                       )
@@ -70,8 +83,31 @@ class AdPage extends StatelessWidget {
               child: SafeArea(
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20),
-                  child: RaisedButton(
-                      child: Text('Adopt me'), onPressed: () => print('adopt')),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: MyRaisedButton(
+                            text: 'Contact',
+                            onPressed: () =>
+                                Helper.showLoginBottomSheet(context)),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 10),
+                        child: ClipOval(
+                          child: Material(
+                            color: Theme.of(context).backgroundColor,
+                            child: InkWell(
+                                splashColor: Colors.pinkAccent,
+                                child: SizedBox(
+                                    width: 56,
+                                    height: 56,
+                                    child: Icon(Icons.favorite_border)),
+                                onTap: () {}),
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
                 ),
               ))
         ],
@@ -81,8 +117,33 @@ class AdPage extends StatelessWidget {
 
   bool get isService => ad is ServiceAd;
   bool get isProduct => ad is ProductAd;
+  bool get isAnimal => ad is AnimalAd;
 
-  Widget _header(context) => Padding(
+  String get description => isProduct
+      ? (ad as ProductAd).description
+      : isService
+          ? (ad as ServiceAd).description
+          : (ad as AnimalAd).description;
+
+  String get title =>
+      isProduct ? (ad as ProductAd).title : (ad as ServiceAd).title;
+
+  double get price =>
+      isProduct ? (ad as ProductAd).price : (ad as ServiceAd).priceHour;
+
+  Widget _othersHeader(context) => Padding(
+        padding: EdgeInsets.symmetric(
+            horizontal: edgePadding, vertical: edgePadding),
+        child: Row(children: [
+          Expanded(
+              child: Text(title.capitalize(),
+                  style: Theme.of(context).textTheme.display1)),
+          Text('${price.toStringAsPrecision(2)} €',
+              style: Theme.of(context).textTheme.bodyText1)
+        ]),
+      );
+
+  Widget _animalHeader(context) => Padding(
         padding: EdgeInsets.symmetric(
             horizontal: edgePadding, vertical: edgePadding),
         child: Row(children: [
@@ -90,65 +151,68 @@ class AdPage extends StatelessWidget {
               child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[
-                  Text(ad.name, style: Theme.of(context).textTheme.display1),
-                  SexIcon(
-                    male: ad.male,
-                    size: 25,
-                  ),
-                ],
-              ),
-              Text(ad.breed, style: Theme.of(context).textTheme.caption),
+              Text((ad as AnimalAd).name,
+                  style: Theme.of(context).textTheme.display1),
+              Text((ad as AnimalAd).breed,
+                  style: Theme.of(context).textTheme.caption),
             ],
           )),
-          IconButton(icon: Icon(Icons.favorite_border), onPressed: () {})
+          SexIcon(
+            male: (ad as AnimalAd).male,
+            size: 25,
+          ),
         ]),
       );
 
-  Widget _infoSquares(context) => SingleChildScrollView(
-      scrollDirection: Axis.horizontal,
-      child: Row(
-        children: <Widget>[
-          Padding(
-            padding: const EdgeInsets.only(left: 10),
-            child: InfoSquare(
-                title: 'Age',
-                value: (DateTime.now().difference(ad.birthDate).inDays / 365)
-                    .floor()
-                    .toString()),
-          ),
-          InfoSquare(title: 'Weight', value: '${ad.weight.toString()} kg'),
-          ad is DogAd
-              ? InfoSquare(
-                  title: 'Size', value: (ad as DogAd).size.name.capitalize())
-              : Container(),
-          InfoSquare(
-              title: 'Activity Level',
-              value: ad.activityLevel.name.capitalize()),
-        ]..addAll(DeliveryStatus.values.map((deliveryStatus) => InfoSquare(
-            title: deliveryStatus.name.capitalize(),
-            value: ad.deliveryInfo.contains(deliveryStatus).stringify()))),
-      ));
-
-  Widget _about(context) => Container(
+  Widget _about(context) => Padding(
       padding:
           EdgeInsets.symmetric(horizontal: edgePadding, vertical: edgePadding),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
-          Text('About', style: Theme.of(context).textTheme.body2),
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 8.0),
-            child: Text(ad.description),
+          Material(
+            color: Colors.transparent,
+            child: InkWell(
+              onTap: () => Navigator.push(context,
+                  SoftTransition(widget: ProfilePage(user: ad.creator))),
+              child: Row(
+                children: [
+                  ProfileIcon(
+                    url: ad.creator.thumbnail,
+                  ),
+                  SizedBox(
+                    width: edgePadding / 2,
+                  ),
+                  Text(
+                    '${ad.creator.name}:',
+                    style: Theme.of(context).textTheme.bodyText1,
+                  ),
+                  Spacer(),
+                  ad.creator.isParticular
+                      ? Container()
+                      : Row(
+                          children: [
+                            Icon(Icons.star, color: Colors.yellow),
+                            Text(ad.creator.valuationAvg.toStringAsPrecision(1))
+                          ],
+                        )
+                ],
+              ),
+            ),
           ),
-          Wrap(
-            direction: Axis.horizontal,
-            children: ad.personality
-                .map((personality) => Tag(tag: personality))
-                .toList(),
-          )
+          Padding(
+            padding: const EdgeInsets.only(top: 8.0, bottom: 4.0),
+            child: Text(description),
+          ),
+          isAnimal
+              ? Wrap(
+                  direction: Axis.horizontal,
+                  children: (ad as AnimalAd)
+                      .personality
+                      .map((personality) => Tag(tag: personality))
+                      .toList(),
+                )
+              : Container(),
         ],
       ));
 
@@ -157,56 +221,101 @@ class AdPage extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
             Padding(
-              padding: EdgeInsets.symmetric(
-                  horizontal: edgePadding, vertical: edgePadding / 2),
+              padding:
+                  EdgeInsets.only(left: edgePadding, bottom: edgePadding / 2),
               child:
                   Text('More photos', style: Theme.of(context).textTheme.body2),
             ),
             SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
-                child: Row(
-                    children: ad.photos
-                        .map((url) => PhotoIcon(
-                            url: url,
-                            margin: EdgeInsets.only(
-                                left:
-                                    ad.photos.first == url ? edgePadding : 0)))
-                        .toList()))
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 5),
+                  child: Row(
+                      children: ad.photos
+                          .map((url) => Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 5),
+                                child: PhotoIcon(
+                                    url: url,
+                                    margin: EdgeInsets.only(
+                                        left: ad.photos.first == url
+                                            ? edgePadding
+                                            : 0)),
+                              ))
+                          .toList()),
+                ))
           ],
         )
       : Container();
+}
 
-  Widget _ownerInfo(context) => Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: <Widget>[
-          Container(
-            margin: EdgeInsets.only(left: edgePadding, top: edgePadding),
-            padding: EdgeInsets.symmetric(
-                horizontal: edgePadding, vertical: edgePadding),
-            decoration: BoxDecoration(
-                color: Color(0xffDDE2FA),
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(10),
-                  bottomLeft: Radius.circular(10),
-                )),
-            child: Row(children: [
-              ProfileIcon(
-                url: ad.creator.thumbnail,
+class _InfoSquares extends StatefulWidget {
+  final AnimalAd ad;
+  _InfoSquares({@required this.ad}) : assert(ad != null);
+  @override
+  __InfoSquaresState createState() => __InfoSquaresState();
+}
+
+class __InfoSquaresState extends State<_InfoSquares> {
+  ScrollController _scrollController;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+    _scrollController = ScrollController();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return _infoSquares(context);
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
+
+  Widget _infoSquares(context) => Scrollbar(
+        isAlwaysShown: true,
+        controller: _scrollController,
+        child: SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            controller: _scrollController,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8),
+              child: Row(
+                children: <Widget>[
+                  InfoSquare(
+                      title: 'Adoption Tax',
+                      value: ad.adoptionTax.toStringAsPrecision(2)),
+                  InfoSquare(
+                      title: 'Age',
+                      value:
+                          (DateTime.now().difference(ad.birthDate).inDays / 365)
+                              .floor()
+                              .toString()),
+                  InfoSquare(
+                      title: 'Weight', value: '${ad.weight.toString()} kg'),
+                  ad is DogAd
+                      ? InfoSquare(
+                          title: 'Size',
+                          value: (ad as DogAd).size.name.capitalize())
+                      : Container(),
+                  InfoSquare(
+                      title: 'Activity Level',
+                      value: ad.activityLevel.name.capitalize()),
+                ]..addAll(DeliveryStatus.values.map((deliveryStatus) =>
+                    InfoSquare(
+                        title: deliveryStatus.name.capitalize(),
+                        value: ad.deliveryInfo
+                            .contains(deliveryStatus)
+                            .stringify()))),
               ),
-              Expanded(
-                child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: edgePadding),
-                  child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
-                        Text(ad.creator.name),
-                        Text(ad.creator.runtimeType.toString().substring(2))
-                      ]),
-                ),
-              ),
-            ]),
-          ),
-        ],
+            )),
       );
+
+  AnimalAd get ad => widget.ad;
 }

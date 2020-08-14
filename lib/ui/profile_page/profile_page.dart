@@ -59,27 +59,13 @@ class _ProfilePageState extends State<ProfilePage> {
       appBar: AppBar(
         backgroundColor: Theme.of(context).primaryColor,
         elevation: 0,
-        title: Builder(builder: (context) {
-          if (isProtectora) {
-            return Text('Protectora',
-                style: Theme.of(context)
-                    .textTheme
-                    .display2
-                    .copyWith(color: Colors.orangeAccent));
-          }
-          if (isProfesional) {
-            return Text('Profesional',
-                style: Theme.of(context)
-                    .textTheme
-                    .display2
-                    .copyWith(color: Colors.indigoAccent));
-          }
-          return Text('Particular',
-              style: Theme.of(context)
-                  .textTheme
-                  .display2
-                  .copyWith(color: Theme.of(context).accentColor));
-        }),
+        title: Text(
+          user.stringFromType.capitalize(),
+          style: Theme.of(context)
+              .textTheme
+              .display2
+              .copyWith(color: user.colorFromType),
+        ),
         centerTitle: true,
         actions: actionsList,
         iconTheme: Theme.of(context).iconTheme.copyWith(color: Colors.grey),
@@ -120,25 +106,9 @@ class _ProfilePageState extends State<ProfilePage> {
                           user.phone.toString(),
                           style: Theme.of(context).textTheme.subtitle1,
                         ),
-                        Row(
-                            children: List.generate(5, (index) {
-                          double result = valuationAvg - index;
-
-                          if (result <= 0) {
-                            return Icon(
-                              Icons.star_border,
-                              color: Colors.yellow,
-                            );
-                          }
-                          if (result < 1) {
-                            return Icon(Icons.star_half, color: Colors.yellow);
-                          }
-                          return Icon(Icons.star, color: Colors.yellow);
-                        })
-                              ..add(Text(valuationAvg.toStringAsPrecision(
-                                  valuationAvg % 10 > 0 ? 2 : 1)))
-                              ..add(Text(
-                                  ' (${user?.valuations?.length ?? 0} reviews)')))
+                        Padding(
+                            padding: const EdgeInsets.only(top: 20),
+                            child: user.valuationsStars)
                       ],
                     ),
                   ),
@@ -154,22 +124,9 @@ class _ProfilePageState extends State<ProfilePage> {
 
   User get user => widget.user;
 
-  double get valuationAvg {
-    double sum = 0;
-    if (user?.valuations == null || user.valuations.isEmpty) return 0;
-    user?.valuations?.forEach((valuation) {
-      sum += valuation.value;
-    });
-    return sum / user.valuations.length;
-  }
-
-  bool get isProtectora => user is Protectora;
-  bool get isProfesional => user is Profesional;
-  bool get isParticular => user is Particular;
-
   bool get hasWeb =>
-      (isProtectora && (user as Protectora).web != null) ||
-      (isProfesional && (user as Profesional).web != null);
+      (user.isProtectora && (user as Protectora).web != null) ||
+      (user.isProfesional && (user as Profesional).web != null);
 
   Widget _buildBody(BuildContext context) {
     return Padding(
@@ -208,6 +165,7 @@ class _ProfilePageState extends State<ProfilePage> {
                         title: 'In adoption',
                         row: state.animalAds
                             .map((e) => AnimalCard(
+                                  small: true,
                                   animalAd: e,
                                   height: boxHeight,
                                   width: boxHeight,

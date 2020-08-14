@@ -2,13 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class AppTheme {
-  static const Color kAccentColor = Color(0xFF76DEC2);
-  static const Color kAccentColorLight = Color(0xffBBEEE1);
   static const Color kPrimaryColor = Colors.white;
   static const Color kSecondaryBackgroundColor =
       Color(0xffF7F7FF); //Color(0xffF8FAFC);
   static const Color kerrorColor = Color(0xffff6b81);
-  static const Color kSecondaryColor = Color(0xffa29bfe); //Color(0xffa29bfe);
+
+  static const Color kAccentColor = Color(0xFF76DEC2);
+  static const Color kAccentColorLight = Color(0xffBBEEE1);
+  static const Color kSecondaryColor = Color(0xff8E76DE);
+  static const Color kThirdColor = Color(0xff7692DE);
+  static const Color kFourthColor = Color(0xff76C6DE);
+  static const Color kFifthColor = Color(0xffDE76C6);
+  static const Color kSixthColor = Color(0xffC276DE);
 
   static ThemeData getTheme({bool isLight = true}) {
     ThemeData baseTheme = isLight ? ThemeData.light() : ThemeData.dark();

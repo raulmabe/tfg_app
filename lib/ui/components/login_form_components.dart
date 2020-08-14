@@ -5,88 +5,7 @@ import 'package:jumpets_app/blocs/auth_bloc/auth_bloc.dart';
 import 'package:jumpets_app/ui/components/raised_button.dart';
 import 'package:formz/formz.dart';
 
-class LoginPage extends StatefulWidget {
-  @override
-  _LoginPageState createState() => _LoginPageState();
-}
-
-class _LoginPageState extends State<LoginPage> {
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-
-    BlocProvider.of<AuthBloc>(context).add(AuthFieldsCleared());
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return _LoginPage();
-  }
-}
-
-class _LoginPage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return BlocListener<AuthBloc, AuthState>(
-      listenWhen: (previous, current) =>
-          previous.authStatus != current.authStatus,
-      listener: (context, state) {
-        if (state.authStatus == AuthenticationStatus.authenticated) {
-          Navigator.pop(context);
-        }
-      },
-      child: Scaffold(
-          appBar: AppBar(
-            elevation: 0,
-            title: Text(
-              'Bienvenido',
-              style: Theme.of(context).textTheme.display2,
-            ),
-            iconTheme: Theme.of(context).iconTheme.copyWith(color: Colors.grey),
-            leading: IconButton(
-                icon: Icon(CupertinoIcons.back),
-                onPressed: () => Navigator.pop(context)),
-          ),
-          body: _getLoginForm()),
-    );
-  }
-
-  Widget _getLoginForm() {
-    return SafeArea(
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 60),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Spacer(
-              flex: 1,
-            ),
-            Image.asset(
-              'assets/img/pollo3.png',
-              height: 100,
-            ),
-            Spacer(
-              flex: 1,
-            ),
-            _EmailInput(),
-            _PasswordInput(),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 10),
-              child: _LoginButton(),
-            ),
-            Spacer(
-              flex: 2,
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class _EmailInput extends StatelessWidget {
+class EmailInput extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<AuthBloc, AuthState>(
@@ -115,7 +34,7 @@ class _EmailInput extends StatelessWidget {
   }
 }
 
-class _PasswordInput extends StatelessWidget {
+class PasswordInput extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<AuthBloc, AuthState>(
@@ -145,7 +64,7 @@ class _PasswordInput extends StatelessWidget {
   }
 }
 
-class _LoginButton extends StatelessWidget {
+class LoginButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<AuthBloc, AuthState>(
@@ -154,7 +73,7 @@ class _LoginButton extends StatelessWidget {
       builder: (context, state) {
         return MyRaisedButton(
           onPressed: () => context.bloc<AuthBloc>().add(AuthLogInSubmitted()),
-          text: 'login',
+          text: 'accede',
           blocked: !state.formStatus.isValidated,
           child: state.formStatus.isSubmissionInProgress
               ? CircularProgressIndicator(
