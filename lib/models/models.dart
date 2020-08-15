@@ -30,4 +30,5 @@ export 'package:jumpets_app/models/extensions/bool_extension.dart';
 export 'package:jumpets_app/models/extensions/double_extension.dart';
 export 'package:jumpets_app/models/extensions/user_extension.dart';
 export 'package:jumpets_app/models/extensions/categories_extension.dart';
+export 'package:jumpets_app/models/extensions/authstatus_extension.dart';
 export 'package:jumpets_app/models/forms/forms.dart';

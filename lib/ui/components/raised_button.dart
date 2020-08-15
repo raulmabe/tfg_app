@@ -41,7 +41,7 @@ class MyRaisedButton extends StatelessWidget {
                 side: BorderSide(
                     width: borders ? 1 : 0,
                     color: borders ? finalColor : Colors.transparent),
-                borderRadius: BorderRadius.circular(5)),
+                borderRadius: BorderRadius.circular(50)),
             color: (filled ? finalColor : Colors.transparent),
             child: InkWell(
               onTap: blocked ? null : onPressed,

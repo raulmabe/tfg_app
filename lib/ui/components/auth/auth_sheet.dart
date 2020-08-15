@@ -85,20 +85,25 @@ class _AuthBodyState extends State<AuthBody> {
 
   @override
   Widget build(BuildContext context) {
-    return MultiBlocProvider(providers: [
-      BlocProvider<LoginBloc>(
-        create: (context) => LoginBloc(
-          authenticationRepository:
-              RepositoryProvider.of<AuthenticationRepository>(context),
-        ),
-      ),
-      BlocProvider<RegisterBloc>(
-        create: (context) => RegisterBloc(
-          authenticationRepository:
-              RepositoryProvider.of<AuthenticationRepository>(context),
-        ),
-      )
-    ], child: steps[index]);
+    return MultiBlocProvider(
+        providers: [
+          BlocProvider<LoginBloc>(
+            create: (context) => LoginBloc(
+              authenticationRepository:
+                  RepositoryProvider.of<AuthenticationRepository>(context),
+            ),
+          ),
+          BlocProvider<RegisterBloc>(
+            create: (context) => RegisterBloc(
+              authenticationRepository:
+                  RepositoryProvider.of<AuthenticationRepository>(context),
+            ),
+          )
+        ],
+        child: AnimatedSwitcher(
+            reverseDuration: Duration(milliseconds: 250),
+            duration: Duration(milliseconds: 250),
+            child: steps[index]));
   }
 }
 

@@ -32,6 +32,14 @@ class _SheltersGridState extends State<SheltersGrid> {
         children: [
           BlocBuilder<AuthBloc, AuthState>(
             builder: (context, state) {
+              String msg;
+              if (state.authStatus?.authData?.user?.address == null) {
+                msg =
+                    'Before searching for closest shelters you must first enter a valid address';
+              } else {
+                msg =
+                    'Buscando desde "${state.authStatus.authData?.user?.address}"';
+              }
               return widget.usePlaceholders
                   ? ContentPlaceholder(
                       height: 10,
@@ -39,8 +47,7 @@ class _SheltersGridState extends State<SheltersGrid> {
                     )
                   : Container(
                       padding: EdgeInsets.only(top: 8, left: 8),
-                      child: Text(
-                          'Buscando desde "${state.authStatus.authData?.user?.address}"',
+                      child: Text(msg,
                           style: Theme.of(context).textTheme.subtitle1));
             },
           ),
@@ -52,15 +59,15 @@ class _SheltersGridState extends State<SheltersGrid> {
                   onPageChanged: (index) => setState(() {
                         _index = index;
                       }),
-                  controller: PageController(viewportFraction: 0.6),
+                  controller: PageController(viewportFraction: 0.7),
                   itemBuilder: (context, index) => Transform.scale(
                         scale: index == _index ? 1 : .8,
                         child: widget.usePlaceholders
                             ? ContentPlaceholder(
-                                height: 210,
+                                height: 260,
                               )
                             : ShelterCard(
-                                height: 210,
+                                height: 260,
                                 shelter: widget.shelters[index],
                                 isSelected: index == _index,
                               ),

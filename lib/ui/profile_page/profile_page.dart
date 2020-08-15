@@ -7,7 +7,7 @@ import 'package:jumpets_app/blocs/auth_bloc/auth_bloc.dart';
 import 'package:jumpets_app/blocs/search_bloc/search_ads_bloc.dart';
 import 'package:jumpets_app/models/models.dart';
 import 'package:jumpets_app/models/users/user.dart';
-import 'package:jumpets_app/models/wrappers/auth_status.dart';
+
 import 'package:jumpets_app/ui/components/cards/animal_card.dart';
 import 'package:jumpets_app/ui/components/cards/other_card.dart';
 import 'package:jumpets_app/ui/components/profile_icon.dart';
@@ -34,7 +34,7 @@ class _ProfilePageState extends State<ProfilePage> {
     return BlocBuilder<AuthBloc, AuthState>(
         builder: (context, state) => _build(
             context,
-            state.authStatus.status == AuthenticationStatus.authenticated &&
+            state.authStatus.status.isAuthenticated &&
                 state.authStatus.authData.user.id == user.id));
   }
 
