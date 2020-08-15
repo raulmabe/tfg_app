@@ -1,7 +1,5 @@
 import 'dart:async';
-import 'dart:convert';
 
-import 'package:jumpets_app/models/enums/categories.dart';
 import 'package:jumpets_app/data/api_base_helper.dart';
 import 'package:jumpets_app/models/enums/user_types.dart';
 

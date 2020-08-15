@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:jumpets_app/app_localizations.dart';
 import 'package:jumpets_app/blocs/auth_bloc/auth_bloc.dart';
+import 'package:jumpets_app/blocs/locale_bloc/locale_bloc.dart';
 import 'package:jumpets_app/models/wrappers/auth_status.dart';
-import 'package:jumpets_app/ui/components/soft_transition.dart';
-import 'package:jumpets_app/ui/components/auth/login_form_components.dart';
 import 'package:jumpets_app/ui/helper.dart';
 
 class SettingsPage extends StatelessWidget {
@@ -13,7 +13,7 @@ class SettingsPage extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: new Color(0xfff8faf8),
         title: Text(
-          'Settings',
+          AppLocalizations.of(context).translate('settings'),
           style: Theme.of(context).textTheme.display2,
         ),
         iconTheme: Theme.of(context).iconTheme.copyWith(color: Colors.grey),
@@ -23,7 +23,7 @@ class SettingsPage extends StatelessWidget {
           Divider(
             color: Colors.transparent,
           ),
-          _header('Account', context),
+          _header(AppLocalizations.of(context).translate('account'), context),
           BlocBuilder<AuthBloc, AuthState>(
             builder: (context, state) {
               if (state.authStatus.status ==
@@ -31,19 +31,22 @@ class SettingsPage extends StatelessWidget {
                 return Column(
                   children: [
                     ListTile(
-                      title: Text('Email'),
+                      title:
+                          Text(AppLocalizations.of(context).translate('email')),
                       subtitle: Text(state.authStatus.authData.user.email),
                       dense: true,
                     ),
                     ListTile(
-                      title: Text('Password'),
+                      title: Text(
+                          AppLocalizations.of(context).translate('password')),
                       subtitle: Text('*****'),
                       dense: true,
                     ),
                     Divider(),
                     ListTile(
                       trailing: Icon(Icons.exit_to_app),
-                      title: Text('Log out'),
+                      title: Text(
+                          AppLocalizations.of(context).translate('log_out')),
                       onTap: () =>
                           context.bloc<AuthBloc>().add(AuthLogoutRequested()),
                       dense: true,
@@ -53,16 +56,19 @@ class SettingsPage extends StatelessWidget {
               }
               return ListTile(
                 onTap: () => Helper.showLoginBottomSheet(context),
-                title: Text('Identify youserlf'),
-                subtitle: Text('You are not signed in'),
+                title: Text(AppLocalizations.of(context)
+                    .translate('identify_yourself')),
+                subtitle: Text(
+                    AppLocalizations.of(context).translate('not_signed_in')),
                 dense: false,
               );
             },
           ),
           Divider(),
-          _header('Advanced Settings', context),
-          /* ListTile(
-            title: Text('Language'),
+          _header(AppLocalizations.of(context).translate('advanced_settings'),
+              context),
+          ListTile(
+            title: Text(AppLocalizations.of(context).translate('language')),
             dense: true,
             trailing: DropdownButton<String>(
               value: AppLocalizations.of(context)
@@ -70,18 +76,22 @@ class SettingsPage extends StatelessWidget {
                   .languageCode
                   .toLowerCase(),
               isDense: true,
-              items: <String>[
-                AppLocalizations.of(context).translate('en'),
-                AppLocalizations.of(context).translate('es')
-              ].map((idioma) {
-                return DropdownMenuItem<String>(
-                  value: AppLocalizations.of(context).translate(idioma),
-                  child: Text(idioma),
-                );
-              }).toList(),
-              onChanged: (idioma) => viewModel.changeLanguage(idioma),
+              items: [
+                DropdownMenuItem<String>(
+                  value: 'en',
+                  child: Text(AppLocalizations.of(context).translate('en')),
+                ),
+                DropdownMenuItem<String>(
+                    value: 'es',
+                    child: Text(AppLocalizations.of(context).translate('es'))),
+                DropdownMenuItem<String>(
+                    value: 'ca',
+                    child: Text(AppLocalizations.of(context).translate('ca'))),
+              ],
+              onChanged: (idioma) =>
+                  context.bloc<LocaleBloc>().add(LocaleChanged(idioma)),
             ),
-          ), */
+          ),
           /*  ListTile(
               title:
                   Text(AppLocalizations.of(context).translate('FactoryReset')),

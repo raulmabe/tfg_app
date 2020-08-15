@@ -1,4 +1,3 @@
-import 'package:jumpets_app/blocs/ads_bloc/ads_bloc.dart';
 import 'package:jumpets_app/data/providers/ads_provider.dart';
 import 'package:jumpets_app/models/ads/ad.dart';
 import 'package:jumpets_app/models/models.dart';

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:jumpets_app/blocs/auth_bloc/auth_bloc.dart';
+import 'package:jumpets_app/app_localizations.dart';
 import 'package:jumpets_app/blocs/favs_bloc/favourites_bloc.dart';
 import 'package:jumpets_app/models/ads/ad.dart';
 import 'package:jumpets_app/ui/components/vertical_grid/vertical_grid.dart';
@@ -58,7 +58,7 @@ class _FavouritesPageState extends State<FavouritesPage> {
         child: Row(
           children: <Widget>[
             Expanded(
-              child: Text('Favourites',
+              child: Text(AppLocalizations.of(context).translate('favourites'),
                   style: Theme.of(context).textTheme.display2),
             ),
             Text(length.toString()),

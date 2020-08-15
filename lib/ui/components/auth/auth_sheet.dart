@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:jumpets_app/app_localizations.dart';
 import 'package:jumpets_app/blocs/auth_bloc/auth_bloc.dart';
 import 'package:jumpets_app/blocs/auth_bloc/bloc/login_bloc.dart';
 import 'package:jumpets_app/blocs/auth_bloc/bloc/register_bloc.dart';
@@ -123,7 +124,7 @@ class Step1Body extends StatelessWidget {
           children: [
             maybeSpacer(flex: 2),
             _Header(
-              title: 'Bienvenido',
+              title: AppLocalizations.of(context).translate('welcome'),
               imagePath: 'assets/img/pollo3.png',
             ),
             LoginEmailInput(),

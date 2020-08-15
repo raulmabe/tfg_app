@@ -1,9 +1,7 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
-import 'package:formz/formz.dart';
 import 'package:jumpets_app/data/repositories/authentication_repository.dart';
-import 'package:jumpets_app/models/models.dart';
 import 'package:jumpets_app/models/wrappers/auth_status.dart';
 import 'package:meta/meta.dart';
 

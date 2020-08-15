@@ -45,9 +45,9 @@ extension UserExtension on User {
             ..add(Text(' ${this?.valuations?.length ?? 0}')));
 
   String get stringFromType {
-    if (isParticular) return 'Particular';
-    if (isProfesional) return 'Profesional';
-    if (isProtectora) return 'Protectora';
+    if (isParticular) return 'private';
+    if (isProfesional) return 'professional';
+    if (isProtectora) return 'shelter';
     return 'Anon';
   }
 

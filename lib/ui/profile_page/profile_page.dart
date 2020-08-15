@@ -2,7 +2,7 @@ import 'package:content_placeholder/content_placeholder.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:jumpets_app/blocs/ads_bloc/ads_bloc.dart';
+import 'package:jumpets_app/app_localizations.dart';
 import 'package:jumpets_app/blocs/auth_bloc/auth_bloc.dart';
 import 'package:jumpets_app/blocs/search_bloc/search_ads_bloc.dart';
 import 'package:jumpets_app/models/models.dart';
@@ -62,7 +62,8 @@ class _ProfilePageState extends State<ProfilePage> {
         backgroundColor: Theme.of(context).primaryColor,
         elevation: 0,
         title: Text(
-          user.stringFromType.capitalize(),
+          AppLocalizations.of(context)
+              .translate(user.stringFromType.toLowerCase()),
           style: Theme.of(context)
               .textTheme
               .display2
@@ -163,7 +164,8 @@ class _ProfilePageState extends State<ProfilePage> {
                 // * Animal Ads
                 state.animalAds.isNotEmpty
                     ? _SearchSection(
-                        title: 'In adoption',
+                        title: AppLocalizations.of(context)
+                            .translate('in_adoption'),
                         row: state.animalAds
                             .map((e) => AnimalCard(
                                   small: true,
@@ -177,7 +179,8 @@ class _ProfilePageState extends State<ProfilePage> {
                 // * Product Ads
                 state.productAds.isNotEmpty
                     ? _SearchSection(
-                        title: 'Product ads',
+                        title: AppLocalizations.of(context)
+                            .translate('product_ads'),
                         row: state.productAds
                             .map((e) => OtherCard(
                                   height: boxHeight,
@@ -189,7 +192,8 @@ class _ProfilePageState extends State<ProfilePage> {
                 // * Service Ads
                 state.serviceAds.isNotEmpty
                     ? _SearchSection(
-                        title: 'Service ads',
+                        title: AppLocalizations.of(context)
+                            .translate('service_ads'),
                         row: state.serviceAds
                             .map((e) => OtherCard(
                                   height: boxHeight,

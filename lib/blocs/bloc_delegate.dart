@@ -15,7 +15,6 @@ class BlocDelegate extends BlocObserver {
 
   @override
   void onError(Cubit cubit, Object error, StackTrace stackTrace) {
-    // TODO: implement onError
     super.onError(cubit, error, stackTrace);
     print('onError $error, $stackTrace');
   }

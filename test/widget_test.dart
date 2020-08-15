@@ -10,8 +10,6 @@ import 'dart:convert';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:jumpets_app/models/ads/animal_ad.dart';
 
-import 'package:jumpets_app/models/users/protectora.dart';
-import 'package:jumpets_app/models/users/user.dart';
 import 'package:http/http.dart' as http;
 
 void main() {
@@ -83,9 +81,6 @@ void main() {
     var decodedJson = json.decode(response.body);
 
     List array = decodedJson['data']['animalsAds'];
-
-    var animalAds =
-        array.map((animalAd) => AnimalAd.fromJson(animalAd)).toList();
 
     /*  CatAd cat = CatAd.fromJson(decodedJson.user);
     String string2 = json.encode(cat.toJson());
