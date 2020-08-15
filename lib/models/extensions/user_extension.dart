@@ -20,6 +20,13 @@ extension UserExtension on User {
     return sum / this.valuations.length;
   }
 
+  Widget get oneStarWidget => Icon(
+        (this.valuationAvg == 0)
+            ? Icons.star_border
+            : (this.valuationAvg < 5) ? Icons.star_half : Icons.star,
+        color: this.colorFromType,
+      );
+
   Widget get valuationsStars => Row(
           children: List.generate(5, (index) {
         double result = this.valuationAvg - index;

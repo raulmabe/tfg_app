@@ -92,6 +92,29 @@ class AdsProvider {
     });
   }
 
+  Future<dynamic> getCloseShelters({String token}) async {
+    return _api.post({
+      'query': '''{
+  getCloseShelters{
+    protectora {
+      id: _id
+      type: __typename
+      thumbnail
+      name
+      address
+      email
+      phone
+      web
+      createdAt
+      updatedAt
+    }
+    distance
+    travelTime
+  }
+}'''
+    }, token: token);
+  }
+
   Future<dynamic> searchAds(
       {String name,
       List<String> tags,

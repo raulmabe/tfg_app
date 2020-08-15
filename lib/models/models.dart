@@ -27,6 +27,7 @@ export 'package:jumpets_app/models/wrappers/page_info.dart';
 export 'package:jumpets_app/models/wrappers/auth_data.dart';
 export 'package:jumpets_app/models/extensions/string_extension.dart';
 export 'package:jumpets_app/models/extensions/bool_extension.dart';
+export 'package:jumpets_app/models/extensions/double_extension.dart';
 export 'package:jumpets_app/models/extensions/user_extension.dart';
 export 'package:jumpets_app/models/extensions/categories_extension.dart';
 export 'package:jumpets_app/models/forms/forms.dart';

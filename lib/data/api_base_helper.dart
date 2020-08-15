@@ -25,12 +25,15 @@ class ApiBaseHelper {
     return responseJson;
   }
 
-  Future<dynamic> post(dynamic body) async {
+  Future<dynamic> post(dynamic body, {String token}) async {
     var responseJson;
     try {
       final response = await http
           .post(baseUrl,
-              headers: {'Content-type': 'application/json'},
+              headers: {
+                'Content-type': 'application/json',
+                'Authorization': 'Token $token'
+              },
               body: json.encode(body))
           .timeout(Duration(seconds: timeout));
       responseJson = _returnResponse(response);

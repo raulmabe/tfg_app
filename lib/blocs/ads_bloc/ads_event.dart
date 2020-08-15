@@ -14,11 +14,13 @@ class MoreAdsFetched extends AdsEvent {
 
 class AdsFetched extends AdsEvent {
   final int photosWidth, photosHeight, thumbnailWidth, thumbnailHeight;
+  final String token;
   AdsFetched(
       {this.photosHeight,
       this.photosWidth,
       this.thumbnailHeight,
-      this.thumbnailWidth});
+      this.thumbnailWidth,
+      this.token});
 }
 
 class CategorySelected extends AdsEvent {

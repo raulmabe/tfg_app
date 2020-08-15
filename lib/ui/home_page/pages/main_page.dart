@@ -3,10 +3,12 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jumpets_app/blocs/ads_bloc/ads_bloc.dart';
+import 'package:jumpets_app/blocs/auth_bloc/auth_bloc.dart';
 import 'package:jumpets_app/models/enums/categories.dart';
 import 'package:jumpets_app/ui/components/category_button.dart';
 import 'package:jumpets_app/ui/components/cards/info_card.dart';
 import 'package:jumpets_app/ui/components/jumpets_icons_icons.dart';
+import 'package:jumpets_app/ui/components/shelters_grid.dart';
 import 'package:jumpets_app/ui/components/vertical_grid/vertical_grid.dart';
 import 'package:jumpets_app/models/models.dart';
 import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
@@ -40,6 +42,9 @@ class _MainPageState extends State<MainPage> {
       },
       child: ListView(
         controller: widget.scrollController,
+        physics: adsBloc.category == Category.SHELTERS
+            ? NeverScrollableScrollPhysics()
+            : BouncingScrollPhysics(),
         shrinkWrap: true,
         children: [
           Padding(
@@ -102,7 +107,13 @@ class _MainPageState extends State<MainPage> {
                               borderRadius: 10,
                               onTap: (category) => adsBloc
                                 ..add(CategorySelected(category: category))
-                                ..add(AdsFetched()),
+                                ..add(AdsFetched(
+                                    token: context
+                                        .bloc<AuthBloc>()
+                                        .state
+                                        ?.authStatus
+                                        ?.authData
+                                        ?.token)),
                             ),
                           ))
                       .toList()),
@@ -123,6 +134,11 @@ class _MainPageState extends State<MainPage> {
             builder: (context, state) {
               if (state is AdsLoading || state is AdsSuccess) {
                 switch (context.bloc<AdsBloc>().category) {
+                  case Category.SHELTERS:
+                    return SheltersGrid(
+                      shelters: (state is AdsSuccess) ? state.shelters : null,
+                      usePlaceholders: state is AdsLoading,
+                    );
                   case Category.PRODUCTS:
                   case Category.SERVICES:
                     return VerticalGrid(
@@ -132,7 +148,6 @@ class _MainPageState extends State<MainPage> {
                           : null,
                       usePlaceholders: state is AdsLoading,
                     );
-                  case Category.SHELTERS:
                   default:
                     return VerticalGrid(
                       widgetInjection: InfoCard(
@@ -148,6 +163,7 @@ class _MainPageState extends State<MainPage> {
                 }
               }
               if (state is AdsFailure) {
+                // * Si category == shelters, ha fallado por falta de token
                 return FittedBox(
                   child: Text('Error'),
                 );

@@ -70,4 +70,18 @@ class AdsRepository {
         ..startCursor =
             json['data']['ads']['pageInfo']['startCursor']).toBuilder());
   }
+
+  Future<List<Protectora>> getCloseShelters({String token}) async {
+    var json = await _adsProvider.getCloseShelters(token: token);
+
+    List sheltersList = json['data']['getCloseShelters'];
+
+    List<Protectora> shelters = sheltersList.map((node) {
+      return Protectora.fromJson(node['protectora']).rebuild((b) => b
+        ..distance = node['distance']
+        ..travelTime = node['travelTime']);
+    }).toList();
+
+    return shelters;
+  }
 }

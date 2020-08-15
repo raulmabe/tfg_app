@@ -11,9 +11,8 @@ class AdsLoading extends AdsState {}
 
 class AdsSuccess extends AdsState {
   final PaginatedAds paginatedAds;
-  AdsSuccess({
-    this.paginatedAds,
-  });
+  final List<Protectora> shelters;
+  AdsSuccess({this.paginatedAds, this.shelters});
 }
 
 class AdsFailure extends AdsState {}

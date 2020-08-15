@@ -26,10 +26,14 @@ class AdsBloc extends Bloc<AdsEvent, AdsState> {
     super.onTransition(transition);
 
     if (transition.nextState is AdsSuccess) {
-      _currentEndCursor =
-          (transition.nextState as AdsSuccess).paginatedAds.pageInfo.endCursor;
+      _currentEndCursor = (transition.nextState as AdsSuccess)
+              .paginatedAds
+              ?.pageInfo
+              ?.endCursor ??
+          _currentEndCursor;
       _lastestAdsFetched =
-          (transition.nextState as AdsSuccess).paginatedAds.ads.toList();
+          (transition.nextState as AdsSuccess).paginatedAds?.ads?.toList() ??
+              _lastestAdsFetched;
     }
   }
 
@@ -55,6 +59,7 @@ class AdsBloc extends Bloc<AdsEvent, AdsState> {
   }
 
   Future<AdsState> _mapMoreAdsFetchedToState(MoreAdsFetched event) async {
+    if (category == Category.SHELTERS) return state;
     print('Trying to fetch more ads but: $_hasNextPage');
     if (_hasNextPage) {
       try {
@@ -82,16 +87,21 @@ class AdsBloc extends Bloc<AdsEvent, AdsState> {
 
   Future<AdsState> _mapAdsFetchedToState(AdsFetched event) async {
     try {
-      final paginatedAds = await repository.getPaginatedAds(
-        category: category,
-        first: 10,
-        after: null,
-        photosWidth: event.photosWidth,
-        photosHeight: event.photosHeight,
-        thumbnailHeight: event.thumbnailHeight,
-        thumbnailWidth: event.thumbnailWidth,
-      );
-      return AdsSuccess(paginatedAds: paginatedAds);
+      if (category == Category.SHELTERS) {
+        final shelters = await repository.getCloseShelters(token: event.token);
+        return AdsSuccess(shelters: shelters);
+      } else {
+        final paginatedAds = await repository.getPaginatedAds(
+          category: category,
+          first: 10,
+          after: null,
+          photosWidth: event.photosWidth,
+          photosHeight: event.photosHeight,
+          thumbnailHeight: event.thumbnailHeight,
+          thumbnailWidth: event.thumbnailWidth,
+        );
+        return AdsSuccess(paginatedAds: paginatedAds);
+      }
     } catch (err, stacktrace) {
       print('Ads BLoC OnCatch $err, $stacktrace');
       return AdsFailure();
