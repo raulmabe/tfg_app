@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:jumpets_app/blocs/auth_bloc/auth_bloc.dart';
+import 'package:jumpets_app/blocs/favs_bloc/favourites_bloc.dart';
 import 'package:jumpets_app/models/ads/animal_ad.dart';
 import 'package:jumpets_app/models/ads/animals/dog_ad.dart';
 import 'package:jumpets_app/models/enums/delivery_status.dart';
@@ -83,31 +86,67 @@ class AdPage extends StatelessWidget {
               child: SafeArea(
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20),
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: MyRaisedButton(
-                            text: 'Contact',
-                            onPressed: () =>
-                                Helper.showLoginBottomSheet(context)),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 10),
-                        child: ClipOval(
-                          child: Material(
-                            color: Theme.of(context).backgroundColor,
-                            child: InkWell(
-                                splashColor: Colors.pinkAccent,
-                                child: SizedBox(
-                                    width: 56,
-                                    height: 56,
-                                    child: Icon(Icons.favorite_border)),
-                                onTap: () {}),
-                          ),
-                        ),
-                      )
-                    ],
-                  ),
+                  child: BlocBuilder<AuthBloc, AuthState>(
+                      buildWhen: (previous, current) =>
+                          previous.authStatus.status !=
+                          current.authStatus.status,
+                      builder: (context, state) {
+                        bool isAuth = state.authStatus.status.isAuthenticated;
+                        return Row(
+                          children: [
+                            Expanded(
+                              child: MyRaisedButton(
+                                  text: 'Contact',
+                                  onPressed: () =>
+                                      Helper.showLoginBottomSheet(context)),
+                            ),
+                            Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 10),
+                              child: ClipOval(
+                                child: BlocBuilder<FavouritesBloc,
+                                    FavouritesState>(
+                                  builder: (context, state) {
+                                    bool alreadyFaved = false;
+                                    if (state is FavouritesSuccess) {
+                                      alreadyFaved = state.ads.any(
+                                          (element) => element.id == ad.id);
+                                    }
+
+                                    return Material(
+                                        color: Colors.grey.shade200,
+                                        child: InkWell(
+                                          child: SizedBox(
+                                              width: 50,
+                                              height: 50,
+                                              child: state is FavouritesLoading
+                                                  ? CircularProgressIndicator()
+                                                  : Icon(
+                                                      alreadyFaved
+                                                          ? Icons.favorite
+                                                          : Icons
+                                                              .favorite_border,
+                                                      color: alreadyFaved
+                                                          ? Colors.pinkAccent
+                                                          : Colors.black54)),
+                                          onTap: () => isAuth
+                                              ? context
+                                                  .bloc<FavouritesBloc>()
+                                                  .add(alreadyFaved
+                                                      ? FavouriteAdRemoved(
+                                                          adId: ad.id)
+                                                      : FavouriteAdAdded(
+                                                          ad: ad))
+                                              : Helper.showLoginBottomSheet(
+                                                  context),
+                                        ));
+                                  },
+                                ),
+                              ),
+                            )
+                          ],
+                        );
+                      }),
                 ),
               ))
         ],
@@ -192,7 +231,7 @@ class AdPage extends StatelessWidget {
                       ? Container()
                       : Row(
                           children: [
-                            Icon(Icons.star, color: Colors.yellow),
+                            ad.creator.oneStarWidget,
                             Text(ad.creator.valuationAvg.toStringAsPrecision(1))
                           ],
                         )

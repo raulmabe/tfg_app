@@ -139,15 +139,6 @@ class _MainPageState extends State<MainPage> {
                       shelters: (state is AdsSuccess) ? state.shelters : null,
                       usePlaceholders: state is AdsLoading,
                     );
-                  case Category.PRODUCTS:
-                  case Category.SERVICES:
-                    return VerticalGrid(
-                      bigCards: false,
-                      ads: (state is AdsSuccess)
-                          ? state.paginatedAds.ads.asList()
-                          : null,
-                      usePlaceholders: state is AdsLoading,
-                    );
                   default:
                     return VerticalGrid(
                       widgetInjection: InfoCard(

@@ -3,8 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:jumpets_app/models/ads/ad.dart';
 import 'package:jumpets_app/models/ads/animal_ad.dart';
-import 'package:jumpets_app/models/ads/product_ad.dart';
-import 'package:jumpets_app/models/ads/service_ad.dart';
+
 import 'package:jumpets_app/ui/components/cards/animal_card.dart';
 import 'package:jumpets_app/ui/components/cards/info_card.dart';
 import 'package:jumpets_app/ui/components/cards/other_card.dart';
@@ -14,18 +13,17 @@ class VerticalGrid extends StatelessWidget {
   final Widget widgetInjection;
   final bool usePlaceholders;
   final bool insertPlaceholderAtLast;
-  final bool bigCards;
 
-  VerticalGrid(
-      {this.ads,
-      this.widgetInjection,
-      this.usePlaceholders = false,
-      this.insertPlaceholderAtLast = false,
-      this.bigCards = true});
+  VerticalGrid({
+    this.ads,
+    this.widgetInjection,
+    this.usePlaceholders = false,
+    this.insertPlaceholderAtLast = false,
+  });
 
   @override
   Widget build(BuildContext context) {
-    final double height = bigCards ? 210 : 110;
+    final double height = 210;
     final double padding = 20;
 
     final list = usePlaceholders
@@ -43,7 +41,7 @@ class VerticalGrid extends StatelessWidget {
             }
             return OtherCard(
               ad: ad,
-              height: height,
+              height: height - 100,
             );
           }).toList());
 

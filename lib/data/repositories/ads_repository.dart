@@ -84,4 +84,40 @@ class AdsRepository {
 
     return shelters;
   }
+
+  Future<List<Ad>> getFavs({String token}) async {
+    var json = await _adsProvider.getFavs(token: token);
+
+    List list = json['data']['savedAds'];
+
+    List<Ad> favs = list.map((ad) {
+      return Ad.fromJson(ad);
+    }).toList();
+
+    return favs;
+  }
+
+  Future<List<Ad>> saveAd({String token, String id}) async {
+    var json = await _adsProvider.saveAd(token: token, id: id);
+
+    List list = json['data']['saveAd'];
+
+    List<Ad> favs = list.map((ad) {
+      return Ad.fromJson(ad);
+    }).toList();
+
+    return favs;
+  }
+
+  Future<List<Ad>> unsaveAd({String token, String id}) async {
+    var json = await _adsProvider.unsaveAd(token: token, id: id);
+
+    List list = json['data']['unsaveAd'];
+
+    List<Ad> favs = list.map((ad) {
+      return Ad.fromJson(ad);
+    }).toList();
+
+    return favs;
+  }
 }

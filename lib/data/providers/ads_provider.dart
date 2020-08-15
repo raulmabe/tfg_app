@@ -92,6 +92,202 @@ class AdsProvider {
     });
   }
 
+  Future<dynamic> getFavs({String token}) async {
+    return _api.post({
+      'query': '''{
+  savedAds {
+     id: _id
+          tags
+          photos
+          ... on ProductAd {
+            title
+            description
+            price
+            type: __typename
+          }
+          ... on ServiceAd {
+            title
+            description
+            priceHour
+            type: __typename
+          }
+          ... on AnimalAd {
+            name
+            description
+            activityLevel
+            birthDate
+            male
+            adoptionTax
+            weight
+            personality
+            mustKnow
+            deliveryInfo
+            breed
+            ... on Dog {
+            type
+              size
+            }
+            ... on OtherAnimal {
+              
+            type
+            }
+          }
+          createdAt
+          creator {
+            id: _id
+            type: __typename
+            thumbnail
+            email
+            name
+            address
+            phone
+            createdAt
+            updatedAt
+            ... on Protectora {
+              web
+            }
+            ... on Profesional {
+              web
+            }
+          }
+  }
+}'''
+    }, token: token);
+  }
+
+  Future<dynamic> saveAd({String token, String id}) async {
+    return _api.post({
+      'query': '''mutation{
+  saveAd(id: "$id") {
+     id: _id
+          tags
+          photos(options: {width: null, height: null})
+          ... on ProductAd {
+            title
+            description
+            price
+            type: __typename
+          }
+          ... on ServiceAd {
+            title
+            description
+            priceHour
+            type: __typename
+          }
+          ... on AnimalAd {
+            name
+            description
+            activityLevel
+            birthDate
+            male
+            adoptionTax
+            weight
+            personality
+            mustKnow
+            deliveryInfo
+            breed
+            ... on Dog {
+            type
+              size
+            }
+            ... on OtherAnimal {
+              
+            type
+            }
+          }
+          createdAt
+          creator {
+            id: _id
+            type: __typename
+            thumbnail(options: {
+              width: null,
+              height: null
+            })
+            email
+            name
+            address
+            phone
+            ... on Protectora {
+              web
+            }
+            ... on Profesional {
+              web
+            }
+
+            createdAt
+            updatedAt
+          }
+  }
+}'''
+    }, token: token);
+  }
+
+  Future<dynamic> unsaveAd({String token, String id}) async {
+    return _api.post({
+      'query': '''mutation{
+  unsaveAd(id: "$id") {
+     id: _id
+          tags
+          photos(options: {width: null, height: null})
+          ... on ProductAd {
+            title
+            description
+            price
+            type: __typename
+          }
+          ... on ServiceAd {
+            title
+            description
+            priceHour
+            type: __typename
+          }
+          ... on AnimalAd {
+            name
+            description
+            activityLevel
+            birthDate
+            male
+            adoptionTax
+            weight
+            personality
+            mustKnow
+            deliveryInfo
+            breed
+            ... on Dog {
+            type
+              size
+            }
+            ... on OtherAnimal {
+              
+            type
+            }
+          }
+          createdAt
+          creator {
+            id: _id
+            type: __typename
+            thumbnail(options: {
+              width: null,
+              height: null
+            })
+            email
+            name
+            address
+            phone
+            ... on Protectora {
+              web
+            }
+            ... on Profesional {
+              web
+            }
+            createdAt
+            updatedAt
+          }
+  }
+}'''
+    }, token: token);
+  }
+
   Future<dynamic> getCloseShelters({String token}) async {
     return _api.post({
       'query': '''{
