@@ -77,6 +77,32 @@ class AdsProvider {
             }
             createdAt
             updatedAt
+            valuations {
+              author {
+                 id: _id
+                  type: __typename
+                  thumbnail(options: {
+                    width: $thumbnailWidth,
+                    height: $thumbnailHeight
+                  })
+                  name
+                  address
+                  email
+                  phone
+                  ... on Protectora {
+                    web
+                  }
+                  ... on Profesional {
+                    web
+                  }
+                  createdAt
+                  updatedAt
+              }
+              value
+              comment
+              updatedAt
+              createdAt
+            }
           }
         }
         cursor

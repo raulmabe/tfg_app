@@ -16,6 +16,8 @@ abstract class Valuation implements Built<Valuation, ValuationBuilder> {
   String get comment;
 
   double get value;
+  DateTime get createdAt;
+  DateTime get updatedAt;
 
   Valuation._();
 

@@ -86,8 +86,8 @@ class _HomePageState extends State<HomePage> {
                         user: state.authStatus.authData.user,
                       ),
                     ))),
-                    withBorder: true,
-                    url: state.authStatus.authData.user.thumbnail,
+                    borderWidth: 2,
+                    user: state.authStatus.authData.user,
                   ));
             },
           ),

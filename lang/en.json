@@ -29,5 +29,8 @@
     "service_ads": "Services ads",
     "private": "Private",
     "professional": "Professional",
-    "shelter": "Shelter"
+    "shelter": "Shelter",
+    "ads": "Ads",
+    "valuations": "Valuations",
+    "new_valuation_hint": "What do you think about"
 }

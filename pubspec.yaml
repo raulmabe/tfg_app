@@ -41,6 +41,9 @@ dependencies:
   google_fonts: ^1.0.0
   tinycolor: ^1.0.2
   overlay_support: ^1.0.4
+  dart_date: ^1.0.7
+  smooth_star_rating: 1.1.1
+
 
 dev_dependencies:
   flutter_test:

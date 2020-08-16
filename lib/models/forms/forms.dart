@@ -1,4 +1,5 @@
 import 'package:formz/formz.dart';
+import 'package:jumpets_app/models/models.dart';
 
 enum NameValidationError { empty }
 
@@ -33,5 +34,17 @@ class Password extends FormzInput<String, PasswordValidationError> {
   @override
   PasswordValidationError validator(String value) {
     return value?.isEmpty == true ? PasswordValidationError.empty : null;
+  }
+}
+
+enum CommentValidationError { empty, too_short }
+
+class Comment extends FormzInput<String, CommentValidationError> {
+  const Comment.pure() : super.pure('');
+  const Comment.dirty([String value = '']) : super.dirty(value);
+
+  @override
+  CommentValidationError validator(String value) {
+    return value?.isEmpty == true ? CommentValidationError.empty : value.length < 20 ? CommentValidationError.too_short : null;
   }
 }

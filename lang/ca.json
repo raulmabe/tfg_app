@@ -29,5 +29,8 @@
     "service_ads": "Anuncis de serveis",
     "private": "Particular",
     "professional": "Professional",
-    "shelter": "Protectora"
+    "shelter": "Protectora",
+    "ads": "Anuncis",
+    "valuations": "Valoracions",
+    "new_valuation_hint": "Que n'opines sobre"
 }

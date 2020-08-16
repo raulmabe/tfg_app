@@ -54,7 +54,7 @@ extension UserExtension on User {
   IconData get iconFromType {
     if (isProfesional) return JumpetsIcons.profesional;
     if (isProtectora) return JumpetsIcons.protectoras;
-    throw new UnimplementedError('$this has no IconData');
+    return null;
   }
 
   Color get colorFromType {

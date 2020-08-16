@@ -7,6 +7,7 @@ import 'package:jumpets_app/models/ads/animals/dog_ad.dart';
 import 'package:jumpets_app/models/enums/delivery_status.dart';
 import 'package:jumpets_app/models/models.dart';
 import 'package:jumpets_app/ui/components/auth/auth_sheet.dart';
+import 'package:jumpets_app/ui/components/icon_button.dart';
 import 'package:jumpets_app/ui/components/info_square.dart';
 import 'package:jumpets_app/models/extensions/string_extension.dart';
 import 'package:jumpets_app/models/extensions/bool_extension.dart';
@@ -103,45 +104,35 @@ class AdPage extends StatelessWidget {
                             Padding(
                               padding:
                                   const EdgeInsets.symmetric(horizontal: 10),
-                              child: ClipOval(
-                                child: BlocBuilder<FavouritesBloc,
-                                    FavouritesState>(
-                                  builder: (context, state) {
-                                    bool alreadyFaved = false;
-                                    if (state is FavouritesSuccess) {
-                                      alreadyFaved = state.ads.any(
-                                          (element) => element.id == ad.id);
-                                    }
-
-                                    return Material(
-                                        color: Colors.grey.shade200,
-                                        child: InkWell(
-                                          child: SizedBox(
-                                              width: 50,
-                                              height: 50,
-                                              child: state is FavouritesLoading
-                                                  ? CircularProgressIndicator()
-                                                  : Icon(
-                                                      alreadyFaved
-                                                          ? Icons.favorite
-                                                          : Icons
-                                                              .favorite_border,
-                                                      color: alreadyFaved
-                                                          ? Colors.pinkAccent
-                                                          : Colors.black54)),
-                                          onTap: () => isAuth
-                                              ? context
-                                                  .bloc<FavouritesBloc>()
-                                                  .add(alreadyFaved
-                                                      ? FavouriteAdRemoved(
-                                                          adId: ad.id)
-                                                      : FavouriteAdAdded(
-                                                          ad: ad))
-                                              : Helper.showLoginBottomSheet(
-                                                  context),
-                                        ));
-                                  },
-                                ),
+                              child:
+                                  BlocBuilder<FavouritesBloc, FavouritesState>(
+                                builder: (context, state) {
+                                  bool alreadyFaved = false;
+                                  if (state is FavouritesSuccess) {
+                                    alreadyFaved = state.ads
+                                        .any((element) => element.id == ad.id);
+                                  }
+                                  return MyIconButton(
+                                    color: Colors.grey.shade200,
+                                    size: 50,
+                                    child: state is FavouritesLoading
+                                        ? CircularProgressIndicator()
+                                        : Icon(
+                                            alreadyFaved
+                                                ? Icons.favorite
+                                                : Icons.favorite_border,
+                                            color: alreadyFaved
+                                                ? Colors.pinkAccent
+                                                : Colors.black54),
+                                    onTap: () => isAuth
+                                        ? context.bloc<FavouritesBloc>().add(
+                                            alreadyFaved
+                                                ? FavouriteAdRemoved(
+                                                    adId: ad.id)
+                                                : FavouriteAdAdded(ad: ad))
+                                        : Helper.showLoginBottomSheet(context),
+                                  );
+                                },
                               ),
                             )
                           ],
@@ -217,7 +208,7 @@ class AdPage extends StatelessWidget {
               child: Row(
                 children: [
                   ProfileIcon(
-                    url: ad.creator.thumbnail,
+                    user: ad.creator,
                   ),
                   SizedBox(
                     width: edgePadding / 2,
@@ -232,7 +223,7 @@ class AdPage extends StatelessWidget {
                       : Row(
                           children: [
                             ad.creator.oneStarWidget,
-                            Text(ad.creator.valuationAvg.toStringAsPrecision(1))
+                            Text(ad.creator.valuationAvg.toStringAsFixed(2))
                           ],
                         )
                 ],

@@ -1,42 +1,49 @@
 import 'package:flutter/material.dart';
+import 'package:jumpets_app/models/models.dart';
 
 class ProfileIcon extends StatelessWidget {
-  final String url;
+  final User user;
   final double radius;
-  final bool withBorder;
+  final double borderWidth;
   final VoidCallback onTap;
+  final bool withBadge;
 
   ProfileIcon(
-      {@required this.url,
+      {@required this.user,
       this.radius = 20.0,
-      this.withBorder = false,
-      this.onTap});
+      this.borderWidth = 0,
+      this.onTap,
+      this.withBadge = true});
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: InkWell(
-        onTap: onTap,
-        child: Material(
-            shape: CircleBorder(
-              side: BorderSide(
-                  color: Theme.of(context).accentColor,
-                  width: withBorder ? 2 : 0),
-            ),
-            child: url != null
-                ? CircleAvatar(
-                    radius: radius,
-                    backgroundImage: NetworkImage(
-                      url,
-                    ),
-                  )
-                : CircleAvatar(
-                    radius: radius,
-                    backgroundColor: Colors.white,
-                    child: ClipOval(
-                        child: Image.asset('assets/img/default_avatar.png')),
-                  )),
-      ),
+    return Stack(
+      children: [
+        Center(
+          child: InkWell(
+            onTap: onTap,
+            child: Material(
+                shape: CircleBorder(
+                  side:
+                      BorderSide(color: user.colorFromType, width: borderWidth),
+                ),
+                child: user.thumbnail != null
+                    ? CircleAvatar(
+                        radius: radius,
+                        backgroundImage: NetworkImage(
+                          user.thumbnail,
+                        ),
+                      )
+                    : CircleAvatar(
+                        radius: radius,
+                        backgroundColor: Colors.white,
+                        child: ClipOval(
+                            child:
+                                Image.asset('assets/img/default_avatar.png')),
+                      )),
+          ),
+        ),
+      ],
     );
   }
 }

@@ -8,8 +8,8 @@ class ApiBaseHelper {
   final String baseUrl;
   final int timeout;
 
-  ApiBaseHelper({this.baseUrl = 'http://192.168.1.45:3030/graphql'})
-      : timeout = 50;
+  ApiBaseHelper({this.baseUrl = 'http://192.168.1.47:3030/graphql'})
+      : timeout = 500;
 
   Future<dynamic> get(String url) async {
     var responseJson;

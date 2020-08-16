@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:jumpets_app/app_localizations.dart';
 
 import 'package:jumpets_app/models/models.dart';
 
@@ -35,6 +36,8 @@ class UserChip extends StatelessWidget {
   }
 
   List<Widget> _content(context, factor) {
+    String text = AppLocalizations.of(context).translate(user.stringFromType);
+
     return <Widget>[
       Icon(
         user.iconFromType,
@@ -45,8 +48,7 @@ class UserChip extends StatelessWidget {
         width: 10 * factor,
       ),
       FittedBox(
-        child: Text(
-            small ? user.stringFromType.substring(0, 4) : user.stringFromType),
+        child: Text(small ? text.substring(0, 4) : text),
       ),
     ];
   }

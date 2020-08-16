@@ -26,6 +26,12 @@ class _$ValuationSerializer implements StructuredSerializer<Valuation> {
       'value',
       serializers.serialize(object.value,
           specifiedType: const FullType(double)),
+      'createdAt',
+      serializers.serialize(object.createdAt,
+          specifiedType: const FullType(DateTime)),
+      'updatedAt',
+      serializers.serialize(object.updatedAt,
+          specifiedType: const FullType(DateTime)),
     ];
 
     return result;
@@ -54,6 +60,14 @@ class _$ValuationSerializer implements StructuredSerializer<Valuation> {
           result.value = serializers.deserialize(value,
               specifiedType: const FullType(double)) as double;
           break;
+        case 'createdAt':
+          result.createdAt = serializers.deserialize(value,
+              specifiedType: const FullType(DateTime)) as DateTime;
+          break;
+        case 'updatedAt':
+          result.updatedAt = serializers.deserialize(value,
+              specifiedType: const FullType(DateTime)) as DateTime;
+          break;
       }
     }
 
@@ -68,11 +82,17 @@ class _$Valuation extends Valuation {
   final String comment;
   @override
   final double value;
+  @override
+  final DateTime createdAt;
+  @override
+  final DateTime updatedAt;
 
   factory _$Valuation([void Function(ValuationBuilder) updates]) =>
       (new ValuationBuilder()..update(updates)).build();
 
-  _$Valuation._({this.author, this.comment, this.value}) : super._() {
+  _$Valuation._(
+      {this.author, this.comment, this.value, this.createdAt, this.updatedAt})
+      : super._() {
     if (author == null) {
       throw new BuiltValueNullFieldError('Valuation', 'author');
     }
@@ -81,6 +101,12 @@ class _$Valuation extends Valuation {
     }
     if (value == null) {
       throw new BuiltValueNullFieldError('Valuation', 'value');
+    }
+    if (createdAt == null) {
+      throw new BuiltValueNullFieldError('Valuation', 'createdAt');
+    }
+    if (updatedAt == null) {
+      throw new BuiltValueNullFieldError('Valuation', 'updatedAt');
     }
   }
 
@@ -97,13 +123,17 @@ class _$Valuation extends Valuation {
     return other is Valuation &&
         author == other.author &&
         comment == other.comment &&
-        value == other.value;
+        value == other.value &&
+        createdAt == other.createdAt &&
+        updatedAt == other.updatedAt;
   }
 
   @override
   int get hashCode {
-    return $jf(
-        $jc($jc($jc(0, author.hashCode), comment.hashCode), value.hashCode));
+    return $jf($jc(
+        $jc($jc($jc($jc(0, author.hashCode), comment.hashCode), value.hashCode),
+            createdAt.hashCode),
+        updatedAt.hashCode));
   }
 
   @override
@@ -111,7 +141,9 @@ class _$Valuation extends Valuation {
     return (newBuiltValueToStringHelper('Valuation')
           ..add('author', author)
           ..add('comment', comment)
-          ..add('value', value))
+          ..add('value', value)
+          ..add('createdAt', createdAt)
+          ..add('updatedAt', updatedAt))
         .toString();
   }
 }
@@ -131,6 +163,14 @@ class ValuationBuilder implements Builder<Valuation, ValuationBuilder> {
   double get value => _$this._value;
   set value(double value) => _$this._value = value;
 
+  DateTime _createdAt;
+  DateTime get createdAt => _$this._createdAt;
+  set createdAt(DateTime createdAt) => _$this._createdAt = createdAt;
+
+  DateTime _updatedAt;
+  DateTime get updatedAt => _$this._updatedAt;
+  set updatedAt(DateTime updatedAt) => _$this._updatedAt = updatedAt;
+
   ValuationBuilder();
 
   ValuationBuilder get _$this {
@@ -138,6 +178,8 @@ class ValuationBuilder implements Builder<Valuation, ValuationBuilder> {
       _author = _$v.author;
       _comment = _$v.comment;
       _value = _$v.value;
+      _createdAt = _$v.createdAt;
+      _updatedAt = _$v.updatedAt;
       _$v = null;
     }
     return this;
@@ -159,7 +201,12 @@ class ValuationBuilder implements Builder<Valuation, ValuationBuilder> {
   @override
   _$Valuation build() {
     final _$result = _$v ??
-        new _$Valuation._(author: author, comment: comment, value: value);
+        new _$Valuation._(
+            author: author,
+            comment: comment,
+            value: value,
+            createdAt: createdAt,
+            updatedAt: updatedAt);
     replace(_$result);
     return _$result;
   }
