@@ -7,7 +7,7 @@ import 'package:jumpets_app/models/ads/animal_ad.dart';
 import 'package:jumpets_app/models/ads/animals/dog_ad.dart';
 import 'package:jumpets_app/models/enums/delivery_status.dart';
 import 'package:jumpets_app/models/models.dart';
-import 'package:jumpets_app/ui/components/auth/auth_sheet.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:jumpets_app/ui/components/icon_button.dart';
 import 'package:jumpets_app/ui/components/info_square.dart';
 import 'package:jumpets_app/models/extensions/string_extension.dart';
@@ -16,11 +16,9 @@ import 'package:jumpets_app/ui/components/photo_icon.dart';
 import 'package:jumpets_app/ui/components/profile_icon.dart';
 import 'package:jumpets_app/ui/components/raised_button.dart';
 import 'package:jumpets_app/ui/components/sex_icon.dart';
-import 'package:jumpets_app/ui/components/soft_transition.dart';
 import 'package:jumpets_app/ui/components/tags.dart';
 import 'package:jumpets_app/ui/components/user_chip.dart';
 import 'package:jumpets_app/ui/helper.dart';
-import 'package:jumpets_app/ui/profile_page/profile_page.dart';
 
 class AdPage extends StatelessWidget {
   final Ad ad;
@@ -118,7 +116,12 @@ class AdPage extends StatelessWidget {
                                     color: Colors.grey.shade200,
                                     size: 50,
                                     child: state is FavouritesLoading
-                                        ? CircularProgressIndicator()
+                                        ? SpinKitPulse(
+                                            color: Colors.pinkAccent,
+                                            size: 50,
+                                            duration:
+                                                Duration(milliseconds: 300),
+                                          )
                                         : Icon(
                                             alreadyFaved
                                                 ? Icons.favorite

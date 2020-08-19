@@ -122,6 +122,10 @@ class _ProfilePageState extends State<ProfilePage> {
                             children: [
                               Text(user.name,
                                   style: Theme.of(context).textTheme.headline5),
+                              Padding(
+                                  padding:
+                                      const EdgeInsets.symmetric(vertical: 10),
+                                  child: user.valuationsStars),
                               user.address != null
                                   ? Text(
                                       user.address,
@@ -136,9 +140,6 @@ class _ProfilePageState extends State<ProfilePage> {
                                           Theme.of(context).textTheme.subtitle1,
                                     )
                                   : Container(),
-                              Padding(
-                                  padding: const EdgeInsets.only(top: 20),
-                                  child: user.valuationsStars)
                             ],
                           ),
                         ),

@@ -9,7 +9,10 @@ import 'package:jumpets_app/ui/components/cards/shelter_card.dart';
 class SheltersGrid extends StatefulWidget {
   final bool usePlaceholders;
   final List<Protectora> shelters;
-  SheltersGrid({this.shelters, this.usePlaceholders = false});
+  SheltersGrid({
+    this.shelters,
+    this.usePlaceholders = false,
+  });
   @override
   _SheltersGridState createState() => _SheltersGridState();
 }

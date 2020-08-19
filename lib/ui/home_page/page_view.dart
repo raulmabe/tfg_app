@@ -35,7 +35,18 @@ class HomePageView extends StatelessWidget {
           MainPage(
             scrollController: scrollController,
           ),
-          Container(color: Colors.tealAccent),
+          BlocBuilder<AuthBloc, AuthState>(
+            builder: (context, state) {
+              if (state.authStatus.status !=
+                  AuthenticationStatus.authenticated) {
+                return AuthBody(
+                  isFlex: true,
+                );
+              } else {
+                return Container(color: Colors.tealAccent);
+              }
+            },
+          ),
         ]);
   }
 }

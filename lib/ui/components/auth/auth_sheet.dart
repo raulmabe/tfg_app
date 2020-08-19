@@ -7,20 +7,17 @@ import 'package:jumpets_app/blocs/auth_bloc/bloc/login_bloc.dart';
 import 'package:jumpets_app/blocs/auth_bloc/bloc/register_bloc.dart';
 import 'package:jumpets_app/data/repositories/authentication_repository.dart';
 import 'package:jumpets_app/models/enums/user_types.dart';
-import 'package:jumpets_app/models/models.dart';
 import 'package:jumpets_app/models/wrappers/auth_status.dart';
 import 'package:jumpets_app/ui/components/raised_button.dart';
-import 'package:jumpets_app/ui/components/soft_transition.dart';
 import 'package:jumpets_app/ui/components/forms/login_form_components.dart';
-import 'package:jumpets_app/ui/helper.dart';
 
 // ! AuthSheet solo es un wrapper
 class AuthSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DraggableScrollableSheet(
-        initialChildSize: .6,
-        minChildSize: .6,
+        initialChildSize: .7,
+        minChildSize: .7,
         maxChildSize: .9,
         expand: false,
         builder: (_, scrollController) => BlocListener<AuthBloc, AuthState>(

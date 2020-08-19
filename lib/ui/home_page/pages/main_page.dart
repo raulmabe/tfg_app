@@ -48,6 +48,7 @@ class _MainPageState extends State<MainPage> {
             : BouncingScrollPhysics(),
         shrinkWrap: true,
         children: [
+          // Title
           Padding(
             padding: EdgeInsets.symmetric(
               horizontal: 20,
@@ -75,6 +76,7 @@ class _MainPageState extends State<MainPage> {
               ],
             ),
           ),
+          // Categories
           BlocBuilder<AdsBloc, AdsState>(
             buildWhen: (previous, current) => current is CategoryChanged,
             builder: (context, state) => SingleChildScrollView(
