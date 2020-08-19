@@ -50,8 +50,9 @@ class CategoryButton extends StatelessWidget {
               flex: 3,
               child: Icon(
                 category.getIcon(),
-                color:
-                    !isSelected ? Theme.of(context).accentColor : Colors.white,
+                color: !isSelected
+                    ? Theme.of(context).accentColor
+                    : Theme.of(context).primaryColor,
                 size: size / 2,
               )),
           !isCollapsed
@@ -86,7 +87,9 @@ class RoundedSquareButton extends StatelessWidget {
       child: Material(
         shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(borderRadius)),
-        color: isSelected ? Theme.of(context).accentColor : Colors.white,
+        color: isSelected
+            ? Theme.of(context).accentColor
+            : Theme.of(context).primaryColor,
         elevation: 2,
         child: InkWell(
             onTap: () {

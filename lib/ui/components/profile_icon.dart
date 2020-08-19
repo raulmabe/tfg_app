@@ -36,7 +36,7 @@ class ProfileIcon extends StatelessWidget {
                       )
                     : CircleAvatar(
                         radius: radius,
-                        backgroundColor: Colors.white,
+                        backgroundColor: Theme.of(context).primaryColor,
                         child: ClipOval(
                             child:
                                 Image.asset('assets/img/default_avatar.png')),

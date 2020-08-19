@@ -86,7 +86,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     .translate(user.stringFromType.toLowerCase()),
                 style: Theme.of(context)
                     .textTheme
-                    .display2
+                    .headline3
                     .copyWith(color: user.colorFromType),
               ),
               centerTitle: true,

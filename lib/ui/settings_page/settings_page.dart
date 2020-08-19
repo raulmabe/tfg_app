@@ -14,7 +14,7 @@ class SettingsPage extends StatelessWidget {
         backgroundColor: new Color(0xfff8faf8),
         title: Text(
           AppLocalizations.of(context).translate('settings'),
-          style: Theme.of(context).textTheme.display2,
+          style: Theme.of(context).textTheme.headline3,
         ),
         iconTheme: Theme.of(context).iconTheme.copyWith(color: Colors.grey),
       ),

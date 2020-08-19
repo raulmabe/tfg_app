@@ -120,7 +120,7 @@ class ValuationButton extends StatelessWidget {
 
         var child = state.status.isSubmissionInProgress
             ? CircularProgressIndicator(
-                backgroundColor: Colors.white,
+                backgroundColor: Theme.of(context).primaryColor,
               )
             : Icon(Icons.send,
                 color: state.status.isValidated
@@ -170,7 +170,7 @@ class _OwnValuationState extends State<OwnValuation> {
               Row(
                 children: [
                   FlatButton(
-                      child: Text('Edit'),
+                      child: Text('edit'),
                       textColor: Colors.black54,
                       onPressed: () => toggleEdit(true)),
                   BlocBuilder<ValuationsBloc, ValuationsState>(
@@ -184,7 +184,8 @@ class _OwnValuationState extends State<OwnValuation> {
                     },
                   ),
                 ],
-              )
+              ),
+              Divider(),
             ]);
     }
     return _onEdit(userAuth);

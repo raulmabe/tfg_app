@@ -38,7 +38,7 @@ class ShelterCard extends StatelessWidget {
         ),
         OpenContainer(
           closedElevation: isSelected ? 3 : 0,
-          closedColor: Colors.white,
+          closedColor: Theme.of(context).primaryColor,
           closedShape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10),
           ),

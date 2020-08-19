@@ -8,39 +8,71 @@ class ValuationCard extends StatelessWidget {
   ValuationCard(this.valuation);
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        ProfileIcon(
-          user: valuation.author,
-          radius: 35,
-        ),
-        Expanded(
-            child: Padding(
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Material(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+        elevation: 1,
+        color: Theme.of(context).primaryColor,
+        child: Padding(
           padding: const EdgeInsets.all(8.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
+          child: Row(
             children: [
-              Container(
-                  /* padding: EdgeInsets.symmetric(vertical: 10), */
-                  child: valuation.valuationsStars()),
-              Container(
-                padding: EdgeInsets.symmetric(vertical: 10),
-                child: RichText(
-                    text: TextSpan(
-                        text: valuation.author.name,
-                        style: Theme.of(context).textTheme.headline6,
-                        children: [
-                      TextSpan(
-                          text:
-                              ' ${valuation.createdAt.timeago(locale: AppLocalizations.of(context).locale.languageCode)}',
-                          style: Theme.of(context).textTheme.subtitle2),
-                    ])),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 10),
+                child: SizedBox(
+                  width: 65,
+                  child: Column(
+                    children: [
+                      ProfileIcon(
+                        user: valuation.author,
+                        radius: 30,
+                      ),
+                      SizedBox(
+                        height: 5,
+                      ),
+                      Text(
+                        valuation.author.name,
+                        overflow: TextOverflow.ellipsis,
+                        style: Theme.of(context).textTheme.caption,
+                      ),
+                    ],
+                  ),
+                ),
               ),
-              Container(child: Text(valuation.comment)),
+              Expanded(
+                  child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    Row(children: [
+                      Expanded(
+                        child: Text(
+                          AppLocalizations.of(context)
+                              .translate(valuation.author.stringFromType),
+                          style: Theme.of(context).textTheme.subtitle1,
+                        ),
+                      ),
+                      Text(
+                        valuation.createdAt.timeago(
+                            locale: AppLocalizations.of(context)
+                                .locale
+                                .languageCode),
+                        style: Theme.of(context).textTheme.caption,
+                      ),
+                    ]),
+                    Container(
+                        padding: EdgeInsets.symmetric(vertical: 5),
+                        child: valuation.valuationsStars(size: 17)),
+                    Container(child: Text(valuation.comment)),
+                  ],
+                ),
+              )),
             ],
           ),
-        )),
-      ],
+        ),
+      ),
     );
   }
 }

@@ -62,24 +62,24 @@ class AppTheme {
 
   static TextTheme _getTextTheme(TextTheme baseTheme) {
     return baseTheme.copyWith(
-        title: baseTheme.title.copyWith(color: Colors.grey.shade900),
-        display1: baseTheme.display1.copyWith(
+        headline6: baseTheme.headline6.copyWith(color: Colors.grey.shade900),
+        headline4: baseTheme.headline4.copyWith(
           color: Colors.black,
           fontWeight: FontWeight.bold,
           fontSize: 25,
         ),
-        display2: baseTheme.display2.copyWith(
+        headline3: baseTheme.headline3.copyWith(
           color: kAccentColor,
           fontFamily: 'VelvetHeart',
           fontSize: 70,
         ),
-        body1: baseTheme.body1.copyWith(color: Colors.grey.shade700),
-        body2: baseTheme.body2.copyWith(
+        bodyText2: baseTheme.bodyText2.copyWith(color: Colors.grey.shade700),
+        bodyText1: baseTheme.bodyText1.copyWith(
             color: Colors.grey.shade700,
             fontSize: 15,
             fontWeight: FontWeight.w700),
         caption: baseTheme.caption
-            .copyWith(color: Colors.grey.shade400, fontSize: 20),
+            .copyWith(color: Colors.grey.shade500, fontSize: 15),
         button: baseTheme.button.copyWith(letterSpacing: 2.0));
   }
 }

@@ -45,8 +45,8 @@ class MyRaisedButton extends StatelessWidget {
             color: (filled ? finalColor : Colors.transparent),
             child: InkWell(
               onTap: blocked ? null : onPressed,
-              splashColor:
-                  color?.withOpacity(.3) ?? Colors.white.withOpacity(.3),
+              splashColor: color?.withOpacity(.3) ??
+                  Theme.of(context).primaryColor.withOpacity(.3),
               child: Padding(
                 padding: EdgeInsets.all(10.0),
                 child: child != null
@@ -60,7 +60,9 @@ class MyRaisedButton extends StatelessWidget {
                           style: TextStyle(
                               fontWeight: FontWeight.w700,
                               letterSpacing: 2,
-                              color: textColor ?? color ?? Colors.white),
+                              color: textColor ??
+                                  color ??
+                                  Theme.of(context).primaryColor),
                         ),
                       ),
               ),

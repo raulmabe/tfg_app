@@ -8,21 +8,21 @@ import 'package:jumpets_app/ui/components/jumpets_icons_icons.dart';
 import '../../ui/app_theme.dart';
 
 extension ValuationExtension on Valuation {
-  Widget valuationsStars({Color color}) => Builder(
+  Widget valuationsStars({Color color, double size}) => Builder(
         builder: (context) => Row(
             children: List.generate(5, (index) {
           double result = this.value - index;
 
           if (result <= 0) {
             return Icon(Icons.star_border,
-                color: color ?? Theme.of(context).accentColor);
+                color: color ?? Theme.of(context).accentColor, size: size);
           }
           if (result < 1) {
             return Icon(Icons.star_half,
-                color: color ?? Theme.of(context).accentColor);
+                color: color ?? Theme.of(context).accentColor, size: size);
           }
           return Icon(Icons.star,
-              color: color ?? Theme.of(context).accentColor);
+              color: color ?? Theme.of(context).accentColor, size: size);
         })),
       );
 }

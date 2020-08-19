@@ -62,7 +62,7 @@ class _MainPageState extends State<MainPage> {
                       return Text(
                           AppLocalizations.of(context)
                               .translate(adsBloc.category.name.toLowerCase()),
-                          style: Theme.of(context).textTheme.display2);
+                          style: Theme.of(context).textTheme.headline3);
                     },
                   ),
                 ),

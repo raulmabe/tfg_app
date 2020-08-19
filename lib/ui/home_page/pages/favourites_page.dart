@@ -59,7 +59,7 @@ class _FavouritesPageState extends State<FavouritesPage> {
           children: <Widget>[
             Expanded(
               child: Text(AppLocalizations.of(context).translate('favourites'),
-                  style: Theme.of(context).textTheme.display2),
+                  style: Theme.of(context).textTheme.headline3),
             ),
             Text(length.toString()),
           ],

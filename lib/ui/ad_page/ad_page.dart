@@ -169,7 +169,7 @@ class AdPage extends StatelessWidget {
         child: Row(children: [
           Expanded(
               child: Text(title.capitalize(),
-                  style: Theme.of(context).textTheme.display1)),
+                  style: Theme.of(context).textTheme.headline4)),
           Text('${price.toStringAsPrecision(2)} €',
               style: Theme.of(context).textTheme.bodyText1)
         ]),
@@ -184,7 +184,7 @@ class AdPage extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
               Text((ad as AnimalAd).name,
-                  style: Theme.of(context).textTheme.display1),
+                  style: Theme.of(context).textTheme.headline4),
               Text((ad as AnimalAd).breed,
                   style: Theme.of(context).textTheme.caption),
             ],
@@ -256,7 +256,7 @@ class AdPage extends StatelessWidget {
               padding:
                   EdgeInsets.only(left: edgePadding, bottom: edgePadding / 2),
               child: Text(AppLocalizations.of(context).translate('more_photos'),
-                  style: Theme.of(context).textTheme.body2),
+                  style: Theme.of(context).textTheme.bodyText1),
             ),
             SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
@@ -310,50 +310,41 @@ class __InfoSquaresState extends State<_InfoSquares> {
     super.dispose();
   }
 
-  Widget _infoSquares(context) => Scrollbar(
-        isAlwaysShown: true,
-        controller: _scrollController,
-        child: SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            controller: _scrollController,
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8),
-              child: Row(
-                children: <Widget>[
-                  InfoSquare(
-                      title: AppLocalizations.of(context)
-                          .translate('adoption_tax'),
-                      value: ad.adoptionTax.toStringAsPrecision(2)),
-                  InfoSquare(
-                      title: AppLocalizations.of(context).translate('age'),
-                      value:
-                          (DateTime.now().difference(ad.birthDate).inDays / 365)
-                              .floor()
-                              .toString()),
-                  InfoSquare(
-                      title: AppLocalizations.of(context).translate('weight'),
-                      value: '${ad.weight.toString()} kg'),
-                  ad is DogAd
-                      ? InfoSquare(
-                          title: AppLocalizations.of(context).translate('size'),
-                          value: (ad as DogAd).size.name.capitalize())
-                      : Container(),
-                  InfoSquare(
-                      title: AppLocalizations.of(context)
-                          .translate('activity_level'),
-                      value: ad.activityLevel.name.capitalize()),
-                ]..addAll(DeliveryStatus.values.map((deliveryStatus) =>
-                    InfoSquare(
-                        title: AppLocalizations.of(context)
-                            .translate(deliveryStatus.name.toLowerCase()),
-                        value: AppLocalizations.of(context).translate(ad
-                            .deliveryInfo
-                            .contains(deliveryStatus)
-                            .stringify()
-                            .toLowerCase())))),
-              ),
-            )),
-      );
+  Widget _infoSquares(context) => SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      controller: _scrollController,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 8),
+        child: Row(
+          children: <Widget>[
+            InfoSquare(
+                title: AppLocalizations.of(context).translate('adoption_tax'),
+                value: ad.adoptionTax.toStringAsPrecision(2)),
+            InfoSquare(
+                title: AppLocalizations.of(context).translate('age'),
+                value: (DateTime.now().difference(ad.birthDate).inDays / 365)
+                    .floor()
+                    .toString()),
+            InfoSquare(
+                title: AppLocalizations.of(context).translate('weight'),
+                value: '${ad.weight.toString()} kg'),
+            ad is DogAd
+                ? InfoSquare(
+                    title: AppLocalizations.of(context).translate('size'),
+                    value: (ad as DogAd).size.name.capitalize())
+                : Container(),
+            InfoSquare(
+                title: AppLocalizations.of(context).translate('activity_level'),
+                value: ad.activityLevel.name.capitalize()),
+          ]..addAll(DeliveryStatus.values.map((deliveryStatus) => InfoSquare(
+              title: AppLocalizations.of(context)
+                  .translate(deliveryStatus.name.toLowerCase()),
+              value: AppLocalizations.of(context).translate(ad.deliveryInfo
+                  .contains(deliveryStatus)
+                  .stringify()
+                  .toLowerCase())))),
+        ),
+      ));
 
   AnimalAd get ad => widget.ad;
 }

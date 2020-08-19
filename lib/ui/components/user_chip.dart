@@ -26,7 +26,7 @@ class UserChip extends StatelessWidget {
           child: Material(
             shape:
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(50)),
-            color: Colors.white,
+            color: Theme.of(context).primaryColor,
             child: Padding(
               padding: EdgeInsets.all(8.0 * factor),
               child: Row(children: _content(context, factor)),

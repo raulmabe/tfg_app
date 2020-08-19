@@ -283,7 +283,7 @@ class _Header extends StatelessWidget {
         Center(
           child: Text(
             title,
-            style: Theme.of(context).textTheme.display2,
+            style: Theme.of(context).textTheme.headline3,
           ),
         ),
         Padding(

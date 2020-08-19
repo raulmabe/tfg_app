@@ -22,7 +22,7 @@ class InfoSquare extends StatelessWidget {
               textAlign: TextAlign.center,
               style: Theme.of(context)
                   .textTheme
-                  .body2
+                  .bodyText1
                   .copyWith(color: Theme.of(context).accentColor)),
         ),
         Text(value, textAlign: TextAlign.center),

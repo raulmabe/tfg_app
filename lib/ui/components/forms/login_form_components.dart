@@ -83,7 +83,7 @@ class LoginButton extends StatelessWidget {
           blocked: !state.status.isValidated,
           child: state.status.isSubmissionInProgress
               ? CircularProgressIndicator(
-                  backgroundColor: Colors.white,
+                  backgroundColor: Theme.of(context).primaryColor,
                 )
               : null,
         );
@@ -222,7 +222,7 @@ class RegisterButton extends StatelessWidget {
           textColor: Colors.white,
           child: state.status.isSubmissionInProgress
               ? CircularProgressIndicator(
-                  backgroundColor: Colors.white,
+                  backgroundColor: Theme.of(context).primaryColor,
                 )
               : null,
         );

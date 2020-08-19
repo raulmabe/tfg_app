@@ -69,7 +69,7 @@ class UserProvider {
       'query': '''
       mutation {
   removeValuation(
-    id: $id
+    id: "$id"
   ) {
     id: _id
             type: __typename
