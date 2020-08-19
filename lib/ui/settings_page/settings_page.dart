@@ -92,24 +92,6 @@ class SettingsPage extends StatelessWidget {
                   context.bloc<LocaleBloc>().add(LocaleChanged(idioma)),
             ),
           ),
-          /*  ListTile(
-              title:
-                  Text(AppLocalizations.of(context).translate('FactoryReset')),
-              dense: true,
-              onTap: () {
-                showDialog(
-                  context: context,
-                  builder: (_) => AlertDialogConfirm(
-                    title:
-                        AppLocalizations.of(context).translate('FactoryReset'),
-                    text: AppLocalizations.of(context)
-                        .translate('thisWillEraseYourData'),
-                    onConfirm: () => viewModel.restoreToZero(() =>
-                        Navigator.pushNamedAndRemoveUntil(
-                            context, 'welcome', (_) => false)),
-                  ),
-                );
-              }), */
         ],
       ),
     );

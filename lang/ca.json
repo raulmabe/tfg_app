@@ -32,5 +32,7 @@
     "shelter": "Protectora",
     "ads": "Anuncis",
     "valuations": "Valoracions",
-    "new_valuation_hint": "Que n'opines sobre"
+    "new_valuation_hint": "Que n'opines sobre",
+    "page_not_found_title": "404",
+    "page_not_found_msg": "Pàgina no trobada!"
 }

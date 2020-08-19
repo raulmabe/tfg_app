@@ -72,20 +72,14 @@ class _HomePageState extends State<HomePage> {
                 return IconButton(
                     icon: Icon(FontAwesomeIcons.slidersH),
                     iconSize: 22,
-                    onPressed: () => Navigator.of(context)
-                        .push(SoftTransition(widget: SettingsPage())),
+                    onPressed: () => Navigator.pushNamed(context, '/settings'),
                     color: Colors.black54);
               }
               return Padding(
                   padding: EdgeInsets.symmetric(horizontal: 20),
                   child: ProfileIcon(
-                    onTap: () => Navigator.of(context).push(SoftTransition(
-                        widget: BlocProvider.value(
-                      value: context.bloc<SearchAdsBloc>(),
-                      child: ProfilePage(
-                        user: state.authStatus.authData.user,
-                      ),
-                    ))),
+                    onTap: () => Navigator.pushNamed(context, '/profile',
+                        arguments: state.authStatus.authData.user),
                     borderWidth: 2,
                     user: state.authStatus.authData.user,
                   ));

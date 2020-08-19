@@ -203,8 +203,8 @@ class AdPage extends StatelessWidget {
           Material(
             color: Colors.transparent,
             child: InkWell(
-              onTap: () => Navigator.push(context,
-                  SoftTransition(widget: ProfilePage(user: ad.creator))),
+              onTap: () => Navigator.pushNamed(context, '/profile',
+                  arguments: ad.creator),
               child: Row(
                 children: [
                   ProfileIcon(

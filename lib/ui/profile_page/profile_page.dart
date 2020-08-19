@@ -20,7 +20,7 @@ import 'package:jumpets_app/ui/settings_page/settings_page.dart';
 
 class ProfilePage extends StatefulWidget {
   final User user;
-  ProfilePage({this.user}) : assert(user != null);
+  ProfilePage({@required this.user}) : assert(user != null);
   @override
   _ProfilePageState createState() => _ProfilePageState(user);
 }
@@ -37,11 +37,15 @@ class _ProfilePageState extends State<ProfilePage> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<AuthBloc, AuthState>(
-        builder: (context, state) => _build(
-            context,
-            state.authStatus.status.isAuthenticated &&
-                state.authStatus.authData.user.id == user.id));
+    return BlocBuilder<SearchAdsBloc, SearchAdsState>(
+      builder: (context, state) {
+        return BlocBuilder<AuthBloc, AuthState>(
+            builder: (context, state) => _build(
+                context,
+                state.authStatus.status.isAuthenticated &&
+                    state.authStatus.authData.user.id == user.id));
+      },
+    );
   }
 
   Widget _build(BuildContext context, bool isMyProfile) {
@@ -50,14 +54,12 @@ class _ProfilePageState extends State<ProfilePage> {
             IconButton(
                 icon: Icon(Icons.edit),
                 iconSize: 22,
-                onPressed: () => Navigator.of(context)
-                    .push(SoftTransition(widget: SettingsPage())),
+                onPressed: () => Navigator.pushNamed(context, '/settings'),
                 color: Colors.black54),
             IconButton(
                 icon: Icon(FontAwesomeIcons.slidersH),
                 iconSize: 22,
-                onPressed: () => Navigator.of(context)
-                    .push(SoftTransition(widget: SettingsPage())),
+                onPressed: () => Navigator.pushNamed(context, '/settings'),
                 color: Colors.black54),
           ]
         : <Widget>[];
