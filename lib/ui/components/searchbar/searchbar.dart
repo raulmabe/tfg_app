@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:jumpets_app/app_localizations.dart';
 
 class SearchBar extends StatelessWidget {
   final TextEditingController controller = TextEditingController();
@@ -20,7 +21,8 @@ class SearchBar extends StatelessWidget {
           child: TextField(
               controller: controller,
               decoration: InputDecoration.collapsed(
-                  hintText: 'What are you looking for')),
+                  hintText: AppLocalizations.of(context)
+                      .translate('search_bar_hint_text'))),
         ),
         controller.value.text.length > 0
             ? IconButton(

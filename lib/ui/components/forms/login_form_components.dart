@@ -3,6 +3,7 @@ import 'dart:ffi';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:jumpets_app/app_localizations.dart';
 import 'package:jumpets_app/blocs/auth_bloc/auth_bloc.dart';
 import 'package:jumpets_app/blocs/auth_bloc/bloc/login_bloc.dart';
 import 'package:jumpets_app/blocs/auth_bloc/bloc/register_bloc.dart';
@@ -32,7 +33,7 @@ class LoginEmailInput extends StatelessWidget {
               ),
               enabledBorder: UnderlineInputBorder(
                   borderSide: BorderSide(color: Colors.black54)),
-              labelText: "Email",
+              labelText: AppLocalizations.of(context).translate('email'),
               labelStyle: TextStyle(color: Colors.black54)),
         );
       },
@@ -62,7 +63,7 @@ class LoginPasswordInput extends StatelessWidget {
                   borderSide: BorderSide(color: Colors.black54)),
               /*  suffixText: "Forgot your password?",
               suffixStyle: TextStyle(color: Colors.black54), */
-              labelText: "Password",
+              labelText: AppLocalizations.of(context).translate('password'),
               labelStyle: TextStyle(color: Colors.black54)),
         );
       },
@@ -78,7 +79,7 @@ class LoginButton extends StatelessWidget {
       builder: (context, state) {
         return MyRaisedButton(
           onPressed: () => context.bloc<LoginBloc>().add(LoginLogInSubmitted()),
-          text: 'accede',
+          text: AppLocalizations.of(context).translate('sign_in'),
           blocked: !state.status.isValidated,
           child: state.status.isSubmissionInProgress
               ? CircularProgressIndicator(
@@ -112,7 +113,7 @@ class RegisterNameInput extends StatelessWidget {
               ),
               enabledBorder: UnderlineInputBorder(
                   borderSide: BorderSide(color: Colors.black54)),
-              labelText: "Name",
+              labelText: AppLocalizations.of(context).translate('name'),
               labelStyle: TextStyle(color: Colors.black54)),
         );
       },
@@ -141,7 +142,7 @@ class RegisterEmailInput extends StatelessWidget {
               ),
               enabledBorder: UnderlineInputBorder(
                   borderSide: BorderSide(color: Colors.black54)),
-              labelText: "Email",
+              labelText: AppLocalizations.of(context).translate('email'),
               labelStyle: TextStyle(color: Colors.black54)),
         );
       },
@@ -174,7 +175,7 @@ class RegisterPasswordInput extends StatelessWidget {
                   borderSide: BorderSide(color: Colors.black54)),
               /*  suffixText: "Forgot your password?",
               suffixStyle: TextStyle(color: Colors.black54), */
-              labelText: "Password",
+              labelText: AppLocalizations.of(context).translate('password'),
               labelStyle: TextStyle(color: Colors.black54)),
         );
       },
@@ -195,7 +196,7 @@ class RegisterStep2Button extends StatelessWidget {
       builder: (context, state) {
         return MyRaisedButton(
           onPressed: onTap,
-          text: 'siguiente',
+          text: AppLocalizations.of(context).translate('next'),
           blocked: !state.status.isValidated,
         );
       },

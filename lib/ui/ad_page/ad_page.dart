@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:jumpets_app/app_localizations.dart';
 import 'package:jumpets_app/blocs/auth_bloc/auth_bloc.dart';
 import 'package:jumpets_app/blocs/favs_bloc/favourites_bloc.dart';
 import 'package:jumpets_app/models/ads/animal_ad.dart';
@@ -97,7 +98,8 @@ class AdPage extends StatelessWidget {
                           children: [
                             Expanded(
                               child: MyRaisedButton(
-                                  text: 'Contact',
+                                  text: AppLocalizations.of(context)
+                                      .translate('contact'),
                                   onPressed: () =>
                                       Helper.showLoginBottomSheet(context)),
                             ),
@@ -253,8 +255,8 @@ class AdPage extends StatelessWidget {
             Padding(
               padding:
                   EdgeInsets.only(left: edgePadding, bottom: edgePadding / 2),
-              child:
-                  Text('More photos', style: Theme.of(context).textTheme.body2),
+              child: Text(AppLocalizations.of(context).translate('more_photos'),
+                  style: Theme.of(context).textTheme.body2),
             ),
             SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
@@ -319,30 +321,36 @@ class __InfoSquaresState extends State<_InfoSquares> {
               child: Row(
                 children: <Widget>[
                   InfoSquare(
-                      title: 'Adoption Tax',
+                      title: AppLocalizations.of(context)
+                          .translate('adoption_tax'),
                       value: ad.adoptionTax.toStringAsPrecision(2)),
                   InfoSquare(
-                      title: 'Age',
+                      title: AppLocalizations.of(context).translate('age'),
                       value:
                           (DateTime.now().difference(ad.birthDate).inDays / 365)
                               .floor()
                               .toString()),
                   InfoSquare(
-                      title: 'Weight', value: '${ad.weight.toString()} kg'),
+                      title: AppLocalizations.of(context).translate('weight'),
+                      value: '${ad.weight.toString()} kg'),
                   ad is DogAd
                       ? InfoSquare(
-                          title: 'Size',
+                          title: AppLocalizations.of(context).translate('size'),
                           value: (ad as DogAd).size.name.capitalize())
                       : Container(),
                   InfoSquare(
-                      title: 'Activity Level',
+                      title: AppLocalizations.of(context)
+                          .translate('activity_level'),
                       value: ad.activityLevel.name.capitalize()),
                 ]..addAll(DeliveryStatus.values.map((deliveryStatus) =>
                     InfoSquare(
-                        title: deliveryStatus.name.capitalize(),
-                        value: ad.deliveryInfo
+                        title: AppLocalizations.of(context)
+                            .translate(deliveryStatus.name.toLowerCase()),
+                        value: AppLocalizations.of(context).translate(ad
+                            .deliveryInfo
                             .contains(deliveryStatus)
-                            .stringify()))),
+                            .stringify()
+                            .toLowerCase())))),
               ),
             )),
       );

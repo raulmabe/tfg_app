@@ -1,5 +1,6 @@
 import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
+import 'package:jumpets_app/app_localizations.dart';
 import 'package:jumpets_app/models/ads/animal_ad.dart';
 import 'package:jumpets_app/ui/ad_page/ad_page.dart';
 import 'package:jumpets_app/ui/components/sex_icon.dart';
@@ -44,7 +45,7 @@ class AnimalCard extends StatelessWidget {
                       small
                           ? Container()
                           : Text(
-                              '${(DateTime.now().difference(animalAd.birthDate).inDays / 365).floor().toString()} años',
+                              '${(DateTime.now().difference(animalAd.birthDate).inDays / 365).floor().toString()} ${AppLocalizations.of(context).translate('years')}',
                             )
                     ],
                   ),

@@ -11,7 +11,7 @@ import 'package:jumpets_app/models/models.dart';
 import 'package:jumpets_app/models/wrappers/auth_status.dart';
 import 'package:jumpets_app/ui/components/raised_button.dart';
 import 'package:jumpets_app/ui/components/soft_transition.dart';
-import 'package:jumpets_app/ui/components/auth/login_form_components.dart';
+import 'package:jumpets_app/ui/components/forms/login_form_components.dart';
 import 'package:jumpets_app/ui/helper.dart';
 
 // ! AuthSheet solo es un wrapper
@@ -132,12 +132,12 @@ class Step1Body extends StatelessWidget {
             LoginButton(),
             maybeSpacer(flex: 1),
             Text(
-              '¿Aún no eres miembro?',
+              AppLocalizations.of(context).translate('not_a_member_yet'),
               textAlign: TextAlign.center,
               style: Theme.of(context).textTheme.caption,
             ),
             MyRaisedButton(
-                text: 'Únete a jumpets',
+                text: AppLocalizations.of(context).translate('join_jumpets'),
                 filled: false,
                 color: Theme.of(context).accentColor,
                 onPressed: onNext),
@@ -168,7 +168,7 @@ class Step2Body extends StatelessWidget {
           children: [
             maybeSpacer(flex: 2),
             _Header(
-              title: 'Tus datos',
+              title: AppLocalizations.of(context).translate('your_data'),
               imagePath: 'assets/img/pollo1.png',
             ),
             RegisterNameInput(),
@@ -180,12 +180,13 @@ class Step2Body extends StatelessWidget {
             ),
             maybeSpacer(flex: 1),
             Text(
-              'Más adelante podrás añadir y modificar tus datos completos en tu perfil',
+              AppLocalizations.of(context)
+                  .translate('you_can_modify_it_later_on_your_profile'),
               textAlign: TextAlign.center,
               style: Theme.of(context).textTheme.caption,
             ),
             MyRaisedButton(
-              text: 'volver atrás',
+              text: AppLocalizations.of(context).translate('go_back'),
               filled: false,
               borders: false,
               color: Theme.of(context).accentColor,
@@ -217,39 +218,43 @@ class Step3Body extends StatelessWidget {
           children: [
             maybeSpacer(flex: 2),
             _Header(
-              title: 'Sólo un paso más',
+              title: AppLocalizations.of(context).translate('one_more_step'),
               imagePath: 'assets/img/pollo2.png',
             ),
             RegisterButton(
-              title: 'Continuar como particular',
+              title: AppLocalizations.of(context)
+                  .translate('continue_like_a_private'),
               type: UserType.PARTICULAR,
             ),
             Text(
-              'Encuentra tu mascota ideal, contrata un paseo, o pasea mascotas y gana dinero!',
+              AppLocalizations.of(context).translate('register_msg_private'),
               textAlign: TextAlign.center,
               style: Theme.of(context).textTheme.caption.copyWith(fontSize: 14),
             ),
             RegisterButton(
-              title: 'Continuar como profesional',
+              title: AppLocalizations.of(context)
+                  .translate('continue_like_a_professional'),
               type: UserType.PROFESIONAL,
             ),
             Text(
-              '¿Eres una tienda, un veterinario, o una empresa relacionada con productos animales?',
+              AppLocalizations.of(context)
+                  .translate('register_msg_professional'),
               textAlign: TextAlign.center,
               style: Theme.of(context).textTheme.caption.copyWith(fontSize: 14),
             ),
             RegisterButton(
-              title: 'Continuar como protectora',
+              title: AppLocalizations.of(context)
+                  .translate('continue_like_a_shelter'),
               type: UserType.PROTECTORA,
             ),
             Text(
-              'Da mayor visibilidad a tu centro y aumenta las adopciones',
+              AppLocalizations.of(context).translate('register_msg_shelter'),
               textAlign: TextAlign.center,
               style: Theme.of(context).textTheme.caption.copyWith(fontSize: 14),
             ),
             maybeSpacer(flex: 1),
             MyRaisedButton(
-              text: 'volver atrás',
+              text: AppLocalizations.of(context).translate('go_back'),
               filled: false,
               borders: false,
               color: Theme.of(context).accentColor,
