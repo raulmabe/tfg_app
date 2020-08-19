@@ -4,19 +4,17 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:formz/formz.dart';
 import 'package:jumpets_app/app_localizations.dart';
+import 'package:jumpets_app/blocs/ads_bloc/ads_bloc.dart';
 import 'package:jumpets_app/blocs/auth_bloc/auth_bloc.dart';
+import 'package:jumpets_app/blocs/favs_bloc/favourites_bloc.dart';
 import 'package:jumpets_app/blocs/search_bloc/search_ads_bloc.dart';
 import 'package:jumpets_app/blocs/valuations_bloc/valuations_bloc.dart';
 import 'package:jumpets_app/data/repositories/user_repository.dart';
 import 'package:jumpets_app/models/models.dart';
 import 'package:jumpets_app/models/users/user.dart';
 
-import 'package:jumpets_app/ui/components/cards/animal_card.dart';
-import 'package:jumpets_app/ui/components/cards/other_card.dart';
 import 'package:jumpets_app/ui/components/profile_icon.dart';
-import 'package:jumpets_app/ui/components/soft_transition.dart';
 import 'package:jumpets_app/ui/profile_page/profile_body.dart';
-import 'package:jumpets_app/ui/settings_page/settings_page.dart';
 
 class ProfilePage extends StatefulWidget {
   final User user;
@@ -52,11 +50,6 @@ class _ProfilePageState extends State<ProfilePage> {
     var actionsList = isMyProfile
         ? [
             IconButton(
-                icon: Icon(Icons.edit),
-                iconSize: 22,
-                onPressed: () => Navigator.pushNamed(context, '/settings'),
-                color: Colors.black54),
-            IconButton(
                 icon: Icon(FontAwesomeIcons.slidersH),
                 iconSize: 22,
                 onPressed: () => Navigator.pushNamed(context, '/settings'),
@@ -73,9 +66,11 @@ class _ProfilePageState extends State<ProfilePage> {
               previous.status == FormzStatus.submissionInProgress &&
               current.status == FormzStatus.submissionSuccess &&
               current.user != null,
-          listener: (context, state) => setState(() {
-                user = state.user;
-              }),
+          listener: (context, state) {
+            setState(() {
+              user = state.user;
+            });
+          },
           child: Scaffold(
             backgroundColor: Theme.of(context).primaryColor,
             appBar: AppBar(
@@ -106,15 +101,17 @@ class _ProfilePageState extends State<ProfilePage> {
                     children: [
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 10),
-                        child: ProfileIcon(
-                          radius: 60,
+                        child: RoundedRectProfileThumb(
+                          borderRadius: 20,
+                          height: 130,
+                          width: 150,
+                          borderWidth: 2,
                           user: user,
-                          borderWidth: 4,
                         ),
                       ),
                       Expanded(
                         child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 20),
+                          padding: const EdgeInsets.symmetric(horizontal: 10),
                           child: Column(
                             mainAxisSize: MainAxisSize.min,
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,

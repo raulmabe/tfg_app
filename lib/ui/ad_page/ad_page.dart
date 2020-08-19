@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:formz/formz.dart';
 import 'package:jumpets_app/app_localizations.dart';
 import 'package:jumpets_app/blocs/auth_bloc/auth_bloc.dart';
 import 'package:jumpets_app/blocs/favs_bloc/favourites_bloc.dart';
+import 'package:jumpets_app/blocs/valuations_bloc/valuations_bloc.dart';
+import 'package:jumpets_app/data/repositories/user_repository.dart';
 import 'package:jumpets_app/models/ads/animal_ad.dart';
 import 'package:jumpets_app/models/ads/animals/dog_ad.dart';
 import 'package:jumpets_app/models/enums/delivery_status.dart';
@@ -212,7 +215,7 @@ class AdPage extends StatelessWidget {
                   arguments: ad.creator),
               child: Row(
                 children: [
-                  ProfileIcon(
+                  CircularProfileThumb(
                     user: ad.creator,
                   ),
                   SizedBox(

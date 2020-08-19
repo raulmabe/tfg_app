@@ -112,13 +112,7 @@ class _MainPageState extends State<MainPage> {
                               borderRadius: 10,
                               onTap: (category) => adsBloc
                                 ..add(CategorySelected(category: category))
-                                ..add(AdsFetched(
-                                    token: context
-                                        .bloc<AuthBloc>()
-                                        .state
-                                        ?.authStatus
-                                        ?.authData
-                                        ?.token)),
+                                ..add(AdsFetched()),
                             ),
                           ))
                       .toList()),

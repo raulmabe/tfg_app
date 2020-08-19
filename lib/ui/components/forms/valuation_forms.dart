@@ -35,7 +35,7 @@ class _ValueInputState extends State<ValueInput> {
       buildWhen: (previous, current) => previous.value != current.value,
       builder: (context, state) {
         return SmoothStarRating(
-          rating: widget.initialValue,
+          rating: widget.initialValue ?? 2.5,
           borderColor: Theme.of(context).accentColor,
           color: Theme.of(context).accentColor,
           onRated: (value) =>
@@ -151,7 +151,8 @@ class _OwnValuationState extends State<OwnValuation> {
   bool editMode = false;
   @override
   Widget build(BuildContext context) {
-    if (userAuth == null) return Container();
+    if (userAuth == null || (userAuth.id == widget.userToValuate.id))
+      return Container();
 
     if (valuation != null) {
       return editMode
@@ -205,7 +206,7 @@ class _OwnValuationState extends State<OwnValuation> {
       padding: const EdgeInsets.symmetric(vertical: 10),
       child: Row(
         children: [
-          ProfileIcon(radius: 30, user: userAuth),
+          CircularProfileThumb(radius: 30, user: userAuth),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,

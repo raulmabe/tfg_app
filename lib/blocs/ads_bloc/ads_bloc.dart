@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
+import 'package:jumpets_app/blocs/auth_bloc/auth_bloc.dart';
 import 'package:jumpets_app/data/repositories/ads_repository.dart';
 import 'package:jumpets_app/models/enums/categories.dart';
 import 'package:jumpets_app/models/models.dart';
@@ -14,11 +15,15 @@ part 'ads_state.dart';
 
 class AdsBloc extends Bloc<AdsEvent, AdsState> {
   final AdsRepository repository;
+  final AuthBloc authBloc;
   String _currentEndCursor;
   Category category;
   List<Ad> _lastestAdsFetched = [];
 
-  AdsBloc({@required this.repository, this.category = Category.DOGS})
+  AdsBloc(
+      {@required this.repository,
+      @required this.authBloc,
+      this.category = Category.DOGS})
       : super(AdsInitial());
 
   @override
@@ -88,7 +93,8 @@ class AdsBloc extends Bloc<AdsEvent, AdsState> {
   Future<AdsState> _mapAdsFetchedToState(AdsFetched event) async {
     try {
       if (category == Category.SHELTERS) {
-        final shelters = await repository.getCloseShelters(token: event.token);
+        final shelters = await repository.getCloseShelters(
+            token: authBloc.state.authStatus?.authData?.token);
         return AdsSuccess(shelters: shelters);
       } else {
         final paginatedAds = await repository.getPaginatedAds(

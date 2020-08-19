@@ -55,7 +55,8 @@ class MyApp extends StatelessWidget {
               ),
               BlocProvider<AdsBloc>(
                 create: (context) =>
-                    AdsBloc(repository: adsRepository)..add(AdsFetched()),
+                    AdsBloc(repository: adsRepository, authBloc: authBloc)
+                      ..add(AdsFetched()),
               ),
               BlocProvider<AuthBloc>(
                 create: (context) => authBloc,

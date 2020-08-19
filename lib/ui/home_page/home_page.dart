@@ -77,7 +77,7 @@ class _HomePageState extends State<HomePage> {
               }
               return Padding(
                   padding: EdgeInsets.symmetric(horizontal: 20),
-                  child: ProfileIcon(
+                  child: CircularProfileThumb(
                     onTap: () => Navigator.pushNamed(context, '/profile',
                         arguments: state.authStatus.authData.user),
                     borderWidth: 2,

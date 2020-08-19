@@ -24,7 +24,7 @@ class ValuationCard extends StatelessWidget {
                   width: 65,
                   child: Column(
                     children: [
-                      ProfileIcon(
+                      CircularProfileThumb(
                         user: valuation.author,
                         radius: 30,
                       ),
