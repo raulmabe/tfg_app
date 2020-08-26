@@ -124,14 +124,14 @@ class _ProfilePageState extends State<ProfilePage> {
                                       const EdgeInsets.symmetric(vertical: 10),
                                   child: user.valuationsStars),
                               user.address != null
-                                  ? Text(
+                                  ? SelectableText(
                                       user.address,
                                       style:
                                           Theme.of(context).textTheme.subtitle1,
                                     )
                                   : Container(),
                               user.phone != null
-                                  ? Text(
+                                  ? SelectableText(
                                       user.phone.toString(),
                                       style:
                                           Theme.of(context).textTheme.subtitle1,
