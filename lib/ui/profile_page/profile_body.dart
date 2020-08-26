@@ -121,13 +121,13 @@ class ProfileBody extends StatelessWidget {
   Widget _reviewsBody(context) {
     return BlocBuilder<AuthBloc, AuthState>(
       builder: (context, state) {
-        List<Valuation> valuations = user.valuations.toList();
+        List<Valuation> valuations = user.valuations?.toList();
         User userAuth;
         Valuation valuation;
 
         if (state.authStatus?.status?.isAuthenticated == true) {
           userAuth = state.authStatus.authData.user;
-          valuation = valuations.firstWhere(
+          valuation = valuations?.firstWhere(
               (val) => val.author.id == userAuth.id,
               orElse: () => null);
 
@@ -138,7 +138,7 @@ class ProfileBody extends StatelessWidget {
           }
         }
 
-        valuations.sort((one, two) => one.createdAt.compare(two.createdAt));
+        valuations?.sort((one, two) => one.createdAt.compare(two.createdAt));
 
         return Padding(
           padding: EdgeInsets.symmetric(horizontal: 10),
@@ -148,12 +148,13 @@ class ProfileBody extends StatelessWidget {
                   userToValuate: user,
                   userAuth: userAuth,
                   valuation: valuation),
-              ListView.builder(
-                itemCount: valuations.length,
-                shrinkWrap: true,
-                itemBuilder: (context, index) =>
-                    ValuationCard(valuations[index]),
-              ),
+              if (valuations != null)
+                ListView.builder(
+                  itemCount: valuations?.length,
+                  shrinkWrap: true,
+                  itemBuilder: (context, index) =>
+                      ValuationCard(valuations[index]),
+                ),
             ],
           ),
         );

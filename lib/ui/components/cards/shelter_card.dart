@@ -8,9 +8,7 @@ import 'package:transparent_image/transparent_image.dart';
 class ShelterCard extends StatelessWidget {
   final Protectora shelter;
   final bool isSelected;
-  final double height;
-  ShelterCard(
-      {@required this.shelter, this.isSelected = false, this.height = 210})
+  ShelterCard({@required this.shelter, this.isSelected = false})
       : assert(shelter != null);
   @override
   Widget build(BuildContext context) {
@@ -22,100 +20,92 @@ class ShelterCard extends StatelessWidget {
             left: edgePadding,
             right: edgePadding,
             top: 0,
-            child: _widgetBehind(height)),
+            bottom: edgePadding * 4,
+            child: _img()),
         Positioned(
-            left: 0, right: 0, child: _infoCard(context, edgePadding, height)),
+            left: 0,
+            right: 0,
+            bottom: edgePadding * 2,
+            child: _infoCard(context, edgePadding)),
       ],
     );
   }
 
-  Widget _infoCard(context, double edgePadding, double heightImg) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        SizedBox(
-          height: heightImg,
-        ),
-        OpenContainer(
-          closedElevation: isSelected ? 3 : 0,
-          closedColor: Theme.of(context).primaryColor,
-          closedShape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10),
-          ),
-          openBuilder: (context, action) => ProfilePage(
-            user: shelter,
-          ),
-          closedBuilder: (context, action) => Material(
-            color: Colors.transparent,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                Padding(
-                  padding: EdgeInsets.only(
-                      left: edgePadding,
-                      right: edgePadding,
-                      top: edgePadding / 2),
+  Widget _infoCard(context, double edgePadding) {
+    return OpenContainer(
+      closedElevation: isSelected ? 3 : 0,
+      closedColor: Theme.of(context).primaryColor,
+      closedShape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(10),
+      ),
+      openBuilder: (context, action) => ProfilePage(
+        user: shelter,
+      ),
+      closedBuilder: (context, action) => Material(
+        color: Colors.transparent,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Padding(
+              padding: EdgeInsets.only(
+                  left: edgePadding, right: edgePadding, top: edgePadding / 2),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: Text(shelter.name,
+                        style: Theme.of(context).textTheme.subtitle1),
+                  ),
+                  shelter.oneStarWidget,
+                  Text(shelter.valuationAvg.toStringAsFixed(1),
+                      style: Theme.of(context).textTheme.subtitle1),
+                ],
+              ),
+            ),
+            Container(
+              padding:
+                  EdgeInsets.symmetric(horizontal: edgePadding, vertical: 7),
+              child: Text(
+                shelter.address,
+                style: Theme.of(context).textTheme.bodyText2,
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(top: 10),
+              child: Material(
+                color: Theme.of(context).backgroundColor,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 8),
                   child: Row(
+                    mainAxisSize: MainAxisSize.max,
                     children: [
-                      Expanded(
-                        child: Text(shelter.name,
-                            style: Theme.of(context).textTheme.subtitle1),
-                      ),
-                      shelter.oneStarWidget,
-                      Text(shelter.valuationAvg.toStringAsFixed(1),
-                          style: Theme.of(context).textTheme.subtitle1),
+                      Spacer(),
+                      _getDetail(
+                          context,
+                          Icons.directions_car,
+                          shelter.travelTime.toDouble().isMoreThanAnHour
+                              ? shelter.travelTime.toDouble().toHoursFromSeconds
+                              : shelter.travelTime
+                                  .toDouble()
+                                  .toMinutesFromSeconds,
+                          shelter.travelTime.toDouble().isMoreThanAnHour
+                              ? 'h'
+                              : 'min'),
+                      Spacer(),
+                      _getDetail(context, FontAwesomeIcons.mapPin,
+                          shelter.distance.toDouble().toKmFromMeters, 'km'),
+                      Spacer(),
                     ],
                   ),
                 ),
-                Container(
-                  padding: EdgeInsets.symmetric(
-                      horizontal: edgePadding, vertical: 7),
-                  child: Text(
-                    shelter.address,
-                    style: Theme.of(context).textTheme.bodyText2,
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 10),
-                  child: Material(
-                    color: Theme.of(context).backgroundColor,
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 8),
-                      child: Row(
-                        mainAxisSize: MainAxisSize.max,
-                        children: [
-                          Spacer(),
-                          _getDetail(
-                              context,
-                              Icons.directions_car,
-                              shelter.travelTime.toDouble().isMoreThanAnHour
-                                  ? shelter.travelTime
-                                      .toDouble()
-                                      .toHoursFromSeconds
-                                  : shelter.travelTime
-                                      .toDouble()
-                                      .toMinutesFromSeconds,
-                              shelter.travelTime.toDouble().isMoreThanAnHour
-                                  ? 'h'
-                                  : 'min'),
-                          Spacer(),
-                          _getDetail(context, FontAwesomeIcons.mapPin,
-                              shelter.distance.toDouble().toKmFromMeters, 'km'),
-                          Spacer(),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-              ],
+              ),
             ),
-          ),
+          ],
         ),
-      ],
+      ),
     );
   }
 
-  Widget _widgetBehind(double heightImg) {
+  Widget _img() {
     return ClipRRect(
       borderRadius: BorderRadius.only(
         topLeft: Radius.circular(10),
@@ -124,7 +114,6 @@ class ShelterCard extends StatelessWidget {
       child: FadeInImage.memoryNetwork(
         fadeInDuration: Duration(milliseconds: 200),
         placeholder: kTransparentImage,
-        height: heightImg,
         image: shelter.thumbnail,
         fit: BoxFit.cover,
       ),

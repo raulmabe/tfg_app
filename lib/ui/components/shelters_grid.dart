@@ -27,8 +27,7 @@ class _SheltersGridState extends State<SheltersGrid> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: MediaQuery.of(context).size.height,
+    return SafeArea(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         mainAxisSize: MainAxisSize.min,
@@ -43,20 +42,21 @@ class _SheltersGridState extends State<SheltersGrid> {
                 msg =
                     'Buscando desde "${state.authStatus.authData?.user?.address}"';
               }
-              return widget.usePlaceholders
-                  ? ContentPlaceholder(
-                      height: 10,
-                      width: 50,
-                    )
-                  : Container(
-                      padding: EdgeInsets.only(top: 8, left: 8),
-                      child: Text(msg,
-                          style: Theme.of(context).textTheme.subtitle1));
+              return Padding(
+                  padding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                  child: widget.usePlaceholders
+                      ? ContentPlaceholder(
+                          height: 20,
+                          width: 20,
+                        )
+                      : Container(
+                          child: Text(msg,
+                              style: Theme.of(context).textTheme.subtitle1)));
             },
           ),
-          Flexible(
+          Expanded(
             child: Padding(
-              padding: const EdgeInsets.only(top: 20),
+              padding: const EdgeInsets.only(top: 10, bottom: kToolbarHeight),
               child: PageView.builder(
                   scrollDirection: Axis.horizontal,
                   onPageChanged: (index) => setState(() {
@@ -66,11 +66,8 @@ class _SheltersGridState extends State<SheltersGrid> {
                   itemBuilder: (context, index) => Transform.scale(
                         scale: index == _index ? 1 : .8,
                         child: widget.usePlaceholders
-                            ? ContentPlaceholder(
-                                height: 260,
-                              )
+                            ? ContentPlaceholder()
                             : ShelterCard(
-                                height: 260,
                                 shelter: widget.shelters[index],
                                 isSelected: index == _index,
                               ),
