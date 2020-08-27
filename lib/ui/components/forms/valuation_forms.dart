@@ -4,8 +4,9 @@ import 'package:jumpets_app/app_localizations.dart';
 import 'package:jumpets_app/blocs/auth_bloc/auth_bloc.dart';
 import 'package:jumpets_app/blocs/valuations_bloc/valuations_bloc.dart';
 import 'package:jumpets_app/models/models.dart';
+import 'package:jumpets_app/ui/components/buttons/flat_button.dart';
 import 'package:jumpets_app/ui/components/cards/valuation.dart';
-import 'package:jumpets_app/ui/components/icon_button.dart';
+import 'package:jumpets_app/ui/components/buttons/icon_button.dart';
 import 'package:jumpets_app/ui/components/profile_icon.dart';
 import 'package:smooth_star_rating/smooth_star_rating.dart';
 import 'package:formz/formz.dart';
@@ -170,16 +171,16 @@ class _OwnValuationState extends State<OwnValuation> {
               ValuationCard(valuation),
               Row(
                 children: [
-                  FlatButton(
-                      child: Text('edit'),
-                      textColor: Colors.black54,
-                      onPressed: () => toggleEdit(true)),
+                  MyFlatButton(
+                      child: Text('edit',
+                          style: Theme.of(context).textTheme.button),
+                      onTap: () => toggleEdit(true)),
                   BlocBuilder<ValuationsBloc, ValuationsState>(
                     builder: (context, state) {
-                      return FlatButton(
-                          child: Text('delete'),
-                          textColor: Colors.black54,
-                          onPressed: () => context
+                      return MyFlatButton(
+                          child: Text('delete',
+                              style: Theme.of(context).textTheme.button),
+                          onTap: () => context
                               .bloc<ValuationsBloc>()
                               .add(ValuationDeleted(user.id)));
                     },

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:jumpets_app/ui/helper.dart';
 
 class SexIcon extends StatelessWidget {
   final bool male;
@@ -13,7 +14,7 @@ class SexIcon extends StatelessWidget {
       child: Icon(
         male ? FontAwesomeIcons.mars : FontAwesomeIcons.venus,
         size: size,
-        color: male ? Theme.of(context).accentColor : Color(0xffFDA7DF),
+        color: Helper.getGenderColor(context, male),
       ),
     );
   }

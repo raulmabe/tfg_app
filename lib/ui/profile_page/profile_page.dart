@@ -7,7 +7,8 @@ import 'package:jumpets_app/app_localizations.dart';
 import 'package:jumpets_app/blocs/ads_bloc/ads_bloc.dart';
 import 'package:jumpets_app/blocs/auth_bloc/auth_bloc.dart';
 import 'package:jumpets_app/blocs/favs_bloc/favourites_bloc.dart';
-import 'package:jumpets_app/blocs/search_bloc/search_ads_bloc.dart';
+import 'package:jumpets_app/blocs/search_bloc/search_ads_bloc.dart'
+    as independentSearchBloc;
 import 'package:jumpets_app/blocs/valuations_bloc/valuations_bloc.dart';
 import 'package:jumpets_app/data/repositories/user_repository.dart';
 import 'package:jumpets_app/models/models.dart';
@@ -30,12 +31,14 @@ class _ProfilePageState extends State<ProfilePage> {
   void initState() {
     super.initState();
 
-    BlocProvider.of<SearchAdsBloc>(context)..add(AdsSearched(creator: user.id));
+    BlocProvider.of<independentSearchBloc.SearchAdsBloc>(context)
+      ..add(independentSearchBloc.AdsSearched(creator: user.id));
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<SearchAdsBloc, SearchAdsState>(
+    return BlocBuilder<independentSearchBloc.SearchAdsBloc,
+        independentSearchBloc.SearchAdsState>(
       builder: (context, state) {
         return BlocBuilder<AuthBloc, AuthState>(
             builder: (context, state) => _build(

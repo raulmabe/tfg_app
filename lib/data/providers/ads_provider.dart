@@ -337,22 +337,156 @@ class AdsProvider {
   }
 
   Future<dynamic> searchAds(
-      {String name,
-      List<String> tags,
-      String breed,
+      {String text,
       DogSize size,
       List<DeliveryStatus> deliveryInfo,
       bool male,
       ActivityLevel activityLevel,
       AnimalType type,
       String creator}) async {
+    String creatorEscaped = creator != null ? '"$creator"' : null;
+    String textEscaped = text != null ? '"$text"' : null;
+    String tagsEscaped = text != null ? '["$text"]' : null;
+
     return _api.post({
       'query': '''{
-    searchAds(filters: {
-      creator: "$creator",
-      name: $name,
-      tags: $tags,
-      breed: $breed,
+    searchAds1: searchAds(filters: {
+      creator: $creatorEscaped,
+      name: $textEscaped,
+      tags: null,
+      breed: null,
+      size: $size,
+      deliveryInfo: $deliveryInfo,
+      male: $male,
+      activityLevel: $activityLevel,
+      type: $type
+    }) {
+          id: _id
+          tags
+          photos
+          ... on ProductAd {
+            title
+            description
+            price
+            type: __typename
+          }
+          ... on ServiceAd {
+            title
+            description
+            priceHour
+            type: __typename
+          }
+          ... on AnimalAd {
+            name
+            description
+            activityLevel
+            birthDate
+            male
+            adoptionTax
+            weight
+            personality
+            mustKnow
+            deliveryInfo
+            breed
+            ... on Dog {
+              size
+              type
+            }
+            ... on OtherAnimal {
+              type
+            }
+          }
+          createdAt
+          creator {
+            id: _id
+            type: __typename
+            thumbnail
+            name
+            address
+            email
+            phone
+            ... on Protectora {
+              web
+            }
+            ... on Profesional {
+              web
+            }
+            createdAt
+            updatedAt
+          }
+    }
+
+    searchAds2: searchAds(filters: {
+      creator: $creatorEscaped,
+      name: null,
+      tags: null,
+      breed: $textEscaped,
+      size: $size,
+      deliveryInfo: $deliveryInfo,
+      male: $male,
+      activityLevel: $activityLevel,
+      type: $type
+    }) {
+          id: _id
+          tags
+          photos
+          ... on ProductAd {
+            title
+            description
+            price
+            type: __typename
+          }
+          ... on ServiceAd {
+            title
+            description
+            priceHour
+            type: __typename
+          }
+          ... on AnimalAd {
+            name
+            description
+            activityLevel
+            birthDate
+            male
+            adoptionTax
+            weight
+            personality
+            mustKnow
+            deliveryInfo
+            breed
+            ... on Dog {
+              size
+              type
+            }
+            ... on OtherAnimal {
+              type
+            }
+          }
+          createdAt
+          creator {
+            id: _id
+            type: __typename
+            thumbnail
+            name
+            address
+            email
+            phone
+            ... on Protectora {
+              web
+            }
+            ... on Profesional {
+              web
+            }
+            createdAt
+            updatedAt
+          }
+    }
+
+     searchAds3: searchAds(filters: {
+      creator: $creatorEscaped,
+      name: null,
+      tags: $tagsEscaped,
+      breed: null,
       size: $size,
       deliveryInfo: $deliveryInfo,
       male: $male,

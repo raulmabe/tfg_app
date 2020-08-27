@@ -4,19 +4,15 @@ part of 'search_ads_bloc.dart';
 abstract class SearchAdsEvent {}
 
 class AdsSearched extends SearchAdsEvent {
-  final String name;
+  final String text;
   final DogSize size;
-  final List<String> tags;
-  final String breed;
   final List<DeliveryStatus> deliveryInfo;
   final bool male;
   final ActivityLevel activityLevel;
   final AnimalType type;
   final String creator;
   AdsSearched(
-      {this.name,
-      this.tags,
-      this.breed,
+      {this.text,
       this.size,
       this.deliveryInfo,
       this.male,

@@ -8,13 +8,8 @@ class SearchAdsInitial extends SearchAdsState {}
 class SearchAdsLoading extends SearchAdsState {}
 
 class SearchAdsSuccess extends SearchAdsState {
-  final List<AnimalAd> animalAds;
-  final List<ProductAd> productAds;
-  final List<ServiceAd> serviceAds;
-  SearchAdsSuccess(
-      {this.animalAds = const [],
-      this.productAds = const [],
-      this.serviceAds = const []});
+  final List<Ad> ads;
+  SearchAdsSuccess({this.ads = const []});
 }
 
 class SearchAdsFailure extends SearchAdsState {}

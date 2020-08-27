@@ -2,11 +2,13 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:jumpets_app/blocs/auth_bloc/auth_bloc.dart';
+import 'package:jumpets_app/blocs/search_bloc/search_ads_bloc.dart';
 import 'package:jumpets_app/data/repositories/ads_repository.dart';
 import 'package:jumpets_app/models/enums/categories.dart';
 import 'package:jumpets_app/models/models.dart';
 import 'package:jumpets_app/models/wrappers/paginated_ads.dart';
 import 'package:built_collection/built_collection.dart';
+import 'package:jumpets_app/ui/helper.dart';
 import 'package:meta/meta.dart';
 import 'package:rxdart/rxdart.dart';
 
@@ -19,12 +21,17 @@ class AdsBloc extends Bloc<AdsEvent, AdsState> {
   String _currentEndCursor;
   Category category;
   List<Ad> _lastestAdsFetched = [];
+  AdsSearched filters;
+  bool searchMode;
 
   AdsBloc(
       {@required this.repository,
       @required this.authBloc,
-      this.category = Category.DOGS})
-      : super(AdsInitial());
+      this.category = Category.DOGS,
+      this.searchMode = false})
+      : assert(repository != null),
+        assert(authBloc != null),
+        super(AdsInitial());
 
   @override
   void onTransition(Transition<AdsEvent, AdsState> transition) {
@@ -47,12 +54,37 @@ class AdsBloc extends Bloc<AdsEvent, AdsState> {
     AdsEvent event,
   ) async* {
     switch (event.runtimeType) {
+      case LastAdsRefreshed:
+        yield _mapLastAdsRefreshedToState(event);
+        break;
       case AdsFetched:
+        filters = null;
+        searchMode = false;
+        yield SearchModeChanged(searchMode);
         yield AdsLoading();
         yield await _mapAdsFetchedToState(event);
         break;
       case MoreAdsFetched:
         yield await _mapMoreAdsFetchedToState(event);
+        break;
+      case AdsSearched:
+        if (!isEventSearchValid(event)) {
+          if (searchMode) {
+            this.add(SearchModeDisabled());
+            this.add(LastAdsRefreshed());
+          }
+          break;
+        }
+        filters = event;
+        searchMode = true;
+        yield SearchModeChanged(searchMode);
+        yield AdsLoading();
+        yield await _mapAdsSearchedToState(event);
+        break;
+      case SearchModeDisabled:
+        filters = null;
+        searchMode = false;
+        yield SearchModeChanged(searchMode);
         break;
       case CategorySelected:
         category = (event as CategorySelected).category;
@@ -60,6 +92,44 @@ class AdsBloc extends Bloc<AdsEvent, AdsState> {
         break;
       default:
         break;
+    }
+  }
+
+  bool isEventSearchValid(AdsSearched event) {
+    return (event.size != null) ||
+        (event.text != null) ||
+        (event.male != null) ||
+        (event.deliveryInfo != null) ||
+        (event.activityLevel != null) ||
+        event.creator != null;
+  }
+
+  AdsState _mapLastAdsRefreshedToState(LastAdsRefreshed event) {
+    if (filters != null && searchMode && isCategoryValidToSearch) {
+      this.add(filters);
+    } else {
+      this.add(AdsFetched());
+    }
+    return state;
+  }
+
+  Future<AdsState> _mapAdsSearchedToState(AdsSearched event) async {
+    if (!isCategoryValidToSearch) return AdsFailure();
+
+    try {
+      final ads = await repository.searchAds(
+        text: event.text,
+        size: event.size,
+        deliveryInfo: event.deliveryInfo,
+        male: event.male,
+        activityLevel: event.activityLevel,
+        type: Helper.getAnimalTypeFromCategory(category),
+        creator: event.creator,
+      );
+      return AdsSuccess(searchedAds: ads);
+    } catch (err, stacktrace) {
+      print('Ads BLoC OnCatch $err, $stacktrace');
+      return AdsFailure();
     }
   }
 
@@ -127,7 +197,13 @@ class AdsBloc extends Bloc<AdsEvent, AdsState> {
         MergeStream([nonDebounceStream, debounceStream]), transitionFn);
   }
 
+  bool get isCategoryValidToSearch =>
+      category != Category.SHELTERS &&
+      category != Category.PRODUCTS &&
+      category != Category.SERVICES;
+
   bool get _hasNextPage =>
       state is AdsSuccess &&
+      !searchMode &&
       (state as AdsSuccess).paginatedAds.pageInfo.hasNextPage;
 }

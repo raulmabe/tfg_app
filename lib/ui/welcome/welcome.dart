@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:jumpets_app/models/enums/categories.dart';
-import 'package:jumpets_app/ui/components/category_button.dart';
+import 'package:jumpets_app/ui/components/buttons/category_button.dart';
 
 class WelcomePage extends StatefulWidget {
   @override

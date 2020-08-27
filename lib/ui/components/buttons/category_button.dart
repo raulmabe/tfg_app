@@ -71,6 +71,7 @@ class RoundedSquareButton extends StatelessWidget {
   final Function onTap;
   final Function onTriggered;
   final bool isSelected;
+  final bool isBlocked;
   RoundedSquareButton({
     @required this.child,
     @required this.onTap,
@@ -78,19 +79,20 @@ class RoundedSquareButton extends StatelessWidget {
     this.onTriggered,
     this.size = 120,
     this.borderRadius = 25,
+    this.isBlocked = false,
   });
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: size,
-      width: size,
-      child: Material(
-        shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(borderRadius)),
-        color: isSelected
-            ? Theme.of(context).accentColor
-            : Theme.of(context).primaryColor,
-        elevation: 2,
+    Widget widget = Material(
+      shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(borderRadius)),
+      color: isSelected
+          ? Theme.of(context).accentColor
+          : Theme.of(context).primaryColor,
+      elevation: 2,
+      child: SizedBox(
+        height: size,
+        width: size,
         child: InkWell(
             onTap: () {
               if (onTriggered != null) onTriggered();
@@ -98,6 +100,16 @@ class RoundedSquareButton extends StatelessWidget {
             },
             borderRadius: BorderRadius.circular(borderRadius),
             child: child),
+      ),
+    );
+
+    if (!isBlocked) return widget;
+    return IgnorePointer(
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(borderRadius),
+        child: ColorFiltered(
+            colorFilter: ColorFilter.mode(Colors.grey, BlendMode.saturation),
+            child: widget),
       ),
     );
   }

@@ -8,7 +8,7 @@ import 'package:jumpets_app/blocs/auth_bloc/bloc/register_bloc.dart';
 import 'package:jumpets_app/data/repositories/authentication_repository.dart';
 import 'package:jumpets_app/models/enums/user_types.dart';
 import 'package:jumpets_app/models/wrappers/auth_status.dart';
-import 'package:jumpets_app/ui/components/raised_button.dart';
+import 'package:jumpets_app/ui/components/buttons/raised_button.dart';
 import 'package:jumpets_app/ui/components/forms/login_form_components.dart';
 
 // ! AuthSheet solo es un wrapper

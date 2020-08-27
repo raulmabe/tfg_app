@@ -66,17 +66,15 @@ class ProfileBody extends StatelessWidget {
                 boxHeight: boxHeight,
                 row: List.generate(4, (index) => Container())),
           ]);
-        } else if (state is SearchAdsSuccess &&
-            (state.animalAds.isNotEmpty ||
-                state.productAds.isNotEmpty ||
-                state.serviceAds.isNotEmpty)) {
+        } else if (state is SearchAdsSuccess && (state.ads.isNotEmpty)) {
           return ListView(children: [
             // * Animal Ads
-            state.animalAds.isNotEmpty
+            state.ads.whereType<AnimalAd>().isNotEmpty
                 ? _SearchSection(
                     title:
                         AppLocalizations.of(context).translate('in_adoption'),
-                    row: state.animalAds
+                    row: state.ads
+                        .whereType<AnimalAd>()
                         .map((e) => AnimalCard(
                               small: true,
                               animalAd: e,
@@ -87,11 +85,12 @@ class ProfileBody extends StatelessWidget {
                 : Container(),
 
             // * Product Ads
-            state.productAds.isNotEmpty
+            state.ads.whereType<ProductAd>().isNotEmpty
                 ? _SearchSection(
                     title:
                         AppLocalizations.of(context).translate('product_ads'),
-                    row: state.productAds
+                    row: state.ads
+                        .whereType<ProductAd>()
                         .map((e) => OtherCard(
                               height: boxHeight,
                               ad: e,
@@ -100,11 +99,12 @@ class ProfileBody extends StatelessWidget {
                 : Container(),
 
             // * Service Ads
-            state.serviceAds.isNotEmpty
+            state.ads.whereType<ServiceAd>().isNotEmpty
                 ? _SearchSection(
                     title:
                         AppLocalizations.of(context).translate('service_ads'),
-                    row: state.serviceAds
+                    row: state.ads
+                        .whereType<ServiceAd>()
                         .map((e) => OtherCard(
                               height: boxHeight,
                               ad: e,

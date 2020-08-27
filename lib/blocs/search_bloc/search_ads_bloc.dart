@@ -27,16 +27,11 @@ class SearchAdsBloc extends Bloc<SearchAdsEvent, SearchAdsState> {
               male: (event as AdsSearched).male,
               creator: (event as AdsSearched).creator,
               size: (event as AdsSearched).size,
-              breed: (event as AdsSearched).breed,
-              name: (event as AdsSearched).name,
+              text: (event as AdsSearched).text,
               deliveryInfo: (event as AdsSearched).deliveryInfo,
-              tags: (event as AdsSearched).tags,
               type: (event as AdsSearched).type);
 
-          yield SearchAdsSuccess(
-              animalAds: ads.whereType<AnimalAd>().toList(),
-              productAds: ads.whereType<ProductAd>().toList(),
-              serviceAds: ads.whereType<ServiceAd>().toList());
+          yield SearchAdsSuccess(ads: ads);
         } catch (err, stack) {
           print('OnCatch $err, $stack');
           yield SearchAdsFailure();

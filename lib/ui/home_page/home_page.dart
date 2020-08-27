@@ -3,16 +3,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:jumpets_app/blocs/ads_bloc/ads_bloc.dart';
 import 'package:jumpets_app/blocs/auth_bloc/auth_bloc.dart';
-import 'package:jumpets_app/blocs/search_bloc/search_ads_bloc.dart';
-import 'package:jumpets_app/data/repositories/ads_repository.dart';
 import 'package:jumpets_app/models/wrappers/auth_status.dart';
 import 'package:jumpets_app/ui/components/bottombar/bottombar.dart';
 import 'package:jumpets_app/ui/components/profile_icon.dart';
 import 'package:jumpets_app/ui/components/searchbar/searchbar.dart';
-import 'package:jumpets_app/ui/components/soft_transition.dart';
 import 'package:jumpets_app/ui/home_page/page_view.dart';
-import 'package:jumpets_app/ui/profile_page/profile_page.dart';
-import 'package:jumpets_app/ui/settings_page/settings_page.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -43,7 +38,8 @@ class _HomePageState extends State<HomePage> {
   void _onScroll() {
     final maxScroll = _scrollController.position.maxScrollExtent;
     final currentScroll = _scrollController.position.pixels;
-    if (maxScroll - currentScroll <= _scrollThreshold) {
+    if (maxScroll - currentScroll <= _scrollThreshold &&
+        !context.bloc<AdsBloc>().searchMode) {
       BlocProvider.of<AdsBloc>(context).add(MoreAdsFetched());
     }
   }
@@ -61,7 +57,14 @@ class _HomePageState extends State<HomePage> {
       resizeToAvoidBottomInset: true,
       appBar: AppBar(
         elevation: 0,
-        title: SearchBar(),
+        title: BlocBuilder<AdsBloc, AdsState>(
+          buildWhen: (prev, current) => current is CategoryChanged,
+          builder: (context, state) {
+            return OpenableSearchBar(
+              blocked: !context.bloc<AdsBloc>().isCategoryValidToSearch,
+            );
+          },
+        ),
         actions: <Widget>[
           BlocBuilder<AuthBloc, AuthState>(
             buildWhen: (previous, current) =>

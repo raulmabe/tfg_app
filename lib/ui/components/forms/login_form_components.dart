@@ -8,7 +8,7 @@ import 'package:jumpets_app/blocs/auth_bloc/auth_bloc.dart';
 import 'package:jumpets_app/blocs/auth_bloc/bloc/login_bloc.dart';
 import 'package:jumpets_app/blocs/auth_bloc/bloc/register_bloc.dart';
 import 'package:jumpets_app/models/enums/user_types.dart';
-import 'package:jumpets_app/ui/components/raised_button.dart';
+import 'package:jumpets_app/ui/components/buttons/raised_button.dart';
 import 'package:formz/formz.dart';
 import 'package:jumpets_app/ui/helper.dart';
 

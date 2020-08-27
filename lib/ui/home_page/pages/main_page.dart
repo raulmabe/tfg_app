@@ -5,12 +5,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jumpets_app/app_localizations.dart';
 import 'package:jumpets_app/blocs/ads_bloc/ads_bloc.dart';
 import 'package:jumpets_app/models/enums/categories.dart';
-import 'package:jumpets_app/ui/components/category_button.dart';
+import 'package:jumpets_app/ui/components/buttons/category_button.dart';
 import 'package:jumpets_app/ui/components/cards/info_card.dart';
 import 'package:jumpets_app/ui/components/jumpets_icons_icons.dart';
 import 'package:jumpets_app/ui/components/shelters_grid.dart';
 import 'package:jumpets_app/ui/components/vertical_grid/vertical_grid.dart';
 import 'package:jumpets_app/models/models.dart';
+import 'package:jumpets_app/ui/helper.dart';
 import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 
 class MainPage extends StatefulWidget {
@@ -39,7 +40,7 @@ class _MainPageState extends State<MainPage> {
       builder: (context, state) => LiquidPullToRefresh(
         showChildOpacityTransition: false,
         onRefresh: () {
-          adsBloc.add(AdsFetched());
+          adsBloc.add(LastAdsRefreshed());
           return _refreshCompleter.future;
         },
         child: CustomScrollView(
@@ -62,15 +63,44 @@ class _MainPageState extends State<MainPage> {
                     children: [
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 10),
-                        child: RoundedSquareButton(
-                            size: 50,
-                            borderRadius: 10,
-                            isSelected: false,
-                            child: Icon(
-                              JumpetsIcons.filtra,
-                              color: Theme.of(context).accentColor,
-                            ),
-                            onTap: () => print('filtra')),
+                        child: BlocBuilder<AdsBloc, AdsState>(
+                          buildWhen: (prev, current) =>
+                              current is SearchModeChanged,
+                          builder: (context, state) {
+                            return RoundedSquareButton(
+                                isBlocked: !context
+                                    .bloc<AdsBloc>()
+                                    .isCategoryValidToSearch,
+                                size: 50,
+                                borderRadius: 10,
+                                isSelected: context.bloc<AdsBloc>().searchMode,
+                                child: Icon(
+                                  JumpetsIcons.filtra,
+                                  color: context.bloc<AdsBloc>().searchMode
+                                      ? Colors.white
+                                      : Theme.of(context).accentColor,
+                                ),
+                                onTap: () => Helper.showFilterBottomSheet(
+                                      context,
+                                      category:
+                                          context.bloc<AdsBloc>().category,
+                                      text:
+                                          context.bloc<AdsBloc>().filters?.text,
+                                      activityLevel: context
+                                          .bloc<AdsBloc>()
+                                          .filters
+                                          ?.activityLevel,
+                                      deliveryInfo: context
+                                          .bloc<AdsBloc>()
+                                          .filters
+                                          ?.deliveryInfo,
+                                      male:
+                                          context.bloc<AdsBloc>().filters?.male,
+                                      size:
+                                          context.bloc<AdsBloc>().filters?.size,
+                                    ));
+                          },
+                        ),
                       )
                     ]..addAll(Category.values
                         .toList()
@@ -85,7 +115,7 @@ class _MainPageState extends State<MainPage> {
                                 borderRadius: 10,
                                 onTap: (category) => adsBloc
                                   ..add(CategorySelected(category: category))
-                                  ..add(AdsFetched()),
+                                  ..add(LastAdsRefreshed()),
                               ),
                             ))
                         .toList()),
@@ -161,15 +191,20 @@ class _MainPageState extends State<MainPage> {
                 usePlaceholders: state is AdsLoading,
               );
             default:
+              List<Ad> ads = [];
+              if (state is AdsSuccess) {
+                ads = context.bloc<AdsBloc>().searchMode
+                    ? state.searchedAds
+                    : state.paginatedAds.ads.asList();
+              }
+
               return VerticalGrid(
                 widgetInjection: InfoCard(
                   title: 'Jumpets',
                   message:
                       'Check our last update! This new version (2.2v) comes with 3 new functionalities.',
                 ),
-                ads: (state is AdsSuccess)
-                    ? state.paginatedAds.ads.asList()
-                    : null,
+                ads: ads,
                 usePlaceholders: state is AdsLoading,
               );
           }

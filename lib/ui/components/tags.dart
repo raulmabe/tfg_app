@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:jumpets_app/blocs/ads_bloc/ads_bloc.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class Tag extends StatelessWidget {
   final String tag;
@@ -6,12 +8,28 @@ class Tag extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.all(8.0),
-      padding: EdgeInsets.all(8.0),
-      decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10), border: Border.all()),
-      child: Text(tag),
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(10),
+        child: Material(
+          color: Theme.of(context).primaryColor,
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10),
+              side: BorderSide(width: 1, color: Theme.of(context).accentColor)),
+          child: InkWell(
+            onTap: () {
+              context.bloc<AdsBloc>().add(AdsSearched(text: tag));
+              Navigator.of(context, rootNavigator: true)
+                  .popUntil((route) => route.isFirst);
+            },
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text(tag),
+            ),
+          ),
+        ),
+      ),
     );
   }
 }

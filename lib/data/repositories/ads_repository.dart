@@ -8,9 +8,7 @@ class AdsRepository {
   final AdsProvider _adsProvider = AdsProvider();
 
   Future<List<Ad>> searchAds(
-      {String name,
-      List<String> tags,
-      String breed,
+      {String text,
       DogSize size,
       List<DeliveryStatus> deliveryInfo,
       bool male,
@@ -18,22 +16,37 @@ class AdsRepository {
       AnimalType type,
       String creator}) async {
     var json = await _adsProvider.searchAds(
-        name: name,
+        text: text,
         creator: creator,
         size: size,
-        tags: tags,
         deliveryInfo: deliveryInfo,
         male: male,
         type: type,
-        breed: breed,
         activityLevel: activityLevel);
 
-    List adsList = json['data']['searchAds'];
+    List list1 = json['data']['searchAds1'];
+    List list2 = json['data']['searchAds2'];
+    List list3 = json['data']['searchAds3'];
 
-    List<Ad> ads = adsList.map((ad) {
+    List<Ad> ads1 = list1.map((ad) {
       return Ad.fromJson(ad);
     }).toList();
 
+    List<Ad> ads2 = list2.map((ad) {
+      return Ad.fromJson(ad);
+    }).toList();
+
+    List<Ad> ads3 = list3.map((ad) {
+      return Ad.fromJson(ad);
+    }).toList();
+
+    List<Ad> ads = List.from(ads1);
+
+    ads2.removeWhere((element) => ads.any((ad) => ad.id == element.id));
+    ads.addAll(ads2);
+
+    ads3.removeWhere((element) => ads.any((ad) => ad.id == element.id));
+    ads.addAll(ads3);
     return ads;
   }
 
