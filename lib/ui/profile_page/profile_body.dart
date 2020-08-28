@@ -142,20 +142,23 @@ class ProfileBody extends StatelessWidget {
 
         return Padding(
           padding: EdgeInsets.symmetric(horizontal: 10),
-          child: Column(
-            children: [
-              OwnValuation(
-                  userToValuate: user,
-                  userAuth: userAuth,
-                  valuation: valuation),
-              if (valuations != null)
-                ListView.builder(
-                  itemCount: valuations?.length,
-                  shrinkWrap: true,
-                  itemBuilder: (context, index) =>
-                      ValuationCard(valuations[index]),
-                ),
-            ],
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                OwnValuation(
+                    userToValuate: user,
+                    userAuth: userAuth,
+                    valuation: valuation),
+                if (valuations != null)
+                  ListView.builder(
+                    physics: NeverScrollableScrollPhysics(),
+                    itemCount: valuations?.length,
+                    shrinkWrap: true,
+                    itemBuilder: (context, index) =>
+                        ValuationCard(valuations[index]),
+                  ),
+              ],
+            ),
           ),
         );
       },

@@ -8,6 +8,51 @@ class UserProvider {
 
   UserProvider() : this._api = ApiBaseHelper();
 
+  static String getUserFragment() {
+    return '''
+    fragment userFields on User {
+      id: _id
+      type: __typename
+      thumbnail
+      name
+      address
+      email
+      phone
+      ... on Protectora {
+        web
+      }
+      ... on Profesional {
+        web
+      }
+      createdAt
+      updatedAt
+      valuations {
+        author {
+          id: _id
+          type: __typename
+          thumbnail
+          name
+          address
+          email
+          phone
+          ... on Protectora {
+            web
+          }
+          ... on Profesional {
+            web
+          }
+          createdAt
+          updatedAt
+        }
+        value
+        comment
+        updatedAt
+        createdAt
+      }
+    }
+    ''';
+  }
+
   Future<dynamic> valuateUser(
       {String id, String comment, double value, token}) async {
     return _api.post({
@@ -20,47 +65,11 @@ class UserProvider {
       comment: "$comment"
     }
   ) {
-    id: _id
-            type: __typename
-            thumbnail
-            name
-            address
-            email
-            phone
-            ... on Protectora {
-              web
-            }
-            ... on Profesional {
-              web
-            }
-            createdAt
-            updatedAt
-            valuations {
-              author {
-                 id: _id
-                  type: __typename
-                  thumbnail
-                  name
-                  address
-                  email
-                  phone
-                  ... on Protectora {
-                    web
-                  }
-                  ... on Profesional {
-                    web
-                  }
-                  createdAt
-                  updatedAt
-                }
-                value
-                comment
-                updatedAt
-                createdAt
-              }
+    ...userFields
           }
           }
-      '''
+      ''' +
+          getUserFragment()
     }, token: token);
   }
 
@@ -71,47 +80,11 @@ class UserProvider {
   removeValuation(
     id: "$id"
   ) {
-    id: _id
-            type: __typename
-            thumbnail
-            name
-            address
-            email
-            phone
-            ... on Protectora {
-              web
-            }
-            ... on Profesional {
-              web
-            }
-            createdAt
-            updatedAt
-            valuations {
-              author {
-                 id: _id
-                  type: __typename
-                  thumbnail
-                  name
-                  address
-                  email
-                  phone
-                  ... on Protectora {
-                    web
-                  }
-                  ... on Profesional {
-                    web
-                  }
-                  createdAt
-                  updatedAt
-                }
-                value
-                comment
-                updatedAt
-                createdAt
-              }
+    ...userFields
           }
           }
-      '''
+      ''' +
+          getUserFragment()
     }, token: token);
   }
 }

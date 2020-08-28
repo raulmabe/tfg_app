@@ -240,7 +240,8 @@ class _$Particular extends Particular {
   }
 }
 
-class ParticularBuilder implements Builder<Particular, ParticularBuilder> {
+class ParticularBuilder
+    implements Builder<Particular, ParticularBuilder>, UserBuilder {
   _$Particular _$v;
 
   String _id;
@@ -305,7 +306,7 @@ class ParticularBuilder implements Builder<Particular, ParticularBuilder> {
   }
 
   @override
-  void replace(Particular other) {
+  void replace(covariant Particular other) {
     if (other == null) {
       throw new ArgumentError.notNull('other');
     }

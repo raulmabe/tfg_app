@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:jumpets_app/data/api_base_helper.dart';
+import 'package:jumpets_app/data/providers/user_provider.dart';
 import 'package:jumpets_app/models/models.dart';
 
 class AdsProvider {
@@ -8,120 +9,10 @@ class AdsProvider {
 
   AdsProvider() : this._api = ApiBaseHelper();
 
-  Future<dynamic> getPaginatedAds(
-      {Category category,
-      int first,
-      String after,
-      int photosWidth,
-      int photosHeight,
-      int thumbnailWidth,
-      int thumbnailHeight}) async {
-    return _api.post({
-      'query': '''{
-    ads(category: $category, first: $first, after: \"$after\") {
-      totalCount
-      edges{
-        node{
-          id: _id
-          tags
-          photos(options: {width: $photosWidth, height: $photosHeight})
-          ... on ProductAd {
-            title
-            description
-            price
-            type: __typename
-          }
-          ... on ServiceAd {
-            title
-            description
-            priceHour
-            type: __typename
-          }
-          ... on AnimalAd {
-            name
-            description
-            activityLevel
-            birthDate
-            male
-            adoptionTax
-            weight
-            personality
-            mustKnow
-            deliveryInfo
-            breed
-            ... on Dog {
-              size
-              type
-            }
-            ... on OtherAnimal {
-              type
-            }
-          }
-          createdAt
-          creator {
-            id: _id
-            type: __typename
-            thumbnail(options: {
-              width: $thumbnailWidth,
-              height: $thumbnailHeight
-            })
-            name
-            address
-            email
-            phone
-            ... on Protectora {
-              web
-            }
-            ... on Profesional {
-              web
-            }
-            createdAt
-            updatedAt
-            valuations {
-              author {
-                 id: _id
-                  type: __typename
-                  thumbnail(options: {
-                    width: $thumbnailWidth,
-                    height: $thumbnailHeight
-                  })
-                  name
-                  address
-                  email
-                  phone
-                  ... on Protectora {
-                    web
-                  }
-                  ... on Profesional {
-                    web
-                  }
-                  createdAt
-                  updatedAt
-              }
-              value
-              comment
-              updatedAt
-              createdAt
-            }
-          }
-        }
-        cursor
-      }
-      pageInfo {
-        hasPreviousPage
-        hasNextPage
-        endCursor
-      }
-    }
-  }'''
-    });
-  }
-
-  Future<dynamic> getFavs({String token}) async {
-    return _api.post({
-      'query': '''{
-  savedAds {
-     id: _id
+  static get adFragment =>
+      '''
+  fragment adFields on Ad {
+    id: _id
           tags
           photos
           ... on ProductAd {
@@ -149,34 +40,58 @@ class AdsProvider {
             deliveryInfo
             breed
             ... on Dog {
-            type
               size
+              type
             }
             ... on OtherAnimal {
-              
-            type
+              type
             }
           }
           createdAt
           creator {
-            id: _id
-            type: __typename
-            thumbnail
-            email
-            name
-            address
-            phone
-            createdAt
-            updatedAt
-            ... on Protectora {
-              web
-            }
-            ... on Profesional {
-              web
-            }
+            ...userFields
           }
   }
-}'''
+  ''' +
+      UserProvider.getUserFragment();
+
+  Future<dynamic> getPaginatedAds(
+      {Category category,
+      int first,
+      String after,
+      int photosWidth,
+      int photosHeight,
+      int thumbnailWidth,
+      int thumbnailHeight}) async {
+    return _api.post({
+      'query': '''{
+    ads(category: $category, first: $first, after: \"$after\") {
+      totalCount
+      edges{
+        node{
+          ...adFields
+        }
+        cursor
+      }
+      pageInfo {
+        hasPreviousPage
+        hasNextPage
+        endCursor
+      }
+    }
+  }''' +
+          adFragment
+    });
+  }
+
+  Future<dynamic> getFavs({String token}) async {
+    return _api.post({
+      'query': '''{
+  savedAds {
+     ...adFields
+  }
+}''' +
+          adFragment
     }, token: token);
   }
 
@@ -184,66 +99,10 @@ class AdsProvider {
     return _api.post({
       'query': '''mutation{
   saveAd(id: "$id") {
-     id: _id
-          tags
-          photos(options: {width: null, height: null})
-          ... on ProductAd {
-            title
-            description
-            price
-            type: __typename
-          }
-          ... on ServiceAd {
-            title
-            description
-            priceHour
-            type: __typename
-          }
-          ... on AnimalAd {
-            name
-            description
-            activityLevel
-            birthDate
-            male
-            adoptionTax
-            weight
-            personality
-            mustKnow
-            deliveryInfo
-            breed
-            ... on Dog {
-            type
-              size
-            }
-            ... on OtherAnimal {
-              
-            type
-            }
-          }
-          createdAt
-          creator {
-            id: _id
-            type: __typename
-            thumbnail(options: {
-              width: null,
-              height: null
-            })
-            email
-            name
-            address
-            phone
-            ... on Protectora {
-              web
-            }
-            ... on Profesional {
-              web
-            }
-
-            createdAt
-            updatedAt
-          }
+     ...adFields
   }
-}'''
+}''' +
+          adFragment
     }, token: token);
   }
 
@@ -251,65 +110,10 @@ class AdsProvider {
     return _api.post({
       'query': '''mutation{
   unsaveAd(id: "$id") {
-     id: _id
-          tags
-          photos(options: {width: null, height: null})
-          ... on ProductAd {
-            title
-            description
-            price
-            type: __typename
-          }
-          ... on ServiceAd {
-            title
-            description
-            priceHour
-            type: __typename
-          }
-          ... on AnimalAd {
-            name
-            description
-            activityLevel
-            birthDate
-            male
-            adoptionTax
-            weight
-            personality
-            mustKnow
-            deliveryInfo
-            breed
-            ... on Dog {
-            type
-              size
-            }
-            ... on OtherAnimal {
-              
-            type
-            }
-          }
-          createdAt
-          creator {
-            id: _id
-            type: __typename
-            thumbnail(options: {
-              width: null,
-              height: null
-            })
-            email
-            name
-            address
-            phone
-            ... on Protectora {
-              web
-            }
-            ... on Profesional {
-              web
-            }
-            createdAt
-            updatedAt
-          }
+     ...adFields
   }
-}'''
+}''' +
+          adFragment
     }, token: token);
   }
 
@@ -318,21 +122,13 @@ class AdsProvider {
       'query': '''{
   getCloseShelters{
     protectora {
-      id: _id
-      type: __typename
-      thumbnail
-      name
-      address
-      email
-      phone
-      web
-      createdAt
-      updatedAt
+      ...userFields
     }
     distance
     travelTime
   }
-}'''
+}''' +
+          UserProvider.getUserFragment()
     }, token: token);
   }
 
@@ -361,59 +157,7 @@ class AdsProvider {
       activityLevel: $activityLevel,
       type: $type
     }) {
-          id: _id
-          tags
-          photos
-          ... on ProductAd {
-            title
-            description
-            price
-            type: __typename
-          }
-          ... on ServiceAd {
-            title
-            description
-            priceHour
-            type: __typename
-          }
-          ... on AnimalAd {
-            name
-            description
-            activityLevel
-            birthDate
-            male
-            adoptionTax
-            weight
-            personality
-            mustKnow
-            deliveryInfo
-            breed
-            ... on Dog {
-              size
-              type
-            }
-            ... on OtherAnimal {
-              type
-            }
-          }
-          createdAt
-          creator {
-            id: _id
-            type: __typename
-            thumbnail
-            name
-            address
-            email
-            phone
-            ... on Protectora {
-              web
-            }
-            ... on Profesional {
-              web
-            }
-            createdAt
-            updatedAt
-          }
+          ...adFields
     }
 
     searchAds2: searchAds(filters: {
@@ -427,59 +171,7 @@ class AdsProvider {
       activityLevel: $activityLevel,
       type: $type
     }) {
-          id: _id
-          tags
-          photos
-          ... on ProductAd {
-            title
-            description
-            price
-            type: __typename
-          }
-          ... on ServiceAd {
-            title
-            description
-            priceHour
-            type: __typename
-          }
-          ... on AnimalAd {
-            name
-            description
-            activityLevel
-            birthDate
-            male
-            adoptionTax
-            weight
-            personality
-            mustKnow
-            deliveryInfo
-            breed
-            ... on Dog {
-              size
-              type
-            }
-            ... on OtherAnimal {
-              type
-            }
-          }
-          createdAt
-          creator {
-            id: _id
-            type: __typename
-            thumbnail
-            name
-            address
-            email
-            phone
-            ... on Protectora {
-              web
-            }
-            ... on Profesional {
-              web
-            }
-            createdAt
-            updatedAt
-          }
+          ...adFields
     }
 
      searchAds3: searchAds(filters: {
@@ -493,61 +185,10 @@ class AdsProvider {
       activityLevel: $activityLevel,
       type: $type
     }) {
-          id: _id
-          tags
-          photos
-          ... on ProductAd {
-            title
-            description
-            price
-            type: __typename
-          }
-          ... on ServiceAd {
-            title
-            description
-            priceHour
-            type: __typename
-          }
-          ... on AnimalAd {
-            name
-            description
-            activityLevel
-            birthDate
-            male
-            adoptionTax
-            weight
-            personality
-            mustKnow
-            deliveryInfo
-            breed
-            ... on Dog {
-              size
-              type
-            }
-            ... on OtherAnimal {
-              type
-            }
-          }
-          createdAt
-          creator {
-            id: _id
-            type: __typename
-            thumbnail
-            name
-            address
-            email
-            phone
-            ... on Protectora {
-              web
-            }
-            ... on Profesional {
-              web
-            }
-            createdAt
-            updatedAt
-          }
+          ...adFields
     }
-  }'''
+  }''' +
+          adFragment
     });
   }
 }

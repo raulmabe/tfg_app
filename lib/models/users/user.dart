@@ -7,6 +7,9 @@ import 'package:jumpets_app/models/users/protectora.dart';
 import 'package:jumpets_app/models/users/valuation.dart';
 import 'package:built_collection/built_collection.dart';
 
+part 'user.g.dart';
+
+@BuiltValue(instantiable: false)
 abstract class User {
   String get id;
   String get name;
@@ -22,6 +25,9 @@ abstract class User {
 
   DateTime get createdAt;
   DateTime get updatedAt;
+
+  User rebuild(void Function(UserBuilder) updates);
+  UserBuilder toBuilder();
 
   @nullable
   BuiltList<Valuation> get valuations;

@@ -257,7 +257,8 @@ class _$Profesional extends Profesional {
   }
 }
 
-class ProfesionalBuilder implements Builder<Profesional, ProfesionalBuilder> {
+class ProfesionalBuilder
+    implements Builder<Profesional, ProfesionalBuilder>, UserBuilder {
   _$Profesional _$v;
 
   String _id;
@@ -327,7 +328,7 @@ class ProfesionalBuilder implements Builder<Profesional, ProfesionalBuilder> {
   }
 
   @override
-  void replace(Profesional other) {
+  void replace(covariant Profesional other) {
     if (other == null) {
       throw new ArgumentError.notNull('other');
     }

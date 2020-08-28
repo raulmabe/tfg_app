@@ -293,7 +293,8 @@ class _$Protectora extends Protectora {
   }
 }
 
-class ProtectoraBuilder implements Builder<Protectora, ProtectoraBuilder> {
+class ProtectoraBuilder
+    implements Builder<Protectora, ProtectoraBuilder>, UserBuilder {
   _$Protectora _$v;
 
   String _id;
@@ -373,7 +374,7 @@ class ProtectoraBuilder implements Builder<Protectora, ProtectoraBuilder> {
   }
 
   @override
-  void replace(Protectora other) {
+  void replace(covariant Protectora other) {
     if (other == null) {
       throw new ArgumentError.notNull('other');
     }
