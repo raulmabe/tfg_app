@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:jumpets_app/data/repositories/authentication_repository.dart';
+import 'package:jumpets_app/models/models.dart';
 import 'package:jumpets_app/models/wrappers/auth_status.dart';
 import 'package:meta/meta.dart';
 
@@ -33,6 +34,17 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         break;
       case AuthLogoutRequested:
         _authenticationRepository.logOut();
+        break;
+      case AuthUserUpdated:
+        try {
+          AuthStatus authStatus = state.authStatus.copyWith(
+              authData: state.authStatus.authData
+                  .rebuild((a) => a..user = (event as AuthUserUpdated).user));
+
+          yield AuthState(authStatus: authStatus);
+        } catch (err, stack) {
+          print('onCatch $err $stack');
+        }
         break;
       default:
     }

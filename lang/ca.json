@@ -84,5 +84,13 @@
     "clear": "Cap",
     "category": "Categoria",
     "search_disabled": "Cerca deshabilitada",
-    "text": "Text"
+    "text": "Text",
+    "account_phone": "Telèfon",
+    "account_address": "Adreça",
+    "account_created_at": "Creada",
+    "account_updated_at": "Actualizada",
+    "account_details": "Dades de la conta",
+    "settings_edit_profile": "Edita les dades de la teva conta",
+    "edit_account": "Edita la conta",
+    "update": "Actualitza"
 }

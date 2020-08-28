@@ -127,7 +127,6 @@ class _FiltersPageState extends State<FiltersPage> {
                     _categoryRow(),
                     Divider(),
                     _sexRow(),
-                    Divider(),
                     _sizeRow(),
                     Divider(),
                     _deliveryInfoRow(),

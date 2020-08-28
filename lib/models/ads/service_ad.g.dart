@@ -211,7 +211,8 @@ class _$ServiceAd extends ServiceAd {
   }
 }
 
-class ServiceAdBuilder implements Builder<ServiceAd, ServiceAdBuilder> {
+class ServiceAdBuilder
+    implements Builder<ServiceAd, ServiceAdBuilder>, AdBuilder {
   _$ServiceAd _$v;
 
   String _id;
@@ -265,7 +266,7 @@ class ServiceAdBuilder implements Builder<ServiceAd, ServiceAdBuilder> {
   }
 
   @override
-  void replace(ServiceAd other) {
+  void replace(covariant ServiceAd other) {
     if (other == null) {
       throw new ArgumentError.notNull('other');
     }

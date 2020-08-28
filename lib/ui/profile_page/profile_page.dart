@@ -7,6 +7,7 @@ import 'package:jumpets_app/app_localizations.dart';
 import 'package:jumpets_app/blocs/ads_bloc/ads_bloc.dart';
 import 'package:jumpets_app/blocs/auth_bloc/auth_bloc.dart';
 import 'package:jumpets_app/blocs/favs_bloc/favourites_bloc.dart';
+import 'package:jumpets_app/blocs/profile_bloc/profile_bloc.dart';
 import 'package:jumpets_app/blocs/search_bloc/search_ads_bloc.dart'
     as independentSearchBloc;
 import 'package:jumpets_app/blocs/valuations_bloc/valuations_bloc.dart';
@@ -37,15 +38,28 @@ class _ProfilePageState extends State<ProfilePage> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<independentSearchBloc.SearchAdsBloc,
-        independentSearchBloc.SearchAdsState>(
-      builder: (context, state) {
-        return BlocBuilder<AuthBloc, AuthState>(
-            builder: (context, state) => _build(
-                context,
-                state.authStatus.status.isAuthenticated &&
-                    state.authStatus.authData.user.id == user.id));
-      },
+    return BlocProvider(
+      create: (context) => ProfileBloc(
+          user: user,
+          repository: RepositoryProvider.of<UserRepository>(context))
+        ..add(UserFetched()),
+      child: BlocListener<ProfileBloc, ProfileState>(
+        listener: (context, state) {
+          setState(() {
+            user = state.user;
+          });
+        },
+        child: BlocBuilder<independentSearchBloc.SearchAdsBloc,
+            independentSearchBloc.SearchAdsState>(
+          builder: (context, state) {
+            return BlocBuilder<AuthBloc, AuthState>(
+                builder: (context, state) => _build(
+                    context,
+                    state.authStatus.status.isAuthenticated &&
+                        state.authStatus.authData.user.id == user.id));
+          },
+        ),
+      ),
     );
   }
 
@@ -70,9 +84,7 @@ class _ProfilePageState extends State<ProfilePage> {
               current.status == FormzStatus.submissionSuccess &&
               current.user != null,
           listener: (context, state) {
-            setState(() {
-              user = state.user;
-            });
+            context.bloc<ProfileBloc>().add(UserUpdated(user: state.user));
           },
           child: Scaffold(
             backgroundColor: Theme.of(context).primaryColor,

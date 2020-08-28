@@ -84,5 +84,13 @@
     "clear": "Clear",
     "category": "Category",
     "search_disabled": "Search disabled",
-    "text": "Text"
+    "text": "Text",
+    "account_phone": "Phone",
+    "account_address": "Address",
+    "account_created_at": "Created",
+    "account_updated_at": "Updated",
+    "account_details": "Expand for details",
+    "settings_edit_profile": "Edit your account details",
+    "edit_account": "Edit your account",
+    "update": "Update"
 }

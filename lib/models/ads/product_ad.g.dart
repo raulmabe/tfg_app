@@ -211,7 +211,8 @@ class _$ProductAd extends ProductAd {
   }
 }
 
-class ProductAdBuilder implements Builder<ProductAd, ProductAdBuilder> {
+class ProductAdBuilder
+    implements Builder<ProductAd, ProductAdBuilder>, AdBuilder {
   _$ProductAd _$v;
 
   String _id;
@@ -265,7 +266,7 @@ class ProductAdBuilder implements Builder<ProductAd, ProductAdBuilder> {
   }
 
   @override
-  void replace(ProductAd other) {
+  void replace(covariant ProductAd other) {
     if (other == null) {
       throw new ArgumentError.notNull('other');
     }

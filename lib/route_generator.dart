@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:jumpets_app/app_localizations.dart';
 import 'package:jumpets_app/models/models.dart';
 import 'package:jumpets_app/ui/ad_page/ad_page.dart';
+import 'package:jumpets_app/ui/edit_profile_page/edit_profile_page.dart';
 import 'package:jumpets_app/ui/home_page/home_page.dart';
 import 'package:jumpets_app/ui/profile_page/profile_page.dart';
 import 'package:jumpets_app/ui/settings_page/settings_page.dart';
@@ -27,6 +28,12 @@ class RouteGenerator {
                 ));
       case '/settings':
         return MaterialPageRoute(builder: (_) => SettingsPage());
+      case '/edit_profile':
+        if (!(args is User)) return _errorRoute();
+        return MaterialPageRoute(
+            builder: (_) => EditProfilePage(
+                  args,
+                ));
       default:
         return _errorRoute();
     }

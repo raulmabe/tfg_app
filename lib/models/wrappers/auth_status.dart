@@ -13,4 +13,8 @@ class AuthStatus {
       : this._(authdata, AuthenticationStatus.authenticated);
   const AuthStatus.unauthenticated()
       : this._(null, AuthenticationStatus.unauthenticated);
+
+  AuthStatus copyWith({AuthData authData, AuthenticationStatus status}) {
+    return AuthStatus._(authData ?? this.authData, status ?? this.status);
+  }
 }

@@ -29,4 +29,9 @@ class AuthStatusChanged extends AuthEvent {
   final AuthStatus status;
 }
 
+class AuthUserUpdated extends AuthEvent {
+  final User user;
+  AuthUserUpdated(this.user);
+}
+
 class AuthLogoutRequested extends AuthEvent {}

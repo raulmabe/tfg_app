@@ -377,7 +377,8 @@ class _$OtherAd extends OtherAd {
   }
 }
 
-class OtherAdBuilder implements Builder<OtherAd, OtherAdBuilder> {
+class OtherAdBuilder
+    implements Builder<OtherAd, OtherAdBuilder>, AnimalAdBuilder {
   _$OtherAd _$v;
 
   String _id;
@@ -483,7 +484,7 @@ class OtherAdBuilder implements Builder<OtherAd, OtherAdBuilder> {
   }
 
   @override
-  void replace(OtherAd other) {
+  void replace(covariant OtherAd other) {
     if (other == null) {
       throw new ArgumentError.notNull('other');
     }

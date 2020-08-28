@@ -84,5 +84,13 @@
     "clear": "Ninguna",
     "category": "Categoría",
     "search_disabled": "Búsqueda deshabilitada",
-    "text": "Texto"
+    "text": "Texto",
+    "account_phone": "Telefono",
+    "account_address": "Dirección",
+    "account_created_at": "Creada",
+    "account_updated_at": "Actualizada",
+    "account_details": "Detalles de la cuenta",
+    "settings_edit_profile": "Modifica los datos de tu cuenta",
+    "edit_account": "Edita tu cuenta",
+    "update": "Actualiza"
 }

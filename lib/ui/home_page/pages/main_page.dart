@@ -200,7 +200,7 @@ class _MainPageState extends State<MainPage> {
 
               return VerticalGrid(
                 widgetInjection: InfoCard(
-                  title: 'Jumpets',
+                  title: 'PetsWorld',
                   message:
                       'Check our last update! This new version (2.2v) comes with 3 new functionalities.',
                 ),

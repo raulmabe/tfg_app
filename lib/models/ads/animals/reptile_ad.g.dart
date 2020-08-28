@@ -377,7 +377,8 @@ class _$ReptileAd extends ReptileAd {
   }
 }
 
-class ReptileAdBuilder implements Builder<ReptileAd, ReptileAdBuilder> {
+class ReptileAdBuilder
+    implements Builder<ReptileAd, ReptileAdBuilder>, AnimalAdBuilder {
   _$ReptileAd _$v;
 
   String _id;
@@ -483,7 +484,7 @@ class ReptileAdBuilder implements Builder<ReptileAd, ReptileAdBuilder> {
   }
 
   @override
-  void replace(ReptileAd other) {
+  void replace(covariant ReptileAd other) {
     if (other == null) {
       throw new ArgumentError.notNull('other');
     }

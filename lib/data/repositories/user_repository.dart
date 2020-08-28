@@ -20,6 +20,35 @@ class UserRepository {
     return User.fromJson(json['data']['valuateUser']);
   }
 
+  Future<User> updateUser(
+      {String name,
+      String email,
+      String address,
+      int phone,
+      thumbnail,
+      String web,
+      String password,
+      String token}) async {
+    var json = await _userProvider.updateUser(
+      name: name,
+      email: email,
+      password: password,
+      thumbnail: thumbnail,
+      phone: phone,
+      address: address,
+      web: web,
+      token: token,
+    );
+
+    return User.fromJson(json['data']['updateUser']);
+  }
+
+  Future<User> getUser({String id}) async {
+    var json = await _userProvider.getUser(id: id);
+
+    return User.fromJson(json['data']['getUser']);
+  }
+
   Future<User> removeValuation({String id, String token}) async {
     var json = await _userProvider.removeValuation(id: id, token: token);
 

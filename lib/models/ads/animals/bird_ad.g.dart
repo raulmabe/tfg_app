@@ -377,7 +377,7 @@ class _$BirdAd extends BirdAd {
   }
 }
 
-class BirdAdBuilder implements Builder<BirdAd, BirdAdBuilder> {
+class BirdAdBuilder implements Builder<BirdAd, BirdAdBuilder>, AnimalAdBuilder {
   _$BirdAd _$v;
 
   String _id;
@@ -483,7 +483,7 @@ class BirdAdBuilder implements Builder<BirdAd, BirdAdBuilder> {
   }
 
   @override
-  void replace(BirdAd other) {
+  void replace(covariant BirdAd other) {
     if (other == null) {
       throw new ArgumentError.notNull('other');
     }

@@ -377,7 +377,7 @@ class _$CatAd extends CatAd {
   }
 }
 
-class CatAdBuilder implements Builder<CatAd, CatAdBuilder> {
+class CatAdBuilder implements Builder<CatAd, CatAdBuilder>, AnimalAdBuilder {
   _$CatAd _$v;
 
   String _id;
@@ -483,7 +483,7 @@ class CatAdBuilder implements Builder<CatAd, CatAdBuilder> {
   }
 
   @override
-  void replace(CatAd other) {
+  void replace(covariant CatAd other) {
     if (other == null) {
       throw new ArgumentError.notNull('other');
     }

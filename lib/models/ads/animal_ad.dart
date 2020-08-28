@@ -13,6 +13,9 @@ import 'package:jumpets_app/models/enums/activity_level.dart';
 import 'package:jumpets_app/models/enums/delivery_status.dart';
 import 'package:jumpets_app/models/users/user.dart';
 
+part 'animal_ad.g.dart';
+
+@BuiltValue(instantiable: false)
 abstract class AnimalAd implements Ad {
   @override
   String get id;
@@ -44,6 +47,9 @@ abstract class AnimalAd implements Ad {
   BuiltList<DeliveryStatus> get deliveryInfo;
 
   String get breed;
+
+  AnimalAd rebuild(void Function(AnimalAdBuilder) updates);
+  AnimalAdBuilder toBuilder();
 
   static AnimalAd fromJson(Map<String, dynamic> json) {
     var fromJson = CatAd.fromJson(json);
