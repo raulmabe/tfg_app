@@ -23,8 +23,8 @@ class AuthenticationRepository {
     assert(email != null);
     assert(password != null);
 
-    var json =
-        await authenticationProvider.logIn(email: email, password: password);
+    var json = await authenticationProvider.logIn(
+        email: email.trim(), password: password.trim());
 
     AuthData auth = AuthData.fromJson(json['data']['login']);
 
@@ -43,7 +43,10 @@ class AuthenticationRepository {
     assert(name != null);
 
     var json = await authenticationProvider.register(
-        email: email, password: password, type: type, name: name);
+        email: email.trim(),
+        password: password.trim(),
+        type: type,
+        name: name.trim());
 
     AuthData auth = AuthData.fromJson(json['data']['register']);
 

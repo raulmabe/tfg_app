@@ -52,6 +52,9 @@ class EditProfileBloc extends Bloc<EditProfileEvent, EditProfileState> {
       case ProfilePasswordChanged:
         yield _mapProfilePasswordChangedToState(event);
         break;
+      case ProfileImgChanged:
+        yield _mapProfileImgChangedToState(event);
+        break;
       case ProfileEditSubmitted:
         yield* _mapProfileSubmittedChangedToState(event);
         break;
@@ -139,6 +142,21 @@ class EditProfileBloc extends Bloc<EditProfileEvent, EditProfileState> {
     return state.copyWith(email: email, status: status);
   }
 
+  EditProfileState _mapProfileImgChangedToState(
+    ProfileImgChanged event,
+  ) {
+    return state.copyWith(
+        file: event.file,
+        status: Formz.validate([
+          state.password,
+          state.email,
+          state.name,
+          state.address,
+          state.phone,
+          state.web,
+        ]));
+  }
+
   EditProfileState _mapProfilePasswordChangedToState(
     ProfilePasswordChanged event,
   ) {
@@ -158,17 +176,24 @@ class EditProfileBloc extends Bloc<EditProfileEvent, EditProfileState> {
   Stream<EditProfileState> _mapProfileSubmittedChangedToState(
     ProfileEditSubmitted event,
   ) async* {
-    if (state.status.isValidated) {
+    if (state.status.isValidated || state.status.isPure && state.file != null) {
       yield state.copyWith(status: FormzStatus.submissionInProgress);
       try {
+        // Si no ha modificado estos valores, se envían como null
         String password;
-        // Si es string vacía, que no la actualize
         if (state.password.value.isNotEmpty) {
           password = state.password.value;
         }
 
+        String email;
+        if (state.email.value !=
+            authBloc.state.authStatus?.authData?.user?.email) {
+          email = state.email.value;
+        }
+
         User user = await repository.updateUser(
-            email: state.email.value,
+            file: state.file,
+            email: email,
             password: password,
             web: state.web.value,
             phone: state.phone.value,

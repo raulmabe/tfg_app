@@ -33,4 +33,9 @@ class ProfilePhoneChanged extends EditProfileEvent {
   ProfilePhoneChanged(this.phone);
 }
 
+class ProfileImgChanged extends EditProfileEvent {
+  final file;
+  ProfileImgChanged(this.file);
+}
+
 class ProfileEditSubmitted extends EditProfileEvent {}

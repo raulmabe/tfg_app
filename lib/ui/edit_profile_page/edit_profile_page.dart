@@ -5,8 +5,11 @@ import 'package:jumpets_app/app_localizations.dart';
 import 'package:jumpets_app/blocs/auth_bloc/auth_bloc.dart';
 import 'package:jumpets_app/blocs/edit_profile_bloc/edit_profile_bloc.dart';
 import 'package:jumpets_app/data/repositories/user_repository.dart';
+import 'package:jumpets_app/models/models.dart';
+import 'package:jumpets_app/models/users/profesional.dart';
 import 'package:jumpets_app/models/users/user.dart';
 import 'package:jumpets_app/ui/components/forms/profile_forms.dart';
+import 'package:jumpets_app/ui/components/jumpets_icons_icons.dart';
 import 'package:jumpets_app/ui/components/profile_icon.dart';
 
 class EditProfilePage extends StatelessWidget {
@@ -47,9 +50,40 @@ class EditProfilePage extends StatelessWidget {
                   padding:
                       const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
                   child: ListView(shrinkWrap: true, children: [
+                    SizedBox(
+                      height: 200,
+                      child: Stack(fit: StackFit.expand, children: [
+                        CircularProfileThumb(
+                          user: user,
+                          radius: 80.0,
+                          borderWidth: 2.0,
+                        ),
+                        ProfileImagePicker(
+                          radius: 80.0,
+                        )
+                      ]),
+                    ),
+                    ProfileNameInput(
+                      name: user.name,
+                    ),
                     ProfileEmailInput(
                       email: user.email,
-                    )
+                    ),
+                    ProfileAddressInput(
+                      address: user.address,
+                    ),
+                    ProfilePhoneInput(
+                      phone: user.phone,
+                    ),
+                    if (user is Profesional)
+                      ProfileWebInput(
+                        web: (user as Profesional).web,
+                      ),
+                    if (user is Protectora)
+                      ProfileWebInput(
+                        web: (user as Protectora).web,
+                      ),
+                    ProfilePasswordInput()
                   ]),
                 ),
                 Positioned(

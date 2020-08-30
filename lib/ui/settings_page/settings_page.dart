@@ -27,7 +27,6 @@ class SettingsPage extends StatelessWidget {
             color: Colors.transparent,
           ),
           _accountTiles(context),
-          Divider(),
           _header(AppLocalizations.of(context).translate('advanced_settings'),
               context),
           ListTile(

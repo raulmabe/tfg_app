@@ -92,5 +92,8 @@
     "account_details": "Expand for details",
     "settings_edit_profile": "Edit your account details",
     "edit_account": "Edit your account",
-    "update": "Update"
+    "update": "Update",
+    "web": "Web",
+    "phone": "Phone",
+    "address": "Address"
 }

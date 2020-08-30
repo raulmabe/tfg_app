@@ -28,15 +28,17 @@ class UserRepository {
       thumbnail,
       String web,
       String password,
-      String token}) async {
+      String token,
+      var file}) async {
     var json = await _userProvider.updateUser(
-      name: name,
-      email: email,
-      password: password,
+      name: name?.trim(),
+      email: email?.trim(),
+      password: password?.trim(),
       thumbnail: thumbnail,
       phone: phone,
-      address: address,
-      web: web,
+      address: address?.trim(),
+      web: web?.trim(),
+      file: file,
       token: token,
     );
 

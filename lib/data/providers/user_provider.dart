@@ -1,7 +1,11 @@
 import 'dart:async';
+import 'dart:io';
 
+import 'package:dio/dio.dart';
+import 'package:http_parser/http_parser.dart';
 import 'package:jumpets_app/data/api_base_helper.dart';
 import 'package:jumpets_app/models/enums/user_types.dart';
+import 'dart:convert';
 
 class UserProvider {
   final ApiBaseHelper _api;
@@ -70,6 +74,7 @@ class UserProvider {
 
   Future<dynamic> updateUser(
       {String name,
+      File file,
       String email,
       String address,
       int phone,
@@ -83,9 +88,9 @@ class UserProvider {
     String passwordEscaped = password != null ? '"$password"' : null;
     String webEscaped = web != null ? '"$web"' : null;
 
-    return _api.post({
+    var operations = {
       'query': '''
-       mutation{
+       mutation(\$file: Upload!) {
           updateUser(
             userInput: {
               name: $nameEscaped
@@ -94,14 +99,27 @@ class UserProvider {
               phone: $phone
               password: $passwordEscaped
               address: $addressEscaped
+              thumbnail: \$file
             }
           ) {
             ...userFields
           }
         }
       ''' +
-          getUserFragment()
-    }, token: token);
+          getUserFragment(),
+      'variables': {'file': null}
+    };
+
+    FormData formData = FormData.fromMap({
+      'operations': json.encode(operations),
+      'map': json.encode({
+        '0': ['variables.file']
+      }),
+      "0": await MultipartFile.fromFile(file.path,
+          contentType: MediaType('image', file.path.split('.').last)),
+    });
+
+    return _api.postWithFile(formData, token: token);
   }
 
   Future<dynamic> valuateUser(

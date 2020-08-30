@@ -1,10 +1,113 @@
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:jumpets_app/app_localizations.dart';
 import 'package:jumpets_app/blocs/edit_profile_bloc/edit_profile_bloc.dart';
 import 'package:jumpets_app/ui/components/buttons/raised_button.dart';
 import 'package:formz/formz.dart';
+import 'package:jumpets_app/ui/components/jumpets_icons_icons.dart';
+
+class ProfileImagePicker extends StatefulWidget {
+  final double radius;
+  ProfileImagePicker({this.radius});
+  @override
+  _ProfileImagePickerState createState() => _ProfileImagePickerState();
+}
+
+class _ProfileImagePickerState extends State<ProfileImagePicker> {
+  File _image;
+  final picker = ImagePicker();
+
+  Future getImage() async {
+    final pickedFile = await picker.getImage(source: ImageSource.gallery);
+
+    if (pickedFile != null) {
+      context
+          .bloc<EditProfileBloc>()
+          .add(ProfileImgChanged(File(pickedFile.path)));
+
+      setState(() {
+        _image = File(pickedFile.path);
+      });
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: InkWell(
+        onTap: getImage,
+        child: CircleAvatar(
+            radius: widget.radius ?? 20,
+            backgroundImage: _image == null ? null : Image.file(_image).image,
+            backgroundColor: Colors.white.withOpacity(.2),
+            child: Icon(
+              JumpetsIcons.camara,
+              size: 50,
+              color: Theme.of(context).accentColor,
+            )),
+      ),
+    );
+  }
+}
+
+//* Phone Input
+class ProfilePhoneInput extends StatefulWidget {
+  final int phone;
+  ProfilePhoneInput({this.phone});
+  @override
+  _ProfilePhoneInputState createState() => _ProfilePhoneInputState();
+}
+
+class _ProfilePhoneInputState extends State<ProfilePhoneInput> {
+  TextEditingController _textEditingController;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+    _textEditingController =
+        TextEditingController(text: widget.phone.toString());
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<EditProfileBloc, EditProfileState>(
+      buildWhen: (previous, current) => previous.phone != current.phone,
+      builder: (context, state) {
+        return TextField(
+          controller: _textEditingController,
+          key: const Key('phoneInput_textfield'),
+          onChanged: (phone) => context
+              .bloc<EditProfileBloc>()
+              .add(ProfilePhoneChanged(int.parse(phone))),
+          keyboardType: TextInputType.phone,
+          inputFormatters: <TextInputFormatter>[
+            FilteringTextInputFormatter.digitsOnly
+          ], // Only n
+          decoration: InputDecoration(
+              focusedErrorBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(color: Colors.red.shade400)),
+              errorStyle: TextStyle(color: Colors.red.shade400),
+              errorBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(color: Colors.red.shade400)),
+              focusedBorder: UnderlineInputBorder(
+                borderSide: BorderSide(color: Colors.black54),
+              ),
+              enabledBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(color: Colors.black54)),
+              labelText: AppLocalizations.of(context).translate('phone'),
+              labelStyle: TextStyle(color: Colors.black54)),
+        );
+      },
+    );
+  }
+}
 
 //* Web Input
 class ProfileWebInput extends StatefulWidget {
@@ -33,6 +136,7 @@ class _ProfileWebInputState extends State<ProfileWebInput> {
         return TextField(
           controller: _textEditingController,
           key: const Key('webInput_textfield'),
+          keyboardType: TextInputType.url,
           onChanged: (web) =>
               context.bloc<EditProfileBloc>().add(ProfileWebChanged(web)),
           decoration: InputDecoration(
@@ -81,6 +185,7 @@ class _ProfileAddressInputState extends State<ProfileAddressInput> {
         return TextField(
           controller: _textEditingController,
           key: const Key('addressInput_textfield'),
+          keyboardType: TextInputType.streetAddress,
           onChanged: (address) => context
               .bloc<EditProfileBloc>()
               .add(ProfileAddressChanged(address)),
@@ -178,6 +283,7 @@ class _ProfileEmailInputState extends State<ProfileEmailInput> {
         return TextField(
           controller: _textEditingController,
           key: const Key('emailInput_textfield'),
+          keyboardType: TextInputType.emailAddress,
           onChanged: (email) =>
               context.bloc<EditProfileBloc>().add(ProfileEmailChanged(email)),
           decoration: InputDecoration(
@@ -234,13 +340,14 @@ class ProfileEditButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<EditProfileBloc, EditProfileState>(
-      buildWhen: (previous, current) => previous.status != current.status,
+      buildWhen: (previous, current) =>
+          previous.status != current.status || previous.file != current.file,
       builder: (context, state) {
         return MyRaisedButton(
           onPressed: () =>
               context.bloc<EditProfileBloc>().add(ProfileEditSubmitted()),
           text: AppLocalizations.of(context).translate('update'),
-          blocked: !state.status.isValidated,
+          blocked: !(state.status.isValidated || state.file != null),
           child: state.status.isSubmissionInProgress
               ? CircularProgressIndicator(
                   backgroundColor: Theme.of(context).primaryColor,

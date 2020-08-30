@@ -3,6 +3,7 @@ part of 'edit_profile_bloc.dart';
 @immutable
 class EditProfileState {
   const EditProfileState({
+    this.file,
     this.status = FormzStatus.pure,
     this.email = const Email.pure(''),
     this.password = const PasswordNullable.pure(),
@@ -18,6 +19,7 @@ class EditProfileState {
   final Web web;
   final Address address;
   final Phone phone;
+  final file;
   final PasswordNullable password;
 
   EditProfileState copyWith({
@@ -25,6 +27,7 @@ class EditProfileState {
     Email email,
     Name name,
     Web web,
+    var file,
     Address address,
     Phone phone,
     PasswordNullable password,
@@ -36,6 +39,7 @@ class EditProfileState {
       address: address ?? this.address,
       name: name ?? this.name,
       web: web ?? this.web,
+      file: file ?? this.file,
       phone: phone ?? this.phone,
     );
   }

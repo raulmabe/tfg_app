@@ -92,5 +92,8 @@
     "account_details": "Detalles de la cuenta",
     "settings_edit_profile": "Modifica los datos de tu cuenta",
     "edit_account": "Edita tu cuenta",
-    "update": "Actualiza"
+    "update": "Actualiza",
+    "web": "Web",
+    "phone": "Telefono",
+    "address": "Dirección"
 }

@@ -44,6 +44,9 @@ dependencies:
   dart_date: ^1.0.7
   smooth_star_rating: 1.1.1
   flutter_spinkit: "^4.1.2"
+  image_picker: ^0.6.7+7
+  dio: ^3.0.10
+  http_parser: ^3.1.4
 
 
 dev_dependencies:
