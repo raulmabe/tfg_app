@@ -58,10 +58,10 @@ class SettingsPage extends StatelessWidget {
           ),
           ListTile(
             title: Text(AppLocalizations.of(context).translate('developed_by')),
-            subtitle: Text('www.raulmabe.dev'),
+            subtitle: Text('raulmabe.dev'),
             onTap: () async {
-              if (await canLaunch('www.raulmabe.dev')) {
-                await launch('www.raulmabe.dev');
+              if (await canLaunch('http://www.raulmabe.dev')) {
+                await launch('http://www.raulmabe.dev');
               } else {
                 throw 'Could not launch website';
               }
