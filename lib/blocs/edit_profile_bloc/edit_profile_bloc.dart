@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:formz/formz.dart';
 import 'package:jumpets_app/blocs/auth_bloc/auth_bloc.dart';
+import 'package:jumpets_app/blocs/error_handler_bloc/error_handler_bloc.dart';
 import 'package:jumpets_app/data/repositories/user_repository.dart';
 import 'package:jumpets_app/models/models.dart';
 import 'package:meta/meta.dart';
@@ -11,14 +12,17 @@ part 'edit_profile_event.dart';
 part 'edit_profile_state.dart';
 
 class EditProfileBloc extends Bloc<EditProfileEvent, EditProfileState> {
-  UserRepository repository;
-  AuthBloc authBloc;
+  final UserRepository repository;
+  final AuthBloc authBloc;
+  final ErrorHandlerBloc errorBloc;
 
-  EditProfileBloc({
-    @required this.repository,
-    @required this.authBloc,
-    @required User user,
-  })  : assert(authBloc != null),
+  EditProfileBloc(
+      {@required this.repository,
+      @required this.authBloc,
+      @required User user,
+      @required this.errorBloc})
+      : assert(authBloc != null),
+        assert(errorBloc != null),
         super(EditProfileState(
           email: Email.pure(user.email),
           name: Name.pure(user.name),
@@ -205,6 +209,8 @@ class EditProfileBloc extends Bloc<EditProfileEvent, EditProfileState> {
 
         yield state.copyWith(status: FormzStatus.submissionSuccess);
       } catch (err, stack) {
+        errorBloc
+            .add(ErrorHandlerCatched(bloc: this, event: event, error: err));
         print('onCatch $err, $stack');
         yield state.copyWith(status: FormzStatus.submissionFailure);
       }

@@ -96,5 +96,15 @@
     "web": "Web",
     "phone": "Telèfon",
     "address": "Adreça",
-    "info_actions_valuation_card": "Llisca cap a la dreta per editar, i cap a l'esquerra per eliminar"
+    "info_actions_valuation_card": "Llisca cap a la dreta per editar, i cap a l'esquerra per eliminar",
+    "more_info": "Més informació",
+    "not_a_real_app_msg": "Aquesta aplicació és una demo pel treball de final de grau. Per tant, no està en manteniment ni els contactes representats en ella són reals.",
+    "error_title": "S'ha produït un error!",
+    "cancel": "Cancel·lar",
+    "retry": "Reintentar",
+    "Invalid email": "Correu incorrecte",
+    "Invalid password": "Contrasenya incorrecte",
+    "No internet connection": "No hi ha connexió a Internet!",
+    "default_error": "S'ha produït un error!",
+    "developed_by": "Desenvolupat per"
 }

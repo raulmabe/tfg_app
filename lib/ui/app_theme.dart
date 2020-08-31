@@ -26,11 +26,18 @@ class AppTheme {
         accentColor: kAccentColor,
         iconTheme: _getIconTheme(baseTheme.primaryIconTheme),
         appBarTheme: _getAppBarTheme(baseTheme.appBarTheme),
+        dialogTheme: _getDialogTheme(baseTheme.dialogTheme),
         textTheme:
             _getTextTheme(GoogleFonts.ralewayTextTheme(baseTheme.textTheme)),
         primaryTextTheme: _getPrimaryTextTheme(baseTheme.primaryTextTheme),
         buttonTheme:
             _getButtonTheme(baseTheme.buttonTheme, baseTheme.colorScheme));
+  }
+
+  static DialogTheme _getDialogTheme(DialogTheme baseTheme) {
+    return baseTheme.copyWith(
+        backgroundColor: kPrimaryColor,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)));
   }
 
   static ButtonThemeData _getButtonTheme(

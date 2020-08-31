@@ -5,6 +5,7 @@ import 'package:jumpets_app/blocs/ads_bloc/ads_bloc.dart';
 import 'package:jumpets_app/blocs/auth_bloc/auth_bloc.dart';
 import 'package:jumpets_app/models/wrappers/auth_status.dart';
 import 'package:jumpets_app/ui/components/bottombar/bottombar.dart';
+import 'package:jumpets_app/ui/components/error_notifier.dart';
 import 'package:jumpets_app/ui/components/profile_icon.dart';
 import 'package:jumpets_app/ui/components/searchbar/searchbar.dart';
 import 'package:jumpets_app/ui/home_page/page_view.dart';
@@ -40,7 +41,7 @@ class _HomePageState extends State<HomePage> {
     final currentScroll = _scrollController.position.pixels;
     if (maxScroll - currentScroll <= _scrollThreshold &&
         !context.bloc<AdsBloc>().searchMode) {
-      BlocProvider.of<AdsBloc>(context).add(MoreAdsFetched());
+      context.bloc<AdsBloc>().add(MoreAdsFetched());
     }
   }
 
@@ -90,35 +91,38 @@ class _HomePageState extends State<HomePage> {
           ),
         ],
       ),
-      body: Stack(
-        fit: StackFit.expand,
-        children: <Widget>[
-          Container(
-            margin: EdgeInsets.only(top: 10),
-            decoration: BoxDecoration(
-                color: Theme.of(context).backgroundColor,
-                borderRadius: BorderRadius.vertical(top: Radius.circular(32))),
-            child: ClipRRect(
-                borderRadius: BorderRadius.circular(32),
-                child: HomePageView(
-                  pageController: _pageController,
-                  scrollController: _scrollController,
-                )),
-          ),
-          Positioned(
-              bottom: 0,
-              right: 0,
-              left: 0,
-              child: BottomBar(
-                onTap: (int index) => _pageController.jumpToPage(
-                  index,
-                ),
-                onDoubleMainTap: () => _scrollController.animateTo(0,
-                    duration: Duration(milliseconds: 600),
-                    curve: Curves.bounceIn),
-                pageSelected: _pageIndex,
-              ))
-        ],
+      body: ErrorNotifier(
+        child: Stack(
+          fit: StackFit.expand,
+          children: <Widget>[
+            Container(
+              margin: EdgeInsets.only(top: 10),
+              decoration: BoxDecoration(
+                  color: Theme.of(context).backgroundColor,
+                  borderRadius:
+                      BorderRadius.vertical(top: Radius.circular(32))),
+              child: ClipRRect(
+                  borderRadius: BorderRadius.circular(32),
+                  child: HomePageView(
+                    pageController: _pageController,
+                    scrollController: _scrollController,
+                  )),
+            ),
+            Positioned(
+                bottom: 0,
+                right: 0,
+                left: 0,
+                child: BottomBar(
+                  onTap: (int index) => _pageController.jumpToPage(
+                    index,
+                  ),
+                  onDoubleMainTap: () => _scrollController.animateTo(0,
+                      duration: Duration(milliseconds: 600),
+                      curve: Curves.bounceIn),
+                  pageSelected: _pageIndex,
+                ))
+          ],
+        ),
       ),
     );
   }

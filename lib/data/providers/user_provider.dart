@@ -90,7 +90,7 @@ class UserProvider {
 
     var operations = {
       'query': '''
-       mutation(\$file: Upload!) {
+       mutation(\$file: Upload) {
           updateUser(
             userInput: {
               name: $nameEscaped
@@ -110,16 +110,19 @@ class UserProvider {
       'variables': {'file': null}
     };
 
-    FormData formData = FormData.fromMap({
-      'operations': json.encode(operations),
-      'map': json.encode({
-        '0': ['variables.file']
-      }),
-      "0": await MultipartFile.fromFile(file.path,
-          contentType: MediaType('image', file.path.split('.').last)),
-    });
+    if (file != null) {
+      FormData formData = FormData.fromMap({
+        'operations': json.encode(operations),
+        'map': json.encode({
+          '0': ['variables.file']
+        }),
+        "0": await MultipartFile.fromFile(file.path,
+            contentType: MediaType('image', file.path.split('.').last)),
+      });
 
-    return _api.postWithFile(formData, token: token);
+      return _api.postWithFile(formData, token: token);
+    } else
+      return _api.post(operations, token: token);
   }
 
   Future<dynamic> valuateUser(

@@ -96,5 +96,15 @@
     "web": "Web",
     "phone": "Phone",
     "address": "Address",
-    "info_actions_valuation_card": "Swipe right to edit, swipe left to delete it"
+    "info_actions_valuation_card": "Swipe right to edit, swipe left to delete it",
+    "more_info": "More info",
+    "not_a_real_app_msg": "This app is a demo for a final degree project. Thus, the users represented are not real nor this app is being mantained.",
+    "error_title": "An error has ocurred!",
+    "cancel": "Cancel",
+    "retry": "Retry",
+    "Invalid email": "Invalid email",
+    "Invalid password": "Invalid password",
+    "No internet connection": "No internet connection!",
+    "default_error": "An error has ocurred!",
+    "developed_by": "Developed by"
 }

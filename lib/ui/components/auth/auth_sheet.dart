@@ -5,6 +5,7 @@ import 'package:jumpets_app/app_localizations.dart';
 import 'package:jumpets_app/blocs/auth_bloc/auth_bloc.dart';
 import 'package:jumpets_app/blocs/auth_bloc/bloc/login_bloc.dart';
 import 'package:jumpets_app/blocs/auth_bloc/bloc/register_bloc.dart';
+import 'package:jumpets_app/blocs/error_handler_bloc/error_handler_bloc.dart';
 import 'package:jumpets_app/data/repositories/authentication_repository.dart';
 import 'package:jumpets_app/models/enums/user_types.dart';
 import 'package:jumpets_app/models/wrappers/auth_status.dart';
@@ -87,15 +88,15 @@ class _AuthBodyState extends State<AuthBody> {
         providers: [
           BlocProvider<LoginBloc>(
             create: (context) => LoginBloc(
-              authenticationRepository:
-                  RepositoryProvider.of<AuthenticationRepository>(context),
-            ),
+                authenticationRepository:
+                    RepositoryProvider.of<AuthenticationRepository>(context),
+                errorBloc: context.bloc<ErrorHandlerBloc>()),
           ),
           BlocProvider<RegisterBloc>(
             create: (context) => RegisterBloc(
-              authenticationRepository:
-                  RepositoryProvider.of<AuthenticationRepository>(context),
-            ),
+                authenticationRepository:
+                    RepositoryProvider.of<AuthenticationRepository>(context),
+                errorBloc: context.bloc<ErrorHandlerBloc>()),
           )
         ],
         child: AnimatedSwitcher(

@@ -4,6 +4,7 @@ import 'package:bloc/bloc.dart';
 import 'package:formz/formz.dart';
 import 'package:jumpets_app/blocs/ads_bloc/ads_bloc.dart';
 import 'package:jumpets_app/blocs/auth_bloc/auth_bloc.dart';
+import 'package:jumpets_app/blocs/error_handler_bloc/error_handler_bloc.dart';
 import 'package:jumpets_app/data/repositories/user_repository.dart';
 import 'package:jumpets_app/models/forms/forms.dart';
 import 'package:jumpets_app/models/users/user.dart';
@@ -15,11 +16,14 @@ part 'valuations_state.dart';
 class ValuationsBloc extends Bloc<ValuationsEvent, ValuationsState> {
   final AuthBloc authBloc;
   final UserRepository repository;
-  ValuationsBloc({
-    @required this.repository,
-    @required this.authBloc,
-  })  : assert(repository != null),
+  final ErrorHandlerBloc errorBloc;
+  ValuationsBloc(
+      {@required this.repository,
+      @required this.authBloc,
+      @required this.errorBloc})
+      : assert(repository != null),
         assert(authBloc != null),
+        assert(errorBloc != null),
         super(ValuationsState());
 
   @override
@@ -78,6 +82,8 @@ class ValuationsBloc extends Bloc<ValuationsEvent, ValuationsState> {
 
         yield state.copyWith(status: FormzStatus.submissionSuccess, user: user);
       } catch (err, stack) {
+        errorBloc
+            .add(ErrorHandlerCatched(bloc: this, event: event, error: err));
         print('onCatch $err, $stack');
         yield state.copyWith(status: FormzStatus.submissionFailure);
       }
@@ -94,6 +100,7 @@ class ValuationsBloc extends Bloc<ValuationsEvent, ValuationsState> {
 
       yield state.copyWith(status: FormzStatus.submissionSuccess, user: user);
     } catch (err, stack) {
+      errorBloc.add(ErrorHandlerCatched(bloc: this, event: event, error: err));
       print('onCatch $err, $stack');
       yield state.copyWith(status: FormzStatus.submissionFailure);
     }

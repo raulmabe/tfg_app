@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:jumpets_app/blocs/auth_bloc/auth_bloc.dart';
+import 'package:jumpets_app/blocs/error_handler_bloc/error_handler_bloc.dart';
 import 'package:jumpets_app/data/repositories/ads_repository.dart';
 import 'package:jumpets_app/models/ads/ad.dart';
 import 'package:meta/meta.dart';
@@ -12,9 +13,14 @@ part 'favourites_state.dart';
 class FavouritesBloc extends Bloc<FavouritesEvent, FavouritesState> {
   final AdsRepository repository;
   final AuthBloc authBloc;
-  FavouritesBloc({@required this.repository, @required this.authBloc})
+  final ErrorHandlerBloc errorBloc;
+  FavouritesBloc(
+      {@required this.repository,
+      @required this.authBloc,
+      @required this.errorBloc})
       : assert(repository != null),
         assert(authBloc != null),
+        assert(errorBloc != null),
         super(FavouritesInitial());
 
   @override
@@ -44,6 +50,8 @@ class FavouritesBloc extends Bloc<FavouritesEvent, FavouritesState> {
       List<Ad> favs = await repository.unsaveAd(token: token, id: event.adId);
       return FavouritesSuccess(ads: favs);
     } catch (err, stack) {
+      errorBloc.add(ErrorHandlerCatched(
+          bloc: this, event: event, error: err, forceSnack: true));
       print('OnCatch $err, $stack');
       return FavouritesFailure();
     }
@@ -55,6 +63,8 @@ class FavouritesBloc extends Bloc<FavouritesEvent, FavouritesState> {
       List<Ad> favs = await repository.saveAd(token: token, id: event.ad.id);
       return FavouritesSuccess(ads: favs);
     } catch (err, stack) {
+      errorBloc.add(ErrorHandlerCatched(
+          bloc: this, event: event, error: err, forceSnack: true));
       print('OnCatch $err, $stack');
       return FavouritesFailure();
     }
@@ -66,6 +76,7 @@ class FavouritesBloc extends Bloc<FavouritesEvent, FavouritesState> {
       List<Ad> favs = await repository.getFavs(token: token);
       return FavouritesSuccess(ads: favs);
     } catch (err, stack) {
+      errorBloc.add(ErrorHandlerCatched(bloc: this, event: event, error: err));
       print('OnCatch $err, $stack');
       return FavouritesFailure();
     }

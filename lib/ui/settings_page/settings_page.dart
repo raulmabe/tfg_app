@@ -5,7 +5,9 @@ import 'package:jumpets_app/blocs/auth_bloc/auth_bloc.dart';
 import 'package:jumpets_app/blocs/locale_bloc/locale_bloc.dart';
 import 'package:jumpets_app/models/models.dart';
 import 'package:jumpets_app/models/wrappers/auth_status.dart';
+import 'package:jumpets_app/ui/components/jumpets_icons_icons.dart';
 import 'package:jumpets_app/ui/helper.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class SettingsPage extends StatelessWidget {
   @override
@@ -54,6 +56,31 @@ class SettingsPage extends StatelessWidget {
                   context.bloc<LocaleBloc>().add(LocaleChanged(idioma)),
             ),
           ),
+          ListTile(
+            title: Text(AppLocalizations.of(context).translate('developed_by')),
+            subtitle: Text('www.raulmabe.dev'),
+            onTap: () async {
+              if (await canLaunch('www.raulmabe.dev')) {
+                await launch('www.raulmabe.dev');
+              } else {
+                throw 'Could not launch website';
+              }
+            },
+            dense: true,
+          ),
+          ListTile(
+            title: Text(AppLocalizations.of(context).translate('more_info')),
+            onTap: () => showAboutDialog(
+                context: context,
+                applicationIcon: Icon(
+                  JumpetsIcons.nariz_jumpets,
+                  color: Theme.of(context).accentColor,
+                ),
+                applicationVersion: 'v1.0.0',
+                applicationLegalese: AppLocalizations.of(context)
+                    .translate('not_a_real_app_msg')),
+            dense: true,
+          ),
         ],
       ),
     );
@@ -61,12 +88,15 @@ class SettingsPage extends StatelessWidget {
 
   Widget _accountTiles(context) {
     return ExpansionTile(
-      title: Text(
-        AppLocalizations.of(context).translate('account'),
-        style: Theme.of(context)
-            .textTheme
-            .subtitle1
-            .copyWith(color: Theme.of(context).accentColor),
+      title: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+        child: Text(
+          AppLocalizations.of(context).translate('account'),
+          style: Theme.of(context)
+              .textTheme
+              .subtitle1
+              .copyWith(color: Theme.of(context).accentColor),
+        ),
       ),
       subtitle: Text(
         AppLocalizations.of(context).translate('account_details'),
@@ -102,6 +132,26 @@ class SettingsPage extends StatelessWidget {
                         Text(state.authStatus.authData.user.phone.toString()),
                     dense: true,
                   ),
+                  if (state.authStatus.authData.user is Profesional)
+                    ListTile(
+                      title:
+                          Text(AppLocalizations.of(context).translate('web')),
+                      subtitle: Text(
+                          (state.authStatus.authData.user as Profesional)
+                              .web
+                              .toString()),
+                      dense: true,
+                    ),
+                  if (state.authStatus.authData.user is Protectora)
+                    ListTile(
+                      title:
+                          Text(AppLocalizations.of(context).translate('web')),
+                      subtitle: Text(
+                          (state.authStatus.authData.user as Protectora)
+                              .web
+                              .toString()),
+                      dense: true,
+                    ),
                   ListTile(
                     title: Text(
                         AppLocalizations.of(context).translate('password')),

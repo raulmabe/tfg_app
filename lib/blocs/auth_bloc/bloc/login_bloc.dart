@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:formz/formz.dart';
+import 'package:jumpets_app/blocs/error_handler_bloc/error_handler_bloc.dart';
 import 'package:jumpets_app/data/repositories/authentication_repository.dart';
 import 'package:jumpets_app/models/models.dart';
 import 'package:meta/meta.dart';
@@ -10,12 +11,15 @@ part 'login_event.dart';
 part 'login_state.dart';
 
 class LoginBloc extends Bloc<LoginEvent, LoginState> {
-  LoginBloc({
-    @required AuthenticationRepository authenticationRepository,
-  })  : assert(authenticationRepository != null),
+  LoginBloc(
+      {@required AuthenticationRepository authenticationRepository,
+      @required this.errorBloc})
+      : assert(authenticationRepository != null),
+        assert(errorBloc != null),
         _authenticationRepository = authenticationRepository,
         super(LoginState());
 
+  final ErrorHandlerBloc errorBloc;
   final AuthenticationRepository _authenticationRepository;
 
   @override
@@ -67,6 +71,8 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
         print('Now should be authenticated');
         yield state.copyWith(status: FormzStatus.submissionSuccess);
       } catch (err, stack) {
+        errorBloc
+            .add(ErrorHandlerCatched(bloc: this, event: event, error: err));
         print('onCatch $err, $stack');
         yield state.copyWith(status: FormzStatus.submissionFailure);
       }

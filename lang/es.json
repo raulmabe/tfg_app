@@ -96,5 +96,15 @@
     "web": "Web",
     "phone": "Telefono",
     "address": "Dirección",
-    "info_actions_valuation_card": "Desliza hacia la derecha para editarlo, o hacia la izquierda para eliminarlo"
+    "info_actions_valuation_card": "Desliza hacia la derecha para editarlo, o hacia la izquierda para eliminarlo",
+    "more_info": "Más información",
+    "not_a_real_app_msg": "Esta app es una demo para un proyecto final de carrera. Por lo tanto, no està en mantenimiento ni los usuarios són personas reales",
+    "error_title": "Se ha producido un error!",
+    "cancel": "Cancelar",
+    "retry": "Reintentar",
+    "Invalid email": "Email incorrecto",
+    "Invalid password": "Contraseña incorrecta",
+    "No internet connection": "No hay conexión a internet!",
+    "default_error": "Se ha producido un error!",
+    "developed_by": "Desarrollado por"
 }

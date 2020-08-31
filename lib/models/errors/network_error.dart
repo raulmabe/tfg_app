@@ -1,29 +1,30 @@
 class NetworkError extends Error {
   final int status;
   final String msg;
+  final String fromError;
 
-  NetworkError({this.msg, this.status});
+  NetworkError({this.msg, this.status, this.fromError});
 
   @override
-  String toString() => '$status | $msg';
+  String toString() => msg;
 }
 
 class FetchDataError extends NetworkError {
   FetchDataError({status, msg})
-      : super(status: status, msg: 'Fetching Data: $msg');
+      : super(status: status, msg: msg, fromError: 'Fetching Data');
 }
 
 class BadRequestError extends NetworkError {
   BadRequestError({status, msg})
-      : super(status: status, msg: 'Bad request: $msg');
+      : super(status: status, msg: msg, fromError: 'Bad request');
 }
 
 class UnauthorisedError extends NetworkError {
   UnauthorisedError({status, msg})
-      : super(status: status, msg: 'Unauthorized: $msg');
+      : super(status: status, msg: msg, fromError: 'Unauthorized');
 }
 
 class InvalidInputError extends NetworkError {
   InvalidInputError({status, msg})
-      : super(status: status, msg: 'Invalid input: $msg');
+      : super(status: status, msg: msg, fromError: 'Invalid input');
 }

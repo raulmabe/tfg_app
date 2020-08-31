@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jumpets_app/app_localizations.dart';
+import 'package:jumpets_app/blocs/auth_bloc/auth_bloc.dart';
 import 'package:jumpets_app/blocs/favs_bloc/favourites_bloc.dart';
 import 'package:jumpets_app/models/ads/ad.dart';
+import 'package:jumpets_app/models/wrappers/auth_status.dart';
 import 'package:jumpets_app/ui/components/vertical_grid/vertical_grid.dart';
 
 class FavouritesPage extends StatefulWidget {
@@ -11,12 +13,14 @@ class FavouritesPage extends StatefulWidget {
 }
 
 class _FavouritesPageState extends State<FavouritesPage> {
+  FavouritesBloc favBloc;
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
 
-    final favBloc = BlocProvider.of<FavouritesBloc>(context);
+    favBloc = context.bloc<FavouritesBloc>();
 
     if (!(favBloc.state is FavouritesSuccess)) {
       favBloc.add(FavouritesFetched());

@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
+import 'package:jumpets_app/blocs/error_handler_bloc/error_handler_bloc.dart';
 import 'package:jumpets_app/data/repositories/ads_repository.dart';
 import 'package:jumpets_app/models/models.dart';
 import 'package:meta/meta.dart';
@@ -10,8 +11,10 @@ part 'search_ads_state.dart';
 
 class SearchAdsBloc extends Bloc<SearchAdsEvent, SearchAdsState> {
   final AdsRepository repository;
-  SearchAdsBloc({@required this.repository})
+  final ErrorHandlerBloc errorBloc;
+  SearchAdsBloc({@required this.repository, @required this.errorBloc})
       : assert(repository != null),
+        assert(errorBloc != null),
         super(SearchAdsInitial());
 
   @override
@@ -33,6 +36,8 @@ class SearchAdsBloc extends Bloc<SearchAdsEvent, SearchAdsState> {
 
           yield SearchAdsSuccess(ads: ads);
         } catch (err, stack) {
+          errorBloc
+              .add(ErrorHandlerCatched(bloc: this, event: event, error: err));
           print('OnCatch $err, $stack');
           yield SearchAdsFailure();
         }

@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
+import 'package:jumpets_app/blocs/error_handler_bloc/error_handler_bloc.dart';
 import 'package:jumpets_app/data/repositories/authentication_repository.dart';
 import 'package:jumpets_app/models/models.dart';
 import 'package:jumpets_app/models/wrappers/auth_status.dart';
@@ -10,9 +11,11 @@ part 'auth_event.dart';
 part 'auth_state.dart';
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
-  AuthBloc({
-    @required AuthenticationRepository authenticationRepository,
-  })  : assert(authenticationRepository != null),
+  AuthBloc(
+      {@required AuthenticationRepository authenticationRepository,
+      @required this.errorBloc})
+      : assert(authenticationRepository != null),
+        assert(errorBloc != null),
         _authenticationRepository = authenticationRepository,
         super(const AuthState()) {
     _authenticationStatusSubscription = _authenticationRepository.status.listen(
@@ -20,6 +23,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     );
   }
 
+  final ErrorHandlerBloc errorBloc;
   StreamSubscription<AuthStatus> _authenticationStatusSubscription;
 
   final AuthenticationRepository _authenticationRepository;
@@ -43,6 +47,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
           yield AuthState(authStatus: authStatus);
         } catch (err, stack) {
+          errorBloc
+              .add(ErrorHandlerCatched(bloc: this, event: event, error: err));
           print('onCatch $err $stack');
         }
         break;

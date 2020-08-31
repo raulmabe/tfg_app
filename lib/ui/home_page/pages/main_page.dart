@@ -34,7 +34,7 @@ class _MainPageState extends State<MainPage> {
 
   @override
   Widget build(BuildContext context) {
-    var adsBloc = BlocProvider.of<AdsBloc>(context);
+    var adsBloc = context.bloc<AdsBloc>();
     return BlocBuilder<AdsBloc, AdsState>(
       buildWhen: (previous, current) => current is CategoryChanged,
       builder: (context, state) => LiquidPullToRefresh(

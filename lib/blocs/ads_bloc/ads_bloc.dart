@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:jumpets_app/blocs/auth_bloc/auth_bloc.dart';
-import 'package:jumpets_app/blocs/search_bloc/search_ads_bloc.dart';
+import 'package:jumpets_app/blocs/error_handler_bloc/error_handler_bloc.dart';
 import 'package:jumpets_app/data/repositories/ads_repository.dart';
 import 'package:jumpets_app/models/enums/categories.dart';
 import 'package:jumpets_app/models/models.dart';
@@ -23,14 +23,17 @@ class AdsBloc extends Bloc<AdsEvent, AdsState> {
   List<Ad> _lastestAdsFetched = [];
   AdsSearched filters;
   bool searchMode;
+  final ErrorHandlerBloc errorBloc;
 
   AdsBloc(
       {@required this.repository,
       @required this.authBloc,
+      @required this.errorBloc,
       this.category = Category.DOGS,
       this.searchMode = false})
       : assert(repository != null),
         assert(authBloc != null),
+        assert(errorBloc != null),
         super(AdsInitial());
 
   @override
@@ -128,6 +131,8 @@ class AdsBloc extends Bloc<AdsEvent, AdsState> {
       );
       return AdsSuccess(searchedAds: ads);
     } catch (err, stacktrace) {
+      errorBloc.add(ErrorHandlerCatched(bloc: this, event: event, error: err));
+
       print('Ads BLoC OnCatch $err, $stacktrace');
       return AdsFailure();
     }
@@ -153,6 +158,8 @@ class AdsBloc extends Bloc<AdsEvent, AdsState> {
                       []..addAll(_lastestAdsFetched)..addAll(paginatedAds.ads))
                   .toBuilder()));
       } catch (err, stacktrace) {
+        errorBloc
+            .add(ErrorHandlerCatched(bloc: this, event: event, error: err));
         print('Ads BLoC OnCatch $err, $stacktrace');
         return AdsFailure();
       }
@@ -179,6 +186,7 @@ class AdsBloc extends Bloc<AdsEvent, AdsState> {
         return AdsSuccess(paginatedAds: paginatedAds);
       }
     } catch (err, stacktrace) {
+      errorBloc.add(ErrorHandlerCatched(bloc: this, event: event, error: err));
       print('Ads BLoC OnCatch $err, $stacktrace');
       return AdsFailure();
     }

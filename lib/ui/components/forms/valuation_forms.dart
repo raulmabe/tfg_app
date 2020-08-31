@@ -19,15 +19,15 @@ class ValueInput extends StatefulWidget {
 }
 
 class _ValueInputState extends State<ValueInput> {
+  final initialValue = 2.5;
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    if (widget.initialValue != null) {
-      context
-          .bloc<ValuationsBloc>()
-          .add(ValuationValueChanged(widget.initialValue));
-    }
+    context
+        .bloc<ValuationsBloc>()
+        .add(ValuationValueChanged(widget.initialValue ?? initialValue));
   }
 
   @override
@@ -36,7 +36,7 @@ class _ValueInputState extends State<ValueInput> {
       buildWhen: (previous, current) => previous.value != current.value,
       builder: (context, state) {
         return SmoothStarRating(
-          rating: widget.initialValue ?? 2.5,
+          rating: widget.initialValue ?? initialValue,
           borderColor: Theme.of(context).accentColor,
           color: Theme.of(context).accentColor,
           onRated: (value) =>

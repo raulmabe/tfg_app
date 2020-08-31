@@ -6,6 +6,7 @@ import 'package:formz/formz.dart';
 import 'package:jumpets_app/app_localizations.dart';
 import 'package:jumpets_app/blocs/ads_bloc/ads_bloc.dart';
 import 'package:jumpets_app/blocs/auth_bloc/auth_bloc.dart';
+import 'package:jumpets_app/blocs/error_handler_bloc/error_handler_bloc.dart';
 import 'package:jumpets_app/blocs/favs_bloc/favourites_bloc.dart';
 import 'package:jumpets_app/blocs/profile_bloc/profile_bloc.dart';
 import 'package:jumpets_app/blocs/search_bloc/search_ads_bloc.dart'
@@ -32,7 +33,7 @@ class _ProfilePageState extends State<ProfilePage> {
   void initState() {
     super.initState();
 
-    BlocProvider.of<independentSearchBloc.SearchAdsBloc>(context)
+    context.bloc<independentSearchBloc.SearchAdsBloc>()
       ..add(independentSearchBloc.AdsSearched(creator: user.id));
   }
 
@@ -41,6 +42,7 @@ class _ProfilePageState extends State<ProfilePage> {
     return BlocProvider(
       create: (context) => ProfileBloc(
           user: user,
+          errorBloc: context.bloc<ErrorHandlerBloc>(),
           repository: RepositoryProvider.of<UserRepository>(context))
         ..add(UserFetched()),
       child: BlocListener<ProfileBloc, ProfileState>(
@@ -67,6 +69,11 @@ class _ProfilePageState extends State<ProfilePage> {
     var actionsList = isMyProfile
         ? [
             IconButton(
+                icon: Icon(Icons.edit),
+                iconSize: 22,
+                onPressed: () => Navigator.pushNamed(context, '/edit_profile'),
+                color: Colors.black54),
+            IconButton(
                 icon: Icon(FontAwesomeIcons.slidersH),
                 iconSize: 22,
                 onPressed: () => Navigator.pushNamed(context, '/settings'),
@@ -76,6 +83,7 @@ class _ProfilePageState extends State<ProfilePage> {
 
     return BlocProvider<ValuationsBloc>(
       create: (context) => ValuationsBloc(
+          errorBloc: context.bloc<ErrorHandlerBloc>(),
           repository: RepositoryProvider.of<UserRepository>(context),
           authBloc: context.bloc<AuthBloc>()),
       child: BlocListener<ValuationsBloc, ValuationsState>(

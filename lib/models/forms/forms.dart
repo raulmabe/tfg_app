@@ -16,7 +16,7 @@ class Name extends FormzInput<String, NameValidationError> {
 enum AddressValidationError { empty }
 
 class Address extends FormzInput<String, AddressValidationError> {
-  const Address.pure([String value = '']) : super.pure(value);
+  const Address.pure([String value = '']) : super.pure(value ?? '');
   const Address.dirty([String value = '']) : super.dirty(value);
 
   @override
@@ -28,7 +28,7 @@ class Address extends FormzInput<String, AddressValidationError> {
 enum PhoneValidationError { empty }
 
 class Phone extends FormzInput<int, PhoneValidationError> {
-  const Phone.pure([int value]) : super.pure(value);
+  const Phone.pure([int value]) : super.pure(value ?? 0);
   const Phone.dirty([int value]) : super.dirty(value);
 
   @override
@@ -40,7 +40,7 @@ class Phone extends FormzInput<int, PhoneValidationError> {
 enum WebValidationError { empty }
 
 class Web extends FormzInput<String, WebValidationError> {
-  const Web.pure([String value = '']) : super.pure(value);
+  const Web.pure([String value = '']) : super.pure(value ?? '');
   const Web.dirty([String value = '']) : super.dirty(value);
 
   @override
