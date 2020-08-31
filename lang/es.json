@@ -95,5 +95,6 @@
     "update": "Actualiza",
     "web": "Web",
     "phone": "Telefono",
-    "address": "Dirección"
+    "address": "Dirección",
+    "info_actions_valuation_card": "Desliza hacia la derecha para editarlo, o hacia la izquierda para eliminarlo"
 }

@@ -8,69 +8,65 @@ class ValuationCard extends StatelessWidget {
   ValuationCard(this.valuation);
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Material(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-        elevation: 1,
-        color: Theme.of(context).primaryColor,
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Row(
-            children: [
-              Padding(
+    return Material(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+      elevation: 1,
+      color: Theme.of(context).primaryColor,
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Row(
+          children: [
+            SizedBox(
+              width: 85,
+              child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 10),
-                child: SizedBox(
-                  width: 65,
-                  child: Column(
-                    children: [
-                      CircularProfileThumb(
-                        user: valuation.author,
-                        radius: 30,
-                      ),
-                      SizedBox(
-                        height: 5,
-                      ),
-                      Text(
-                        valuation.author.name,
-                        overflow: TextOverflow.ellipsis,
-                        style: Theme.of(context).textTheme.caption,
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              Expanded(
-                  child: Padding(
-                padding: const EdgeInsets.all(8.0),
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    Row(children: [
-                      Expanded(
-                        child: Text(
-                          AppLocalizations.of(context)
-                              .translate(valuation.author.stringFromType),
-                          style: Theme.of(context).textTheme.subtitle1,
-                        ),
-                      ),
-                      Text(
-                        valuation.createdAt.timeago(
-                            locale: AppLocalizations.of(context)
-                                .locale
-                                .languageCode),
-                        style: Theme.of(context).textTheme.caption,
-                      ),
-                    ]),
-                    Container(
-                        padding: EdgeInsets.symmetric(vertical: 5),
-                        child: valuation.valuationsStars(size: 17)),
-                    Container(child: Text(valuation.comment)),
+                    CircularProfileThumb(
+                      user: valuation.author,
+                      radius: 30,
+                    ),
+                    SizedBox(
+                      height: 5,
+                    ),
+                    Text(
+                      valuation.author.name,
+                      overflow: TextOverflow.ellipsis,
+                      style: Theme.of(context).textTheme.caption,
+                    ),
                   ],
                 ),
-              )),
-            ],
-          ),
+              ),
+            ),
+            Expanded(
+                child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Row(children: [
+                    Expanded(
+                      child: Text(
+                        AppLocalizations.of(context)
+                            .translate(valuation.author.stringFromType),
+                        style: Theme.of(context).textTheme.subtitle1,
+                      ),
+                    ),
+                    Text(
+                      valuation.createdAt.timeago(
+                          locale:
+                              AppLocalizations.of(context).locale.languageCode),
+                      style: Theme.of(context).textTheme.caption,
+                    ),
+                  ]),
+                  Container(
+                      padding: EdgeInsets.symmetric(vertical: 5),
+                      child: valuation.valuationsStars(size: 17)),
+                  Container(child: Text(valuation.comment)),
+                ],
+              ),
+            )),
+          ],
         ),
       ),
     );

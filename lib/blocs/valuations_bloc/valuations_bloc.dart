@@ -37,6 +37,7 @@ class ValuationsBloc extends Bloc<ValuationsEvent, ValuationsState> {
         yield* _mapValuationSubmittedToState(event);
         break;
       case ValuationDeleted:
+        print('Deleted');
         yield* _mapValuationDeletedToState(event);
         break;
       default:
@@ -86,17 +87,15 @@ class ValuationsBloc extends Bloc<ValuationsEvent, ValuationsState> {
   Stream<ValuationsState> _mapValuationDeletedToState(
     ValuationDeleted event,
   ) async* {
-    if (state.status.isValidated) {
-      yield state.copyWith(status: FormzStatus.submissionInProgress);
-      try {
-        final user = await repository.removeValuation(
-            id: event.id, token: authBloc.state.authStatus?.authData?.token);
+    yield state.copyWith(status: FormzStatus.submissionInProgress);
+    try {
+      final user = await repository.removeValuation(
+          id: event.id, token: authBloc.state.authStatus?.authData?.token);
 
-        yield state.copyWith(status: FormzStatus.submissionSuccess, user: user);
-      } catch (err, stack) {
-        print('onCatch $err, $stack');
-        yield state.copyWith(status: FormzStatus.submissionFailure);
-      }
+      yield state.copyWith(status: FormzStatus.submissionSuccess, user: user);
+    } catch (err, stack) {
+      print('onCatch $err, $stack');
+      yield state.copyWith(status: FormzStatus.submissionFailure);
     }
   }
 }

@@ -167,25 +167,67 @@ class _OwnValuationState extends State<OwnValuation> {
               },
               child: _onEdit(userAuth, valuation.value, valuation.comment),
             )
-          : Column(children: [
-              ValuationCard(valuation),
-              Row(
-                children: [
-                  MyFlatButton(
-                      child: Text('edit',
-                          style: Theme.of(context).textTheme.button),
-                      onTap: () => toggleEdit(true)),
-                  BlocBuilder<ValuationsBloc, ValuationsState>(
-                    builder: (context, state) {
-                      return MyFlatButton(
-                          child: Text('delete',
-                              style: Theme.of(context).textTheme.button),
-                          onTap: () => context
-                              .bloc<ValuationsBloc>()
-                              .add(ValuationDeleted(user.id)));
-                    },
+          : Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Row(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 4.0),
+                      child: Icon(Icons.info_outline),
+                    ),
+                    Expanded(
+                      child: Text(AppLocalizations.of(context)
+                          .translate('info_actions_valuation_card')),
+                    ),
+                  ],
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Material(
+                  elevation: 1,
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10)),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(10),
+                    child: Dismissible(
+                        background: Container(
+                            color: Colors.grey,
+                            padding: EdgeInsets.all(8.0),
+                            child: Align(
+                                alignment: Alignment.centerLeft,
+                                child: Icon(
+                                  Icons.edit,
+                                  color: Colors.white,
+                                ))),
+                        secondaryBackground: Container(
+                            color: Colors.red,
+                            padding: EdgeInsets.all(8.0),
+                            child: Align(
+                                alignment: Alignment.centerRight,
+                                child: Icon(
+                                  Icons.cancel,
+                                  color: Colors.white,
+                                ))),
+                        confirmDismiss: (direction) async {
+                          if (direction == DismissDirection.startToEnd) {
+                            toggleEdit(true);
+                            return false;
+                          }
+                          return true;
+                        },
+                        onDismissed: (direction) {
+                          if (direction == DismissDirection.endToStart) {
+                            context
+                                .bloc<ValuationsBloc>()
+                                .add(ValuationDeleted(user.id));
+                          }
+                        },
+                        key: Key(valuation.comment + valuation.author.name),
+                        child: ValuationCard(valuation)),
                   ),
-                ],
+                ),
               ),
               Divider(),
             ]);
@@ -204,29 +246,58 @@ class _OwnValuationState extends State<OwnValuation> {
 
   Widget _onEdit(userAuth, [initialValue, initialComment]) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 10),
-      child: Row(
-        children: [
-          CircularProfileThumb(radius: 30, user: userAuth),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                ValueInput(
-                  initialValue: initialValue,
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: ValuationInput(
-                    user.name,
-                    comment: initialComment,
+      padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 8),
+      child: Material(
+        color: Theme.of(context).primaryColor,
+        elevation: 1,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Row(
+            children: [
+              SizedBox(
+                width: 85,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 10),
+                  child: Column(
+                    children: [
+                      CircularProfileThumb(
+                        user: userAuth,
+                        radius: 30,
+                      ),
+                      SizedBox(
+                        height: 5,
+                      ),
+                      Text(
+                        userAuth.name,
+                        overflow: TextOverflow.ellipsis,
+                        style: Theme.of(context).textTheme.caption,
+                      ),
+                    ],
                   ),
                 ),
-              ],
-            ),
+              ),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    ValueInput(
+                      initialValue: initialValue,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: ValuationInput(
+                        user.name,
+                        comment: initialComment,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              ValuationButton(userIdValuated: widget.userToValuate.id),
+            ],
           ),
-          ValuationButton(userIdValuated: widget.userToValuate.id),
-        ],
+        ),
       ),
     );
   }
