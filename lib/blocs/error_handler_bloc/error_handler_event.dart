@@ -7,7 +7,7 @@ class ErrorHandlerCatched extends ErrorHandlerEvent {
   final Bloc bloc;
   final event;
   final error;
-  final bool forceSnack;
+  final bool notification;
   ErrorHandlerCatched(
-      {this.bloc, this.error, this.event, this.forceSnack = false});
+      {this.bloc, this.error, this.event, this.notification = false});
 }

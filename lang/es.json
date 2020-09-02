@@ -115,5 +115,7 @@
     "male": "Macho",
     "female": "Hembra",
     "personality": "Personalidad",
-    "You must be logged in": "Tienes que iniciar sesión"
+    "You must be logged in": "Tienes que iniciar sesión",
+    "token_expiration_timeout": "La sesión ha expirado",
+    "okay": "Vale"
 }

@@ -5,7 +5,7 @@ import 'package:jumpets_app/blocs/ads_bloc/ads_bloc.dart';
 import 'package:jumpets_app/blocs/auth_bloc/auth_bloc.dart';
 import 'package:jumpets_app/models/wrappers/auth_status.dart';
 import 'package:jumpets_app/ui/components/bottombar/bottombar.dart';
-import 'package:jumpets_app/ui/components/error_notifier.dart';
+import 'package:jumpets_app/ui/components/notifier.dart';
 import 'package:jumpets_app/ui/components/profile_icon.dart';
 import 'package:jumpets_app/ui/components/searchbar/searchbar.dart';
 import 'package:jumpets_app/ui/home_page/page_view.dart';
@@ -63,9 +63,7 @@ class _HomePageState extends State<HomePage> {
           builder: (context, state) {
             return Padding(
               padding: const EdgeInsets.only(top: 8.0),
-              child: OpenableSearchBar(
-                blocked: !context.bloc<AdsBloc>().isCategoryValidToSearch,
-              ),
+              child: SearchBar(),
             );
           },
         ),
@@ -94,7 +92,7 @@ class _HomePageState extends State<HomePage> {
           ),
         ],
       ),
-      body: ErrorNotifier(
+      body: Notifier(
         child: Stack(
           fit: StackFit.expand,
           children: <Widget>[

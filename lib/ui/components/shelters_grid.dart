@@ -19,10 +19,19 @@ class SheltersGrid extends StatefulWidget {
 
 class _SheltersGridState extends State<SheltersGrid> {
   int _index;
+  double pageOffset = 0;
+  PageController _pageController;
   @override
   void initState() {
     super.initState();
     _index = 0;
+    _pageController = PageController(viewportFraction: 0.7);
+
+    _pageController.addListener(() {
+      setState(() {
+        pageOffset = _pageController.page;
+      });
+    });
   }
 
   @override
@@ -62,14 +71,17 @@ class _SheltersGridState extends State<SheltersGrid> {
                   onPageChanged: (index) => setState(() {
                         _index = index;
                       }),
-                  controller: PageController(viewportFraction: 0.7),
+                  controller: _pageController,
+                  itemCount:
+                      widget.usePlaceholders ? 1 : widget.shelters.length,
                   itemBuilder: (context, index) => Transform.scale(
-                        scale: index == _index ? 1 : .8,
+                        scale: index == _index ? 1 : .9,
                         child: widget.usePlaceholders
                             ? ContentPlaceholder()
                             : ShelterCard(
                                 shelter: widget.shelters[index],
                                 isSelected: index == _index,
+                                offset: pageOffset - index,
                               ),
                       )),
             ),

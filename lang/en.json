@@ -115,5 +115,7 @@
     "male": "Male",
     "female": "Female",
     "personality": "Personality",
-    "You must be logged in": "You must be logged in"
+    "You must be logged in": "You must be logged in",
+    "token_expiration_timeout": "Session expired",
+    "okay": "Okay"
 }

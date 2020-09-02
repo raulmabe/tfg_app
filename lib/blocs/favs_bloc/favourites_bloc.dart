@@ -51,7 +51,7 @@ class FavouritesBloc extends Bloc<FavouritesEvent, FavouritesState> {
       return FavouritesSuccess(ads: favs);
     } catch (err, stack) {
       errorBloc.add(ErrorHandlerCatched(
-          bloc: this, event: event, error: err, forceSnack: true));
+          bloc: this, event: event, error: err, notification: true));
       print('OnCatch $err, $stack');
       return FavouritesFailure();
     }
@@ -64,7 +64,7 @@ class FavouritesBloc extends Bloc<FavouritesEvent, FavouritesState> {
       return FavouritesSuccess(ads: favs);
     } catch (err, stack) {
       errorBloc.add(ErrorHandlerCatched(
-          bloc: this, event: event, error: err, forceSnack: true));
+          bloc: this, event: event, error: err, notification: true));
       print('OnCatch $err, $stack');
       return FavouritesFailure();
     }

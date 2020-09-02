@@ -5,10 +5,10 @@ abstract class ErrorHandlerState {}
 
 class ErrorHandlerEmpty extends ErrorHandlerState {}
 
-class ErrorThrownSnackbar extends ErrorHandlerState {
+class ErrorThrownNotification extends ErrorHandlerState {
   final error;
   final VoidCallback retry;
-  ErrorThrownSnackbar(this.error, this.retry);
+  ErrorThrownNotification(this.error, this.retry);
 }
 
 class ErrorThrownDialog extends ErrorHandlerState {

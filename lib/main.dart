@@ -6,6 +6,7 @@ import 'package:jumpets_app/blocs/auth_bloc/auth_bloc.dart';
 import 'package:jumpets_app/blocs/bloc_delegate.dart';
 import 'package:jumpets_app/blocs/error_handler_bloc/error_handler_bloc.dart';
 import 'package:jumpets_app/blocs/favs_bloc/favourites_bloc.dart';
+import 'package:jumpets_app/blocs/info_handler_bloc/info_handler_bloc.dart';
 import 'package:jumpets_app/blocs/locale_bloc/locale_bloc.dart';
 import 'package:jumpets_app/blocs/search_bloc/search_ads_bloc.dart';
 import 'package:jumpets_app/data/repositories/ads_repository.dart';
@@ -29,6 +30,7 @@ void main() {
     authenticationRepository: AuthenticationRepository(),
     userRepository: UserRepository(),
     errorBloc: ErrorHandlerBloc(),
+    infoBloc: InfoHandlerBloc(),
   ));
 }
 
@@ -37,18 +39,22 @@ class MyApp extends StatelessWidget {
       {@required this.adsRepository,
       @required this.authenticationRepository,
       @required this.userRepository,
-      @required this.errorBloc})
+      @required this.errorBloc,
+      @required this.infoBloc})
       : assert(authenticationRepository != null),
         assert(userRepository != null),
         assert(adsRepository != null),
         assert(errorBloc != null),
         authBloc = AuthBloc(
-            authenticationRepository: authenticationRepository,
-            errorBloc: errorBloc),
+          authenticationRepository: authenticationRepository,
+          errorBloc: errorBloc,
+          infoBloc: infoBloc,
+        ),
         localeBloc = LocaleBloc('en');
 
   final AuthBloc authBloc;
   final ErrorHandlerBloc errorBloc;
+  final InfoHandlerBloc infoBloc;
   final LocaleBloc localeBloc;
   final AdsRepository adsRepository;
   final AuthenticationRepository authenticationRepository;
@@ -64,6 +70,9 @@ class MyApp extends StatelessWidget {
           value: adsRepository,
           child: MultiBlocProvider(
             providers: [
+              BlocProvider<InfoHandlerBloc>(
+                create: (context) => infoBloc,
+              ),
               BlocProvider<ErrorHandlerBloc>(
                 create: (context) => errorBloc,
               ),

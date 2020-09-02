@@ -10,24 +10,15 @@ class Tag extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 8.0),
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(10),
-        child: Material(
-          color: Theme.of(context).primaryColor,
-          shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(10),
-              side: BorderSide(width: 1, color: Theme.of(context).accentColor)),
-          child: InkWell(
-            onTap: () {
-              context.bloc<AdsBloc>().add(AdsSearched(text: tag));
-              Navigator.of(context, rootNavigator: true)
-                  .popUntil((route) => route.isFirst);
-            },
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Text(tag),
-            ),
-          ),
+      child: InkWell(
+        onTap: () {
+          context.bloc<AdsBloc>().add(AdsSearched(text: tag));
+          Navigator.of(context, rootNavigator: true)
+              .popUntil((route) => route.isFirst);
+        },
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Text('#$tag', style: Theme.of(context).textTheme.caption),
         ),
       ),
     );

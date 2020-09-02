@@ -150,20 +150,28 @@ class _ProfilePageState extends State<ProfilePage> {
                                   padding:
                                       const EdgeInsets.symmetric(vertical: 10),
                                   child: user.valuationsStars),
-                              user.address != null
-                                  ? SelectableText(
-                                      user.address,
-                                      style:
-                                          Theme.of(context).textTheme.subtitle1,
-                                    )
-                                  : Container(),
-                              user.phone != null
-                                  ? SelectableText(
-                                      user.phone.toString(),
-                                      style:
-                                          Theme.of(context).textTheme.subtitle1,
-                                    )
-                                  : Container(),
+                              if (user.address != null)
+                                SelectableText(
+                                  user.address,
+                                  style: Theme.of(context).textTheme.subtitle1,
+                                ),
+                              if (user.phone != null)
+                                SelectableText(
+                                  user.phone.toString(),
+                                  style: Theme.of(context).textTheme.subtitle1,
+                                ),
+                              if (user.isProfesional &&
+                                  (user as Profesional).web != null)
+                                SelectableText(
+                                  (user as Profesional).web.toString(),
+                                  style: Theme.of(context).textTheme.subtitle1,
+                                ),
+                              if (user.isProtectora &&
+                                  (user as Protectora).web != null)
+                                SelectableText(
+                                  (user as Protectora).web.toString(),
+                                  style: Theme.of(context).textTheme.subtitle1,
+                                ),
                             ],
                           ),
                         ),
