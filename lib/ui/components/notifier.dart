@@ -127,44 +127,63 @@ class MyAlertDialog extends StatelessWidget {
   final Icon icon;
   final String msg;
   final List<Widget> actions;
+
   MyAlertDialog({this.actions, this.icon, @required this.msg})
       : assert(msg != null);
 
+  final ValueNotifier<bool> notifierStartup = ValueNotifier(false);
+
   @override
   Widget build(BuildContext context) {
-    return AlertDialog(
-      title: icon,
-      content: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Text(
-              msg,
-              style: Theme.of(context).textTheme.caption.copyWith(fontSize: 23),
-              textAlign: TextAlign.center,
-            ),
-            SizedBox(
-              height: 30,
-            ),
-          ]
-            ..addAll(actions ?? [])
-            ..add(actions == null || actions.isEmpty
-                ? FractionallySizedBox(
-                    widthFactor: .7,
-                    child: Row(
-                      children: [
-                        Expanded(
-                          child: MyRaisedButton(
-                            text:
-                                AppLocalizations.of(context).translate('okay'),
-                            onPressed: () {
-                              Navigator.pop(context);
-                            },
-                          ),
-                        )
-                      ],
-                    ),
-                  )
-                : Container())),
+    Size size = MediaQuery.of(context).size;
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      notifierStartup.value = true;
+    });
+    return ValueListenableBuilder(
+      valueListenable: notifierStartup,
+      child: AlertDialog(
+        title: icon,
+        content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                msg,
+                style:
+                    Theme.of(context).textTheme.caption.copyWith(fontSize: 23),
+                textAlign: TextAlign.center,
+              ),
+              SizedBox(
+                height: 30,
+              ),
+            ]
+              ..addAll(actions ?? [])
+              ..add(actions == null || actions.isEmpty
+                  ? FractionallySizedBox(
+                      widthFactor: .7,
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: MyRaisedButton(
+                              text: AppLocalizations.of(context)
+                                  .translate('okay'),
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                            ),
+                          )
+                        ],
+                      ),
+                    )
+                  : Container())),
+      ),
+      builder: (context, value, child) => AnimatedPadding(
+          duration: Duration(milliseconds: 250),
+          padding: EdgeInsets.only(top: value ? 0 : 100),
+          child: AnimatedOpacity(
+              curve: Curves.ease,
+              duration: Duration(milliseconds: 250),
+              opacity: value ? 1 : 0,
+              child: child)),
     );
   }
 }
