@@ -22,13 +22,6 @@ class _SearchBarState extends State<SearchBar> {
 
   @override
   Widget build(BuildContext context) {
-    Widget textField = TextField(
-        controller: _textController,
-        onChanged: (value) => context.bloc<AdsBloc>().add(AdsSearched(
-              text: value.trim(),
-            )),
-        decoration: InputDecoration.collapsed(hintText: text(context)));
-
     return BlocConsumer<AdsBloc, AdsState>(
         listenWhen: (previous, current) => current is CategoryChanged,
         listener: (context, state) {
@@ -43,17 +36,26 @@ class _SearchBarState extends State<SearchBar> {
             color: Theme.of(context).backgroundColor,
             elevation: 0,
             child: Row(children: [
-              IconButton(
-                icon: Icon(
-                  Icons.search,
-                  color: Colors.grey.shade800,
+              AbsorbPointer(
+                child: IconButton(
+                  icon: Icon(
+                    Icons.search,
+                    color: Colors.grey.shade800,
+                  ),
+                  onPressed: () => print('search'),
                 ),
-                onPressed: () => print('search'),
               ),
               Expanded(
                 child: AbsorbPointer(
                     absorbing: !context.bloc<AdsBloc>().isCategoryValidToSearch,
-                    child: textField),
+                    child: TextField(
+                        controller: _textController,
+                        onChanged: (value) =>
+                            context.bloc<AdsBloc>().add(AdsSearched(
+                                  text: value.trim(),
+                                )),
+                        decoration: InputDecoration.collapsed(
+                            hintText: text(context)))),
               ),
               context.bloc<AdsBloc>().searchMode
                   ? IconButton(

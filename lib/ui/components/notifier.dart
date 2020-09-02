@@ -178,7 +178,7 @@ class MyAlertDialog extends StatelessWidget {
       ),
       builder: (context, value, child) => AnimatedPadding(
           duration: Duration(milliseconds: 250),
-          padding: EdgeInsets.only(top: value ? 0 : 100),
+          padding: EdgeInsets.only(top: value ? 0 : 75),
           child: AnimatedOpacity(
               curve: Curves.ease,
               duration: Duration(milliseconds: 250),

@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:formz/formz.dart';
 import 'package:jumpets_app/app_localizations.dart';
 import 'package:jumpets_app/blocs/auth_bloc/auth_bloc.dart';
 import 'package:jumpets_app/blocs/favs_bloc/favourites_bloc.dart';
-import 'package:jumpets_app/blocs/valuations_bloc/valuations_bloc.dart';
-import 'package:jumpets_app/data/repositories/user_repository.dart';
 import 'package:jumpets_app/models/ads/animal_ad.dart';
 import 'package:jumpets_app/models/ads/animals/dog_ad.dart';
 import 'package:jumpets_app/models/enums/delivery_status.dart';
@@ -28,6 +25,8 @@ class AdPage extends StatelessWidget {
   final double edgePadding;
   AdPage({@required this.ad, this.edgePadding = 20.0});
 
+  final ValueNotifier<int> notifierChangeImage = ValueNotifier(0);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -36,6 +35,10 @@ class AdPage extends StatelessWidget {
         children: <Widget>[
           CustomScrollView(slivers: [
             SliverAppBar(
+              iconTheme: Theme.of(context)
+                  .appBarTheme
+                  .iconTheme
+                  .copyWith(color: Colors.white),
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(20)),
               actions: [
@@ -53,15 +56,19 @@ class AdPage extends StatelessWidget {
                 background: Container(
                   color: Theme.of(context).scaffoldBackgroundColor,
                   child: ClipRRect(
-                    borderRadius: BorderRadius.only(
-                      bottomRight: Radius.circular(20),
-                      bottomLeft: Radius.circular(20),
-                    ),
-                    child: Image.network(
-                      ad.photos.first,
-                      fit: BoxFit.cover,
-                    ),
-                  ),
+                      borderRadius: BorderRadius.only(
+                        bottomRight: Radius.circular(20),
+                        bottomLeft: Radius.circular(20),
+                      ),
+                      child: ValueListenableBuilder<int>(
+                        valueListenable: notifierChangeImage,
+                        builder: (context, value, child) => Image.network(
+                          value < ad.photos.length && value > 0
+                              ? ad.photos[value]
+                              : ad.photos.first,
+                          fit: BoxFit.cover,
+                        ),
+                      )),
                 ),
               ),
             ),
@@ -207,15 +214,25 @@ class AdPage extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(horizontal: 5),
                   child: Row(
                       children: ad.photos
-                          .map((url) => Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 5),
-                                child: PhotoIcon(
-                                    url: url,
-                                    margin: EdgeInsets.only(
-                                        left: ad.photos.first == url
-                                            ? edgePadding
-                                            : 0)),
+                          .map((url) => GestureDetector(
+                                onTap: () => notifierChangeImage.value =
+                                    ad.photos.indexOf(url),
+                                child: Padding(
+                                  padding:
+                                      const EdgeInsets.symmetric(horizontal: 5),
+                                  child: ValueListenableBuilder<int>(
+                                    valueListenable: notifierChangeImage,
+                                    builder: (context, value, child) =>
+                                        PhotoIcon(
+                                            borderWidth:
+                                                ad.photos[value] == url ? 2 : 0,
+                                            url: url,
+                                            margin: EdgeInsets.only(
+                                                left: ad.photos.first == url
+                                                    ? edgePadding
+                                                    : 0)),
+                                  ),
+                                ),
                               ))
                           .toList()),
                 ))
