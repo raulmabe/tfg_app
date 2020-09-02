@@ -62,7 +62,10 @@ class ApiBaseHelper {
     } on SocketException {
       throw FetchDataError(status: 600, msg: 'No internet connection');
     } on DioError catch (e) {
-      throw FetchDataError(status: e.response.statusCode, msg: e.message);
+      String msg = e.response.data['errors'] != null
+          ? e.response.data['errors'][0]['message']
+          : e.message;
+      throw FetchDataError(status: e.response.statusCode, msg: msg);
     }
     return responseJson;
   }

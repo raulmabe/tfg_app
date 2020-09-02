@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:formz/formz.dart';
 import 'package:jumpets_app/app_localizations.dart';
 import 'package:jumpets_app/blocs/auth_bloc/auth_bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -33,40 +34,45 @@ class _UploadAdPageState extends State<UploadAdPage> {
   Widget build(BuildContext context) {
     return BlocProvider<UploadAdBloc>(
       create: (context) => uploadAdBloc,
-      child: Scaffold(
-        appBar: AppBar(
-          backgroundColor: Theme.of(context).primaryColor,
-          elevation: 0,
-          leading: IconButton(
-              icon: Icon(Icons.clear), onPressed: () => Navigator.pop(context)),
-        ),
-        body: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
-          child: ListView(
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: BlocBuilder<UploadAdBloc, UploadAdState>(
-                  buildWhen: (previous, current) =>
-                      previous.category != current.category,
-                  builder: (context, state) {
-                    return Text(
-                      '${AppLocalizations.of(context).translate('upload_your_ad_to')} ${AppLocalizations.of(context).translate(state.category.name.toLowerCase()).toLowerCase()}',
-                      style: Theme.of(context).textTheme.headline6,
-                    );
-                  },
+      child: BlocConsumer<UploadAdBloc, UploadAdState>(
+          listenWhen: (previous, current) =>
+              current.status == FormzStatus.submissionSuccess &&
+              current.ad != null,
+          listener: (context, state) =>
+              Navigator.popAndPushNamed(context, '/ad', arguments: state.ad),
+          buildWhen: (previous, current) =>
+              previous.category != current.category,
+          builder: (context, state) {
+            return Scaffold(
+              appBar: AppBar(
+                backgroundColor: Theme.of(context).primaryColor,
+                elevation: 0,
+                leading: IconButton(
+                    icon: Icon(Icons.clear),
+                    onPressed: () => Navigator.pop(context)),
+              ),
+              body: Padding(
+                padding:
+                    const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
+                child: ListView(
+                  children: [
+                    Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(
+                          '${AppLocalizations.of(context).translate('upload_your_ad_to')} ${AppLocalizations.of(context).translate(state.category.name.toLowerCase()).toLowerCase()}',
+                          style: Theme.of(context).textTheme.headline6,
+                        )),
+                    SelectableCategories(),
+                  ]..addAll(_inputs(context)),
                 ),
               ),
-              SelectableCategories(),
-            ]..addAll(_inputs(context)),
-          ),
-        ),
-        bottomNavigationBar: SafeArea(
-            child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 8.0),
-          child: UploadButton(),
-        )),
-      ),
+              bottomNavigationBar: SafeArea(
+                  child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                child: UploadButton(),
+              )),
+            );
+          }),
     );
   }
 
@@ -82,6 +88,7 @@ class _UploadAdPageState extends State<UploadAdPage> {
         AdDescriptionInput(),
         AdBirthDate(),
         AdSexInput(),
+        if (uploadAdBloc.state.category == Category.DOGS) AdDogSizeInput(),
         AdBreedInput(),
         AdActivityLevelInput(),
         AdDeliveryInfoInput(),

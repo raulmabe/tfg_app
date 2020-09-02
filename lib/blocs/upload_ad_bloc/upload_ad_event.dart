@@ -29,6 +29,11 @@ class AdSexChanged extends UploadAdEvent {
   AdSexChanged(this.male);
 }
 
+class AdDogSizeChanged extends UploadAdEvent {
+  final DogSize dogSize;
+  AdDogSizeChanged(this.dogSize);
+}
+
 class AdActivityLevelChanged extends UploadAdEvent {
   final ActivityLevel level;
   AdActivityLevelChanged(this.level);

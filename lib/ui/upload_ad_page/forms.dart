@@ -267,6 +267,36 @@ class AdSexInput extends StatelessWidget {
   }
 }
 
+class AdDogSizeInput extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<UploadAdBloc, UploadAdState>(
+      buildWhen: (previous, current) => previous.dogSize != current.dogSize,
+      builder: (context, state) {
+        return Padding(
+          padding: const EdgeInsets.symmetric(vertical: 10),
+          child:
+              Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
+            Text(AppLocalizations.of(context).translate('size')),
+            Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: DogSize.values
+                    .map((dogSize) => TextRadioButton(
+                        text: AppLocalizations.of(context).translate(
+                            'dog_size_${dogSize.name.toLowerCase()}'),
+                        isSelected: state.dogSize == dogSize,
+                        onTap: () => context
+                            .bloc<UploadAdBloc>()
+                            .add(AdDogSizeChanged(dogSize))))
+                    .toList()),
+          ]),
+        );
+      },
+    );
+  }
+}
+
 class AdActivityLevelInput extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -377,8 +407,6 @@ class AdPersonalityInput extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<UploadAdBloc, UploadAdState>(
-      buildWhen: (previous, current) =>
-          previous.personality != current.personality,
       builder: (context, state) {
         return Padding(
           padding: const EdgeInsets.symmetric(vertical: 10),
@@ -391,14 +419,15 @@ class AdPersonalityInput extends StatelessWidget {
                 alignment: WrapAlignment.start,
                 direction: Axis.horizontal,
                 children: <Widget>[]
-                  ..addAll(state.personality.value
-                      .map((tag) => Tag(tag: tag))
-                      .toList())
+                  ..addAll(
+                      state.personality.map((tag) => Tag(tag: tag)).toList())
                   ..add(InputTag(
-                    iconColor: Theme.of(context).accentColor,
-                    onTap: (value) => context.bloc<UploadAdBloc>().add(
-                        AdPersonalityChanged(
-                            state.personality.value..add(value))),
+                    onTap: (value) {
+                      if (!state.personality.contains(value)) {
+                        context.bloc<UploadAdBloc>().add(AdPersonalityChanged(
+                            state.personality..add(value)));
+                      }
+                    },
                   ))),
           ]),
         );
@@ -411,7 +440,6 @@ class AdTagsInput extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<UploadAdBloc, UploadAdState>(
-      buildWhen: (previous, current) => previous.tags != current.tags,
       builder: (context, state) {
         return Padding(
           padding: const EdgeInsets.symmetric(vertical: 10),
@@ -424,13 +452,15 @@ class AdTagsInput extends StatelessWidget {
                 alignment: WrapAlignment.start,
                 direction: Axis.horizontal,
                 children: <Widget>[]
-                  ..addAll(
-                      state.tags.value.map((tag) => Tag(tag: tag)).toList())
+                  ..addAll(state.tags.map((tag) => Tag(tag: tag)).toList())
                   ..add(InputTag(
-                    iconColor: Theme.of(context).accentColor,
-                    onTap: (value) => context
-                        .bloc<UploadAdBloc>()
-                        .add(AdTagsChanged(state.tags.value..add(value))),
+                    onTap: (value) {
+                      if (!state.tags.contains(value)) {
+                        context
+                            .bloc<UploadAdBloc>()
+                            .add(AdTagsChanged(state.tags..add(value)));
+                      }
+                    },
                   ))),
           ]),
         );
@@ -442,7 +472,7 @@ class AdTagsInput extends StatelessWidget {
 class AdPhotosInput extends StatelessWidget {
   final picker = ImagePicker();
 
-  Future getImage(context, int index) async {
+  Future getImage(BuildContext context, int index) async {
     final pickedFile = await picker.getImage(source: ImageSource.gallery);
 
     if (pickedFile != null) {
@@ -455,7 +485,6 @@ class AdPhotosInput extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<UploadAdBloc, UploadAdState>(
-      buildWhen: (previous, current) => previous.photos != current.photos,
       builder: (context, state) {
         return Padding(
           padding: const EdgeInsets.symmetric(vertical: 20),
@@ -487,7 +516,13 @@ class AdPhotosInput extends StatelessWidget {
         color: Theme.of(context).accentColor, size: 30);
 
     if (state.photos.length > index) {
-      child = Image.file(state.photos[index]);
+      child = ClipRRect(
+        borderRadius: BorderRadius.circular(15),
+        child: Image.file(
+          state.photos[index],
+          fit: BoxFit.cover,
+        ),
+      );
     }
 
     return Padding(
@@ -506,12 +541,11 @@ class UploadButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<UploadAdBloc, UploadAdState>(
-      buildWhen: (previous, current) => previous.status != current.status,
       builder: (context, state) {
         return MyRaisedButton(
           onPressed: () => context.bloc<UploadAdBloc>().add(AdSubmitted()),
           text: AppLocalizations.of(context).translate('upload'),
-          blocked: !state.status.isValidated,
+          blocked: !context.bloc<UploadAdBloc>().isValid,
           child: state.status.isSubmissionInProgress
               ? CircularProgressIndicator(
                   backgroundColor: Theme.of(context).primaryColor,

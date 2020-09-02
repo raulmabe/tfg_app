@@ -24,17 +24,3 @@ class AdDouble extends FormzInput<double, AdDoubleValidationError> {
     return value == 0.0 ? AdDoubleValidationError.invalid : null;
   }
 }
-
-enum AdListStringsValidationError { empty }
-
-class AdListStrings
-    extends FormzInput<List<String>, AdListStringsValidationError> {
-  const AdListStrings.pure([List<String> value = const []]) : super.pure(value);
-  const AdListStrings.dirty([List<String> value = const []])
-      : super.dirty(value);
-
-  @override
-  AdListStringsValidationError validator(List<String> value) {
-    return value?.isEmpty ? AdListStringsValidationError.empty : null;
-  }
-}

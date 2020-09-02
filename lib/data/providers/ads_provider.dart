@@ -12,7 +12,8 @@ class AdsProvider {
 
   AdsProvider() : this._api = ApiBaseHelper();
 
-  static get animalAdFragment => '''
+  static get animalAdFragment =>
+      '''
   fragment animalAdFields on AnimalAd {
     id: _id
           tags
@@ -41,7 +42,8 @@ class AdsProvider {
             ...userFields
           }
   }
-  ''';
+  ''' +
+      UserProvider.getUserFragment();
 
   static get adFragment =>
       '''
@@ -173,6 +175,7 @@ class AdsProvider {
       String name,
       String mustKnow,
       String breed,
+      DogSize dogSize,
       double weight,
       double adoptionTax,
       List<String> personality,
@@ -192,13 +195,15 @@ class AdsProvider {
               breed: "$breed"
               mustKnow: "$mustKnow"
               type: ${type.name.toUpperCase()}
-              tags: $tags
-              personality: $personality
+              tags: ${tags.toInnerString()}
+              personality: ${personality.toInnerString()}
               photos: \$files
               deliveryInfo: $deliveryInfo
               weight: $weight
               male: $male
-              birthDate: ${birthDate.toIso8601String()}
+              size: $dogSize
+              adoptionTax: $adoptionTax
+              birthDate: "${birthDate.toIso8601String()}"
               activityLevel: ${activityLevel.name.toUpperCase()}
             }
           ) {
@@ -212,20 +217,19 @@ class AdsProvider {
 
     final map = <String, dynamic>{
       'operations': json.encode(operations),
-      'map': json.encode({
-        List.generate(
+      'map': json.encode(Map()
+        ..addEntries(List.generate(
             photos.length,
             (index) => MapEntry<String, List<String>>(
-                index.toString(), ['variables.files.$index']))
-      }),
+                index.toString(), ['variables.files.$index'])))),
     };
 
-    photos.asMap().forEach((key, value) async {
-      map.putIfAbsent(
-          key.toString(),
-          () async => await MultipartFile.fromFile(value.path,
-              contentType: MediaType('image', value.path.split('.').last)));
-    });
+    for (int i = 0; i < photos.length; ++i) {
+      var file = await MultipartFile.fromFile(photos[i].path,
+          contentType: MediaType('image', photos[i].path.split('.').last));
+
+      map.putIfAbsent(i.toString(), () => file);
+    }
 
     FormData formData = FormData.fromMap(map);
 

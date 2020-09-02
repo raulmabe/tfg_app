@@ -1,28 +1,30 @@
 part of 'upload_ad_bloc.dart';
 
-@immutable
 class UploadAdState {
-  UploadAdState({
-    this.status = FormzStatus.pure,
-    this.category = Category.DOGS,
-    this.photos,
-    this.description = const AdString.pure(),
-    this.tags = const AdListStrings.pure(),
-    this.name = const AdString.pure(),
-    this.mustKnow = const AdString.pure(),
-    this.breed = const AdString.pure(),
-    this.weight = const AdDouble.pure(),
-    this.adoptionTax = const AdDouble.pure(),
-    this.personality = const AdListStrings.pure(),
-    this.birthDate,
-    this.deliveryInfo,
-    this.male,
-    this.activityLevel,
-    this.title = const AdString.pure(),
-    this.price = const AdDouble.pure(),
-  }) {
+  UploadAdState(
+      {this.status = FormzStatus.pure,
+      this.category = Category.DOGS,
+      this.photos,
+      this.description = const AdString.pure(),
+      this.name = const AdString.pure(),
+      this.mustKnow = const AdString.pure(),
+      this.breed = const AdString.pure(),
+      this.weight = const AdDouble.pure(),
+      this.adoptionTax = const AdDouble.pure(),
+      this.personality,
+      this.tags,
+      this.birthDate,
+      this.deliveryInfo,
+      this.male,
+      this.activityLevel,
+      this.dogSize,
+      this.title = const AdString.pure(),
+      this.price = const AdDouble.pure(),
+      this.ad}) {
     if (photos == null) photos = [];
-    if (deliveryInfo == null) photos = [];
+    if (deliveryInfo == null) deliveryInfo = [];
+    if (tags == null) tags = [];
+    if (personality == null) personality = [];
   }
 
   final FormzStatus status;
@@ -31,37 +33,40 @@ class UploadAdState {
 
   List<dynamic> photos;
   final AdString description;
-  final AdListStrings tags;
+  List<String> tags;
 
   final AdString name;
   final AdString mustKnow;
   final AdString breed;
   final AdDouble weight;
   final AdDouble adoptionTax;
-  final AdListStrings personality;
+  List<String> personality;
   final DateTime birthDate;
   List<DeliveryStatus> deliveryInfo;
   final bool male;
   final ActivityLevel activityLevel;
-
+  final DogSize dogSize;
   final AdString title;
   final AdDouble price;
+
+  final Ad ad;
 
   UploadAdState copyWith({
     FormzStatus status,
     List<dynamic> photos,
     AdString description,
-    AdListStrings tags,
+    List<String> tags,
     AdString name,
     AdString mustKnow,
     AdString breed,
     AdDouble weight,
     AdDouble adoptionTax,
-    AdListStrings personality,
+    List<String> personality,
     DateTime birthDate,
     List<DeliveryStatus> deliveryInfo,
     bool male,
     ActivityLevel activityLevel,
+    DogSize dogSize,
     AdString title,
     AdDouble price,
     Category category,
@@ -73,6 +78,7 @@ class UploadAdState {
       description: description ?? this.description,
       tags: tags ?? this.tags,
       name: name ?? this.name,
+      dogSize: dogSize ?? this.dogSize,
       mustKnow: mustKnow ?? this.mustKnow,
       breed: breed ?? this.breed,
       weight: weight ?? this.weight,

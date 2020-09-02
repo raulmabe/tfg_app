@@ -60,6 +60,9 @@ class UploadAdBloc extends Bloc<UploadAdEvent, UploadAdState> {
       case AdActivityLevelChanged:
         yield _mapAdActivityLevelChangedToState(event);
         break;
+      case AdDogSizeChanged:
+        yield _mapAdDogSizeChangedToState(event);
+        break;
       case AdPersonalityChanged:
         yield _mapAdPersonalityChangedToState(event);
         break;
@@ -103,7 +106,7 @@ class UploadAdBloc extends Bloc<UploadAdEvent, UploadAdState> {
       state.copyWith(description: AdString.dirty(event.description));
 
   UploadAdState _mapAdTagsChangedToState(AdTagsChanged event) =>
-      state.copyWith(tags: AdListStrings.dirty(event.tags));
+      state.copyWith(tags: event.tags);
 
   UploadAdState _mapAdImgChangedToState(AdImgChanged event) =>
       state.copyWith(photos: event.files);
@@ -121,8 +124,11 @@ class UploadAdBloc extends Bloc<UploadAdEvent, UploadAdState> {
           AdActivityLevelChanged event) =>
       state.copyWith(activityLevel: event.level);
 
+  UploadAdState _mapAdDogSizeChangedToState(AdDogSizeChanged event) =>
+      state.copyWith(dogSize: event.dogSize);
+
   UploadAdState _mapAdPersonalityChangedToState(AdPersonalityChanged event) =>
-      state.copyWith(personality: AdListStrings.dirty(event.personality));
+      state.copyWith(personality: event.personality);
 
   UploadAdState _mapAdWeightChangedToState(AdWeightChanged event) =>
       state.copyWith(weight: AdDouble.dirty(event.weight));
@@ -142,7 +148,6 @@ class UploadAdBloc extends Bloc<UploadAdEvent, UploadAdState> {
   UploadAdState _mapAdAdoptionTaxChangedToState(AdAdoptionTaxChanged event) =>
       state.copyWith(adoptionTax: AdDouble.dirty(event.adoptionTax));
 
-
   UploadAdState _mapAdSexChangedToState(AdSexChanged event) =>
       state.copyWith(male: event.male);
 
@@ -156,13 +161,14 @@ class UploadAdBloc extends Bloc<UploadAdEvent, UploadAdState> {
           ad = await repository.createAnimalAd(
               photos: state.photos,
               description: state.description.value,
-              tags: state.tags.value,
+              tags: state.tags,
               name: state.name.value,
               mustKnow: state.mustKnow.value,
               breed: state.breed.value,
               weight: state.weight.value,
+              dogSize: state.dogSize,
               adoptionTax: state.adoptionTax.value,
-              personality: state.personality.value,
+              personality: state.personality,
               birthDate: state.birthDate,
               deliveryInfo: state.deliveryInfo,
               male: state.male,
@@ -171,7 +177,7 @@ class UploadAdBloc extends Bloc<UploadAdEvent, UploadAdState> {
               token: authBloc.state.authStatus?.authData?.token);
         }
 
-        yield state.copyWith(status: FormzStatus.submissionSuccess);
+        yield UploadAdState(status: FormzStatus.submissionSuccess, ad: ad);
       } catch (err, stack) {
         errorBloc
             .add(ErrorHandlerCatched(bloc: this, event: event, error: err));
@@ -186,29 +192,30 @@ class UploadAdBloc extends Bloc<UploadAdEvent, UploadAdState> {
       FormzStatus status = Formz.validate([
         state.name,
         state.description,
-        state.tags,
         state.mustKnow,
         state.breed,
         state.weight,
         state.adoptionTax,
-        state.personality,
       ]);
 
       return status.isValidated &&
+          state.tags.isNotEmpty &&
+          state.personality.isNotEmpty &&
           state.photos.isNotEmpty &&
           state.deliveryInfo.isNotEmpty &&
           state.male != null &&
           state.activityLevel != null &&
-          state.birthDate != null;
+          state.birthDate != null &&
+          ((state.category == Category.DOGS && state.dogSize != null) ||
+              state.category != Category.DOGS);
     } else if (state.category.isProduct || state.category.isService) {
       FormzStatus status = Formz.validate([
         state.title,
         state.description,
-        state.tags,
         state.price,
       ]);
 
-      return status.isValidated;
+      return status.isValidated && state.tags.isNotEmpty;
     }
     return false;
   }
