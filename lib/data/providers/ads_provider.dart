@@ -1,5 +1,8 @@
 import 'dart:async';
+import 'dart:convert';
 
+import 'package:dio/dio.dart';
+import 'package:http_parser/http_parser.dart';
 import 'package:jumpets_app/data/api_base_helper.dart';
 import 'package:jumpets_app/data/providers/user_provider.dart';
 import 'package:jumpets_app/models/models.dart';
@@ -8,6 +11,37 @@ class AdsProvider {
   final ApiBaseHelper _api;
 
   AdsProvider() : this._api = ApiBaseHelper();
+
+  static get animalAdFragment => '''
+  fragment animalAdFields on AnimalAd {
+    id: _id
+          tags
+          photos
+            name
+            description
+            activityLevel
+            birthDate
+            male
+            adoptionTax
+            weight
+            personality
+            mustKnow
+            deliveryInfo
+            breed
+            ... on Dog {
+              size
+              type
+            }
+            ... on OtherAnimal {
+              type
+            }
+          
+          createdAt
+          creator {
+            ...userFields
+          }
+  }
+  ''';
 
   static get adFragment =>
       '''
@@ -130,6 +164,72 @@ class AdsProvider {
 }''' +
           UserProvider.getUserFragment()
     }, token: token);
+  }
+
+  Future<dynamic> createAnimalAd(
+      {List<dynamic> photos,
+      String description,
+      List<String> tags,
+      String name,
+      String mustKnow,
+      String breed,
+      double weight,
+      double adoptionTax,
+      List<String> personality,
+      DateTime birthDate,
+      List<DeliveryStatus> deliveryInfo,
+      bool male,
+      ActivityLevel activityLevel,
+      AnimalType type,
+      String token}) async {
+    var operations = {
+      'query': '''
+       mutation(\$files: [Upload!]!) {
+          createAnimalAd(
+            adInput: {
+              name: "$name"
+              description: "$description"
+              breed: "$breed"
+              mustKnow: "$mustKnow"
+              type: ${type.name.toUpperCase()}
+              tags: $tags
+              personality: $personality
+              photos: \$files
+              deliveryInfo: $deliveryInfo
+              weight: $weight
+              male: $male
+              birthDate: ${birthDate.toIso8601String()}
+              activityLevel: ${activityLevel.name.toUpperCase()}
+            }
+          ) {
+            ...animalAdFields
+          }
+        }
+      ''' +
+          animalAdFragment,
+      'variables': {'files': List.generate(photos.length, (index) => null)}
+    };
+
+    final map = <String, dynamic>{
+      'operations': json.encode(operations),
+      'map': json.encode({
+        List.generate(
+            photos.length,
+            (index) => MapEntry<String, List<String>>(
+                index.toString(), ['variables.files.$index']))
+      }),
+    };
+
+    photos.asMap().forEach((key, value) async {
+      map.putIfAbsent(
+          key.toString(),
+          () async => await MultipartFile.fromFile(value.path,
+              contentType: MediaType('image', value.path.split('.').last)));
+    });
+
+    FormData formData = FormData.fromMap(map);
+
+    return _api.postWithFile(formData, token: token);
   }
 
   Future<dynamic> searchAds(

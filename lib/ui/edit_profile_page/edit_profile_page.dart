@@ -38,65 +38,53 @@ class EditProfilePage extends StatelessWidget {
             leading: IconButton(
                 icon: Icon(Icons.clear),
                 onPressed: () => Navigator.pop(context)),
-            title: Text(
-              AppLocalizations.of(context).translate('edit_account'),
-              style: Theme.of(context).textTheme.headline3,
-            ),
-            iconTheme: Theme.of(context).iconTheme.copyWith(color: Colors.grey),
           ),
           body: SafeArea(
-            child: Stack(
-              fit: StackFit.expand,
-              children: [
-                Padding(
-                  padding:
-                      const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
-                  child: ListView(shrinkWrap: true, children: [
-                    SizedBox(
-                      height: 200,
-                      child: Stack(fit: StackFit.expand, children: [
-                        CircularProfileThumb(
-                          user: user,
-                          radius: 80.0,
-                          borderWidth: 2.0,
-                        ),
-                        ProfileImagePicker(
-                          radius: 80.0,
-                        )
-                      ]),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
+              child: ListView(shrinkWrap: true, children: [
+                SizedBox(
+                  height: 200,
+                  child: Stack(fit: StackFit.expand, children: [
+                    CircularProfileThumb(
+                      user: user,
+                      radius: 80.0,
+                      borderWidth: 2.0,
                     ),
-                    ProfileNameInput(
-                      name: user.name,
-                    ),
-                    ProfileEmailInput(
-                      email: user.email,
-                    ),
-                    ProfileAddressInput(
-                      address: user.address,
-                    ),
-                    ProfilePhoneInput(
-                      phone: user.phone,
-                    ),
-                    if (user is Profesional)
-                      ProfileWebInput(
-                        web: (user as Profesional).web,
-                      ),
-                    if (user is Protectora)
-                      ProfileWebInput(
-                        web: (user as Protectora).web,
-                      ),
-                    ProfilePasswordInput()
+                    ProfileImagePicker(
+                      radius: 80.0,
+                    )
                   ]),
                 ),
-                Positioned(
-                  bottom: 0,
-                  right: 10,
-                  left: 10,
-                  child: ProfileEditButton(),
-                )
-              ],
+                ProfileNameInput(
+                  name: user.name,
+                ),
+                ProfileEmailInput(
+                  email: user.email,
+                ),
+                ProfileAddressInput(
+                  address: user.address,
+                ),
+                ProfilePhoneInput(
+                  phone: user.phone,
+                ),
+                if (user is Profesional)
+                  ProfileWebInput(
+                    web: (user as Profesional).web,
+                  ),
+                if (user is Protectora)
+                  ProfileWebInput(
+                    web: (user as Protectora).web,
+                  ),
+                ProfilePasswordInput()
+              ]),
             ),
           ),
+          bottomNavigationBar: SafeArea(
+              child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+            child: ProfileEditButton(),
+          )),
         ),
       ),
     );

@@ -55,14 +55,17 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: true,
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         elevation: 0,
         title: BlocBuilder<AdsBloc, AdsState>(
           buildWhen: (prev, current) => current is CategoryChanged,
           builder: (context, state) {
-            return OpenableSearchBar(
-              blocked: !context.bloc<AdsBloc>().isCategoryValidToSearch,
+            return Padding(
+              padding: const EdgeInsets.only(top: 8.0),
+              child: OpenableSearchBar(
+                blocked: !context.bloc<AdsBloc>().isCategoryValidToSearch,
+              ),
             );
           },
         ),

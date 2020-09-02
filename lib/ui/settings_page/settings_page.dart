@@ -21,7 +21,6 @@ class SettingsPage extends StatelessWidget {
           AppLocalizations.of(context).translate('settings'),
           style: Theme.of(context).textTheme.headline3,
         ),
-        iconTheme: Theme.of(context).iconTheme.copyWith(color: Colors.grey),
       ),
       body: ListView(
         children: <Widget>[

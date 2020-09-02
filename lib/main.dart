@@ -15,10 +15,15 @@ import 'package:jumpets_app/models/wrappers/auth_status.dart';
 import 'package:jumpets_app/route_generator.dart';
 import 'package:jumpets_app/ui/app_theme.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:jumpets_app/ui/home_page/home_page.dart';
+import 'package:flutter/services.dart';
+import 'package:overlay_support/overlay_support.dart';
 
 void main() {
   Bloc.observer = BlocDelegate();
+  SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+    statusBarColor: Colors.transparent,
+  ));
+
   runApp(MyApp(
     adsRepository: AdsRepository(),
     authenticationRepository: AuthenticationRepository(),
@@ -87,38 +92,42 @@ class MyApp extends StatelessWidget {
             ],
             child: BlocListener<AuthBloc, AuthState>(
               listenWhen: (previous, current) =>
+                  previous.authStatus.status !=
+                      AuthenticationStatus.authenticated &&
                   current.authStatus.status ==
-                  AuthenticationStatus.authenticated,
+                      AuthenticationStatus.authenticated,
               listener: (context, state) {
                 context.bloc<FavouritesBloc>().add(FavouritesFetched());
               },
               child: BlocBuilder<LocaleBloc, LocaleState>(
                 builder: (context, state) {
-                  return MaterialApp(
-                    locale: Locale(state.code),
-                    title: 'PetsWorld',
-                    theme: AppTheme.getTheme(),
-                    onGenerateRoute: RouteGenerator.generateRoute,
-                    initialRoute: '/',
-                    supportedLocales: [
-                      const Locale('en', 'US'),
-                      const Locale('es', 'ES'),
-                      const Locale('ca', 'CA'),
-                    ],
-                    localizationsDelegates: [
-                      AppLocalizations.delegate,
-                      GlobalMaterialLocalizations.delegate,
-                      GlobalWidgetsLocalizations.delegate
-                    ],
-                    localeResolutionCallback: (locale, supportedLocales) {
-                      for (var supportedLocale in supportedLocales) {
-                        if (supportedLocale.languageCode ==
-                            locale.languageCode) {
-                          return supportedLocale;
+                  return OverlaySupport(
+                    child: MaterialApp(
+                      locale: Locale(state.code),
+                      title: 'PetsWorld',
+                      theme: AppTheme.getTheme(),
+                      onGenerateRoute: RouteGenerator.generateRoute,
+                      initialRoute: '/',
+                      supportedLocales: [
+                        const Locale('en', 'US'),
+                        const Locale('es', 'ES'),
+                        const Locale('ca', 'CA'),
+                      ],
+                      localizationsDelegates: [
+                        AppLocalizations.delegate,
+                        GlobalMaterialLocalizations.delegate,
+                        GlobalWidgetsLocalizations.delegate
+                      ],
+                      localeResolutionCallback: (locale, supportedLocales) {
+                        for (var supportedLocale in supportedLocales) {
+                          if (supportedLocale.languageCode ==
+                              locale.languageCode) {
+                            return supportedLocale;
+                          }
                         }
-                      }
-                      return supportedLocales.first;
-                    },
+                        return supportedLocales.first;
+                      },
+                    ),
                   );
                 },
               ),

@@ -6,6 +6,7 @@ import 'package:jumpets_app/ui/edit_profile_page/edit_profile_page.dart';
 import 'package:jumpets_app/ui/home_page/home_page.dart';
 import 'package:jumpets_app/ui/profile_page/profile_page.dart';
 import 'package:jumpets_app/ui/settings_page/settings_page.dart';
+import 'package:jumpets_app/ui/upload_ad_page/upload_ad_page.dart';
 
 class RouteGenerator {
   static Route<dynamic> generateRoute(RouteSettings settings) {
@@ -34,6 +35,8 @@ class RouteGenerator {
             builder: (_) => EditProfilePage(
                   args,
                 ));
+      case '/upload_ad':
+        return MaterialPageRoute(builder: (_) => UploadAdPage());
       default:
         return _errorRoute();
     }

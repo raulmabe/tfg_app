@@ -7,7 +7,8 @@ class ErrorHandlerEmpty extends ErrorHandlerState {}
 
 class ErrorThrownSnackbar extends ErrorHandlerState {
   final error;
-  ErrorThrownSnackbar(this.error);
+  final VoidCallback retry;
+  ErrorThrownSnackbar(this.error, this.retry);
 }
 
 class ErrorThrownDialog extends ErrorHandlerState {

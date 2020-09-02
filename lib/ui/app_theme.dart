@@ -25,7 +25,9 @@ class AppTheme {
         primaryColorDark: kSecondaryColor,
         accentColor: kAccentColor,
         iconTheme: _getIconTheme(baseTheme.primaryIconTheme),
-        appBarTheme: _getAppBarTheme(baseTheme.appBarTheme),
+        snackBarTheme: _getSnackBarTheme(baseTheme.snackBarTheme),
+        appBarTheme: _getAppBarTheme(baseTheme.appBarTheme,
+            iconTheme: _getIconTheme(baseTheme.primaryIconTheme)),
         dialogTheme: _getDialogTheme(baseTheme.dialogTheme),
         textTheme:
             _getTextTheme(GoogleFonts.ralewayTextTheme(baseTheme.textTheme)),
@@ -52,8 +54,11 @@ class AppTheme {
   }
 
   static AppBarTheme _getAppBarTheme(AppBarTheme baseTheme,
-      {TextTheme textTheme}) {
+      {TextTheme textTheme, IconThemeData iconTheme}) {
     return baseTheme.copyWith(
+        centerTitle: true,
+        iconTheme:
+            iconTheme?.copyWith(color: Colors.grey) ?? baseTheme.iconTheme,
         brightness: Brightness.light,
         color: Colors.white,
         textTheme: textTheme ?? baseTheme.textTheme);
@@ -65,6 +70,11 @@ class AppTheme {
 
   static TextTheme _getPrimaryTextTheme(TextTheme baseTheme) {
     return baseTheme.copyWith();
+  }
+
+  static SnackBarThemeData _getSnackBarTheme(SnackBarThemeData baseTheme) {
+    return baseTheme.copyWith(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)));
   }
 
   static TextTheme _getTextTheme(TextTheme baseTheme) {

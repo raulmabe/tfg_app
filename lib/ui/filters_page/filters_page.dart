@@ -90,8 +90,6 @@ class _FiltersPageState extends State<FiltersPage> {
                     }
                     Navigator.pop(context);
                   }),
-              iconTheme:
-                  Theme.of(context).iconTheme.copyWith(color: Colors.grey),
               backgroundColor: Theme.of(context).primaryColor,
               elevation: 2.0,
               title: Text(

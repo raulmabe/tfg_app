@@ -36,6 +36,8 @@ class AdPage extends StatelessWidget {
         children: <Widget>[
           CustomScrollView(slivers: [
             SliverAppBar(
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20)),
               actions: [
                 UserChip(
                   user: ad.creator,
@@ -82,72 +84,7 @@ class AdPage extends StatelessWidget {
               ),
             )
           ]),
-          Positioned(
-              left: 0,
-              bottom: 0,
-              right: 0,
-              child: SafeArea(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
-                  child: BlocBuilder<AuthBloc, AuthState>(
-                      buildWhen: (previous, current) =>
-                          previous.authStatus.status !=
-                          current.authStatus.status,
-                      builder: (context, state) {
-                        bool isAuth = state.authStatus.status.isAuthenticated;
-                        return Row(
-                          children: [
-                            Expanded(
-                              child: MyRaisedButton(
-                                  text: AppLocalizations.of(context)
-                                      .translate('contact'),
-                                  onPressed: () =>
-                                      Helper.showLoginBottomSheet(context)),
-                            ),
-                            Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 10),
-                              child:
-                                  BlocBuilder<FavouritesBloc, FavouritesState>(
-                                builder: (context, state) {
-                                  bool alreadyFaved = false;
-                                  if (state is FavouritesSuccess) {
-                                    alreadyFaved = state.ads
-                                        .any((element) => element.id == ad.id);
-                                  }
-                                  return MyIconButton(
-                                    color: Colors.grey.shade200,
-                                    size: 50,
-                                    child: state is FavouritesLoading
-                                        ? SpinKitPulse(
-                                            color: Colors.pinkAccent,
-                                            size: 50,
-                                            duration:
-                                                Duration(milliseconds: 300),
-                                          )
-                                        : Icon(
-                                            alreadyFaved
-                                                ? Icons.favorite
-                                                : Icons.favorite_border,
-                                            color: alreadyFaved
-                                                ? Colors.pinkAccent
-                                                : Colors.black54),
-                                    onTap: () => isAuth
-                                        ? context.bloc<FavouritesBloc>().add(
-                                            alreadyFaved
-                                                ? FavouriteAdRemoved(
-                                                    adId: ad.id)
-                                                : FavouriteAdAdded(ad: ad))
-                                        : Helper.showLoginBottomSheet(context),
-                                  );
-                                },
-                              ),
-                            )
-                          ],
-                        );
-                      }),
-                ),
-              ))
+          Positioned(left: 0, bottom: 0, right: 0, child: _bottomBar(context))
         ],
       ),
     );
@@ -285,6 +222,63 @@ class AdPage extends StatelessWidget {
           ],
         )
       : Container();
+
+  Widget _bottomBar(context) {
+    return SafeArea(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 20),
+        child: BlocBuilder<AuthBloc, AuthState>(
+            buildWhen: (previous, current) =>
+                previous.authStatus.status != current.authStatus.status,
+            builder: (context, state) {
+              bool isAuth = state.authStatus.status.isAuthenticated;
+              return Row(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 10),
+                    child: BlocBuilder<FavouritesBloc, FavouritesState>(
+                      builder: (context, state) {
+                        bool alreadyFaved = false;
+                        if (state is FavouritesSuccess) {
+                          alreadyFaved =
+                              state.ads.any((element) => element.id == ad.id);
+                        }
+                        return MyIconButton(
+                          color: Colors.grey.shade200,
+                          size: 50,
+                          child: state is FavouritesLoading
+                              ? SpinKitPulse(
+                                  color: Colors.pinkAccent,
+                                  size: 50,
+                                  duration: Duration(milliseconds: 300),
+                                )
+                              : Icon(
+                                  alreadyFaved
+                                      ? Icons.favorite
+                                      : Icons.favorite_border,
+                                  color: alreadyFaved
+                                      ? Colors.pinkAccent
+                                      : Colors.black54),
+                          onTap: () => isAuth
+                              ? context.bloc<FavouritesBloc>().add(alreadyFaved
+                                  ? FavouriteAdRemoved(adId: ad.id)
+                                  : FavouriteAdAdded(ad: ad))
+                              : Helper.showLoginBottomSheet(context),
+                        );
+                      },
+                    ),
+                  ),
+                  Expanded(
+                    child: MyRaisedButton(
+                        text: AppLocalizations.of(context).translate('contact'),
+                        onPressed: () => Helper.showLoginBottomSheet(context)),
+                  ),
+                ],
+              );
+            }),
+      ),
+    );
+  }
 }
 
 class _InfoSquares extends StatefulWidget {

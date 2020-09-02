@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jumpets_app/app_localizations.dart';
 import 'package:jumpets_app/blocs/ads_bloc/ads_bloc.dart';
+import 'package:jumpets_app/blocs/auth_bloc/auth_bloc.dart';
 import 'package:jumpets_app/models/enums/categories.dart';
 import 'package:jumpets_app/ui/components/buttons/category_button.dart';
 import 'package:jumpets_app/ui/components/cards/info_card.dart';
@@ -153,7 +154,19 @@ class _MainPageState extends State<MainPage> {
                     Icons.add,
                     color: Colors.grey.shade500,
                   ),
-                  onPressed: () => print('add'))
+                  onPressed: () {
+                    if (context
+                            .bloc<AuthBloc>()
+                            .state
+                            .authStatus
+                            .status
+                            ?.isAuthenticated ==
+                        true) {
+                      Navigator.pushNamed(context, '/upload_ad');
+                    } else {
+                      Helper.showLoginBottomSheet(context);
+                    }
+                  })
             ],
           ),
         ),

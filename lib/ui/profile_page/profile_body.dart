@@ -154,8 +154,10 @@ class ProfileBody extends StatelessWidget {
                     physics: NeverScrollableScrollPhysics(),
                     itemCount: valuations?.length,
                     shrinkWrap: true,
-                    itemBuilder: (context, index) =>
-                        ValuationCard(valuations[index]),
+                    itemBuilder: (context, index) => Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: ValuationCard(valuations.reversed.toList()[index]),
+                    ),
                   ),
               ],
             ),

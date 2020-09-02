@@ -106,5 +106,14 @@
     "Invalid password": "Contrasenya incorrecte",
     "No internet connection": "No hi ha connexió a Internet!",
     "default_error": "S'ha produït un error!",
-    "developed_by": "Desenvolupat per"
+    "developed_by": "Desenvolupat per",
+    "select_birthdate": "Seleccionar data",
+    "must_know": "Informació extra",
+    "description": "Descripció",
+    "upload_your_ad_to": "Puja el teu anunci en",
+    "upload": "Publicar",
+    "male": "Mascle",
+    "female": "Femella",
+    "personality": "Personalitat",
+    "You must be logged in": "Has d'iniciar sessió"
 }

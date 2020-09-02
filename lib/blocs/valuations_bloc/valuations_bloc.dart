@@ -6,7 +6,7 @@ import 'package:jumpets_app/blocs/ads_bloc/ads_bloc.dart';
 import 'package:jumpets_app/blocs/auth_bloc/auth_bloc.dart';
 import 'package:jumpets_app/blocs/error_handler_bloc/error_handler_bloc.dart';
 import 'package:jumpets_app/data/repositories/user_repository.dart';
-import 'package:jumpets_app/models/forms/forms.dart';
+import 'package:jumpets_app/models/forms/user_forms.dart';
 import 'package:jumpets_app/models/users/user.dart';
 import 'package:meta/meta.dart';
 

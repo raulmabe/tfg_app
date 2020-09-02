@@ -15,7 +15,12 @@ class ErrorHandlerBloc extends Bloc<ErrorHandlerEvent, ErrorHandlerState> {
     ErrorHandlerEvent event,
   ) async* {
     if (event is ErrorHandlerCatched) {
-      yield ErrorThrownDialog(event.error, () => event.bloc.add(event.event));
+      if (event.forceSnack) {
+        yield ErrorThrownSnackbar(
+            event.error, () => event.bloc.add(event.event));
+      } else {
+        yield ErrorThrownDialog(event.error, () => event.bloc.add(event.event));
+      }
       yield ErrorHandlerEmpty();
     }
   }

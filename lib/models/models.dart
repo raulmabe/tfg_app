@@ -33,4 +33,5 @@ export 'package:jumpets_app/models/extensions/categories_extension.dart';
 export 'package:jumpets_app/models/extensions/authstatus_extension.dart';
 export 'package:jumpets_app/models/extensions/valuation_extension.dart';
 export 'package:dart_date/dart_date.dart';
-export 'package:jumpets_app/models/forms/forms.dart';
+export 'package:jumpets_app/models/forms/user_forms.dart';
+export 'package:jumpets_app/models/forms/ad_forms.dart';

@@ -13,20 +13,15 @@ class ShelterCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     const double edgePadding = 20;
-    return Stack(
-      fit: StackFit.expand,
+    return Column(
+      mainAxisSize: MainAxisSize.max,
+      crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        Positioned(
-            left: edgePadding,
-            right: edgePadding,
-            top: 0,
-            bottom: edgePadding * 4,
-            child: _img()),
-        Positioned(
-            left: 0,
-            right: 0,
-            bottom: edgePadding * 2,
-            child: _infoCard(context, edgePadding)),
+        _img(),
+        SizedBox(
+          height: 10,
+        ),
+        _infoCard(context, edgePadding),
       ],
     );
   }
@@ -107,10 +102,7 @@ class ShelterCard extends StatelessWidget {
 
   Widget _img() {
     return ClipRRect(
-      borderRadius: BorderRadius.only(
-        topLeft: Radius.circular(10),
-        topRight: Radius.circular(10),
-      ),
+      borderRadius: BorderRadius.circular(20),
       child: FadeInImage.memoryNetwork(
         fadeInDuration: Duration(milliseconds: 200),
         placeholder: kTransparentImage,

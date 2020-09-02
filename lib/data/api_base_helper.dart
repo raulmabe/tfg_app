@@ -28,13 +28,6 @@ class ApiBaseHelper {
   Future<dynamic> post(dynamic body, {String token}) async {
     var responseJson;
     try {
-      /* Dio dio = Dio();
-      final response = await dio.post(baseUrl,
-          data: json.encode(body),
-          options: Options(headers: {
-            'Content-type': 'application/json',
-            'Authorization': 'Token $token'
-          })); */
       final response = await http
           .post(baseUrl,
               headers: {
@@ -51,8 +44,10 @@ class ApiBaseHelper {
     return responseJson;
   }
 
-  Future<dynamic> postWithFile(dynamic body,
-      {String token, int contentLength}) async {
+  Future<dynamic> postWithFile(
+    dynamic body, {
+    String token,
+  }) async {
     var responseJson;
     try {
       Dio dio = Dio();

@@ -1,8 +1,47 @@
 import 'package:flutter/material.dart';
+import 'package:jumpets_app/models/enums/animal_types.dart';
 import 'package:jumpets_app/models/enums/categories.dart';
 import 'package:jumpets_app/ui/components/jumpets_icons_icons.dart';
 
 extension Iconnable on Category {
+  bool get isAnimal =>
+      this == Category.DOGS ||
+      this == Category.CATS ||
+      this == Category.BIRDS ||
+      this == Category.FISHES ||
+      this == Category.OTHERS ||
+      this == Category.BUNNIES ||
+      this == Category.REPTILES ||
+      this == Category.RODENTS;
+
+  bool get isProduct => this == Category.PRODUCTS;
+
+  bool get isService => this == Category.SERVICES;
+
+  AnimalType get animalType {
+    switch (this) {
+      case Category.DOGS:
+        return AnimalType.DOG;
+      case Category.CATS:
+        return AnimalType.CAT;
+      case Category.BIRDS:
+        return AnimalType.BIRD;
+      case Category.FISHES:
+        return AnimalType.FISH;
+      case Category.OTHERS:
+        return AnimalType.OTHER;
+      case Category.BUNNIES:
+        return AnimalType.BUNNY;
+      case Category.REPTILES:
+        return AnimalType.REPTILE;
+      case Category.RODENTS:
+        return AnimalType.RODENT;
+      default:
+        return null;
+        break;
+    }
+  }
+
   IconData getIcon() {
     switch (this) {
       case Category.DOGS:

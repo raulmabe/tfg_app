@@ -132,4 +132,46 @@ class AdsRepository {
 
     return favs;
   }
+
+  Future<Ad> createAnimalAd(
+      {List<dynamic> photos,
+      String description,
+      List<String> tags,
+      String name,
+      String mustKnow,
+      String breed,
+      double weight,
+      double adoptionTax,
+      List<String> personality,
+      DateTime birthDate,
+      List<DeliveryStatus> deliveryInfo,
+      bool male,
+      ActivityLevel activityLevel,
+      AnimalType type,
+      String token}) async {
+    var json = await _adsProvider.createAnimalAd(
+        photos: photos,
+        description: description,
+        tags: tags,
+        name: name,
+        mustKnow: mustKnow,
+        breed: breed,
+        weight: weight,
+        adoptionTax: adoptionTax,
+        personality: personality,
+        birthDate: birthDate,
+        deliveryInfo: deliveryInfo,
+        male: male,
+        activityLevel: activityLevel,
+        type: type,
+        token: token);
+
+    return Ad.fromJson(json['data']['createAnimalAd']);
+  }
+
+  Future<Ad> createProductAd({String token, String id}) async {
+    var json = await _adsProvider.saveAd(token: token, id: id);
+
+    return Ad.fromJson(json['data']['createAnimalAd']);
+  }
 }

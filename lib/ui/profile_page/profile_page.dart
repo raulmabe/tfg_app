@@ -71,7 +71,13 @@ class _ProfilePageState extends State<ProfilePage> {
             IconButton(
                 icon: Icon(Icons.edit),
                 iconSize: 22,
-                onPressed: () => Navigator.pushNamed(context, '/edit_profile'),
+                onPressed: () => Navigator.pushNamed(context, '/edit_profile',
+                    arguments: context
+                        .bloc<AuthBloc>()
+                        .state
+                        .authStatus
+                        ?.authData
+                        ?.user),
                 color: Colors.black54),
             IconButton(
                 icon: Icon(FontAwesomeIcons.slidersH),
@@ -109,8 +115,6 @@ class _ProfilePageState extends State<ProfilePage> {
               ),
               centerTitle: true,
               actions: actionsList,
-              iconTheme:
-                  Theme.of(context).iconTheme.copyWith(color: Colors.grey),
             ),
             body: Column(
               children: [

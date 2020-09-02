@@ -106,5 +106,14 @@
     "Invalid password": "Contraseña incorrecta",
     "No internet connection": "No hay conexión a internet!",
     "default_error": "Se ha producido un error!",
-    "developed_by": "Desarrollado por"
+    "developed_by": "Desarrollado por",
+    "select_birthdate": "Selecciona fecha",
+    "must_know": "Información extra",
+    "description": "Descripción",
+    "upload_your_ad_to": "Pon tu anuncio en",
+    "upload": "Publicar",
+    "male": "Macho",
+    "female": "Hembra",
+    "personality": "Personalidad",
+    "You must be logged in": "Tienes que iniciar sesión"
 }

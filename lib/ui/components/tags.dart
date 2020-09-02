@@ -33,3 +33,57 @@ class Tag extends StatelessWidget {
     );
   }
 }
+
+class InputTag extends StatefulWidget {
+  final Function(String) onTap;
+  final IconData icon;
+  final String hintText;
+  final Color iconColor;
+  InputTag(
+      {@required this.onTap,
+      this.icon = Icons.add,
+      this.hintText,
+      this.iconColor});
+  @override
+  _InputTagState createState() => _InputTagState();
+}
+
+class _InputTagState extends State<InputTag> {
+  String value;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(10),
+        child: Material(
+          color: Theme.of(context).primaryColor,
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10),
+              side: BorderSide(width: 1, color: Theme.of(context).accentColor)),
+          child: Row(
+            children: [
+              Expanded(
+                child: TextField(
+                  onChanged: (value) => setState(() {
+                    this.value = value;
+                  }),
+                  decoration:
+                      InputDecoration.collapsed(hintText: widget.hintText),
+                ),
+              ),
+              IconButton(
+                icon: Icon(
+                  widget.icon,
+                  color: widget.iconColor,
+                ),
+                onPressed: () => widget.onTap(this.value),
+              )
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}

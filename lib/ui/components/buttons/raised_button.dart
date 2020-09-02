@@ -16,13 +16,13 @@ class MyRaisedButton extends StatelessWidget {
     this.blocked = false,
     this.borders = true,
     this.child,
-    @required this.text,
+    this.text,
     this.onPressed,
     this.color,
     this.textColor,
     this.filled = true,
     Key key,
-  })  : assert(text != null),
+  })  : assert(text != null || child != null),
         super(key: key);
 
   @override
@@ -36,35 +36,38 @@ class MyRaisedButton extends StatelessWidget {
         padding: const EdgeInsets.symmetric(vertical: 10),
         child: SizedBox(
           height: 40,
-          child: Material(
-            shape: RoundedRectangleBorder(
-                side: BorderSide(
-                    width: borders ? 1 : 0,
-                    color: borders ? finalColor : Colors.transparent),
-                borderRadius: BorderRadius.circular(50)),
-            color: (filled ? finalColor : Colors.transparent),
-            child: InkWell(
-              onTap: blocked ? null : onPressed,
-              splashColor: color?.withOpacity(.3) ??
-                  Theme.of(context).primaryColor.withOpacity(.3),
-              child: Padding(
-                padding: EdgeInsets.all(10.0),
-                child: child != null
-                    ? FittedBox(
-                        child: child,
-                      )
-                    : FittedBox(
-                        child: Text(
-                          text.toUpperCase(),
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                              fontWeight: FontWeight.w700,
-                              letterSpacing: 2,
-                              color: textColor ??
-                                  color ??
-                                  Theme.of(context).primaryColor),
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(50),
+            child: Material(
+              shape: RoundedRectangleBorder(
+                  side: BorderSide(
+                      width: borders ? 1 : 0,
+                      color: borders ? finalColor : Colors.transparent),
+                  borderRadius: BorderRadius.circular(50)),
+              color: (filled ? finalColor : Colors.transparent),
+              child: InkWell(
+                onTap: blocked ? null : onPressed,
+                splashColor: color?.withOpacity(.3) ??
+                    Theme.of(context).primaryColor.withOpacity(.3),
+                child: Padding(
+                  padding: EdgeInsets.all(10.0),
+                  child: child != null
+                      ? FittedBox(
+                          child: child,
+                        )
+                      : FittedBox(
+                          child: Text(
+                            text.toUpperCase(),
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                                fontWeight: FontWeight.w700,
+                                letterSpacing: 2,
+                                color: textColor ??
+                                    color ??
+                                    Theme.of(context).primaryColor),
+                          ),
                         ),
-                      ),
+                ),
               ),
             ),
           ),
