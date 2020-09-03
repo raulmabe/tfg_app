@@ -16,6 +16,35 @@ import 'package:jumpets_app/ui/components/buttons/text_radio_button.dart';
 import 'package:jumpets_app/ui/components/jumpets_icons_icons.dart';
 import 'package:jumpets_app/ui/components/tags.dart';
 
+class AdTitleInput extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<UploadAdBloc, UploadAdState>(
+      buildWhen: (previous, current) => previous.title != current.title,
+      builder: (context, state) {
+        return TextField(
+          key: const Key('ad_titleinput_textfield'),
+          onChanged: (title) =>
+              context.bloc<UploadAdBloc>().add(AdTitleChanged(title)),
+          decoration: InputDecoration(
+              focusedErrorBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(color: Colors.red.shade400)),
+              errorStyle: TextStyle(color: Colors.red.shade400),
+              errorBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(color: Colors.red.shade400)),
+              focusedBorder: UnderlineInputBorder(
+                borderSide: BorderSide(color: Colors.black54),
+              ),
+              enabledBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(color: Colors.black54)),
+              labelText: AppLocalizations.of(context).translate('title'),
+              labelStyle: TextStyle(color: Colors.black54)),
+        );
+      },
+    );
+  }
+}
+
 class AdNameInput extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -134,6 +163,43 @@ class AdBreedInput extends StatelessWidget {
   }
 }
 
+class AdPriceInput extends StatelessWidget {
+  final bool isPriceHour;
+  AdPriceInput({this.isPriceHour});
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<UploadAdBloc, UploadAdState>(
+      buildWhen: (previous, current) => previous.price != current.price,
+      builder: (context, state) {
+        return TextField(
+          key: const Key('ad_priceinput_textfield'),
+          onChanged: (price) => context
+              .bloc<UploadAdBloc>()
+              .add(AdPriceChanged(double.parse(price))),
+          keyboardType: TextInputType.number,
+          inputFormatters: <TextInputFormatter>[
+            FilteringTextInputFormatter.digitsOnly
+          ], // Only numbers can be entered
+          decoration: InputDecoration(
+              focusedErrorBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(color: Colors.red.shade400)),
+              errorStyle: TextStyle(color: Colors.red.shade400),
+              errorBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(color: Colors.red.shade400)),
+              focusedBorder: UnderlineInputBorder(
+                borderSide: BorderSide(color: Colors.black54),
+              ),
+              enabledBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(color: Colors.black54)),
+              labelText: AppLocalizations.of(context)
+                  .translate(isPriceHour ? 'price_hour' : 'price'),
+              labelStyle: TextStyle(color: Colors.black54)),
+        );
+      },
+    );
+  }
+}
+
 class AdAdoptionTaxInput extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -225,18 +291,24 @@ class AdBirthDate extends StatelessWidget {
       buildWhen: (previous, current) => previous.birthDate != current.birthDate,
       builder: (context, state) {
         return Row(children: [
-          Text('${state.birthDate?.toLocal() ?? DateTime.now().toLocal()}'
-              .split(' ')
-              .first),
+          Text(AppLocalizations.of(context).translate('birthdate'),
+              style: Theme.of(context).textTheme.bodyText1),
           Spacer(),
           MyFlatButton(
             onTap: () => _selectDate(context),
-            child: Text(
-                AppLocalizations.of(context).translate('select_birthdate')),
+            child: Text(text(context, state)),
           )
         ]);
       },
     );
+  }
+
+  String text(context, state) {
+    if (state.birthDate != null) {
+      return '${state.birthDate.toLocal()}'.split(' ').first +
+          ' - ${(DateTime.now().difference(state.birthDate).inDays / 365).floor().toString()} ${AppLocalizations.of(context).translate('years')}';
+    }
+    return AppLocalizations.of(context).translate('select');
   }
 }
 
@@ -247,9 +319,11 @@ class AdSexInput extends StatelessWidget {
       buildWhen: (previous, current) => previous.male != current.male,
       builder: (context, state) {
         return Row(children: [
-          Text(AppLocalizations.of(context)
-                  .translate(state.male?.toStringFromSex()?.toLowerCase()) ??
-              AppLocalizations.of(context).translate('sex')),
+          Text(
+              AppLocalizations.of(context).translate(
+                      state.male?.toStringFromSex()?.toLowerCase()) ??
+                  AppLocalizations.of(context).translate('sex'),
+              style: Theme.of(context).textTheme.bodyText1),
           Spacer(),
           SexRadioButton(
               male: true,
@@ -277,7 +351,8 @@ class AdDogSizeInput extends StatelessWidget {
           padding: const EdgeInsets.symmetric(vertical: 10),
           child:
               Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
-            Text(AppLocalizations.of(context).translate('size')),
+            Text(AppLocalizations.of(context).translate('size'),
+                style: Theme.of(context).textTheme.bodyText1),
             Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -308,7 +383,8 @@ class AdActivityLevelInput extends StatelessWidget {
           padding: const EdgeInsets.symmetric(vertical: 10),
           child:
               Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
-            Text(AppLocalizations.of(context).translate('activity_level')),
+            Text(AppLocalizations.of(context).translate('activity_level'),
+                style: Theme.of(context).textTheme.bodyText1),
             Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -332,8 +408,6 @@ class AdDeliveryInfoInput extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<UploadAdBloc, UploadAdState>(
-      buildWhen: (previous, current) =>
-          previous.deliveryInfo != current.deliveryInfo,
       builder: (context, state) {
         return Padding(
           padding: const EdgeInsets.symmetric(vertical: 10),
@@ -343,8 +417,8 @@ class AdDeliveryInfoInput extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  '${AppLocalizations.of(context).translate('delivery_info')} (${state.deliveryInfo?.length ?? 0})',
-                ),
+                    '${AppLocalizations.of(context).translate('delivery_info')} (${state.deliveryInfo?.length ?? 0})',
+                    style: Theme.of(context).textTheme.bodyText1),
                 MyFlatButton(
                   onTap: () {
                     if ((state.deliveryInfo?.length ?? 0) !=
@@ -412,23 +486,46 @@ class AdPersonalityInput extends StatelessWidget {
           padding: const EdgeInsets.symmetric(vertical: 10),
           child:
               Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
-            Text(
-              AppLocalizations.of(context).translate('personality'),
-            ),
-            Wrap(
-                alignment: WrapAlignment.start,
-                direction: Axis.horizontal,
-                children: <Widget>[]
-                  ..addAll(
-                      state.personality.map((tag) => Tag(tag: tag)).toList())
-                  ..add(InputTag(
+            Row(
+              children: [
+                Text(AppLocalizations.of(context).translate('personality'),
+                    style: Theme.of(context).textTheme.bodyText1),
+                Expanded(
+                  child: InputTag(
+                    hintText: AppLocalizations.of(context)
+                        .translate('personality_examples'),
                     onTap: (value) {
                       if (!state.personality.contains(value)) {
                         context.bloc<UploadAdBloc>().add(AdPersonalityChanged(
                             state.personality..add(value)));
                       }
                     },
-                  ))),
+                  ),
+                ),
+              ],
+            ),
+            Wrap(
+                alignment: WrapAlignment.start,
+                direction: Axis.horizontal,
+                children: <Widget>[]..addAll(state.personality
+                    .map((tag) => InkWell(
+                          onTap: () => context.bloc<UploadAdBloc>().add(
+                              AdPersonalityChanged(
+                                  state.personality..remove(tag))),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              AbsorbPointer(
+                                child: Tag(
+                                  tag: tag,
+                                  tapable: false,
+                                ),
+                              ),
+                              Icon(Icons.clear, size: 20),
+                            ],
+                          ),
+                        ))
+                    .toList())),
           ]),
         );
       },
@@ -445,23 +542,46 @@ class AdTagsInput extends StatelessWidget {
           padding: const EdgeInsets.symmetric(vertical: 10),
           child:
               Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
-            Text(
-              AppLocalizations.of(context).translate('tags'),
+            Row(
+              children: [
+                Text(AppLocalizations.of(context).translate('tags'),
+                    style: Theme.of(context).textTheme.bodyText1),
+                Expanded(
+                    child: InputTag(
+                  hintText:
+                      AppLocalizations.of(context).translate('tag_examples'),
+                  onTap: (value) {
+                    if (!state.tags.contains(value)) {
+                      context
+                          .bloc<UploadAdBloc>()
+                          .add(AdTagsChanged(state.tags..add(value)));
+                    }
+                  },
+                ))
+              ],
             ),
             Wrap(
                 alignment: WrapAlignment.start,
                 direction: Axis.horizontal,
-                children: <Widget>[]
-                  ..addAll(state.tags.map((tag) => Tag(tag: tag)).toList())
-                  ..add(InputTag(
-                    onTap: (value) {
-                      if (!state.tags.contains(value)) {
-                        context
-                            .bloc<UploadAdBloc>()
-                            .add(AdTagsChanged(state.tags..add(value)));
-                      }
-                    },
-                  ))),
+                children: <Widget>[]..addAll(state.tags
+                    .map((tag) => InkWell(
+                          onTap: () => context
+                              .bloc<UploadAdBloc>()
+                              .add(AdTagsChanged(state.tags..remove(tag))),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              AbsorbPointer(
+                                child: Tag(
+                                  tag: tag,
+                                  tapable: true,
+                                ),
+                              ),
+                              Icon(Icons.clear, size: 20),
+                            ],
+                          ),
+                        ))
+                    .toList())),
           ]),
         );
       },
@@ -511,17 +631,36 @@ class AdPhotosInput extends StatelessWidget {
     );
   }
 
-  Widget _getWidgetImageFromIndex(context, int index, UploadAdState state) {
+  Widget _getWidgetImageFromIndex(
+      BuildContext context, int index, UploadAdState state) {
     Widget child = Icon(JumpetsIcons.camara,
         color: Theme.of(context).accentColor, size: 30);
 
     if (state.photos.length > index) {
-      child = ClipRRect(
-        borderRadius: BorderRadius.circular(15),
-        child: Image.file(
-          state.photos[index],
-          fit: BoxFit.cover,
-        ),
+      child = Stack(
+        fit: StackFit.expand,
+        children: [
+          ClipRRect(
+            borderRadius: BorderRadius.circular(15),
+            child: Image.file(
+              state.photos[index],
+              fit: BoxFit.cover,
+            ),
+          ),
+          Transform.translate(
+            offset: Offset(-12, -12),
+            child: Align(
+              alignment: Alignment.topLeft,
+              child: Material(
+                  shape: CircleBorder(),
+                  color: Theme.of(context).backgroundColor,
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Icon(Icons.clear),
+                  )),
+            ),
+          )
+        ],
       );
     }
 
@@ -531,7 +670,11 @@ class AdPhotosInput extends StatelessWidget {
           borderRadius: 15,
           size: 70,
           child: child,
-          onTap: () => getImage(context, index),
+          onTap: () => state.photos.length > index
+              ? context
+                  .bloc<UploadAdBloc>()
+                  .add(AdImgChanged(state.photos..remove(state.photos[index])))
+              : getImage(context, index),
           isSelected: false),
     );
   }

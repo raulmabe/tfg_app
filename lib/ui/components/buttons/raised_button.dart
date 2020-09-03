@@ -32,42 +32,39 @@ class MyRaisedButton extends StatelessWidget {
 
     return Hero(
       tag: tag ?? text,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 10),
-        child: SizedBox(
-          height: 40,
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(50),
-            child: Material(
-              shape: RoundedRectangleBorder(
-                  side: BorderSide(
-                      width: borders ? 1 : 0,
-                      color: borders ? finalColor : Colors.transparent),
-                  borderRadius: BorderRadius.circular(50)),
-              color: (filled ? finalColor : Colors.transparent),
-              child: InkWell(
-                onTap: blocked ? null : onPressed,
-                splashColor: color?.withOpacity(.3) ??
-                    Theme.of(context).primaryColor.withOpacity(.3),
-                child: Padding(
-                  padding: EdgeInsets.all(10.0),
-                  child: child != null
-                      ? FittedBox(
-                          child: child,
-                        )
-                      : FittedBox(
-                          child: Text(
-                            text.toUpperCase(),
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                                fontWeight: FontWeight.w700,
-                                letterSpacing: 2,
-                                color: textColor ??
-                                    color ??
-                                    Theme.of(context).primaryColor),
-                          ),
+      child: SizedBox(
+        height: 40,
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(50),
+          child: Material(
+            shape: RoundedRectangleBorder(
+                side: BorderSide(
+                    width: borders ? 1 : 0,
+                    color: borders ? finalColor : Colors.transparent),
+                borderRadius: BorderRadius.circular(50)),
+            color: (filled ? finalColor : Colors.transparent),
+            child: InkWell(
+              onTap: blocked ? null : onPressed,
+              splashColor: color?.withOpacity(.3) ??
+                  Theme.of(context).primaryColor.withOpacity(.3),
+              child: Padding(
+                padding: EdgeInsets.all(10.0),
+                child: child != null
+                    ? FittedBox(
+                        child: child,
+                      )
+                    : FittedBox(
+                        child: Text(
+                          text.toUpperCase(),
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              fontWeight: FontWeight.w700,
+                              letterSpacing: 2,
+                              color: textColor ??
+                                  color ??
+                                  Theme.of(context).primaryColor),
                         ),
-                ),
+                      ),
               ),
             ),
           ),

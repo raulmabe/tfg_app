@@ -33,6 +33,7 @@ class AnimalCard extends StatelessWidget {
               height: height + 10,
             ),
             Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Expanded(
                   child: Column(
@@ -59,7 +60,7 @@ class AnimalCard extends StatelessWidget {
           closedElevation: 3,
           closedColor: Colors.transparent,
           closedShape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10),
+            borderRadius: BorderRadius.circular(20),
           ),
           openBuilder: (context, action) => AdPage(
             ad: animalAd,
@@ -67,7 +68,7 @@ class AnimalCard extends StatelessWidget {
           closedBuilder: (context, action) => Stack(
             children: [
               ClipRRect(
-                borderRadius: BorderRadius.circular(10),
+                borderRadius: BorderRadius.circular(20),
                 child: FadeInImage.memoryNetwork(
                   fadeInDuration: Duration(milliseconds: 200),
                   width: width,
@@ -77,17 +78,16 @@ class AnimalCard extends StatelessWidget {
                   fit: BoxFit.cover,
                 ),
               ),
-              small
-                  ? Container()
-                  : Positioned(
-                      bottom: 0,
-                      right: 0,
-                      child: UserChip(
-                        tag: '${animalAd.id}-${animalAd.creator.id}',
-                        user: animalAd.creator,
-                        small: true,
-                      ),
-                    ),
+              if (!small)
+                Positioned(
+                  bottom: 0,
+                  right: 0,
+                  child: UserChip(
+                    tag: '${animalAd.id}-${animalAd.creator.id}',
+                    user: animalAd.creator,
+                    small: true,
+                  ),
+                ),
             ],
           ),
         ),

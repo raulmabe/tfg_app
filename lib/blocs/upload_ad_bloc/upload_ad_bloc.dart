@@ -4,6 +4,7 @@ import 'package:bloc/bloc.dart';
 import 'package:formz/formz.dart';
 import 'package:jumpets_app/blocs/auth_bloc/auth_bloc.dart';
 import 'package:jumpets_app/blocs/error_handler_bloc/error_handler_bloc.dart';
+import 'package:jumpets_app/blocs/info_handler_bloc/info_handler_bloc.dart';
 import 'package:jumpets_app/data/repositories/ads_repository.dart';
 import 'package:jumpets_app/models/enums/activity_level.dart';
 import 'package:jumpets_app/models/enums/categories.dart';
@@ -17,13 +18,16 @@ part 'upload_ad_state.dart';
 class UploadAdBloc extends Bloc<UploadAdEvent, UploadAdState> {
   final AdsRepository repository;
   final ErrorHandlerBloc errorBloc;
+  final InfoHandlerBloc infoBloc;
   final AuthBloc authBloc;
   UploadAdBloc(
       {@required this.repository,
       @required this.errorBloc,
+      @required this.infoBloc,
       @required this.authBloc})
       : assert(repository != null),
         assert(errorBloc != null),
+        assert(infoBloc != null),
         assert(authBloc != null),
         super(UploadAdState());
 
@@ -175,9 +179,28 @@ class UploadAdBloc extends Bloc<UploadAdEvent, UploadAdState> {
               activityLevel: state.activityLevel,
               type: state.category.animalType,
               token: authBloc.state.authStatus?.authData?.token);
+        } else if (state.category.isProduct) {
+          ad = await repository.createProductAd(
+              photos: state.photos,
+              description: state.description.value,
+              tags: state.tags,
+              title: state.title.value,
+              price: state.price.value,
+              token: authBloc.state.authStatus?.authData?.token);
+        } else if (state.category.isService) {
+          ad = await repository.createServiceAd(
+              photos: state.photos,
+              description: state.description.value,
+              tags: state.tags,
+              title: state.title.value,
+              price: state.price.value,
+              token: authBloc.state.authStatus?.authData?.token);
         }
 
         yield UploadAdState(status: FormzStatus.submissionSuccess, ad: ad);
+        infoBloc.add(MessageAdded(
+            msg: 'uploading_background_will_be_redirected',
+            notification: true));
       } catch (err, stack) {
         errorBloc
             .add(ErrorHandlerCatched(bloc: this, event: event, error: err));

@@ -55,7 +55,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: false,
+      resizeToAvoidBottomInset: true,
       appBar: AppBar(
         elevation: 0,
         title: BlocBuilder<AdsBloc, AdsState>(
@@ -63,7 +63,14 @@ class _HomePageState extends State<HomePage> {
           builder: (context, state) {
             return Padding(
               padding: const EdgeInsets.only(top: 8.0),
-              child: SearchBar(),
+              child: SearchBar(
+                onChange: (value) => context.bloc<AdsBloc>().add(AdsSearched(
+                      text: value.trim(),
+                    )),
+                onClear: () => context.bloc<AdsBloc>()
+                  ..add(SearchModeDisabled())
+                  ..add(AdsFetched()),
+              ),
             );
           },
         ),
@@ -109,11 +116,11 @@ class _HomePageState extends State<HomePage> {
                     scrollController: _scrollController,
                   )),
             ),
-            Positioned(
+            /* Positioned(
                 bottom: 0,
                 right: 0,
                 left: 0,
-                child: BottomBar(
+                child: FloatingBottomBar(
                   onTap: (int index) => _pageController.jumpToPage(
                     index,
                   ),
@@ -121,9 +128,17 @@ class _HomePageState extends State<HomePage> {
                       duration: Duration(milliseconds: 600),
                       curve: Curves.bounceIn),
                   pageSelected: _pageIndex,
-                ))
+                )) */
           ],
         ),
+      ),
+      bottomNavigationBar: BottomBar(
+        onTap: (int index) => _pageController.jumpToPage(
+          index,
+        ),
+        onDoubleMainTap: () => _scrollController.animateTo(0,
+            duration: Duration(milliseconds: 600), curve: Curves.bounceIn),
+        pageSelected: _pageIndex,
       ),
     );
   }

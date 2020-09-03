@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:content_placeholder/content_placeholder.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
@@ -30,7 +32,7 @@ class VerticalGrid extends StatelessWidget {
         ? List<Widget>.generate(
             6,
             (index) => ContentPlaceholder(
-                  height: height,
+                  height: height * (Random().nextDouble() + .3),
                 ))
         : List<Widget>.from(ads.map((ad) {
             if (ad is AnimalAd) {
@@ -45,7 +47,7 @@ class VerticalGrid extends StatelessWidget {
             );
           }).toList());
 
-    if (widgetInjection != null) {
+    if (!usePlaceholders && widgetInjection != null) {
       list.insert(0, widgetInjection);
     }
 

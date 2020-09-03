@@ -77,15 +77,19 @@ class LoginButton extends StatelessWidget {
     return BlocBuilder<LoginBloc, LoginState>(
       buildWhen: (previous, current) => previous.status != current.status,
       builder: (context, state) {
-        return MyRaisedButton(
-          onPressed: () => context.bloc<LoginBloc>().add(LoginLogInSubmitted()),
-          text: AppLocalizations.of(context).translate('sign_in'),
-          blocked: !state.status.isValidated,
-          child: state.status.isSubmissionInProgress
-              ? CircularProgressIndicator(
-                  backgroundColor: Theme.of(context).primaryColor,
-                )
-              : null,
+        return Padding(
+          padding: const EdgeInsets.symmetric(vertical: 10.0),
+          child: MyRaisedButton(
+            onPressed: () =>
+                context.bloc<LoginBloc>().add(LoginLogInSubmitted()),
+            text: AppLocalizations.of(context).translate('sign_in'),
+            blocked: !state.status.isValidated,
+            child: state.status.isSubmissionInProgress
+                ? CircularProgressIndicator(
+                    backgroundColor: Theme.of(context).primaryColor,
+                  )
+                : null,
+          ),
         );
       },
     );
@@ -194,10 +198,13 @@ class RegisterStep2Button extends StatelessWidget {
     return BlocBuilder<RegisterBloc, RegisterState>(
       buildWhen: (previous, current) => previous.status != current.status,
       builder: (context, state) {
-        return MyRaisedButton(
-          onPressed: onTap,
-          text: AppLocalizations.of(context).translate('next'),
-          blocked: !state.status.isValidated,
+        return Padding(
+          padding: const EdgeInsets.symmetric(vertical: 10.0),
+          child: MyRaisedButton(
+            onPressed: onTap,
+            text: AppLocalizations.of(context).translate('next'),
+            blocked: !state.status.isValidated,
+          ),
         );
       },
     );
@@ -214,17 +221,20 @@ class RegisterButton extends StatelessWidget {
     return BlocBuilder<RegisterBloc, RegisterState>(
       buildWhen: (previous, current) => previous.status != current.status,
       builder: (context, state) {
-        return MyRaisedButton(
-          onPressed: () =>
-              context.bloc<RegisterBloc>().add(RegisterSubmitted(type)),
-          text: title,
-          color: Helper.getUserColorByType(type),
-          textColor: Colors.white,
-          child: state.status.isSubmissionInProgress
-              ? CircularProgressIndicator(
-                  backgroundColor: Theme.of(context).primaryColor,
-                )
-              : null,
+        return Padding(
+          padding: const EdgeInsets.symmetric(vertical: 10.0),
+          child: MyRaisedButton(
+            onPressed: () =>
+                context.bloc<RegisterBloc>().add(RegisterSubmitted(type)),
+            text: title,
+            color: Helper.getUserColorByType(type),
+            textColor: Colors.white,
+            child: state.status.isSubmissionInProgress
+                ? CircularProgressIndicator(
+                    backgroundColor: Theme.of(context).primaryColor,
+                  )
+                : null,
+          ),
         );
       },
     );

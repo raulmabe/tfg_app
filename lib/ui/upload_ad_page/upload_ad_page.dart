@@ -4,6 +4,7 @@ import 'package:jumpets_app/app_localizations.dart';
 import 'package:jumpets_app/blocs/auth_bloc/auth_bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jumpets_app/blocs/error_handler_bloc/error_handler_bloc.dart';
+import 'package:jumpets_app/blocs/info_handler_bloc/info_handler_bloc.dart';
 import 'package:jumpets_app/blocs/upload_ad_bloc/upload_ad_bloc.dart';
 import 'package:jumpets_app/data/repositories/ads_repository.dart';
 import 'package:jumpets_app/models/models.dart';
@@ -27,6 +28,7 @@ class _UploadAdPageState extends State<UploadAdPage> {
       repository: RepositoryProvider.of<AdsRepository>(context),
       authBloc: context.bloc<AuthBloc>(),
       errorBloc: context.bloc<ErrorHandlerBloc>(),
+      infoBloc: context.bloc<InfoHandlerBloc>(),
     );
   }
 
@@ -85,33 +87,37 @@ class _UploadAdPageState extends State<UploadAdPage> {
 
   List<Widget> _animalInputs(context) => [
         AdNameInput(),
+        AdBreedInput(),
         AdDescriptionInput(),
+        AdMustKnowInput(),
+        AdAdoptionTaxInput(),
+        AdWeightInput(),
         AdBirthDate(),
         AdSexInput(),
         if (uploadAdBloc.state.category == Category.DOGS) AdDogSizeInput(),
-        AdBreedInput(),
         AdActivityLevelInput(),
         AdDeliveryInfoInput(),
         AdPersonalityInput(),
-        AdAdoptionTaxInput(),
-        AdWeightInput(),
-        AdMustKnowInput(),
         AdTagsInput(),
         AdPhotosInput()
       ];
 
   List<Widget> _serviceInputs(context) => [
-        // Title
+        AdTitleInput(),
         AdDescriptionInput(),
-        // Price
+        AdPriceInput(
+          isPriceHour: true,
+        ),
         AdTagsInput(),
         AdPhotosInput()
       ];
 
   List<Widget> _productInputs(context) => [
-        // Title
+        AdTitleInput(),
         AdDescriptionInput(),
-        // Price
+        AdPriceInput(
+          isPriceHour: false,
+        ),
         AdTagsInput(),
         AdPhotosInput()
       ];

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:jumpets_app/ui/components/jumpets_icons_icons.dart';
 
-class BottomBar extends StatelessWidget {
+class FloatingBottomBar extends StatelessWidget {
   final double elevation;
   final double mainIconSize;
 
@@ -11,7 +11,7 @@ class BottomBar extends StatelessWidget {
   final Function(int) onTap;
   final Function onDoubleMainTap;
 
-  BottomBar(
+  FloatingBottomBar(
       {this.elevation = 10,
       this.mainIconSize = 65,
       @required this.pageSelected,
@@ -108,6 +108,69 @@ class BottomBar extends StatelessWidget {
                   )),
             ),
           ],
+        ),
+      ),
+    );
+  }
+}
+
+class BottomBar extends StatelessWidget {
+  final double elevation;
+  final double mainIconSize;
+
+  final int pageSelected;
+  final Function(int) onTap;
+  final Function onDoubleMainTap;
+
+  BottomBar(
+      {this.elevation = 10,
+      this.mainIconSize = 65,
+      @required this.pageSelected,
+      @required this.onTap,
+      this.onDoubleMainTap});
+  @override
+  Widget build(BuildContext context) {
+    return Material(
+      child: SafeArea(
+        child: SizedBox(
+          height: kToolbarHeight * .8,
+          child:
+              Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
+            IconButton(
+              icon: Icon(
+                pageSelected == 0 ? Icons.favorite : Icons.favorite_border,
+                color: pageSelected == 0
+                    ? Theme.of(context).accentColor
+                    : Colors.grey.shade500,
+              ),
+              onPressed: () => onTap(0),
+            ),
+            IconButton(
+              icon: Icon(
+                JumpetsIcons.nariz_jumpets,
+                color: pageSelected == 1
+                    ? Theme.of(context).accentColor
+                    : Colors.grey.shade500,
+              ),
+              onPressed: () {
+                if (onDoubleMainTap != null && pageSelected == 1)
+                  onDoubleMainTap();
+
+                onTap(1);
+              },
+            ),
+            IconButton(
+              icon: Icon(
+                pageSelected == 2
+                    ? FontAwesomeIcons.solidComment
+                    : FontAwesomeIcons.comment,
+                color: pageSelected == 2
+                    ? Theme.of(context).accentColor
+                    : Colors.grey.shade500,
+              ),
+              onPressed: () => onTap(2),
+            ),
+          ]),
         ),
       ),
     );

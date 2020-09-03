@@ -74,13 +74,14 @@ class Notifier extends StatelessWidget {
                       child: Row(
                         children: [
                           Expanded(
-                            child: MyRaisedButton(
-                              text: AppLocalizations.of(context)
-                                  .translate('retry'),
-                              onPressed: () {
-                                state.retry();
-                                Navigator.pop(context);
-                              },
+                            child: Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(vertical: 10.0),
+                              child: MyRaisedButton(
+                                text: AppLocalizations.of(context)
+                                    .translate('cancel'),
+                                onPressed: () => Navigator.pop(context),
+                              ),
                             ),
                           )
                         ],
@@ -91,12 +92,20 @@ class Notifier extends StatelessWidget {
                       child: Row(
                         children: [
                           Expanded(
-                            child: MyRaisedButton(
-                              filled: false,
-                              text: AppLocalizations.of(context)
-                                  .translate('cancel'),
-                              textColor: Theme.of(context).accentColor,
-                              onPressed: () => Navigator.pop(context),
+                            child: Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(vertical: 10.0),
+                              child: MyRaisedButton(
+                                filled: false,
+                                textColor: Theme.of(context).accentColor,
+                                borders: false,
+                                text: AppLocalizations.of(context)
+                                    .translate('retry'),
+                                onPressed: () {
+                                  state.retry();
+                                  Navigator.pop(context);
+                                },
+                              ),
                             ),
                           )
                         ],
@@ -135,7 +144,6 @@ class MyAlertDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       notifierStartup.value = true;
     });
@@ -163,12 +171,16 @@ class MyAlertDialog extends StatelessWidget {
                       child: Row(
                         children: [
                           Expanded(
-                            child: MyRaisedButton(
-                              text: AppLocalizations.of(context)
-                                  .translate('okay'),
-                              onPressed: () {
-                                Navigator.pop(context);
-                              },
+                            child: Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(vertical: 10.0),
+                              child: MyRaisedButton(
+                                text: AppLocalizations.of(context)
+                                    .translate('okay'),
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                },
+                              ),
                             ),
                           )
                         ],
@@ -178,6 +190,7 @@ class MyAlertDialog extends StatelessWidget {
       ),
       builder: (context, value, child) => AnimatedPadding(
           duration: Duration(milliseconds: 250),
+          curve: Curves.ease,
           padding: EdgeInsets.only(top: value ? 0 : 75),
           child: AnimatedOpacity(
               curve: Curves.ease,

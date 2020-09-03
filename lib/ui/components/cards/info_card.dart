@@ -1,39 +1,30 @@
 import 'package:flutter/material.dart';
+import 'package:jumpets_app/ui/app_theme.dart';
 import 'package:tinycolor/tinycolor.dart';
 
 class InfoCard extends StatelessWidget {
   final String title, message;
-  final Color color;
-  final Color secondaryColor;
   final bool big;
-  InfoCard(
-      {@required this.message,
-      this.title,
-      this.color,
-      this.secondaryColor,
-      this.big = false});
+  InfoCard({@required this.message, this.title, this.big = false});
 
   @override
   Widget build(BuildContext context) {
-    TinyColor tinycolor =
-        TinyColor(color ?? Theme.of(context).primaryColorDark);
-
     return Material(
       elevation: 5,
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(10),
+        borderRadius: BorderRadius.circular(20),
       ),
       child: Container(
         padding: EdgeInsets.all(10),
         decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(10),
+            borderRadius: BorderRadius.circular(20),
             /* color: tinycolor.color, */
             gradient: LinearGradient(
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
                 colors: [
-                  tinycolor.darken(5).color,
-                  secondaryColor ?? tinycolor.lighten(5).color,
+                  AppTheme.kSecondaryColor,
+                  AppTheme.kFourthColor,
                 ])),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,

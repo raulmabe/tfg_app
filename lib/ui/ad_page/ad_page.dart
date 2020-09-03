@@ -40,7 +40,7 @@ class AdPage extends StatelessWidget {
                   .iconTheme
                   .copyWith(color: Colors.white),
               shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20)),
+                  borderRadius: BorderRadius.circular(32)),
               actions: [
                 UserChip(
                   user: ad.creator,
@@ -57,8 +57,8 @@ class AdPage extends StatelessWidget {
                   color: Theme.of(context).scaffoldBackgroundColor,
                   child: ClipRRect(
                       borderRadius: BorderRadius.only(
-                        bottomRight: Radius.circular(20),
-                        bottomLeft: Radius.circular(20),
+                        bottomRight: Radius.circular(32),
+                        bottomLeft: Radius.circular(32),
                       ),
                       child: ValueListenableBuilder<int>(
                         valueListenable: notifierChangeImage,
@@ -113,6 +113,12 @@ class AdPage extends StatelessWidget {
   double get price =>
       isProduct ? (ad as ProductAd).price : (ad as ServiceAd).priceHour;
 
+  List<String> get tags => isAnimal
+      ? (ad as AnimalAd).tags.toList()
+      : isProduct
+          ? (ad as ProductAd).tags.toList()
+          : (ad as ServiceAd).tags.toList();
+
   Widget _othersHeader(context) => Padding(
         padding: EdgeInsets.symmetric(
             horizontal: edgePadding, vertical: edgePadding),
@@ -133,9 +139,9 @@ class AdPage extends StatelessWidget {
               child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
-              Text((ad as AnimalAd).name,
+              Text((ad as AnimalAd).name.capitalize(),
                   style: Theme.of(context).textTheme.headline4),
-              Text((ad as AnimalAd).breed,
+              Text((ad as AnimalAd).breed.capitalize(),
                   style: Theme.of(context).textTheme.caption),
             ],
           )),
@@ -175,7 +181,7 @@ class AdPage extends StatelessWidget {
                       : Row(
                           children: [
                             ad.creator.oneStarWidget,
-                            Text(ad.creator.valuationAvg.toStringAsFixed(2))
+                            Text(ad.creator.valuationAvg.toStringAsFixed(1))
                           ],
                         )
                 ],
@@ -186,15 +192,28 @@ class AdPage extends StatelessWidget {
             padding: const EdgeInsets.only(top: 8.0, bottom: 4.0),
             child: Text(description),
           ),
-          isAnimal
-              ? Wrap(
-                  direction: Axis.horizontal,
-                  children: (ad as AnimalAd)
-                      .personality
-                      .map((personality) => Tag(tag: personality))
-                      .toList(),
-                )
-              : Container(),
+          if (isAnimal && (ad as AnimalAd).mustKnow != null)
+            Padding(
+              padding: const EdgeInsets.only(top: 8.0, bottom: 4.0),
+              child: Text((ad as AnimalAd).mustKnow),
+            ),
+          Wrap(
+              direction: Axis.horizontal,
+              children: tags
+                  .map((tags) => Tag(
+                        tag: tags,
+                        tapable: isAnimal,
+                      ))
+                  .toList()
+                    ..addAll(isAnimal
+                        ? (ad as AnimalAd)
+                            .personality
+                            .map((personality) => Tag(
+                                  tag: personality,
+                                  tapable: false,
+                                ))
+                            .toList()
+                        : [])),
         ],
       ));
 

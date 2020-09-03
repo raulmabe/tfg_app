@@ -108,6 +108,8 @@
     "default_error": "An error has ocurred!",
     "developed_by": "Developed by",
     "select_birthdate": "Select birthdate",
+    "birthdate": "Birthdate",
+    "select": "Select",
     "must_know": "Must know",
     "description": "Description",
     "upload_your_ad_to": "Upload your ad to",
@@ -117,5 +119,13 @@
     "personality": "Personality",
     "You must be logged in": "You must be logged in",
     "token_expiration_timeout": "Session expired",
-    "okay": "Okay"
+    "okay": "Okay",
+    "tag_examples": "white, short hair...",
+    "personality_examples": "nervous, very moved...",
+    "apply": "Apply",
+    "price": "price",
+    "price_hour": "Price per hour",
+    "uploading_background_will_be_redirected": "Uploading in the background. You will be redirected once completed",
+    "will_be_redirected_once_completed": "You will be redirected once completed",
+    "uploading_background": "Uploading in the background."
 }

@@ -45,6 +45,46 @@ class AdsProvider {
   ''' +
       UserProvider.getUserFragment();
 
+  static get serviceAdFragment =>
+      '''
+  fragment serviceAdFields on ServiceAd {
+    id: _id
+          tags
+          photos
+          
+            title
+            description
+            priceHour
+            type: __typename
+          
+          createdAt
+          creator {
+            ...userFields
+          }
+  }
+  ''' +
+      UserProvider.getUserFragment();
+
+  static get productAdFragment =>
+      '''
+  fragment productAdFields on ProductAd {
+    id: _id
+          tags
+          photos
+          
+            title
+            description
+            price
+            type: __typename
+          
+          createdAt
+          creator {
+            ...userFields
+          }
+  }
+  ''' +
+      UserProvider.getUserFragment();
+
   static get adFragment =>
       '''
   fragment adFields on Ad {
@@ -212,6 +252,104 @@ class AdsProvider {
         }
       ''' +
           animalAdFragment,
+      'variables': {'files': List.generate(photos.length, (index) => null)}
+    };
+
+    final map = <String, dynamic>{
+      'operations': json.encode(operations),
+      'map': json.encode(Map()
+        ..addEntries(List.generate(
+            photos.length,
+            (index) => MapEntry<String, List<String>>(
+                index.toString(), ['variables.files.$index'])))),
+    };
+
+    for (int i = 0; i < photos.length; ++i) {
+      var file = await MultipartFile.fromFile(photos[i].path,
+          contentType: MediaType('image', photos[i].path.split('.').last));
+
+      map.putIfAbsent(i.toString(), () => file);
+    }
+
+    FormData formData = FormData.fromMap(map);
+
+    return _api.postWithFile(formData, token: token);
+  }
+
+  Future<dynamic> createProductAd({
+    List<dynamic> photos,
+    String description,
+    List<String> tags,
+    String title,
+    double price,
+    String token,
+  }) async {
+    var operations = {
+      'query': '''
+       mutation(\$files: [Upload!]!) {
+          createProductAd(
+            adInput: {
+              title: "$title"
+              description: "$description"
+              price: $price
+              tags: ${tags.toInnerString()}
+              photos: \$files
+            }
+          ) {
+            ...productAdFields
+          }
+        }
+      ''' +
+          productAdFragment,
+      'variables': {'files': List.generate(photos.length, (index) => null)}
+    };
+
+    final map = <String, dynamic>{
+      'operations': json.encode(operations),
+      'map': json.encode(Map()
+        ..addEntries(List.generate(
+            photos.length,
+            (index) => MapEntry<String, List<String>>(
+                index.toString(), ['variables.files.$index'])))),
+    };
+
+    for (int i = 0; i < photos.length; ++i) {
+      var file = await MultipartFile.fromFile(photos[i].path,
+          contentType: MediaType('image', photos[i].path.split('.').last));
+
+      map.putIfAbsent(i.toString(), () => file);
+    }
+
+    FormData formData = FormData.fromMap(map);
+
+    return _api.postWithFile(formData, token: token);
+  }
+
+  Future<dynamic> createServiceAd({
+    List<dynamic> photos,
+    String description,
+    List<String> tags,
+    String title,
+    double price,
+    String token,
+  }) async {
+    var operations = {
+      'query': '''
+       mutation(\$files: [Upload!]!) {
+          createServiceAd(
+            adInput: {
+              title: "$title"
+              description: "$description"
+              priceHour: $price
+              tags: ${tags.toInnerString()}
+              photos: \$files
+            }
+          ) {
+            ...serviceAdFields
+          }
+        }
+      ''' +
+          serviceAdFragment,
       'variables': {'files': List.generate(photos.length, (index) => null)}
     };
 

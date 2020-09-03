@@ -196,9 +196,10 @@ class AdsBloc extends Bloc<AdsEvent, AdsState> {
   Stream<Transition<AdsEvent, AdsState>> transformEvents(
       Stream<AdsEvent> events,
       TransitionFunction<AdsEvent, AdsState> transitionFn) {
-    final nonDebounceStream = events.where((event) => event is! MoreAdsFetched);
+    final nonDebounceStream = events
+        .where((event) => (event is! MoreAdsFetched || event is! AdsSearched));
     final debounceStream = events
-        .where((event) => event is MoreAdsFetched)
+        .where((event) => event is MoreAdsFetched || event is AdsSearched)
         .debounceTime(Duration(seconds: 1));
 
     return super.transformEvents(

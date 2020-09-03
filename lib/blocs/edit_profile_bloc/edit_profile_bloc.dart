@@ -4,6 +4,7 @@ import 'package:bloc/bloc.dart';
 import 'package:formz/formz.dart';
 import 'package:jumpets_app/blocs/auth_bloc/auth_bloc.dart';
 import 'package:jumpets_app/blocs/error_handler_bloc/error_handler_bloc.dart';
+import 'package:jumpets_app/blocs/info_handler_bloc/info_handler_bloc.dart';
 import 'package:jumpets_app/data/repositories/user_repository.dart';
 import 'package:jumpets_app/models/models.dart';
 import 'package:meta/meta.dart';
@@ -15,14 +16,17 @@ class EditProfileBloc extends Bloc<EditProfileEvent, EditProfileState> {
   final UserRepository repository;
   final AuthBloc authBloc;
   final ErrorHandlerBloc errorBloc;
+  final InfoHandlerBloc infoBloc;
 
   EditProfileBloc(
       {@required this.repository,
       @required this.authBloc,
       @required User user,
-      @required this.errorBloc})
+      @required this.errorBloc,
+      @required this.infoBloc})
       : assert(authBloc != null),
         assert(errorBloc != null),
+        assert(infoBloc != null),
         super(EditProfileState(
           email: Email.pure(user.email),
           name: Name.pure(user.name),
@@ -208,6 +212,9 @@ class EditProfileBloc extends Bloc<EditProfileEvent, EditProfileState> {
         authBloc.add(AuthUserUpdated(user));
 
         yield state.copyWith(status: FormzStatus.submissionSuccess);
+
+        infoBloc
+            .add(MessageAdded(msg: 'uploading_background', notification: true));
       } catch (err, stack) {
         errorBloc
             .add(ErrorHandlerCatched(bloc: this, event: event, error: err));

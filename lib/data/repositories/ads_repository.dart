@@ -171,9 +171,41 @@ class AdsRepository {
     return Ad.fromJson(json['data']['createAnimalAd']);
   }
 
-  Future<Ad> createProductAd({String token, String id}) async {
-    var json = await _adsProvider.saveAd(token: token, id: id);
+  Future<Ad> createProductAd({
+    List<dynamic> photos,
+    String description,
+    List<String> tags,
+    String title,
+    double price,
+    String token,
+  }) async {
+    var json = await _adsProvider.createProductAd(
+        description: description,
+        tags: tags,
+        title: title,
+        photos: photos,
+        price: price,
+        token: token);
 
-    return Ad.fromJson(json['data']['createAnimalAd']);
+    return Ad.fromJson(json['data']['createProductAd']);
+  }
+
+  Future<Ad> createServiceAd({
+    List<dynamic> photos,
+    String description,
+    List<String> tags,
+    String title,
+    double price,
+    String token,
+  }) async {
+    var json = await _adsProvider.createServiceAd(
+        description: description,
+        tags: tags,
+        title: title,
+        photos: photos,
+        price: price,
+        token: token);
+
+    return Ad.fromJson(json['data']['createServiceAd']);
   }
 }

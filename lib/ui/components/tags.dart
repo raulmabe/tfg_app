@@ -1,26 +1,46 @@
 import 'package:flutter/material.dart';
 import 'package:jumpets_app/blocs/ads_bloc/ads_bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:jumpets_app/ui/app_theme.dart';
+import 'package:jumpets_app/ui/components/gradient_text.dart';
 
 class Tag extends StatelessWidget {
   final String tag;
-  Tag({@required this.tag});
+  final bool tapable;
+  Tag({@required this.tag, this.tapable = true});
 
   @override
   Widget build(BuildContext context) {
+    List<Color> colors = tapable
+        ? [
+            AppTheme.kFourthColor,
+            AppTheme.kSecondaryColor,
+          ]
+        : [
+            Theme.of(context).textTheme.caption.color,
+            Theme.of(context).textTheme.caption.color
+          ];
+
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 8.0),
       child: ClipRRect(
         borderRadius: BorderRadius.circular(50),
-        child: InkWell(
-          onTap: () {
-            context.bloc<AdsBloc>().add(AdsSearched(text: tag));
-            Navigator.of(context, rootNavigator: true)
-                .popUntil((route) => route.isFirst);
-          },
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Text('#$tag', style: Theme.of(context).textTheme.caption),
+        child: AbsorbPointer(
+          absorbing: !tapable,
+          child: InkWell(
+            onTap: () {
+              context.bloc<AdsBloc>().add(AdsSearched(text: tag));
+              Navigator.of(context, rootNavigator: true)
+                  .popUntil((route) => route.isFirst);
+            },
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: GradientText(
+                '#$tag',
+                fontSize: Theme.of(context).textTheme.caption.fontSize,
+                gradient: LinearGradient(colors: colors),
+              ),
+            ),
           ),
         ),
       ),

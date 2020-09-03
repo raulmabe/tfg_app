@@ -134,11 +134,14 @@ class Step1Body extends StatelessWidget {
               textAlign: TextAlign.center,
               style: Theme.of(context).textTheme.caption,
             ),
-            MyRaisedButton(
-                text: AppLocalizations.of(context).translate('join_jumpets'),
-                filled: false,
-                color: Theme.of(context).accentColor,
-                onPressed: onNext),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 10.0),
+              child: MyRaisedButton(
+                  text: AppLocalizations.of(context).translate('join_jumpets'),
+                  filled: false,
+                  color: Theme.of(context).accentColor,
+                  onPressed: onNext),
+            ),
             maybeSpacer(flex: 4),
           ],
         ),
@@ -183,12 +186,15 @@ class Step2Body extends StatelessWidget {
               textAlign: TextAlign.center,
               style: Theme.of(context).textTheme.caption,
             ),
-            MyRaisedButton(
-              text: AppLocalizations.of(context).translate('go_back'),
-              filled: false,
-              borders: false,
-              color: Theme.of(context).accentColor,
-              onPressed: onBack,
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 10.0),
+              child: MyRaisedButton(
+                text: AppLocalizations.of(context).translate('go_back'),
+                filled: false,
+                borders: false,
+                color: Theme.of(context).accentColor,
+                onPressed: onBack,
+              ),
             ),
             maybeSpacer(flex: 4),
           ],
@@ -251,12 +257,15 @@ class Step3Body extends StatelessWidget {
               style: Theme.of(context).textTheme.caption.copyWith(fontSize: 14),
             ),
             maybeSpacer(flex: 1),
-            MyRaisedButton(
-              text: AppLocalizations.of(context).translate('go_back'),
-              filled: false,
-              borders: false,
-              color: Theme.of(context).accentColor,
-              onPressed: onBack,
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 10.0),
+              child: MyRaisedButton(
+                text: AppLocalizations.of(context).translate('go_back'),
+                filled: false,
+                borders: false,
+                color: Theme.of(context).accentColor,
+                onPressed: onBack,
+              ),
             ),
             maybeSpacer(flex: 4),
           ],

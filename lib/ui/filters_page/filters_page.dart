@@ -8,8 +8,11 @@ import 'package:jumpets_app/models/enums/categories.dart';
 import 'package:jumpets_app/models/enums/delivery_status.dart';
 import 'package:jumpets_app/models/enums/dog_size.dart';
 import 'package:jumpets_app/ui/components/buttons/flat_button.dart';
+import 'package:jumpets_app/ui/components/buttons/raised_button.dart';
 import 'package:jumpets_app/ui/components/buttons/sex_radio_button.dart';
 import 'package:jumpets_app/ui/components/buttons/text_radio_button.dart';
+import 'package:jumpets_app/ui/components/jumpets_icons_icons.dart';
+import 'package:jumpets_app/ui/components/searchbar/searchbar.dart';
 import 'package:jumpets_app/ui/helper.dart';
 
 class FiltersPage extends StatefulWidget {
@@ -21,17 +24,15 @@ class FiltersPage extends StatefulWidget {
   final ActivityLevel activityLevel;
   final DogSize size;
   final bool male;
-  final bool focused;
-  FiltersPage(
-      {this.scrollController,
-      this.category,
-      this.text,
-      this.deliveryInfo,
-      this.activityLevel,
-      this.size,
-      this.male,
-      this.focused = false})
-      : assert(category != null),
+  FiltersPage({
+    this.scrollController,
+    this.category,
+    this.text,
+    this.deliveryInfo,
+    this.activityLevel,
+    this.size,
+    this.male,
+  })  : assert(category != null),
         assert(category != Category.SHELTERS),
         assert(category != Category.SERVICES),
         assert(category != Category.PRODUCTS);
@@ -65,81 +66,121 @@ class _FiltersPageState extends State<FiltersPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Material(
-      shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(20), topRight: Radius.circular(20))),
-      color: Theme.of(context).primaryColor,
-      child: SafeArea(
-        child: CustomScrollView(
-          controller: widget.scrollController,
-          slivers: [
-            SliverAppBar(
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(20),
-                      topRight: Radius.circular(20))),
-              pinned: true,
-              leading: IconButton(
-                  icon: Icon(Icons.clear),
-                  onPressed: () {
-                    if (context.bloc<AdsBloc>().searchMode) {
-                      context.bloc<AdsBloc>()
-                        ..add(SearchModeDisabled())
-                        ..add(AdsFetched());
-                    }
-                    Navigator.pop(context);
-                  }),
-              backgroundColor: Theme.of(context).primaryColor,
-              elevation: 2.0,
-              title: Text(
-                AppLocalizations.of(context).translate('filters'),
-                style: Theme.of(context).textTheme.headline3,
-                textAlign: TextAlign.center,
-              ),
-              actions: [
-                MyFlatButton(
-                    onTap: () {
-                      context.bloc<AdsBloc>().add(AdsSearched(
-                          activityLevel: model.activityLevel,
-                          text: model.text,
-                          deliveryInfo: model.deliveryStatuses.isEmpty
-                              ? null
-                              : model.deliveryStatuses,
-                          size: model.size,
-                          male: model.male));
-                      Navigator.pop(context);
-                    },
-                    child: Text(AppLocalizations.of(context).translate('done'),
-                        style: Theme.of(context).textTheme.button))
-              ],
-            ),
-            SliverToBoxAdapter(
-              child: Padding(
-                padding: const EdgeInsets.only(top: 8.0),
-                child: ListView(
-                  shrinkWrap: true,
-                  children: [
-                    _textRow(),
-                    Divider(),
-                    _categoryRow(),
-                    Divider(),
-                    _sexRow(),
-                    _sizeRow(),
-                    Divider(),
-                    _deliveryInfoRow(),
-                    Divider(),
-                    _activityLevelRow(),
-                    SizedBox(
-                      height: kToolbarHeight,
-                    ),
+    return Stack(
+      fit: StackFit.expand,
+      children: [
+        Material(
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(20), topRight: Radius.circular(20))),
+          color: Theme.of(context).primaryColor,
+          child: SafeArea(
+            child: CustomScrollView(
+              controller: widget.scrollController,
+              slivers: [
+                SliverAppBar(
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(20),
+                          topRight: Radius.circular(20))),
+                  pinned: true,
+                  leading: IconButton(
+                      icon: Icon(Icons.clear),
+                      onPressed: () {
+                        if (context.bloc<AdsBloc>().searchMode) {
+                          context.bloc<AdsBloc>()
+                            ..add(SearchModeDisabled())
+                            ..add(AdsFetched());
+                        }
+                        Navigator.pop(context);
+                      }),
+                  backgroundColor: Theme.of(context).primaryColor,
+                  elevation: 2.0,
+                  title: Text(
+                    AppLocalizations.of(context).translate('filters'),
+                    style: Theme.of(context).textTheme.headline3,
+                    textAlign: TextAlign.center,
+                  ),
+                  actions: [
+                    /* IconButton(
+                        onPressed: () {
+                          context.bloc<AdsBloc>().add(AdsSearched(
+                              activityLevel: model.activityLevel,
+                              text: model.text,
+                              deliveryInfo: model.deliveryStatuses.isEmpty
+                                  ? null
+                                  : model.deliveryStatuses,
+                              size: model.size,
+                              male: model.male));
+                          Navigator.pop(context);
+                        },
+                        icon: Icon(
+                          JumpetsIcons.filtra,
+                          color: Theme.of(context).accentColor,
+                        )) */
                   ],
                 ),
-              ),
+                SliverToBoxAdapter(
+                  child: Padding(
+                    padding: const EdgeInsets.only(top: 8.0),
+                    child: ListView(
+                      shrinkWrap: true,
+                      children: [
+                        /* Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 10),
+                          child: SearchBar(
+                            onChange: (value) => setState(() {
+                              if (value.isEmpty) value = null;
+                              model.text = value?.trim();
+                            }),
+                          ),
+                        ),
+                        SizedBox(
+                          height: 10,
+                        ), */
+                        _categoryRow(),
+                        Divider(),
+                        _sexRow(),
+                        _sizeRow(),
+                        Divider(),
+                        _deliveryInfoRow(),
+                        Divider(),
+                        _activityLevelRow(),
+                        SizedBox(
+                          height: kToolbarHeight,
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
             ),
-          ],
+          ),
         ),
-      ),
+        Positioned(
+          right: 0,
+          left: 0,
+          bottom: 0,
+          child: SafeArea(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+              child: MyRaisedButton(
+                  onPressed: () {
+                    context.bloc<AdsBloc>().add(AdsSearched(
+                        activityLevel: model.activityLevel,
+                        text: model.text,
+                        deliveryInfo: model.deliveryStatuses.isEmpty
+                            ? null
+                            : model.deliveryStatuses,
+                        size: model.size,
+                        male: model.male));
+                    Navigator.pop(context);
+                  },
+                  text: AppLocalizations.of(context).translate('apply')),
+            ),
+          ),
+        ),
+      ],
     );
   }
 
@@ -198,43 +239,6 @@ class _FiltersPageState extends State<FiltersPage> {
               model.male = false;
             }
           }),
-        ),
-        SizedBox(
-          width: 20,
-        ),
-      ],
-    );
-  }
-
-  Widget _textRow() {
-    if (widget.focused) {
-      FocusScope.of(context).requestFocus(focusNode);
-    }
-    return Row(
-      children: [
-        IconButton(
-          icon: Icon(
-            Icons.search,
-            color: Colors.grey.shade800,
-          ),
-          onPressed: () => print('search'),
-        ),
-        Expanded(
-          child: TextField(
-            focusNode: focusNode,
-            controller: _textController,
-            onChanged: (value) => setState(() {
-              if (value.isEmpty) value = null;
-              model.text = value?.trim();
-            }),
-            decoration: InputDecoration(
-                focusedBorder: UnderlineInputBorder(
-                    borderSide:
-                        BorderSide(color: Theme.of(context).accentColor)),
-                enabledBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(color: Colors.grey)),
-                labelStyle: TextStyle(color: Colors.black)),
-          ),
         ),
         SizedBox(
           width: 20,

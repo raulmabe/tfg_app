@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:jumpets_app/ui/app_theme.dart';
 
 class TextRadioButton extends StatelessWidget {
   final String text;
@@ -15,18 +16,25 @@ class TextRadioButton extends StatelessWidget {
     return Padding(
       padding: margin ?? const EdgeInsets.all(8.0),
       child: ClipRRect(
-        borderRadius: BorderRadius.circular(10),
-        child: Material(
-          color: color(context).withOpacity(.5),
-          child: InkWell(
-            onTap: onTap,
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Text(
-                text,
-                style: isSelected
-                    ? Theme.of(context).textTheme.bodyText1
-                    : Theme.of(context).textTheme.bodyText2,
+        borderRadius: BorderRadius.circular(50),
+        child: Container(
+          decoration: BoxDecoration(
+              gradient: LinearGradient(colors: gradient(context))),
+          child: Material(
+            color: Colors.transparent,
+            child: InkWell(
+              onTap: onTap,
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
+                  text,
+                  style: isSelected
+                      ? Theme.of(context)
+                          .textTheme
+                          .bodyText1
+                          .copyWith(color: Colors.white)
+                      : Theme.of(context).textTheme.bodyText2,
+                ),
               ),
             ),
           ),
@@ -37,4 +45,11 @@ class TextRadioButton extends StatelessWidget {
 
   Color color(context) =>
       isSelected ? Theme.of(context).accentColor : Colors.grey.shade200;
+
+  List<Color> gradient(context) => isSelected
+      ? [
+          AppTheme.kFourthColor,
+          AppTheme.kAccentColor,
+        ]
+      : [Colors.grey.shade200, Colors.grey.shade200];
 }

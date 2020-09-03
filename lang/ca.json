@@ -108,6 +108,8 @@
     "default_error": "S'ha produït un error!",
     "developed_by": "Desenvolupat per",
     "select_birthdate": "Seleccionar data",
+    "birthdate": "Data de naixement",
+    "select": "Seleccionar",
     "must_know": "Informació extra",
     "description": "Descripció",
     "upload_your_ad_to": "Puja el teu anunci en",
@@ -117,5 +119,13 @@
     "personality": "Personalitat",
     "You must be logged in": "Has d'iniciar sessió",
     "token_expiration_timeout": "La sessió ha expirat",
-    "okay": "Vale"
+    "okay": "Vale",
+    "tag_examples": "blanc, cabell curt...",
+    "personality_examples": "nerviosa, moguda...",
+    "apply": "Aplicar",
+    "price": "Preu",
+    "price_hour": "Preu per hora",
+    "uploading_background_will_be_redirected": "Pujant en segon pla. Serà redirigit quan s'hagi completat",
+    "will_be_redirected_once_completed": "Serà redirigit quan s'hagi completat",
+    "uploading_background": "Pujant en segon pla"
 }

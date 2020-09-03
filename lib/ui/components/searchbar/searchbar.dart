@@ -7,6 +7,10 @@ import 'package:jumpets_app/ui/filters_page/filters_page.dart';
 import 'package:jumpets_app/ui/helper.dart';
 
 class SearchBar extends StatefulWidget {
+  final Function onClear;
+  final Function(String) onChange;
+  SearchBar({this.onChange, this.onClear});
+
   @override
   _SearchBarState createState() => _SearchBarState();
 }
@@ -50,26 +54,24 @@ class _SearchBarState extends State<SearchBar> {
                     absorbing: !context.bloc<AdsBloc>().isCategoryValidToSearch,
                     child: TextField(
                         controller: _textController,
-                        onChanged: (value) =>
-                            context.bloc<AdsBloc>().add(AdsSearched(
-                                  text: value.trim(),
-                                )),
+                        onChanged: (value) {
+                          if (widget.onChange != null) {
+                            widget.onChange(value);
+                          }
+                        },
                         decoration: InputDecoration.collapsed(
                             hintText: text(context)))),
               ),
-              context.bloc<AdsBloc>().searchMode
-                  ? IconButton(
-                      color: Colors.black87,
-                      icon: Icon(Icons.clear),
-                      onPressed: () {
-                        FocusScope.of(context).unfocus();
-                        _textController.clear();
+              if (context.bloc<AdsBloc>().searchMode)
+                IconButton(
+                    color: Colors.black87,
+                    icon: Icon(Icons.clear),
+                    onPressed: () {
+                      FocusScope.of(context).unfocus();
+                      _textController.clear();
 
-                        context.bloc<AdsBloc>()
-                          ..add(SearchModeDisabled())
-                          ..add(AdsFetched());
-                      })
-                  : Container()
+                      if (widget.onClear != null) widget.onClear();
+                    })
             ]),
           );
         });

@@ -108,6 +108,8 @@
     "default_error": "Se ha producido un error!",
     "developed_by": "Desarrollado por",
     "select_birthdate": "Selecciona fecha",
+    "birthdate": "Fecha de nacimiento",
+    "select": "Seleccionar",
     "must_know": "Información extra",
     "description": "Descripción",
     "upload_your_ad_to": "Pon tu anuncio en",
@@ -117,5 +119,13 @@
     "personality": "Personalidad",
     "You must be logged in": "Tienes que iniciar sesión",
     "token_expiration_timeout": "La sesión ha expirado",
-    "okay": "Vale"
+    "okay": "Vale",
+    "tag_examples": "blanco, pelo corto...",
+    "personality_examples": "nerviosa, movida...",
+    "apply": "Aplicar",
+    "price": "Precio",
+    "price_hour": "Precio por hora",
+    "will_be_redirected_once_completed": "Será redirigido cuando haya completado",
+    "uploading_background": "Publicando anuncio en segundo plano.",
+    "uploading_background_will_be_redirected": "Publicando anuncio en segundo plano. Será redirigido cuando haya completado"
 }

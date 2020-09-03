@@ -5,6 +5,7 @@ import 'package:jumpets_app/app_localizations.dart';
 import 'package:jumpets_app/blocs/auth_bloc/auth_bloc.dart';
 import 'package:jumpets_app/blocs/edit_profile_bloc/edit_profile_bloc.dart';
 import 'package:jumpets_app/blocs/error_handler_bloc/error_handler_bloc.dart';
+import 'package:jumpets_app/blocs/info_handler_bloc/info_handler_bloc.dart';
 import 'package:jumpets_app/data/repositories/user_repository.dart';
 import 'package:jumpets_app/models/models.dart';
 import 'package:jumpets_app/models/users/profesional.dart';
@@ -23,6 +24,7 @@ class EditProfilePage extends StatelessWidget {
       create: (context) => EditProfileBloc(
           user: user,
           errorBloc: context.bloc<ErrorHandlerBloc>(),
+          infoBloc: context.bloc<InfoHandlerBloc>(),
           authBloc: context.bloc<AuthBloc>(),
           repository: RepositoryProvider.of<UserRepository>(context)),
       child: BlocListener<EditProfileBloc, EditProfileState>(

@@ -51,7 +51,7 @@ class OtherCard extends StatelessWidget {
           closedElevation: 3,
           closedColor: Colors.transparent,
           closedShape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10),
+            borderRadius: BorderRadius.circular(20),
           ),
           openBuilder: (context, action) => AdPage(
             ad: ad,
@@ -59,7 +59,7 @@ class OtherCard extends StatelessWidget {
           closedBuilder: (context, action) => Stack(
             children: [
               ClipRRect(
-                borderRadius: BorderRadius.circular(10),
+                borderRadius: BorderRadius.circular(20),
                 child: FadeInImage.memoryNetwork(
                   fadeInDuration: Duration(milliseconds: 200),
                   width: width,
