@@ -347,8 +347,6 @@ class __InfoSquaresState extends State<_InfoSquares> {
   }
 
   Widget _infoSquares(context) => Scrollbar(
-        controller: _scrollController,
-        isAlwaysShown: true,
         child: SingleChildScrollView(
             scrollDirection: Axis.horizontal,
             controller: _scrollController,
