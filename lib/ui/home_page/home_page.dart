@@ -116,29 +116,22 @@ class _HomePageState extends State<HomePage> {
                     scrollController: _scrollController,
                   )),
             ),
-            /* Positioned(
-                bottom: 0,
-                right: 0,
-                left: 0,
-                child: FloatingBottomBar(
-                  onTap: (int index) => _pageController.jumpToPage(
-                    index,
-                  ),
-                  onDoubleMainTap: () => _scrollController.animateTo(0,
-                      duration: Duration(milliseconds: 600),
-                      curve: Curves.bounceIn),
-                  pageSelected: _pageIndex,
-                )) */
+            if (MediaQuery.of(context).viewInsets.bottom == 0)
+              Positioned(
+                  bottom: 0,
+                  right: 0,
+                  left: 0,
+                  child: FloatingBottomBar(
+                    onTap: (int index) => _pageController.jumpToPage(
+                      index,
+                    ),
+                    onDoubleMainTap: () => _scrollController.animateTo(0,
+                        duration: Duration(milliseconds: 600),
+                        curve: Curves.bounceIn),
+                    pageSelected: _pageIndex,
+                  ))
           ],
         ),
-      ),
-      bottomNavigationBar: BottomBar(
-        onTap: (int index) => _pageController.jumpToPage(
-          index,
-        ),
-        onDoubleMainTap: () => _scrollController.animateTo(0,
-            duration: Duration(milliseconds: 600), curve: Curves.bounceIn),
-        pageSelected: _pageIndex,
       ),
     );
   }

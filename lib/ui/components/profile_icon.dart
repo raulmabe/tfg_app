@@ -27,13 +27,14 @@ class CircularProfileThumb extends StatelessWidget {
           child: user.thumbnail != null
               ? CircleAvatar(
                   radius: radius,
+                  backgroundColor: Theme.of(context).accentColor,
                   backgroundImage: NetworkImage(
                     user.thumbnail,
                   ),
                 )
               : CircleAvatar(
                   radius: radius,
-                  backgroundColor: Theme.of(context).primaryColor,
+                  backgroundColor: Theme.of(context).accentColor,
                   child: ClipOval(
                       child: Image.asset('assets/img/default_avatar.png')),
                 ),
