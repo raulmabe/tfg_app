@@ -92,8 +92,10 @@ class ProfileBody extends StatelessWidget {
                     row: state.ads
                         .whereType<ProductAd>()
                         .map((e) => OtherCard(
-                              height: boxHeight,
+                              small: true,
                               ad: e,
+                              height: boxHeight,
+                              width: boxHeight,
                             ))
                         .toList())
                 : Container(),
@@ -106,8 +108,10 @@ class ProfileBody extends StatelessWidget {
                     row: state.ads
                         .whereType<ServiceAd>()
                         .map((e) => OtherCard(
-                              height: boxHeight,
+                              small: true,
                               ad: e,
+                              height: boxHeight,
+                              width: boxHeight,
                             ))
                         .toList())
                 : Container(),

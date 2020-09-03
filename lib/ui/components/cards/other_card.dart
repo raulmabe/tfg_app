@@ -69,17 +69,16 @@ class OtherCard extends StatelessWidget {
                   fit: BoxFit.cover,
                 ),
               ),
-              small
-                  ? Container()
-                  : Positioned(
-                      bottom: 0,
-                      right: 0,
-                      child: UserChip(
-                        tag: '${ad.id}-${ad.creator.id}',
-                        user: ad.creator,
-                        small: true,
-                      ),
-                    ),
+              if (!small)
+                Positioned(
+                  bottom: 0,
+                  right: 0,
+                  child: UserChip(
+                    tag: '${ad.id}-${ad.creator.id}',
+                    user: ad.creator,
+                    small: true,
+                  ),
+                ),
             ],
           ),
         ),

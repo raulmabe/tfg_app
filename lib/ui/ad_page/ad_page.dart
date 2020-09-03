@@ -346,41 +346,50 @@ class __InfoSquaresState extends State<_InfoSquares> {
     super.dispose();
   }
 
-  Widget _infoSquares(context) => SingleChildScrollView(
-      scrollDirection: Axis.horizontal,
-      controller: _scrollController,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 8),
-        child: Row(
-          children: <Widget>[
-            InfoSquare(
-                title: AppLocalizations.of(context).translate('adoption_tax'),
-                value: ad.adoptionTax.toStringAsPrecision(2)),
-            InfoSquare(
-                title: AppLocalizations.of(context).translate('age'),
-                value: (DateTime.now().difference(ad.birthDate).inDays / 365)
-                    .floor()
-                    .toString()),
-            InfoSquare(
-                title: AppLocalizations.of(context).translate('weight'),
-                value: '${ad.weight.toString()} kg'),
-            ad is DogAd
-                ? InfoSquare(
-                    title: AppLocalizations.of(context).translate('size'),
-                    value: (ad as DogAd).size.name.capitalize())
-                : Container(),
-            InfoSquare(
-                title: AppLocalizations.of(context).translate('activity_level'),
-                value: ad.activityLevel.name.capitalize()),
-          ]..addAll(DeliveryStatus.values.map((deliveryStatus) => InfoSquare(
-              title: AppLocalizations.of(context)
-                  .translate(deliveryStatus.name.toLowerCase()),
-              value: AppLocalizations.of(context).translate(ad.deliveryInfo
-                  .contains(deliveryStatus)
-                  .stringify()
-                  .toLowerCase())))),
-        ),
-      ));
+  Widget _infoSquares(context) => Scrollbar(
+        controller: _scrollController,
+        isAlwaysShown: true,
+        child: SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            controller: _scrollController,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8),
+              child: Row(
+                children: <Widget>[
+                  InfoSquare(
+                      title: AppLocalizations.of(context)
+                          .translate('adoption_tax'),
+                      value: ad.adoptionTax.toStringAsPrecision(2)),
+                  InfoSquare(
+                      title: AppLocalizations.of(context).translate('age'),
+                      value:
+                          (DateTime.now().difference(ad.birthDate).inDays / 365)
+                              .floor()
+                              .toString()),
+                  InfoSquare(
+                      title: AppLocalizations.of(context).translate('weight'),
+                      value: '${ad.weight.toString()} kg'),
+                  ad is DogAd
+                      ? InfoSquare(
+                          title: AppLocalizations.of(context).translate('size'),
+                          value: (ad as DogAd).size.name.capitalize())
+                      : Container(),
+                  InfoSquare(
+                      title: AppLocalizations.of(context)
+                          .translate('activity_level'),
+                      value: ad.activityLevel.name.capitalize()),
+                ]..addAll(DeliveryStatus.values.map((deliveryStatus) =>
+                    InfoSquare(
+                        title: AppLocalizations.of(context)
+                            .translate(deliveryStatus.name.toLowerCase()),
+                        value: AppLocalizations.of(context).translate(ad
+                            .deliveryInfo
+                            .contains(deliveryStatus)
+                            .stringify()
+                            .toLowerCase())))),
+              ),
+            )),
+      );
 
   AnimalAd get ad => widget.ad;
 }

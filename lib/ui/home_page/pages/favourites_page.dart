@@ -65,7 +65,8 @@ class _FavouritesPageState extends State<FavouritesPage> {
               child: Text(AppLocalizations.of(context).translate('favourites'),
                   style: Theme.of(context).textTheme.headline3),
             ),
-            Text(length.toString()),
+            Text(length.toString(),
+                style: Theme.of(context).textTheme.headline5),
           ],
         ),
       );
