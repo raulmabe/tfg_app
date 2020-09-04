@@ -5,6 +5,9 @@ import 'package:jumpets_app/blocs/auth_bloc/auth_bloc.dart';
 import 'package:jumpets_app/blocs/favs_bloc/favourites_bloc.dart';
 import 'package:jumpets_app/models/ads/animal_ad.dart';
 import 'package:jumpets_app/models/ads/animals/dog_ad.dart';
+import 'package:jumpets_app/models/chats/message.dart';
+import 'package:jumpets_app/models/chats/room.dart';
+import 'package:built_collection/built_collection.dart';
 import 'package:jumpets_app/models/enums/delivery_status.dart';
 import 'package:jumpets_app/models/models.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -307,7 +310,17 @@ class AdPage extends StatelessWidget {
                   Expanded(
                     child: MyRaisedButton(
                         text: AppLocalizations.of(context).translate('contact'),
-                        onPressed: () => Helper.showLoginBottomSheet(context)),
+                        onPressed: () => isAuth
+                            ? Navigator.pushNamed(context, '/chat',
+                                arguments: Room((r) => r
+                                  ..createdAt = DateTime.now()
+                                  ..updatedAt = DateTime.now()
+                                  ..id = 'empty'
+                                  ..user1 = ad.creator
+                                  ..user2 = state.authStatus.authData.user
+                                  ..messages =
+                                      BuiltList<Message>([]).toBuilder()))
+                            : Helper.showLoginBottomSheet(context)),
                   ),
                 ],
               );

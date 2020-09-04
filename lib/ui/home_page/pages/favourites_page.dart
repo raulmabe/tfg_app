@@ -5,6 +5,7 @@ import 'package:jumpets_app/blocs/auth_bloc/auth_bloc.dart';
 import 'package:jumpets_app/blocs/favs_bloc/favourites_bloc.dart';
 import 'package:jumpets_app/models/ads/ad.dart';
 import 'package:jumpets_app/models/wrappers/auth_status.dart';
+import 'package:jumpets_app/ui/components/background_illustrations/empty_space.dart';
 import 'package:jumpets_app/ui/components/vertical_grid/vertical_grid.dart';
 
 class FavouritesPage extends StatefulWidget {
@@ -42,9 +43,7 @@ class _FavouritesPageState extends State<FavouritesPage> {
           children: <Widget>[
             _title(context, ads.length),
             (state is FavouritesFailure)
-                ? FittedBox(
-                    child: Text('Error'),
-                  )
+                ? EmptySpace()
                 : VerticalGrid(
                     usePlaceholders: state is FavouritesLoading,
                     ads: ads,

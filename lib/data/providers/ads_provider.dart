@@ -43,7 +43,7 @@ class AdsProvider {
           }
   }
   ''' +
-      UserProvider.getUserFragment();
+      UserProvider.getUserFragment;
 
   static get serviceAdFragment =>
       '''
@@ -63,7 +63,7 @@ class AdsProvider {
           }
   }
   ''' +
-      UserProvider.getUserFragment();
+      UserProvider.getUserFragment;
 
   static get productAdFragment =>
       '''
@@ -83,7 +83,7 @@ class AdsProvider {
           }
   }
   ''' +
-      UserProvider.getUserFragment();
+      UserProvider.getUserFragment;
 
   static get adFragment =>
       '''
@@ -129,7 +129,7 @@ class AdsProvider {
           }
   }
   ''' +
-      UserProvider.getUserFragment();
+      UserProvider.getUserFragment;
 
   Future<dynamic> getPaginatedAds(
       {Category category,
@@ -204,7 +204,7 @@ class AdsProvider {
     travelTime
   }
 }''' +
-          UserProvider.getUserFragment()
+          UserProvider.getUserFragment
     }, token: token);
   }
 

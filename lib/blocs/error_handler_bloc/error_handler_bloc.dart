@@ -16,8 +16,6 @@ class ErrorHandlerBloc extends Bloc<ErrorHandlerEvent, ErrorHandlerState> {
     ErrorHandlerEvent event,
   ) async* {
     if (event is ErrorHandlerCatched) {
-      print('Status code: ${event.error.status}');
-
       if (event.notification) {
         yield ErrorThrownNotification(
             event.error, () => event.bloc.add(event.event));

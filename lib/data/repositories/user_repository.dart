@@ -1,6 +1,8 @@
 import 'package:jumpets_app/data/providers/ads_provider.dart';
 import 'package:jumpets_app/data/providers/user_provider.dart';
 import 'package:jumpets_app/models/ads/ad.dart';
+import 'package:jumpets_app/models/chats/message.dart';
+import 'package:jumpets_app/models/chats/room.dart';
 import 'package:jumpets_app/models/models.dart';
 import 'package:jumpets_app/models/wrappers/paginated_ads.dart';
 import 'package:built_collection/built_collection.dart';
@@ -18,6 +20,18 @@ class UserRepository {
     );
 
     return User.fromJson(json['data']['valuateUser']);
+  }
+
+  Future<List<Room>> getRooms({String token}) async {
+    var json = await _userProvider.getRooms(token: token);
+
+    List list = json['data']['myRooms'];
+
+    List<Room> rooms = list.map((room) {
+      return Room.fromJson(room);
+    }).toList();
+
+    return rooms;
   }
 
   Future<User> updateUser(
@@ -55,5 +69,13 @@ class UserRepository {
     var json = await _userProvider.removeValuation(id: id, token: token);
 
     return User.fromJson(json['data']['removeValuation']);
+  }
+
+  Future<Room> sendMessage(
+      {String userId, String adId, String text, String token}) async {
+    var json = await _userProvider.sendMessage(
+        userId: userId, adId: adId, text: text, token: token);
+
+    return Room.fromJson(json['data']['createMessage']);
   }
 }

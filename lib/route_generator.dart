@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:jumpets_app/app_localizations.dart';
+import 'package:jumpets_app/models/chats/room.dart';
 import 'package:jumpets_app/models/models.dart';
 import 'package:jumpets_app/ui/ad_page/ad_page.dart';
+import 'package:jumpets_app/ui/chat_page/chat_page.dart';
 import 'package:jumpets_app/ui/components/background_illustrations/empty_space.dart';
 import 'package:jumpets_app/ui/edit_profile_page/edit_profile_page.dart';
 import 'package:jumpets_app/ui/home_page/home_page.dart';
@@ -38,6 +40,12 @@ class RouteGenerator {
                 ));
       case '/upload_ad':
         return MaterialPageRoute(builder: (_) => UploadAdPage());
+      case '/chat':
+        if (!(args is Room)) return _errorRoute();
+        return MaterialPageRoute(
+            builder: (_) => ChatPage(
+                  room: args,
+                ));
       default:
         return _errorRoute();
     }

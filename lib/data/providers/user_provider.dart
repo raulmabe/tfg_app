@@ -4,6 +4,8 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:http_parser/http_parser.dart';
 import 'package:jumpets_app/data/api_base_helper.dart';
+import 'package:jumpets_app/data/providers/ads_provider.dart';
+import 'package:jumpets_app/data/repositories/ads_repository.dart';
 import 'package:jumpets_app/models/enums/user_types.dart';
 import 'dart:convert';
 
@@ -12,7 +14,7 @@ class UserProvider {
 
   UserProvider() : this._api = ApiBaseHelper();
 
-  static String getUserFragment() {
+  static String get getUserFragment {
     return '''
     fragment userFields on User {
       id: _id
@@ -68,7 +70,7 @@ class UserProvider {
           }
         }
       ''' +
-          getUserFragment()
+          getUserFragment
     });
   }
 
@@ -106,7 +108,7 @@ class UserProvider {
           }
         }
       ''' +
-          getUserFragment(),
+          getUserFragment,
       'variables': {'file': null}
     };
 
@@ -141,7 +143,7 @@ class UserProvider {
           }
           }
       ''' +
-          getUserFragment()
+          getUserFragment
     }, token: token);
   }
 
@@ -156,7 +158,80 @@ class UserProvider {
           }
           }
       ''' +
-          getUserFragment()
+          getUserFragment
+    }, token: token);
+  }
+
+  Future<dynamic> getRooms({String token}) async {
+    return _api.post({
+      'query': '''
+       {
+          myRooms {
+            id: _id
+            user1 {
+              ...userFields
+            }
+            user2 {
+              ...userFields
+            }
+            messages {
+              id: _id
+              text
+              ad {
+                ...adFields
+              }
+              sender {
+                ...userFields
+              }
+              createdAt
+              updatedAt
+            }
+            createdAt
+            updatedAt
+          }
+        }
+      ''' +
+          AdsProvider.adFragment
+    }, token: token);
+  }
+
+  Future<dynamic> sendMessage(
+      {String userId, String adId, String text, String token}) async {
+    String adIdEscaped = adId != null ? '"$adId"' : null;
+
+    return _api.post({
+      'query': '''
+       mutation{
+          createMessage(
+            toUser: "$userId"
+            text: "$text"
+            ad: $adIdEscaped
+          ) {
+              id: _id
+            user1 {
+              ...userFields
+            }
+            user2 {
+              ...userFields
+            }
+            messages {
+              id: _id
+              text
+              ad {
+                ...adFields
+              }
+              sender {
+                ...userFields
+              }
+              createdAt
+              updatedAt
+            }
+            createdAt
+            updatedAt
+          }
+        }
+      ''' +
+          AdsProvider.adFragment
     }, token: token);
   }
 }

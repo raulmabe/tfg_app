@@ -9,6 +9,8 @@ import 'package:built_collection/built_collection.dart';
 
 part 'user.g.dart';
 
+// flutter packages pub run build_runner build --delete-conflicting-outputs
+
 @BuiltValue(instantiable: false)
 abstract class User {
   String get id;

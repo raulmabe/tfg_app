@@ -143,6 +143,9 @@ class Step1Body extends StatelessWidget {
                   onPressed: onNext),
             ),
             maybeSpacer(flex: 4),
+            SizedBox(
+              height: kToolbarHeight * 2,
+            ),
           ],
         ),
       ),
@@ -197,6 +200,9 @@ class Step2Body extends StatelessWidget {
               ),
             ),
             maybeSpacer(flex: 4),
+            SizedBox(
+              height: kToolbarHeight * 2,
+            ),
           ],
         ),
       ),
@@ -268,6 +274,9 @@ class Step3Body extends StatelessWidget {
               ),
             ),
             maybeSpacer(flex: 4),
+            SizedBox(
+              height: kToolbarHeight * 2,
+            ),
           ],
         ),
       ),

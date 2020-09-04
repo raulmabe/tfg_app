@@ -4,6 +4,7 @@ import 'package:jumpets_app/blocs/auth_bloc/auth_bloc.dart';
 import 'package:jumpets_app/models/wrappers/auth_status.dart';
 import 'package:jumpets_app/ui/components/auth/auth_sheet.dart';
 import 'package:jumpets_app/ui/helper.dart';
+import 'package:jumpets_app/ui/home_page/pages/rooms_page.dart';
 import 'package:jumpets_app/ui/home_page/pages/favourites_page.dart';
 import 'package:jumpets_app/ui/home_page/pages/main_page.dart';
 
@@ -43,7 +44,7 @@ class HomePageView extends StatelessWidget {
                   isFlex: true,
                 );
               } else {
-                return Container(color: Colors.tealAccent);
+                return RoomsPage();
               }
             },
           ),
