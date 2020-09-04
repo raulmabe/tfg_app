@@ -101,24 +101,7 @@ class _FiltersPageState extends State<FiltersPage> {
                     style: Theme.of(context).textTheme.headline3,
                     textAlign: TextAlign.center,
                   ),
-                  actions: [
-                    /* IconButton(
-                        onPressed: () {
-                          context.bloc<AdsBloc>().add(AdsSearched(
-                              activityLevel: model.activityLevel,
-                              text: model.text,
-                              deliveryInfo: model.deliveryStatuses.isEmpty
-                                  ? null
-                                  : model.deliveryStatuses,
-                              size: model.size,
-                              male: model.male));
-                          Navigator.pop(context);
-                        },
-                        icon: Icon(
-                          JumpetsIcons.filtra,
-                          color: Theme.of(context).accentColor,
-                        )) */
-                  ],
+                  actions: [],
                 ),
                 SliverToBoxAdapter(
                   child: Padding(

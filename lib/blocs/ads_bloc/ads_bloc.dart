@@ -56,14 +56,17 @@ class AdsBloc extends Bloc<AdsEvent, AdsState> {
   Stream<AdsState> mapEventToState(
     AdsEvent event,
   ) async* {
+    print('INITIAL');
     switch (event.runtimeType) {
       case LastAdsRefreshed:
         yield _mapLastAdsRefreshedToState(event);
         break;
       case AdsFetched:
-        filters = null;
-        searchMode = false;
-        yield SearchModeChanged(searchMode);
+        if (searchMode) {
+          filters = null;
+          searchMode = false;
+          yield SearchModeChanged(searchMode);
+        }
         yield AdsLoading();
         yield await _mapAdsFetchedToState(event);
         break;
@@ -71,18 +74,20 @@ class AdsBloc extends Bloc<AdsEvent, AdsState> {
         yield await _mapMoreAdsFetchedToState(event);
         break;
       case AdsSearched:
-        if (!isEventSearchValid(event)) {
+        if (isEventSearchValid(event)) {
+          if (!searchMode) {
+            searchMode = true;
+            yield SearchModeChanged(searchMode);
+          }
+          filters = event;
+          yield AdsLoading();
+          yield await _mapAdsSearchedToState(event);
+        } else {
           if (searchMode) {
             this.add(SearchModeDisabled());
             this.add(LastAdsRefreshed());
           }
-          break;
         }
-        filters = event;
-        searchMode = true;
-        yield SearchModeChanged(searchMode);
-        yield AdsLoading();
-        yield await _mapAdsSearchedToState(event);
         break;
       case SearchModeDisabled:
         filters = null;
@@ -100,7 +105,7 @@ class AdsBloc extends Bloc<AdsEvent, AdsState> {
 
   bool isEventSearchValid(AdsSearched event) {
     return (event.size != null) ||
-        (event.text != null) ||
+        (event.text != null && (event.text?.isNotEmpty ?? false)) ||
         (event.male != null) ||
         (event.deliveryInfo != null) ||
         (event.activityLevel != null) ||
@@ -132,7 +137,6 @@ class AdsBloc extends Bloc<AdsEvent, AdsState> {
       return AdsSuccess(searchedAds: ads);
     } catch (err, stacktrace) {
       errorBloc.add(ErrorHandlerCatched(bloc: this, event: event, error: err));
-
       print('Ads BLoC OnCatch $err, $stacktrace');
       return AdsFailure();
     }
@@ -197,10 +201,10 @@ class AdsBloc extends Bloc<AdsEvent, AdsState> {
       Stream<AdsEvent> events,
       TransitionFunction<AdsEvent, AdsState> transitionFn) {
     final nonDebounceStream = events
-        .where((event) => (event is! MoreAdsFetched || event is! AdsSearched));
+        .where((event) => (event is! MoreAdsFetched && event is! AdsSearched));
     final debounceStream = events
         .where((event) => event is MoreAdsFetched || event is AdsSearched)
-        .debounceTime(Duration(seconds: 1));
+        .debounceTime(Duration(milliseconds: 300));
 
     return super.transformEvents(
         MergeStream([nonDebounceStream, debounceStream]), transitionFn);
