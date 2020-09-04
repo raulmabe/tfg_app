@@ -127,5 +127,8 @@
     "price_hour": "Price per hour",
     "uploading_background_will_be_redirected": "Uploading in the background. You will be redirected once completed",
     "will_be_redirected_once_completed": "You will be redirected once completed",
-    "uploading_background": "Uploading in the background."
+    "uploading_background": "Uploading in the background.",
+    "licenses": "Licenses",
+    "empty_space_title": "Oh no! I am empty :(",
+    "empty_space_subtitle": "Could not find any information"
 }

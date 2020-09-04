@@ -1,15 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:jumpets_app/app_localizations.dart';
 import 'package:jumpets_app/blocs/error_handler_bloc/error_handler_bloc.dart';
 import 'package:jumpets_app/blocs/info_handler_bloc/info_handler_bloc.dart';
 import 'package:jumpets_app/ui/app_theme.dart';
-import 'package:jumpets_app/ui/components/buttons/flat_button.dart';
 import 'package:jumpets_app/ui/components/buttons/raised_button.dart';
 import 'package:overlay_support/overlay_support.dart';
 
-// * Este widget tiene que ir debajo de un Scaffold
 class Notifier extends StatelessWidget {
   final Widget child;
   Notifier({this.child});
@@ -74,14 +71,10 @@ class Notifier extends StatelessWidget {
                       child: Row(
                         children: [
                           Expanded(
-                            child: Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(vertical: 10.0),
-                              child: MyRaisedButton(
-                                text: AppLocalizations.of(context)
-                                    .translate('cancel'),
-                                onPressed: () => Navigator.pop(context),
-                              ),
+                            child: MyRaisedButton(
+                              text: AppLocalizations.of(context)
+                                  .translate('cancel'),
+                              onPressed: () => Navigator.pop(context),
                             ),
                           )
                         ],
@@ -92,20 +85,16 @@ class Notifier extends StatelessWidget {
                       child: Row(
                         children: [
                           Expanded(
-                            child: Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(vertical: 10.0),
-                              child: MyRaisedButton(
-                                filled: false,
-                                textColor: Theme.of(context).accentColor,
-                                borders: false,
-                                text: AppLocalizations.of(context)
-                                    .translate('retry'),
-                                onPressed: () {
-                                  state.retry();
-                                  Navigator.pop(context);
-                                },
-                              ),
+                            child: MyRaisedButton(
+                              filled: false,
+                              textColor: Theme.of(context).accentColor,
+                              borders: false,
+                              text: AppLocalizations.of(context)
+                                  .translate('retry'),
+                              onPressed: () {
+                                state.retry();
+                                Navigator.pop(context);
+                              },
                             ),
                           )
                         ],
@@ -171,16 +160,12 @@ class MyAlertDialog extends StatelessWidget {
                       child: Row(
                         children: [
                           Expanded(
-                            child: Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(vertical: 10.0),
-                              child: MyRaisedButton(
-                                text: AppLocalizations.of(context)
-                                    .translate('okay'),
-                                onPressed: () {
-                                  Navigator.pop(context);
-                                },
-                              ),
+                            child: MyRaisedButton(
+                              text: AppLocalizations.of(context)
+                                  .translate('okay'),
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
                             ),
                           )
                         ],

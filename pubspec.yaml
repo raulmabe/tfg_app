@@ -78,6 +78,8 @@ flutter:
    - assets/img/pollo2.png
    - assets/img/pollo3.png
    - assets/img/default_avatar.png
+   - assets/img/empty_background.png
+   - assets/img/404.png
 
    - lang/en.json
    - lang/es.json

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:jumpets_app/app_localizations.dart';
 import 'package:jumpets_app/models/models.dart';
 import 'package:jumpets_app/ui/ad_page/ad_page.dart';
+import 'package:jumpets_app/ui/components/background_illustrations/empty_space.dart';
 import 'package:jumpets_app/ui/edit_profile_page/edit_profile_page.dart';
 import 'package:jumpets_app/ui/home_page/home_page.dart';
 import 'package:jumpets_app/ui/profile_page/profile_page.dart';
@@ -45,13 +46,9 @@ class RouteGenerator {
   static Route<dynamic> _errorRoute() {
     return MaterialPageRoute(
         builder: (context) => Scaffold(
-              appBar: AppBar(
-                title: Text(AppLocalizations.of(context)
-                    .translate('page_not_found_title')),
-              ),
+              appBar: AppBar(),
               body: Center(
-                child: Text(AppLocalizations.of(context)
-                    .translate('page_not_found_msg')),
+                child: NotFoundSpace(),
               ),
             ));
   }

@@ -127,5 +127,8 @@
     "price_hour": "Precio por hora",
     "will_be_redirected_once_completed": "Será redirigido cuando haya completado",
     "uploading_background": "Publicando anuncio en segundo plano.",
-    "uploading_background_will_be_redirected": "Publicando anuncio en segundo plano. Será redirigido cuando haya completado"
+    "uploading_background_will_be_redirected": "Publicando anuncio en segundo plano. Será redirigido cuando haya completado",
+    "licenses": "Licencias",
+    "empty_space_title": "Estoy vacío :(",
+    "empty_space_subtitle": "No he podido encontrar más información"
 }

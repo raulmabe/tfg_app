@@ -3,8 +3,8 @@ import 'package:google_fonts/google_fonts.dart';
 
 class AppTheme {
   static const Color kPrimaryColor = Colors.white;
-  static const Color kSecondaryBackgroundColor =
-      Color(0xffF7F7FF); //Color(0xffF8FAFC);
+  static const Color kSecondaryBackgroundColor = Color(0xffF7F7FF);
+
   static const Color kerrorColor = Color(0xffff6b81);
 
   static const Color kAccentColor = Color(0xFF76DEC2);
@@ -60,7 +60,7 @@ class AppTheme {
         iconTheme:
             iconTheme?.copyWith(color: Colors.grey) ?? baseTheme.iconTheme,
         brightness: Brightness.light,
-        color: Colors.white,
+        color: kPrimaryColor,
         textTheme: textTheme ?? baseTheme.textTheme);
   }
 

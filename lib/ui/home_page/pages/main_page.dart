@@ -8,6 +8,7 @@ import 'package:jumpets_app/blocs/auth_bloc/auth_bloc.dart';
 import 'package:jumpets_app/models/enums/categories.dart';
 import 'package:jumpets_app/ui/components/buttons/category_button.dart';
 import 'package:jumpets_app/ui/components/cards/info_card.dart';
+import 'package:jumpets_app/ui/components/background_illustrations/empty_space.dart';
 import 'package:jumpets_app/ui/components/jumpets_icons_icons.dart';
 import 'package:jumpets_app/ui/components/shelters_grid.dart';
 import 'package:jumpets_app/ui/components/vertical_grid/vertical_grid.dart';
@@ -199,6 +200,8 @@ class _MainPageState extends State<MainPage> {
         if (state is AdsLoading || state is AdsSuccess) {
           switch (context.bloc<AdsBloc>().category) {
             case Category.SHELTERS:
+              if (state is AdsSuccess && state.shelters.isEmpty)
+                return EmptySpace();
               return SheltersGrid(
                 shelters: (state is AdsSuccess) ? state.shelters : null,
                 usePlaceholders: state is AdsLoading,
@@ -210,6 +213,8 @@ class _MainPageState extends State<MainPage> {
                     ? state.searchedAds
                     : state.paginatedAds.ads.asList();
               }
+
+              if (state is AdsSuccess && ads.isEmpty) return EmptySpace();
 
               return VerticalGrid(
                 widgetInjection: InfoCard(
@@ -224,9 +229,8 @@ class _MainPageState extends State<MainPage> {
         }
         if (state is AdsFailure) {
           // * Si category == shelters, ha fallado por falta de token
-          return FittedBox(
-            child: Text('Error'),
-          );
+
+          return EmptySpace();
         }
         return FittedBox(
           child: Text('Initializing'),

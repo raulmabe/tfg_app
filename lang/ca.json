@@ -127,5 +127,8 @@
     "price_hour": "Preu per hora",
     "uploading_background_will_be_redirected": "Pujant en segon pla. Serà redirigit quan s'hagi completat",
     "will_be_redirected_once_completed": "Serà redirigit quan s'hagi completat",
-    "uploading_background": "Pujant en segon pla"
+    "uploading_background": "Pujant en segon pla",
+    "licenses": "Llicencies",
+    "empty_space_title": "Sembla que no hi ha res!",
+    "empty_space_subtitle": "No he trobat més informació"
 }
