@@ -32,7 +32,8 @@ class VerticalGrid extends StatelessWidget {
         ? List<Widget>.generate(
             6,
             (index) => ContentPlaceholder(
-                  height: height * (Random().nextDouble() + .3),
+                  borderRadius: 20,
+                  height: height * (index % 2 == 0 ? .6 : 1),
                 ))
         : List<Widget>.from(ads.map((ad) {
             if (ad is AnimalAd) {
@@ -53,7 +54,8 @@ class VerticalGrid extends StatelessWidget {
 
     if (insertPlaceholderAtLast) {
       list.add(ContentPlaceholder(
-        height: 210,
+        borderRadius: 20,
+        height: height,
       ));
     }
 

@@ -55,6 +55,7 @@ class _SheltersGridState extends State<SheltersGrid> {
                   padding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
                   child: widget.usePlaceholders
                       ? ContentPlaceholder(
+                          borderRadius: 20,
                           height: 20,
                           width: 20,
                         )

@@ -195,6 +195,7 @@ class _SearchSection extends StatelessWidget {
                     padding:
                         const EdgeInsets.only(top: 10, left: 20, bottom: 0),
                     child: ContentPlaceholder(
+                      borderRadius: 20,
                       width: 100,
                       height: 25,
                     ),
@@ -228,6 +229,7 @@ class _SearchSection extends StatelessWidget {
                             child: !isLoading
                                 ? e
                                 : ContentPlaceholder(
+                                    borderRadius: 20,
                                     height: boxHeight,
                                     width: boxHeight,
                                   ),
