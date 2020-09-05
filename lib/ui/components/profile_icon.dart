@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:jumpets_app/models/models.dart';
 import 'package:transparent_image/transparent_image.dart';
@@ -7,18 +9,20 @@ class CircularProfileThumb extends StatelessWidget {
   final double radius;
   final double borderWidth;
   final VoidCallback onTap;
+  final double elevation;
 
-  CircularProfileThumb({
-    @required this.user,
-    this.radius = 20.0,
-    this.borderWidth = 0,
-    this.onTap,
-  });
+  CircularProfileThumb(
+      {@required this.user,
+      this.radius = 20.0,
+      this.borderWidth = 0,
+      this.onTap,
+      this.elevation = 0});
 
   @override
   Widget build(BuildContext context) {
     return Center(
       child: Material(
+        elevation: elevation,
         shape: CircleBorder(
           side: BorderSide(color: user.colorFromType, width: borderWidth),
         ),

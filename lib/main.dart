@@ -8,6 +8,7 @@ import 'package:jumpets_app/blocs/error_handler_bloc/error_handler_bloc.dart';
 import 'package:jumpets_app/blocs/favs_bloc/favourites_bloc.dart';
 import 'package:jumpets_app/blocs/info_handler_bloc/info_handler_bloc.dart';
 import 'package:jumpets_app/blocs/locale_bloc/locale_bloc.dart';
+import 'package:jumpets_app/blocs/rooms_bloc/rooms_bloc.dart';
 import 'package:jumpets_app/blocs/search_bloc/search_ads_bloc.dart';
 import 'package:jumpets_app/data/repositories/ads_repository.dart';
 import 'package:jumpets_app/data/repositories/authentication_repository.dart';
@@ -70,6 +71,11 @@ class MyApp extends StatelessWidget {
           value: adsRepository,
           child: MultiBlocProvider(
             providers: [
+              BlocProvider<RoomsBloc>(
+                  create: (context) => RoomsBloc(
+                      repository: userRepository,
+                      authBloc: authBloc,
+                      errorBloc: errorBloc)),
               BlocProvider<InfoHandlerBloc>(
                 create: (context) => infoBloc,
               ),
@@ -99,6 +105,7 @@ class MyApp extends StatelessWidget {
                     repository: adsRepository, errorBloc: errorBloc),
               ),
             ],
+            // * Listener for when the users log in
             child: BlocListener<AuthBloc, AuthState>(
               listenWhen: (previous, current) =>
                   previous.authStatus.status !=
@@ -107,6 +114,7 @@ class MyApp extends StatelessWidget {
                       AuthenticationStatus.authenticated,
               listener: (context, state) {
                 context.bloc<FavouritesBloc>().add(FavouritesFetched());
+                context.bloc<RoomsBloc>().add(RoomsFetched());
               },
               child: BlocBuilder<LocaleBloc, LocaleState>(
                 builder: (context, state) {

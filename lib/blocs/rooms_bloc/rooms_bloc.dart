@@ -5,6 +5,7 @@ import 'package:jumpets_app/blocs/auth_bloc/auth_bloc.dart';
 import 'package:jumpets_app/blocs/error_handler_bloc/error_handler_bloc.dart';
 import 'package:jumpets_app/data/repositories/user_repository.dart';
 import 'package:jumpets_app/models/chats/room.dart';
+import 'package:jumpets_app/models/models.dart';
 import 'package:meta/meta.dart';
 
 part 'rooms_event.dart';
@@ -28,22 +29,58 @@ class RoomsBloc extends Bloc<RoomsEvent, RoomsState> {
   Stream<RoomsState> mapEventToState(
     RoomsEvent event,
   ) async* {
-    if (event is RoomsFetched) {
-      yield RoomsLoading();
+    switch (event.runtimeType) {
+      case RoomsFetched:
+        yield RoomsLoading();
+        yield await _mapRoomsFetchedToState(event);
+        break;
+      case RoomUpdated:
+        if (state is RoomsSuccess) {
+          List<Room> rooms;
+          bool any = (state as RoomsSuccess)
+              .rooms
+              .any((room) => room.id == (event as RoomUpdated).room.id);
 
-      try {
-        List<Room> rooms = await repository.getRooms(
-            token: authBloc.state.authStatus?.authData?.token);
+          if (any) {
+            rooms = (state as RoomsSuccess)
+                .rooms
+                .map((room) => room.id == (event as RoomUpdated).room.id
+                    ? (event as RoomUpdated).room
+                    : room)
+                .toList();
+          } else {
+            rooms = (state as RoomsSuccess).rooms
+              ..add((event as RoomUpdated).room);
+          }
 
-        yield RoomsSuccess(rooms: rooms);
-      } catch (err, stack) {
-        errorBloc.add(ErrorHandlerCatched(
-          bloc: this,
-          event: event,
-          error: err,
-        ));
-        yield RoomsFailure();
-      }
+          yield RoomsSuccess(rooms: rooms);
+        }
+        break;
+      default:
     }
+  }
+
+  Future<RoomsState> _mapRoomsFetchedToState(RoomsFetched event) async {
+    try {
+      List<Room> rooms = await repository.getRooms(
+          token: authBloc.state.authStatus?.authData?.token);
+
+      return RoomsSuccess(rooms: rooms);
+    } catch (err, stack) {
+      errorBloc.add(ErrorHandlerCatched(
+        bloc: this,
+        event: event,
+        error: err,
+      ));
+      return RoomsFailure();
+    }
+  }
+
+  Future<Room> gotAlreadyRoomWithUser(User user) async {
+    if (state is RoomsSuccess) {
+      return (state as RoomsSuccess).rooms.firstWhere(
+          (room) => room.user1.id == user.id || room.user2.id == user.id);
+    }
+    return null;
   }
 }

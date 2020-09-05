@@ -131,5 +131,6 @@
     "licenses": "Licenses",
     "empty_space_title": "Oh no! I am empty :(",
     "empty_space_subtitle": "Could not find any information",
-    "chats": "Chats"
+    "chats": "Chats",
+    "send_a_message": "Send a message"
 }

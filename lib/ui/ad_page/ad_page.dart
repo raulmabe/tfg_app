@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jumpets_app/app_localizations.dart';
 import 'package:jumpets_app/blocs/auth_bloc/auth_bloc.dart';
 import 'package:jumpets_app/blocs/favs_bloc/favourites_bloc.dart';
+import 'package:jumpets_app/blocs/rooms_bloc/rooms_bloc.dart';
 import 'package:jumpets_app/models/ads/animal_ad.dart';
 import 'package:jumpets_app/models/ads/animals/dog_ad.dart';
 import 'package:jumpets_app/models/chats/message.dart';
@@ -271,6 +272,10 @@ class AdPage extends StatelessWidget {
                 previous.authStatus.status != current.authStatus.status,
             builder: (context, state) {
               bool isAuth = state.authStatus.status.isAuthenticated;
+
+              if (state.authStatus.authData.user.id == ad.creator.id)
+                return Container();
+
               return Row(
                 children: [
                   Padding(
@@ -309,19 +314,26 @@ class AdPage extends StatelessWidget {
                   ),
                   Expanded(
                     child: MyRaisedButton(
-                        text: AppLocalizations.of(context).translate('contact'),
-                        onPressed: () => isAuth
+                      text: AppLocalizations.of(context).translate('contact'),
+                      onPressed: () async {
+                        Room room = (await (context
+                                .bloc<RoomsBloc>()
+                                .gotAlreadyRoomWithUser(ad.creator))) ??
+                            Room((r) => r
+                              ..createdAt = DateTime.now()
+                              ..updatedAt = DateTime.now()
+                              ..id = ''
+                              ..user1 = ad.creator
+                              ..user2 = state.authStatus.authData.user
+                              ..messages = BuiltList<Message>([]).toBuilder());
+
+                        isAuth
                             ? Navigator.pushNamed(context, '/chat',
-                                arguments: Room((r) => r
-                                  ..createdAt = DateTime.now()
-                                  ..updatedAt = DateTime.now()
-                                  ..id = 'empty'
-                                  ..user1 = ad.creator
-                                  ..user2 = state.authStatus.authData.user
-                                  ..messages =
-                                      BuiltList<Message>([]).toBuilder()))
-                            : Helper.showLoginBottomSheet(context)),
-                  ),
+                                arguments: room)
+                            : Helper.showLoginBottomSheet(context);
+                      },
+                    ),
+                  )
                 ],
               );
             }),

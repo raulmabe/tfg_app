@@ -131,5 +131,6 @@
     "licenses": "Llicencies",
     "empty_space_title": "Sembla que no hi ha res!",
     "empty_space_subtitle": "No he trobat més informació",
-    "chats": "Xats"
+    "chats": "Xats",
+    "send_a_message": "Envia un missatge"
 }
