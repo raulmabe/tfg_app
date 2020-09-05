@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:jumpets_app/app_localizations.dart';
 import 'package:jumpets_app/blocs/auth_bloc/auth_bloc.dart';
 import 'package:jumpets_app/blocs/error_handler_bloc/error_handler_bloc.dart';
 import 'package:jumpets_app/blocs/message_bloc/message_bloc.dart';
 import 'package:jumpets_app/blocs/rooms_bloc/rooms_bloc.dart';
 import 'package:jumpets_app/data/repositories/user_repository.dart';
+import 'package:jumpets_app/data/repositories/websocket_repository.dart';
 import 'package:jumpets_app/models/chats/message.dart';
 import 'package:jumpets_app/models/chats/room.dart';
 import 'package:jumpets_app/models/models.dart';
@@ -15,20 +17,48 @@ import 'package:jumpets_app/ui/components/chat_bubbles.dart';
 import 'package:jumpets_app/ui/components/profile_icon.dart';
 import 'dart:math' as math;
 
-class ChatPage extends StatefulWidget {
+class ChatPage extends StatelessWidget {
   final Room room;
   ChatPage({@required this.room});
   @override
-  _ChatPageState createState() => _ChatPageState();
+  Widget build(BuildContext context) {
+    return GraphQLProvider(
+        client: WebSocketRepository.initailizeClient(
+            context.bloc<AuthBloc>().state.authStatus.authData.token),
+        child: Subscription(
+          'messageSent',
+          WebSocketRepository.messageSent(room.id),
+          initial: [],
+          builder: ({error, loading, payload}) {
+            print('PARAMS $error $loading ${payload.toString()}');
+
+            if (payload != null) {
+              print('Payload: ${payload.toString()}');
+            }
+
+            return _InnerChatPage(
+              room: room,
+            );
+          },
+        ));
+  }
 }
 
-class _ChatPageState extends State<ChatPage> {
+class _InnerChatPage extends StatefulWidget {
+  final Room room;
+  _InnerChatPage({@required this.room});
+  @override
+  _InnerChatPageState createState() => _InnerChatPageState();
+}
+
+class _InnerChatPageState extends State<_InnerChatPage> {
   List<Message> _messages;
 
   @override
   void initState() {
     super.initState();
 
+    print('Room id: ${widget.room.id}');
     _messages = widget.room.messages.toList();
   }
 
@@ -40,82 +70,84 @@ class _ChatPageState extends State<ChatPage> {
             repository: RepositoryProvider.of<UserRepository>(context),
             authBloc: context.bloc<AuthBloc>(),
             errorBloc: context.bloc<ErrorHandlerBloc>()),
-        child: Scaffold(
-          resizeToAvoidBottomInset: true,
-          backgroundColor: Theme.of(context).backgroundColor,
-          appBar: AppBar(
-            title: Row(
-              children: [
-                Expanded(
-                  child: Text(
-                    '${otherUser(context).name}',
-                    textAlign: TextAlign.center,
-                    style: Theme.of(context).textTheme.subtitle1,
-                  ),
-                ),
-                CircularProfileThumb(user: otherUser(context))
-              ],
-            ),
-          ),
-          body: Stack(
-            fit: StackFit.expand,
-            children: [
-              BlocBuilder<MessageBloc, MessageState>(
-                builder: (context, state) {
-                  // maybe sort messages
+        child: _buildContent);
+  }
 
-                  if (state is MessageSuccess) {
-                    _messages = state.room.messages.toList();
-                  }
-
-                  return ListView(
-                      reverse: true,
-                      shrinkWrap: true,
-                      children: <Widget>[
-                        SizedBox(
-                          height: kToolbarHeight + 20,
-                        )
-                      ]..addAll(_messages.reversed
-                          .map(
-                            (message) => BubbleMessage(
-                                text: message.text,
-                                time: message.createdAt.timeago(
-                                    locale: AppLocalizations.of(context)
-                                        .locale
-                                        .languageCode),
-                                isMine:
-                                    otherUser(context).id != message.sender.id,
-                                delivered: message.id.isEmpty ? false : true),
-                          )
-                          .toList()));
-                },
+  Widget get _buildContent {
+    return Scaffold(
+      resizeToAvoidBottomInset: true,
+      backgroundColor: Theme.of(context).backgroundColor,
+      appBar: AppBar(
+        title: Row(
+          children: [
+            Expanded(
+              child: Text(
+                '${otherUser(context).email}',
+                textAlign: TextAlign.center,
+                style: Theme.of(context).textTheme.subtitle1,
               ),
-              Positioned(
-                  bottom: 0,
-                  right: 0,
-                  left: 0,
-                  child: MessageBar(
-                    otherUserId: otherUser(context).id,
-                    onSubmitted: (str) {
-                      setState(() {
-                        _messages.add(Message((m) => m
-                          ..ad = null
-                          ..createdAt = DateTime.now()
-                          ..updatedAt = DateTime.now()
-                          ..id = ''
-                          ..text = str
-                          ..sender = context
-                              .bloc<AuthBloc>()
-                              .state
-                              .authStatus
-                              .authData
-                              ?.user));
-                      });
-                    },
-                  )),
-            ],
+            ),
+            CircularProfileThumb(user: otherUser(context))
+          ],
+        ),
+      ),
+      body: Stack(
+        fit: StackFit.expand,
+        children: [
+          BlocBuilder<MessageBloc, MessageState>(
+            builder: (context, state) {
+              // maybe sort messages
+
+              if (state is MessageSuccess) {
+                _messages = state.room.messages.toList();
+              }
+
+              return ListView(
+                  reverse: true,
+                  shrinkWrap: true,
+                  children: <Widget>[
+                    SizedBox(
+                      height: kToolbarHeight + 20,
+                    )
+                  ]..addAll(_messages.reversed
+                      .map(
+                        (message) => BubbleMessage(
+                            text: message.text,
+                            time: message.createdAt.timeago(
+                                locale: AppLocalizations.of(context)
+                                    .locale
+                                    .languageCode),
+                            isMine: otherUser(context).id != message.sender.id,
+                            delivered: message.id.isEmpty ? false : true),
+                      )
+                      .toList()));
+            },
           ),
-        ));
+          Positioned(
+              bottom: 0,
+              right: 0,
+              left: 0,
+              child: MessageBar(
+                otherUserId: otherUser(context).id,
+                onSubmitted: (str) => addMessage(text: str),
+              )),
+        ],
+      ),
+    );
+  }
+
+  void addMessage({String text, Message message}) {
+    setState(() {
+      _messages.add(message ??
+          Message((m) => m
+            ..ad = null
+            ..createdAt = DateTime.now()
+            ..updatedAt = DateTime.now()
+            ..id = ''
+            ..text = text
+            ..sender =
+                context.bloc<AuthBloc>().state.authStatus.authData?.user));
+    });
   }
 
   User otherUser(BuildContext context) =>

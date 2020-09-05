@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:jumpets_app/data/api_base_helper.dart';
+import 'package:jumpets_app/data/providers/user_provider.dart';
 import 'package:jumpets_app/models/enums/user_types.dart';
 
 class AuthenticationProvider {
@@ -13,33 +14,13 @@ class AuthenticationProvider {
       'query': '''{
     login(password: "$password", email: "$email"){
     user {
-      id: _id
-      name
-      email
-      thumbnail
-      address
-      phone
-      valuations {
-        value
-        comment
-        author {
-          name
-        }
-      }
-      type: __typename
-      createdAt
-      updatedAt
-      ... on Protectora {
-        web
-      }
-      ... on Profesional {
-        web
-      }
+      ...userFields
     }
     token
     tokenExpiration
   }
-  }'''
+  }''' +
+          UserProvider.getUserFragment
     });
   }
 
@@ -51,33 +32,13 @@ class AuthenticationProvider {
       password: "$password", email: "$email", type: $type, name: "$name"
     }){
     user {
-      id: _id
-      name
-      email
-      thumbnail
-      address
-      phone
-      valuations {
-        value
-        comment
-        author {
-          name
-        }
-      }
-      type: __typename
-      createdAt
-      updatedAt
-      ... on Protectora {
-        web
-      }
-      ... on Profesional {
-        web
-      }
+      ...userFields
     }
     token
     tokenExpiration
   }
-  }'''
+  }''' +
+          UserProvider.getUserFragment
     });
   }
 }
