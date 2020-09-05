@@ -35,39 +35,58 @@ class _RoomsPageState extends State<RoomsPage> {
 
         if (state is RoomsSuccess) {
           children = state.rooms
-              .map((room) => Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 10.0),
-                    child: ListTile(
-                      onTap: () => Navigator.pushNamed(context, '/chat',
-                          arguments: room),
-                      leading: SizedBox(
-                        height: 60,
-                        width: 60,
-                        child: FittedBox(
-                          child: CircularProfileThumb(
-                              user: otherUser(context, room)),
+              .map((room) => Column(
+                    children: [
+                      ListTile(
+                        onTap: () => Navigator.pushNamed(context, '/chat',
+                            arguments: room),
+                        leading: SizedBox(
+                          height: 60,
+                          width: 60,
+                          child: FittedBox(
+                            child: CircularProfileThumb(
+                                user: otherUser(context, room)),
+                          ),
+                        ),
+                        title: Row(
+                          children: [
+                            Flexible(
+                              child: Text('${otherUser(context, room).name}',
+                                  style: Theme.of(context).textTheme.bodyText1),
+                            ),
+                            Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 8.0),
+                              child: Icon(
+                                otherUser(context, room).iconFromType,
+                                size: 18,
+                                color:
+                                    Theme.of(context).textTheme.bodyText1.color,
+                              ),
+                            ),
+                          ],
+                        ),
+                        subtitle: Text('${room.messages.last.text}',
+                            style: Theme.of(context)
+                                .textTheme
+                                .caption
+                                .copyWith(fontSize: 14)),
+                        trailing: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Text(
+                                '${room.messages.last.createdAt.toLocal().format('h:mm a', AppLocalizations.of(context).locale.toString())}',
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .caption
+                                    .copyWith(fontSize: 14)),
+                          ],
                         ),
                       ),
-                      title: Text('${otherUser(context, room).name}',
-                          style: Theme.of(context).textTheme.bodyText2),
-                      subtitle: Text('${room.messages.last.text}',
-                          style: Theme.of(context).textTheme.bodyText1),
-                      trailing: Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          Padding(
-                            padding:
-                                const EdgeInsets.symmetric(horizontal: 8.0),
-                            child: Icon(
-                              otherUser(context, room).iconFromType,
-                              size: 20,
-                            ),
-                          ),
-                          Text(
-                              '${room.messages.last.createdAt.toLocal().format('h:mm a', AppLocalizations.of(context).locale.toString())}'),
-                        ],
+                      Divider(
+                        indent: MediaQuery.of(context).size.width * .2,
                       ),
-                    ),
+                    ],
                   ))
               .toList();
         }

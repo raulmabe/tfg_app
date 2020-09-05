@@ -31,11 +31,12 @@ class _BubbleMessageState extends State<BubbleMessage>
 
   @override
   Widget build(BuildContext context) {
-    final bg = isMine ? Theme.of(context).accentColor : Colors.grey;
+    final bg = isMine
+        ? Theme.of(context).primaryColor
+        : Theme.of(context).primaryColor;
     final align = isMine ? CrossAxisAlignment.end : CrossAxisAlignment.start;
     final icon = delivered ? Icons.done : Icons.access_time;
     final iconColor = delivered ? Theme.of(context).accentColor : Colors.grey;
-    final textColor = isMine ? null : null;
     final radius = isMine
         ? BorderRadius.only(
             topLeft: Radius.circular(25),
@@ -77,7 +78,10 @@ class _BubbleMessageState extends State<BubbleMessage>
                   child: Text(
                     text,
                     softWrap: true,
-                    style: Theme.of(context).textTheme.bodyText1,
+                    style: Theme.of(context)
+                        .textTheme
+                        .caption
+                        .copyWith(fontWeight: FontWeight.bold),
                   ),
                 ),
                 Row(mainAxisSize: MainAxisSize.min, children: [

@@ -9,8 +9,11 @@ import 'package:jumpets_app/data/repositories/user_repository.dart';
 import 'package:jumpets_app/models/chats/message.dart';
 import 'package:jumpets_app/models/chats/room.dart';
 import 'package:jumpets_app/models/models.dart';
+import 'package:jumpets_app/ui/app_theme.dart';
+import 'package:jumpets_app/ui/components/buttons/gradient_icon_button.dart';
 import 'package:jumpets_app/ui/components/chat_bubbles.dart';
 import 'package:jumpets_app/ui/components/profile_icon.dart';
+import 'dart:math' as math;
 
 class ChatPage extends StatefulWidget {
   final Room room;
@@ -150,40 +153,61 @@ class _MessageBarState extends State<MessageBar> {
         child: SafeArea(
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8.0),
-            child: Container(
-              constraints: BoxConstraints(
-                minHeight: kToolbarHeight,
-              ),
-              child: Material(
-                elevation: 4.0,
-                color: Theme.of(context).primaryColor,
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(50)),
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                        child: TextField(
-                          keyboardType: TextInputType.multiline,
-                          autocorrect: false,
-                          focusNode: _focusNode,
-                          decoration: InputDecoration.collapsed(
-                              hintText: AppLocalizations.of(context)
-                                  .translate('send_a_message')),
-                          controller: textEditingController,
-                          onSubmitted: isMessageValid ? onSubmit : null,
+            child: Stack(
+              children: [
+                Container(
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Expanded(
+                        child: Container(
+                          constraints: BoxConstraints(
+                            minHeight: kToolbarHeight * .8,
+                          ),
+                          child: Material(
+                            elevation: 4.0,
+                            color: Theme.of(context).primaryColor,
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(50)),
+                            child: Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 20.0),
+                              child: Center(
+                                child: TextField(
+                                  keyboardType: TextInputType.multiline,
+                                  autocorrect: false,
+                                  focusNode: _focusNode,
+                                  decoration: InputDecoration.collapsed(
+                                      hintText: AppLocalizations.of(context)
+                                          .translate('send_a_message')),
+                                  controller: textEditingController,
+                                ),
+                              ),
+                            ),
+                          ),
                         ),
                       ),
-                    ),
-                    IconButton(
-                        icon: Icon(Icons.send),
-                        onPressed: () => isMessageValid
-                            ? onSubmit(textEditingController.text)
-                            : null)
-                  ],
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: GradientIconButton(
+                          elevation: 4,
+                          size: 45,
+                          colors: [
+                            AppTheme.kAccentColor,
+                            AppTheme.kFourthColor
+                          ],
+                          child: Transform.rotate(
+                              angle: math.pi * 1.5,
+                              child: Icon(Icons.send, color: Colors.white)),
+                          onTap: isMessageValid
+                              ? () => onSubmit(textEditingController.text)
+                              : null,
+                        ),
+                      )
+                    ],
+                  ),
                 ),
-              ),
+              ],
             ),
           ),
         ));
