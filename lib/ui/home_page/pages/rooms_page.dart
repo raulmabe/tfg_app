@@ -1,3 +1,6 @@
+import 'dart:math';
+
+import 'package:content_placeholder/content_placeholder.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jumpets_app/app_localizations.dart';
@@ -6,6 +9,7 @@ import 'package:jumpets_app/blocs/rooms_bloc/rooms_bloc.dart';
 import 'package:jumpets_app/models/chats/room.dart';
 import 'package:jumpets_app/models/models.dart';
 import 'package:jumpets_app/ui/components/background_illustrations/empty_space.dart';
+import 'package:jumpets_app/ui/components/placeholders/chat_placeholders.dart';
 import 'package:jumpets_app/ui/components/profile_icon.dart';
 
 class RoomsPage extends StatefulWidget {
@@ -96,8 +100,20 @@ class _RoomsPageState extends State<RoomsPage> {
                 .toList();
           }
 
+          if (state is RoomsLoading) {
+            children = List.generate(6, (index) => ChatTilePlaceholder());
+          }
+
           if (children.isEmpty) {
-            return EmptySpace();
+            return Column(
+              children: [
+                Spacer(),
+                EmptySpace(),
+                Spacer(
+                  flex: 2,
+                ),
+              ],
+            );
           }
 
           return ListView(

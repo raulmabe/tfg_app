@@ -5,6 +5,7 @@ import 'package:jumpets_app/app_localizations.dart';
 import 'package:jumpets_app/blocs/auth_bloc/auth_bloc.dart';
 import 'package:jumpets_app/blocs/search_bloc/search_ads_bloc.dart';
 import 'package:jumpets_app/models/models.dart';
+import 'package:jumpets_app/ui/components/background_illustrations/empty_space.dart';
 import 'package:jumpets_app/ui/components/cards/animal_card.dart';
 import 'package:jumpets_app/ui/components/cards/other_card.dart';
 import 'package:jumpets_app/ui/components/cards/valuation.dart';
@@ -117,7 +118,15 @@ class ProfileBody extends StatelessWidget {
                 : Container(),
           ]);
         }
-        return VoidProfile();
+        return Column(
+          children: [
+            Spacer(),
+            EmptySpace(),
+            Spacer(
+              flex: 2,
+            ),
+          ],
+        );
       },
     );
   }
@@ -143,6 +152,18 @@ class ProfileBody extends StatelessWidget {
         }
 
         valuations?.sort((one, two) => one.createdAt.compare(two.createdAt));
+
+        if (valuations.isEmpty) {
+          return Column(
+            children: [
+              Spacer(),
+              EmptySpace(),
+              Spacer(
+                flex: 2,
+              ),
+            ],
+          );
+        }
 
         return Padding(
           padding: EdgeInsets.symmetric(horizontal: 10),

@@ -31,20 +31,17 @@ class AuthSheet extends StatelessWidget {
                 }
               },
               child: SafeArea(
-                child: SingleChildScrollView(
-                  physics: NeverScrollableScrollPhysics(),
-                  controller: scrollController,
-                  child: AuthBody(),
-                ),
+                child: AuthBody(controller: scrollController),
               ),
             ));
   }
 }
 
-// ! AuthBody es el widget principal de la AUTH
+// * AuthBody es el widget principal de la AUTH
 class AuthBody extends StatefulWidget {
-  final bool isFlex;
-  AuthBody({this.isFlex = false});
+  final bool notScrollable;
+  final ScrollController controller;
+  AuthBody({this.notScrollable = false, this.controller});
   @override
   _AuthBodyState createState() => _AuthBodyState();
 }
@@ -59,26 +56,26 @@ class _AuthBodyState extends State<AuthBody> {
     index = 0;
     steps = [
       Step1Body(
-        isFlex: widget.isFlex,
-        onNext: () => setState(() {
-          index++;
-        }),
-      ),
+          notScrollable: widget.notScrollable,
+          onNext: () => setState(() {
+                index++;
+              }),
+          controller: widget.controller),
       Step2Body(
-        isFlex: widget.isFlex,
-        onBack: () => setState(() {
-          index--;
-        }),
-        onNext: () => setState(() {
-          index++;
-        }),
-      ),
+          notScrollable: widget.notScrollable,
+          onBack: () => setState(() {
+                index--;
+              }),
+          onNext: () => setState(() {
+                index++;
+              }),
+          controller: widget.controller),
       Step3Body(
-        isFlex: widget.isFlex,
-        onBack: () => setState(() {
-          index--;
-        }),
-      ),
+          notScrollable: widget.notScrollable,
+          onBack: () => setState(() {
+                index--;
+              }),
+          controller: widget.controller),
     ];
   }
 
@@ -107,174 +104,193 @@ class _AuthBodyState extends State<AuthBody> {
 }
 
 class Step1Body extends StatelessWidget {
-  final bool isFlex;
+  final bool notScrollable;
   final VoidCallback onNext;
-  Step1Body({this.isFlex = false, this.onNext});
+  final ScrollController controller;
+  Step1Body({this.notScrollable = false, this.onNext, this.controller});
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 60.0),
       child: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            maybeSpacer(flex: 2),
-            _Header(
-              title: AppLocalizations.of(context).translate('welcome'),
-              imagePath: 'assets/img/pollo3.png',
-            ),
-            LoginEmailInput(),
-            LoginPasswordInput(),
-            LoginButton(),
-            maybeSpacer(flex: 1),
-            Text(
-              AppLocalizations.of(context).translate('not_a_member_yet'),
-              textAlign: TextAlign.center,
-              style: Theme.of(context).textTheme.caption,
-            ),
-            MyRaisedButton(
-                text: AppLocalizations.of(context).translate('join_jumpets'),
-                filled: false,
-                color: Theme.of(context).accentColor,
-                onPressed: onNext),
-            maybeSpacer(flex: 4),
-            SizedBox(
-              height: kToolbarHeight * 2,
-            ),
-          ],
+        child: SingleChildScrollView(
+          controller: controller,
+          physics: notScrollable
+              ? NeverScrollableScrollPhysics()
+              : ClampingScrollPhysics(),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              SizedBox(height: 50),
+              _Header(
+                title: AppLocalizations.of(context).translate('welcome'),
+                imagePath: 'assets/img/pollo3.png',
+              ),
+              LoginEmailInput(),
+              LoginPasswordInput(),
+              LoginButton(),
+              SizedBox(height: 50),
+              Text(
+                AppLocalizations.of(context).translate('not_a_member_yet'),
+                textAlign: TextAlign.center,
+                style: Theme.of(context).textTheme.caption,
+              ),
+              MyRaisedButton(
+                  text: AppLocalizations.of(context).translate('join_jumpets'),
+                  filled: false,
+                  color: Theme.of(context).accentColor,
+                  onPressed: onNext),
+              SizedBox(height: 50),
+              SizedBox(
+                height: kToolbarHeight * 2,
+              ),
+            ],
+          ),
         ),
       ),
     );
   }
-
-  Widget maybeSpacer({int flex}) => isFlex ? Spacer(flex: flex) : Container();
 }
 
 class Step2Body extends StatelessWidget {
-  final bool isFlex;
+  final bool notScrollable;
   final VoidCallback onBack;
   final VoidCallback onNext;
-  Step2Body({this.isFlex = false, this.onBack, this.onNext});
+  final ScrollController controller;
+  Step2Body(
+      {this.notScrollable = false, this.onBack, this.onNext, this.controller});
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 60.0),
       child: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            maybeSpacer(flex: 2),
-            _Header(
-              title: AppLocalizations.of(context).translate('your_data'),
-              imagePath: 'assets/img/pollo1.png',
-            ),
-            RegisterNameInput(),
-            RegisterEmailInput(),
-            RegisterPasswordInput(),
-            RegisterPasswordInput(isConfirmed: true),
-            RegisterStep2Button(
-              onTap: onNext,
-            ),
-            maybeSpacer(flex: 1),
-            Text(
-              AppLocalizations.of(context)
-                  .translate('you_can_modify_it_later_on_your_profile'),
-              textAlign: TextAlign.center,
-              style: Theme.of(context).textTheme.caption,
-            ),
-            MyRaisedButton(
-              text: AppLocalizations.of(context).translate('go_back'),
-              filled: false,
-              borders: false,
-              color: Theme.of(context).accentColor,
-              onPressed: onBack,
-            ),
-            maybeSpacer(flex: 4),
-            SizedBox(
-              height: kToolbarHeight * 2,
-            ),
-          ],
+        child: SingleChildScrollView(
+          physics: notScrollable
+              ? NeverScrollableScrollPhysics()
+              : ClampingScrollPhysics(),
+          controller: controller,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              SizedBox(height: 50),
+              _Header(
+                title: AppLocalizations.of(context).translate('your_data'),
+                imagePath: 'assets/img/pollo1.png',
+              ),
+              RegisterNameInput(),
+              RegisterEmailInput(),
+              RegisterPasswordInput(),
+              RegisterPasswordInput(isConfirmed: true),
+              RegisterStep2Button(
+                onTap: onNext,
+              ),
+              SizedBox(height: 50),
+              Text(
+                AppLocalizations.of(context)
+                    .translate('you_can_modify_it_later_on_your_profile'),
+                textAlign: TextAlign.center,
+                style: Theme.of(context).textTheme.caption,
+              ),
+              MyRaisedButton(
+                text: AppLocalizations.of(context).translate('go_back'),
+                filled: false,
+                borders: false,
+                color: Theme.of(context).accentColor,
+                onPressed: onBack,
+              ),
+              SizedBox(height: 50),
+              SizedBox(
+                height: kToolbarHeight * 2,
+              ),
+            ],
+          ),
         ),
       ),
     );
   }
-
-  Widget maybeSpacer({int flex}) => isFlex ? Spacer(flex: flex) : Container();
 }
 
 class Step3Body extends StatelessWidget {
-  final bool isFlex;
+  final bool notScrollable;
+  final ScrollController controller;
   final VoidCallback onBack;
-  Step3Body({this.isFlex = false, this.onBack});
+  Step3Body({this.notScrollable = false, this.onBack, this.controller});
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 60.0),
       child: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            maybeSpacer(flex: 2),
-            _Header(
-              title: AppLocalizations.of(context).translate('one_more_step'),
-              imagePath: 'assets/img/pollo2.png',
-            ),
-            RegisterButton(
-              title: AppLocalizations.of(context)
-                  .translate('continue_like_a_private'),
-              type: UserType.PARTICULAR,
-            ),
-            Text(
-              AppLocalizations.of(context).translate('register_msg_private'),
-              textAlign: TextAlign.center,
-              style: Theme.of(context).textTheme.caption.copyWith(fontSize: 14),
-            ),
-            RegisterButton(
-              title: AppLocalizations.of(context)
-                  .translate('continue_like_a_professional'),
-              type: UserType.PROFESIONAL,
-            ),
-            Text(
-              AppLocalizations.of(context)
-                  .translate('register_msg_professional'),
-              textAlign: TextAlign.center,
-              style: Theme.of(context).textTheme.caption.copyWith(fontSize: 14),
-            ),
-            RegisterButton(
-              title: AppLocalizations.of(context)
-                  .translate('continue_like_a_shelter'),
-              type: UserType.PROTECTORA,
-            ),
-            Text(
-              AppLocalizations.of(context).translate('register_msg_shelter'),
-              textAlign: TextAlign.center,
-              style: Theme.of(context).textTheme.caption.copyWith(fontSize: 14),
-            ),
-            maybeSpacer(flex: 1),
-            MyRaisedButton(
-              text: AppLocalizations.of(context).translate('go_back'),
-              filled: false,
-              borders: false,
-              color: Theme.of(context).accentColor,
-              onPressed: onBack,
-            ),
-            maybeSpacer(flex: 4),
-            SizedBox(
-              height: kToolbarHeight * 2,
-            ),
-          ],
+        child: SingleChildScrollView(
+          physics: notScrollable
+              ? NeverScrollableScrollPhysics()
+              : ClampingScrollPhysics(),
+          controller: controller,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              SizedBox(height: 50),
+              _Header(
+                title: AppLocalizations.of(context).translate('one_more_step'),
+                imagePath: 'assets/img/pollo2.png',
+              ),
+              RegisterButton(
+                title: AppLocalizations.of(context)
+                    .translate('continue_like_a_private'),
+                type: UserType.PARTICULAR,
+              ),
+              Text(
+                AppLocalizations.of(context).translate('register_msg_private'),
+                textAlign: TextAlign.center,
+                style:
+                    Theme.of(context).textTheme.caption.copyWith(fontSize: 14),
+              ),
+              RegisterButton(
+                title: AppLocalizations.of(context)
+                    .translate('continue_like_a_professional'),
+                type: UserType.PROFESIONAL,
+              ),
+              Text(
+                AppLocalizations.of(context)
+                    .translate('register_msg_professional'),
+                textAlign: TextAlign.center,
+                style:
+                    Theme.of(context).textTheme.caption.copyWith(fontSize: 14),
+              ),
+              RegisterButton(
+                title: AppLocalizations.of(context)
+                    .translate('continue_like_a_shelter'),
+                type: UserType.PROTECTORA,
+              ),
+              Text(
+                AppLocalizations.of(context).translate('register_msg_shelter'),
+                textAlign: TextAlign.center,
+                style:
+                    Theme.of(context).textTheme.caption.copyWith(fontSize: 14),
+              ),
+              SizedBox(height: 50),
+              MyRaisedButton(
+                text: AppLocalizations.of(context).translate('go_back'),
+                filled: false,
+                borders: false,
+                color: Theme.of(context).accentColor,
+                onPressed: onBack,
+              ),
+              SizedBox(height: 50),
+              SizedBox(
+                height: kToolbarHeight * 2,
+              ),
+            ],
+          ),
         ),
       ),
     );
   }
-
-  Widget maybeSpacer({int flex}) => isFlex ? Spacer(flex: flex) : Container();
 }
 
 class _Header extends StatelessWidget {

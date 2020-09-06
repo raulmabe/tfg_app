@@ -40,6 +40,7 @@ class _MainPageState extends State<MainPage> {
     return BlocBuilder<AdsBloc, AdsState>(
       buildWhen: (previous, current) => current is CategoryChanged,
       builder: (context, state) => LiquidPullToRefresh(
+        animSpeedFactor: 4.5,
         showChildOpacityTransition: false,
         onRefresh: () {
           adsBloc.add(LastAdsRefreshed());

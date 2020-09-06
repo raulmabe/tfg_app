@@ -53,13 +53,13 @@ class _AnimatedIconStateButton
                   });
 
                   // Hacer el icono aparecer abajo
-                  await Future.delayed(Duration(milliseconds: 500));
+                  await Future.delayed(Duration(milliseconds: 250));
                   setState(() {
                     factor = -1;
                   });
 
                   // Hacer el icono volar para la posicion inicial
-                  await Future.delayed(Duration(milliseconds: 500));
+                  await Future.delayed(Duration(milliseconds: 250));
                   setState(() {
                     factor = 0;
                   });
@@ -113,7 +113,7 @@ class AnimatedIcon extends ImplicitlyAnimatedWidget {
   AnimatedIcon({
     @required this.child,
     @required this.offset,
-  }) : super(duration: Duration(milliseconds: 350));
+  }) : super(duration: Duration(milliseconds: 250));
 
   @override
   _AnimatedIconState createState() => _AnimatedIconState();

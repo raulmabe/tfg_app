@@ -38,6 +38,17 @@ class _FavouritesPageState extends State<FavouritesPage> {
           ads = state.ads;
         }
 
+        if (ads.isEmpty && state is! FavouritesLoading) {
+          return Column(
+            children: [
+              Spacer(),
+              EmptySpace(),
+              Spacer(
+                flex: 2,
+              ),
+            ],
+          );
+        }
         return ListView(
           shrinkWrap: true,
           children: <Widget>[

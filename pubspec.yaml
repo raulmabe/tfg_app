@@ -17,6 +17,7 @@ environment:
   sdk: ">=2.6.0 <3.0.0"
 
 dependencies:
+  url_launcher: ^5.5.1
   flutter:
     sdk: flutter
     
@@ -47,7 +48,6 @@ dependencies:
   image_picker: ^0.6.7+7
   dio: ^3.0.10
   http_parser: ^3.1.4
-  url_launcher: ^5.5.1
   graphql_flutter: ^3.1.0
 
 

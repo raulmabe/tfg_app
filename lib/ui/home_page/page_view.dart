@@ -26,7 +26,7 @@ class HomePageView extends StatelessWidget {
               if (state.authStatus.status !=
                   AuthenticationStatus.authenticated) {
                 return AuthBody(
-                  isFlex: true,
+                  notScrollable: true,
                 );
               } else {
                 return FavouritesPage();
@@ -41,7 +41,7 @@ class HomePageView extends StatelessWidget {
               if (state.authStatus.status !=
                   AuthenticationStatus.authenticated) {
                 return AuthBody(
-                  isFlex: true,
+                  notScrollable: true,
                 );
               } else {
                 return RoomsPage();

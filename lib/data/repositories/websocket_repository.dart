@@ -23,26 +23,23 @@ class WebSocketRepository {
  """ +
       AdsProvider.adFragment;
 
-  static AuthLink authLink(token) => AuthLink(getToken: () => token);
-
   static WebSocketLink websocketLink(token) => WebSocketLink(
         url: 'ws://' + ApiBaseHelper.domain,
         config: SocketClientConfig(
           autoReconnect: true,
-          inactivityTimeout: null,
+          inactivityTimeout: Duration(hours: 1),
           delayBetweenReconnectionAttempts: Duration(seconds: 1),
           initPayload: () => {
             'headers': {'Authorization': 'Token $token'},
           },
         ),
       );
-  static Link link(token) => authLink(token).concat(websocketLink(token));
 
   static ValueNotifier<GraphQLClient> initailizeClient(String token) {
     ValueNotifier<GraphQLClient> client = ValueNotifier(
       GraphQLClient(
         cache: OptimisticCache(dataIdFromObject: typenameDataIdFromObject),
-        link: link(token),
+        link: websocketLink(token),
       ),
     );
     return client;
