@@ -12,7 +12,7 @@ class ApiBaseHelper {
   ApiBaseHelper({this.baseUrl = 'http://' + ApiBaseHelper.domain})
       : timeout = 500;
 
-  static const String domain = '192.168.1.42:3030/graphql';
+  static const String domain = 'raulmabe.dev:3030/graphql';
 
   Future<dynamic> get(String url) async {
     var responseJson;

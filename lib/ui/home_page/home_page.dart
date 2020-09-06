@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:jumpets_app/app_localizations.dart';
 import 'package:jumpets_app/blocs/ads_bloc/ads_bloc.dart';
 import 'package:jumpets_app/blocs/auth_bloc/auth_bloc.dart';
 import 'package:jumpets_app/models/wrappers/auth_status.dart';
@@ -63,41 +64,11 @@ class _HomePageState extends State<HomePage> {
           builder: (context, state) {
             return Padding(
               padding: const EdgeInsets.only(top: 8.0),
-              child: SearchBar(
-                onChange: (value) => context.bloc<AdsBloc>().add(AdsSearched(
-                      text: value.trim(),
-                    )),
-                onClear: () => context.bloc<AdsBloc>()
-                  ..add(SearchModeDisabled())
-                  ..add(AdsFetched()),
-              ),
+              child: AnimatedSwitcher(
+                  duration: Duration(milliseconds: 0), child: _getAppBarHeader),
             );
           },
         ),
-        actions: <Widget>[
-          BlocBuilder<AuthBloc, AuthState>(
-            buildWhen: (previous, current) =>
-                previous.authStatus != current.authStatus,
-            builder: (context, state) {
-              if (state.authStatus.status !=
-                  AuthenticationStatus.authenticated) {
-                return IconButton(
-                    icon: Icon(FontAwesomeIcons.slidersH),
-                    iconSize: 22,
-                    onPressed: () => Navigator.pushNamed(context, '/settings'),
-                    color: Colors.black54);
-              }
-              return Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 20),
-                  child: CircularProfileThumb(
-                    onTap: () => Navigator.pushNamed(context, '/profile',
-                        arguments: state.authStatus.authData.user),
-                    borderWidth: 2,
-                    user: state.authStatus.authData.user,
-                  ));
-            },
-          ),
-        ],
       ),
       body: Notifier(
         child: Stack(
@@ -135,4 +106,68 @@ class _HomePageState extends State<HomePage> {
       ),
     );
   }
+
+  Widget get _getAppBarHeader {
+    if (_pageController.page?.floor() == 0) {
+      return _title(Text(AppLocalizations.of(context).translate('favourites'),
+          style: Theme.of(context).textTheme.headline3));
+    } else if (_pageController.page?.floor() == 1) {
+      return _title(
+        SearchBar(
+          onChange: (value) => context.bloc<AdsBloc>().add(AdsSearched(
+                text: value.trim(),
+              )),
+          onClear: () => context.bloc<AdsBloc>()
+            ..add(SearchModeDisabled())
+            ..add(AdsFetched()),
+        ),
+      );
+    } else if (_pageController.page?.floor() == 2) {
+      return _title(Text(AppLocalizations.of(context).translate('chats'),
+          style: Theme.of(context).textTheme.headline3));
+    }
+
+    return _title(
+      SearchBar(
+        onChange: (value) => context.bloc<AdsBloc>().add(AdsSearched(
+              text: value.trim(),
+            )),
+        onClear: () => context.bloc<AdsBloc>()
+          ..add(SearchModeDisabled())
+          ..add(AdsFetched()),
+      ),
+    );
+  }
+
+  Widget _title(Widget main) => Builder(builder: (context) {
+        return Row(
+          mainAxisSize: MainAxisSize.max,
+          children: <Widget>[
+            Expanded(child: main),
+            BlocBuilder<AuthBloc, AuthState>(
+              buildWhen: (previous, current) =>
+                  previous.authStatus != current.authStatus,
+              builder: (context, state) {
+                if (state.authStatus.status !=
+                    AuthenticationStatus.authenticated) {
+                  return IconButton(
+                      icon: Icon(FontAwesomeIcons.slidersH),
+                      iconSize: 22,
+                      onPressed: () =>
+                          Navigator.pushNamed(context, '/settings'),
+                      color: Colors.black54);
+                }
+                return Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 20),
+                    child: CircularProfileThumb(
+                      onTap: () => Navigator.pushNamed(context, '/profile',
+                          arguments: state.authStatus.authData.user),
+                      borderWidth: 2,
+                      user: state.authStatus.authData.user,
+                    ));
+              },
+            ),
+          ],
+        );
+      });
 }

@@ -41,7 +41,6 @@ class _FavouritesPageState extends State<FavouritesPage> {
         return ListView(
           shrinkWrap: true,
           children: <Widget>[
-            _title(context, ads.length),
             (state is FavouritesFailure)
                 ? EmptySpace()
                 : VerticalGrid(
@@ -53,20 +52,4 @@ class _FavouritesPageState extends State<FavouritesPage> {
       },
     );
   }
-
-  Widget _title(context, length) => Padding(
-        padding: EdgeInsets.symmetric(
-          horizontal: 20,
-        ),
-        child: Row(
-          children: <Widget>[
-            Expanded(
-              child: Text(AppLocalizations.of(context).translate('favourites'),
-                  style: Theme.of(context).textTheme.headline3),
-            ),
-            Text(length.toString(),
-                style: Theme.of(context).textTheme.headline5),
-          ],
-        ),
-      );
 }

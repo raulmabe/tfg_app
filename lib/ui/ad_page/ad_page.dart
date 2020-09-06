@@ -273,7 +273,8 @@ class AdPage extends StatelessWidget {
             builder: (context, state) {
               bool isAuth = state.authStatus.status.isAuthenticated;
 
-              if (state.authStatus.authData.user.id == ad.creator.id)
+              if (isAuth &&
+                  state.authStatus.authData?.user?.id == ad.creator?.id)
                 return Container();
 
               return Row(
@@ -294,7 +295,7 @@ class AdPage extends StatelessWidget {
                               ? SpinKitPulse(
                                   color: Colors.pinkAccent,
                                   size: 50,
-                                  duration: Duration(milliseconds: 300),
+                                  duration: Duration(milliseconds: 500),
                                 )
                               : Icon(
                                   alreadyFaved
@@ -316,21 +317,23 @@ class AdPage extends StatelessWidget {
                     child: MyRaisedButton(
                       text: AppLocalizations.of(context).translate('contact'),
                       onPressed: () async {
-                        Room room = (await (context
-                                .bloc<RoomsBloc>()
-                                .gotAlreadyRoomWithUser(ad.creator))) ??
-                            Room((r) => r
-                              ..createdAt = DateTime.now()
-                              ..updatedAt = DateTime.now()
-                              ..id = ''
-                              ..user1 = ad.creator
-                              ..user2 = state.authStatus.authData.user
-                              ..messages = BuiltList<Message>([]).toBuilder());
-
-                        isAuth
-                            ? Navigator.pushNamed(context, '/chat',
-                                arguments: room)
-                            : Helper.showLoginBottomSheet(context);
+                        if (!isAuth) {
+                          Helper.showLoginBottomSheet(context);
+                        } else {
+                          Room room = (await (context
+                                  .bloc<RoomsBloc>()
+                                  .gotAlreadyRoomWithUser(ad.creator))) ??
+                              Room((r) => r
+                                ..createdAt = DateTime.now()
+                                ..updatedAt = DateTime.now()
+                                ..id = ''
+                                ..user1 = ad.creator
+                                ..user2 = state.authStatus.authData.user
+                                ..messages =
+                                    BuiltList<Message>([]).toBuilder());
+                          Navigator.pushNamed(context, '/chat',
+                              arguments: room);
+                        }
                       },
                     ),
                   )

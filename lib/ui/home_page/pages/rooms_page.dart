@@ -29,98 +29,91 @@ class _RoomsPageState extends State<RoomsPage> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<RoomsBloc, RoomsState>(
-      builder: (context, state) {
-        List<Widget> children = [];
+    return Material(
+      color: Theme.of(context).primaryColor,
+      child: BlocBuilder<RoomsBloc, RoomsState>(
+        builder: (context, state) {
+          List<Widget> children = [];
 
-        if (state is RoomsSuccess) {
-          children = state.rooms
-              .map((room) => Column(
-                    children: [
-                      ListTile(
-                        onTap: () => Navigator.pushNamed(context, '/chat',
-                            arguments: room),
-                        leading: SizedBox(
-                          height: 60,
-                          width: 60,
-                          child: FittedBox(
-                            child: CircularProfileThumb(
-                                user: otherUser(context, room)),
+          if (state is RoomsSuccess) {
+            children = state.rooms
+                .map((room) => Column(
+                      children: [
+                        ListTile(
+                          onTap: () => Navigator.pushNamed(context, '/chat',
+                              arguments: room),
+                          leading: SizedBox(
+                            height: 60,
+                            width: 60,
+                            child: FittedBox(
+                              child: CircularProfileThumb(
+                                  user: otherUser(context, room)),
+                            ),
+                          ),
+                          title: Row(
+                            children: [
+                              Flexible(
+                                child: Text('${otherUser(context, room).name}',
+                                    style:
+                                        Theme.of(context).textTheme.bodyText1),
+                              ),
+                              Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 8.0),
+                                child: Icon(
+                                  otherUser(context, room).iconFromType,
+                                  size: 18,
+                                  color: Theme.of(context)
+                                      .textTheme
+                                      .bodyText1
+                                      .color,
+                                ),
+                              ),
+                            ],
+                          ),
+                          subtitle: Text('${room.messages.last.text}',
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .caption
+                                  .copyWith(fontSize: 14)),
+                          trailing: Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Text(
+                                  '${room.messages.last.createdAt.toLocal().format('h:mm a', AppLocalizations.of(context).locale.toString())}',
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .caption
+                                      .copyWith(fontSize: 14)),
+                            ],
                           ),
                         ),
-                        title: Row(
-                          children: [
-                            Flexible(
-                              child: Text('${otherUser(context, room).name}',
-                                  style: Theme.of(context).textTheme.bodyText1),
-                            ),
-                            Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 8.0),
-                              child: Icon(
-                                otherUser(context, room).iconFromType,
-                                size: 18,
-                                color:
-                                    Theme.of(context).textTheme.bodyText1.color,
-                              ),
-                            ),
-                          ],
+                        Divider(
+                          indent: MediaQuery.of(context).size.width * .2,
                         ),
-                        subtitle: Text('${room.messages.last.text}',
-                            style: Theme.of(context)
-                                .textTheme
-                                .caption
-                                .copyWith(fontSize: 14)),
-                        trailing: Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Text(
-                                '${room.messages.last.createdAt.toLocal().format('h:mm a', AppLocalizations.of(context).locale.toString())}',
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .caption
-                                    .copyWith(fontSize: 14)),
-                          ],
-                        ),
-                      ),
-                      Divider(
-                        indent: MediaQuery.of(context).size.width * .2,
-                      ),
-                    ],
-                  ))
-              .toList();
-        }
+                      ],
+                    ))
+                .toList();
+          }
 
-        return ListView(
-          shrinkWrap: true,
-          children: <Widget>[
-            _title(context, children.length),
-            (state is RoomsFailure)
-                ? EmptySpace()
-                : Column(
-                    children: children,
-                  ),
-          ],
-        );
-      },
+          if (children.isEmpty) {
+            return EmptySpace();
+          }
+
+          return ListView(
+            shrinkWrap: true,
+            children: <Widget>[
+              (state is RoomsFailure)
+                  ? EmptySpace()
+                  : Column(
+                      children: children,
+                    ),
+            ],
+          );
+        },
+      ),
     );
   }
-
-  Widget _title(context, length) => Padding(
-        padding: EdgeInsets.symmetric(
-          horizontal: 20,
-        ),
-        child: Row(
-          children: <Widget>[
-            Expanded(
-              child: Text(AppLocalizations.of(context).translate('chats'),
-                  style: Theme.of(context).textTheme.headline3),
-            ),
-            Text(length.toString(),
-                style: Theme.of(context).textTheme.headline5),
-          ],
-        ),
-      );
 
   User otherUser(BuildContext context, Room room) =>
       (context.bloc<AuthBloc>().state.authStatus.authData?.user?.id ?? false) ==

@@ -12,6 +12,7 @@ import 'package:jumpets_app/models/chats/message.dart';
 import 'package:jumpets_app/models/chats/room.dart';
 import 'package:jumpets_app/models/models.dart';
 import 'package:jumpets_app/ui/app_theme.dart';
+import 'package:jumpets_app/ui/components/buttons/animated_icon_button.dart';
 import 'package:jumpets_app/ui/components/buttons/gradient_icon_button.dart';
 import 'package:jumpets_app/ui/components/chat_bubbles.dart';
 import 'package:jumpets_app/ui/components/profile_icon.dart';
@@ -221,7 +222,7 @@ class _MessageBarState extends State<MessageBar> {
                       ),
                       Padding(
                         padding: const EdgeInsets.all(8.0),
-                        child: GradientIconButton(
+                        child: AnimatedIconButton(
                           elevation: 4,
                           size: 45,
                           colors: [
