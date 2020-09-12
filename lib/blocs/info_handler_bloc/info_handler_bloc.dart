@@ -22,6 +22,9 @@ class InfoHandlerBloc extends Bloc<InfoHandlerEvent, InfoHandlerState> {
         yield InfoDialog(event.msg);
       }
       yield InfoHandlerEmpty();
+    } else if (event is MessageActionAdded) {
+      yield InfoDialogAction(event.msg, event.onMainCallback, event.onMainText,
+          event.onSecondaryCallback, event.onSecondaryText);
     }
   }
 

@@ -16,3 +16,13 @@ class InfoDialog extends InfoHandlerState {
     this.msg,
   );
 }
+
+class InfoDialogAction extends InfoHandlerState {
+  final String msg;
+  final String onMainText;
+  final String onSecondaryText;
+  final Function onMainCallback;
+  final Function onSecondaryCallback;
+  InfoDialogAction(this.msg, this.onMainCallback, this.onMainText,
+      this.onSecondaryCallback, this.onSecondaryText);
+}

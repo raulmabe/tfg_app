@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jumpets_app/app_localizations.dart';
 import 'package:jumpets_app/blocs/auth_bloc/auth_bloc.dart';
@@ -8,6 +9,8 @@ import 'package:jumpets_app/models/wrappers/auth_status.dart';
 import 'package:jumpets_app/ui/components/jumpets_icons_icons.dart';
 import 'package:jumpets_app/ui/helper.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'dart:math' as math;
+import 'dart:io' show Platform;
 
 class SettingsPage extends StatelessWidget {
   @override
@@ -33,7 +36,7 @@ class SettingsPage extends StatelessWidget {
               context),
           ListTile(
             title: Text(AppLocalizations.of(context).translate('language')),
-            dense: true,
+            dense: false,
             trailing: DropdownButton<String>(
               value: AppLocalizations.of(context)
                   .locale
@@ -57,18 +60,6 @@ class SettingsPage extends StatelessWidget {
             ),
           ),
           ListTile(
-            title: Text(AppLocalizations.of(context).translate('developed_by')),
-            subtitle: Text('raulmabe.dev'),
-            onTap: () async {
-              if (await canLaunch('http://www.raulmabe.dev')) {
-                await launch('http://www.raulmabe.dev');
-              } else {
-                throw 'Could not launch website';
-              }
-            },
-            dense: true,
-          ),
-          ListTile(
             title: Text(AppLocalizations.of(context).translate('licenses')),
             onTap: () => showAboutDialog(
                 context: context,
@@ -79,8 +70,28 @@ class SettingsPage extends StatelessWidget {
                 applicationVersion: 'v1.0.0',
                 applicationLegalese: AppLocalizations.of(context)
                     .translate('not_a_real_app_msg')),
-            dense: true,
+            dense: false,
           ),
+          ListTile(
+            title: Text(AppLocalizations.of(context).translate('developed_by')),
+            subtitle: Text('raulmabe.dev'),
+            onTap: () async {
+              if (await canLaunch('http://www.raulmabe.dev')) {
+                await launch('http://www.raulmabe.dev');
+              } else {
+                throw 'Could not launch website';
+              }
+            },
+            dense: false,
+          ),
+          if (Platform.isAndroid)
+            ListTile(
+              trailing: Icon(Icons.exit_to_app),
+              title: Text(AppLocalizations.of(context).translate('exit_app')),
+              onTap: () =>
+                  SystemChannels.platform.invokeMethod('SystemNavigator.pop'),
+              dense: false,
+            ),
         ],
       ),
     );
@@ -102,27 +113,27 @@ class SettingsPage extends StatelessWidget {
                       title:
                           Text(AppLocalizations.of(context).translate('name')),
                       subtitle: Text(state.authStatus.authData.user.name),
-                      dense: true,
+                      dense: false,
                     ),
                     ListTile(
                       title:
                           Text(AppLocalizations.of(context).translate('email')),
                       subtitle: Text(state.authStatus.authData.user.email),
-                      dense: true,
+                      dense: false,
                     ),
                     ListTile(
                       title: Text(AppLocalizations.of(context)
                           .translate('account_address')),
                       subtitle: Text(
                           state.authStatus.authData.user.address.toString()),
-                      dense: true,
+                      dense: false,
                     ),
                     ListTile(
                       title: Text(AppLocalizations.of(context)
                           .translate('account_phone')),
                       subtitle:
                           Text(state.authStatus.authData.user.phone.toString()),
-                      dense: true,
+                      dense: false,
                     ),
                     if (state.authStatus.authData.user is Profesional)
                       ListTile(
@@ -132,7 +143,7 @@ class SettingsPage extends StatelessWidget {
                             (state.authStatus.authData.user as Profesional)
                                 .web
                                 .toString()),
-                        dense: true,
+                        dense: false,
                       ),
                     if (state.authStatus.authData.user is Protectora)
                       ListTile(
@@ -142,13 +153,13 @@ class SettingsPage extends StatelessWidget {
                             (state.authStatus.authData.user as Protectora)
                                 .web
                                 .toString()),
-                        dense: true,
+                        dense: false,
                       ),
                     ListTile(
                       title: Text(
                           AppLocalizations.of(context).translate('password')),
                       subtitle: Text('*****'),
-                      dense: true,
+                      dense: false,
                     ),
                     ListTile(
                       title: Text(AppLocalizations.of(context)
@@ -158,7 +169,7 @@ class SettingsPage extends StatelessWidget {
                               locale: AppLocalizations.of(context)
                                   .locale
                                   .languageCode)),
-                      dense: true,
+                      dense: false,
                     ),
                     ListTile(
                       title: Text(AppLocalizations.of(context)
@@ -168,7 +179,7 @@ class SettingsPage extends StatelessWidget {
                               locale: AppLocalizations.of(context)
                                   .locale
                                   .languageCode)),
-                      dense: true,
+                      dense: false,
                     ),
                   ]),
               ListTile(
@@ -177,14 +188,15 @@ class SettingsPage extends StatelessWidget {
                     .translate('settings_edit_profile')),
                 onTap: () => Navigator.pushNamed(context, '/edit_profile',
                     arguments: state.authStatus.authData.user),
-                dense: true,
+                dense: false,
               ),
               ListTile(
-                trailing: Icon(Icons.exit_to_app),
+                trailing: Transform.rotate(
+                    angle: math.pi, child: Icon(Icons.exit_to_app)),
                 title: Text(AppLocalizations.of(context).translate('log_out')),
                 onTap: () =>
                     context.bloc<AuthBloc>().add(AuthLogoutRequested()),
-                dense: true,
+                dense: false,
               ),
             ],
           );

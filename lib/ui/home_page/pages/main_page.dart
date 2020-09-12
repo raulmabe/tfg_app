@@ -233,9 +233,7 @@ class _MainPageState extends State<MainPage> {
 
           return EmptySpace();
         }
-        return FittedBox(
-          child: Text('Initializing'),
-        );
+        return EmptySpace();
       },
     );
   }

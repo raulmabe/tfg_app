@@ -11,8 +11,8 @@ import 'package:jumpets_app/models/chats/room.dart';
 import 'package:built_collection/built_collection.dart';
 import 'package:jumpets_app/models/enums/delivery_status.dart';
 import 'package:jumpets_app/models/models.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:jumpets_app/ui/components/buttons/icon_button.dart';
+import 'package:jumpets_app/ui/components/image_carousel.dart';
 import 'package:jumpets_app/ui/components/info_square.dart';
 import 'package:jumpets_app/models/extensions/string_extension.dart';
 import 'package:jumpets_app/models/extensions/bool_extension.dart';
@@ -66,11 +66,11 @@ class AdPage extends StatelessWidget {
                       ),
                       child: ValueListenableBuilder<int>(
                         valueListenable: notifierChangeImage,
-                        builder: (context, value, child) => Image.network(
-                          value < ad.photos.length && value > 0
-                              ? ad.photos[value]
-                              : ad.photos.first,
-                          fit: BoxFit.cover,
+                        builder: (context, value, child) => ImageCarousel(
+                          selectedIndex: value,
+                          imagesUrls: ad.photos.toList(),
+                          onChanged: (index) =>
+                              notifierChangeImage.value = index,
                         ),
                       )),
                 ),
@@ -292,10 +292,11 @@ class AdPage extends StatelessWidget {
                           color: Colors.grey.shade200,
                           size: 50,
                           child: state is FavouritesLoading
-                              ? SpinKitPulse(
-                                  color: Colors.pinkAccent,
-                                  size: 50,
-                                  duration: Duration(milliseconds: 500),
+                              ? Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: FittedBox(
+                                    child: CircularProgressIndicator(),
+                                  ),
                                 )
                               : Icon(
                                   alreadyFaved

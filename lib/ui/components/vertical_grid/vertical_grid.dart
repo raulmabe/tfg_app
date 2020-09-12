@@ -33,7 +33,7 @@ class VerticalGrid extends StatelessWidget {
             6,
             (index) => ContentPlaceholder(
                   borderRadius: 20,
-                  height: height * (index % 2 == 0 ? .6 : 1),
+                  height: height * (index == 0 ? .5 : 1),
                 ))
         : List<Widget>.from(ads.map((ad) {
             if (ad is AnimalAd) {

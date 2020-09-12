@@ -49,6 +49,31 @@ class Notifier extends StatelessWidget {
               ),
             ));
       }, duration: Duration(seconds: 4));
+    } else if (state is InfoDialogAction) {
+      showDialog(
+          context: context,
+          builder: (context) => MyAlertDialog(
+                msg: AppLocalizations.of(context).translate(state.msg),
+                actions: [
+                  Expanded(
+                    child: MyRaisedButton(
+                      filled: false,
+                      textColor: Theme.of(context).accentColor,
+                      borders: false,
+                      text: AppLocalizations.of(context)
+                          .translate(state.onSecondaryText),
+                      onPressed: state.onSecondaryCallback,
+                    ),
+                  ),
+                  Expanded(
+                    child: MyRaisedButton(
+                      text: AppLocalizations.of(context)
+                          .translate(state.onMainText),
+                      onPressed: state.onMainCallback,
+                    ),
+                  ),
+                ],
+              ));
     }
   }
 
@@ -66,38 +91,22 @@ class Notifier extends StatelessWidget {
                           .translate(state.error.toString()) ??
                       state.error.toString(),
                   actions: [
-                    FractionallySizedBox(
-                      widthFactor: .7,
-                      child: Row(
-                        children: [
-                          Expanded(
-                            child: MyRaisedButton(
-                              text: AppLocalizations.of(context)
-                                  .translate('cancel'),
-                              onPressed: () => Navigator.pop(context),
-                            ),
-                          )
-                        ],
+                    Expanded(
+                      child: MyRaisedButton(
+                        filled: false,
+                        textColor: Theme.of(context).accentColor,
+                        borders: false,
+                        text: AppLocalizations.of(context).translate('retry'),
+                        onPressed: () {
+                          state.retry();
+                          Navigator.pop(context);
+                        },
                       ),
                     ),
-                    FractionallySizedBox(
-                      widthFactor: .7,
-                      child: Row(
-                        children: [
-                          Expanded(
-                            child: MyRaisedButton(
-                              filled: false,
-                              textColor: Theme.of(context).accentColor,
-                              borders: false,
-                              text: AppLocalizations.of(context)
-                                  .translate('retry'),
-                              onPressed: () {
-                                state.retry();
-                                Navigator.pop(context);
-                              },
-                            ),
-                          )
-                        ],
+                    Expanded(
+                      child: MyRaisedButton(
+                        text: AppLocalizations.of(context).translate('cancel'),
+                        onPressed: () => Navigator.pop(context),
                       ),
                     ),
                   ]));
@@ -140,38 +149,29 @@ class MyAlertDialog extends StatelessWidget {
       valueListenable: notifierStartup,
       child: AlertDialog(
         title: icon,
-        content: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text(
-                msg,
-                style:
-                    Theme.of(context).textTheme.caption.copyWith(fontSize: 23),
-                textAlign: TextAlign.center,
-              ),
-              SizedBox(
-                height: 30,
-              ),
-            ]
-              ..addAll(actions ?? [])
-              ..add(actions == null || actions.isEmpty
-                  ? FractionallySizedBox(
-                      widthFactor: .7,
-                      child: Row(
-                        children: [
-                          Expanded(
-                            child: MyRaisedButton(
-                              text: AppLocalizations.of(context)
-                                  .translate('okay'),
-                              onPressed: () {
-                                Navigator.pop(context);
-                              },
-                            ),
-                          )
-                        ],
-                      ),
-                    )
-                  : Container())),
+        content: Column(mainAxisSize: MainAxisSize.min, children: [
+          Text(
+            msg,
+            style: Theme.of(context).textTheme.caption.copyWith(fontSize: 23),
+            textAlign: TextAlign.center,
+          ),
+          SizedBox(
+            height: 30,
+          ),
+          Row(children: [
+            if (actions != null && actions.isNotEmpty)
+              ...actions
+            else
+              Expanded(
+                child: MyRaisedButton(
+                  text: AppLocalizations.of(context).translate('okay'),
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                ),
+              )
+          ]),
+        ]),
       ),
       builder: (context, value, child) => AnimatedPadding(
           duration: Duration(milliseconds: 250),

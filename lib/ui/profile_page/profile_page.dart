@@ -80,7 +80,7 @@ class _ProfilePageState extends State<ProfilePage> {
                         ?.user),
                 color: Colors.black54),
             IconButton(
-                icon: Icon(FontAwesomeIcons.slidersH),
+                icon: Icon(Icons.menu),
                 iconSize: 22,
                 onPressed: () => Navigator.pushNamed(context, '/settings'),
                 color: Colors.black54),

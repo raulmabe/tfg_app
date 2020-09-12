@@ -1,8 +1,12 @@
 import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jumpets_app/app_localizations.dart';
+import 'package:jumpets_app/blocs/auth_bloc/auth_bloc.dart';
+import 'package:jumpets_app/blocs/favs_bloc/favourites_bloc.dart';
 import 'package:jumpets_app/models/ads/animal_ad.dart';
 import 'package:jumpets_app/ui/ad_page/ad_page.dart';
+import 'package:jumpets_app/ui/components/buttons/icon_button.dart';
 import 'package:jumpets_app/ui/components/sex_icon.dart';
 import 'package:jumpets_app/ui/components/user_chip.dart';
 import 'package:transparent_image/transparent_image.dart';
@@ -88,6 +92,43 @@ class AnimalCard extends StatelessWidget {
                     small: true,
                   ),
                 ),
+
+              // * Uncomment to insert fav icon on card
+              /* if (!small)
+                Positioned(
+                  top: 0,
+                  right: 0,
+                  child: BlocBuilder<AuthBloc, AuthState>(
+                    buildWhen: (previous, current) =>
+                        previous.authStatus.status != current.authStatus.status,
+                    builder: (context, state) {
+                      bool isAuth = state.authStatus.status.isAuthenticated;
+                      if (isAuth) {
+                        return Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 10),
+                          child: BlocBuilder<FavouritesBloc, FavouritesState>(
+                            builder: (context, state) {
+                              bool isFaved = false;
+                              if (state is FavouritesSuccess) {
+                                isFaved = state.ads.any(
+                                    (element) => element.id == animalAd.id);
+                              }
+
+                              if (isFaved)
+                                return Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Icon(Icons.favorite,
+                                      color: Colors.pinkAccent),
+                                );
+                              return Container();
+                            },
+                          ),
+                        );
+                      }
+                      return Container();
+                    },
+                  ),
+                ), */
             ],
           ),
         ),

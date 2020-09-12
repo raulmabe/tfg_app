@@ -24,15 +24,15 @@ class ShelterCard extends StatelessWidget {
         mainAxisSize: MainAxisSize.max,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
+          Spacer(),
           _img(),
-          SizedBox(
-            height: 10,
-          ),
+          Spacer(),
           AnimatedShelterCard(
             edgePadding: edgePadding,
             shelter: shelter,
             isSelected: isSelected,
           ),
+          Spacer(),
         ],
       ),
     );

@@ -131,6 +131,9 @@
     "licenses": "Llicencies",
     "empty_space_title": "Sembla que no hi ha res!",
     "empty_space_subtitle": "No he trobat més informació",
-    "chats": "Xats",
-    "send_a_message": "Envia un missatge"
+    "chats": "Missatges",
+    "send_a_message": "Envia un missatge",
+    "are_you_sure_you_want_to_exit_the_app": "¿Vols sortir de l'aplicació?",
+    "exit_app": "Sortir de l'aplicació",
+    "hi": "Hey"
 }

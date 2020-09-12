@@ -39,7 +39,7 @@ class _SheltersGridState extends State<SheltersGrid> {
     return SafeArea(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
-        mainAxisSize: MainAxisSize.min,
+        mainAxisSize: MainAxisSize.max,
         children: [
           BlocBuilder<AuthBloc, AuthState>(
             builder: (context, state) {
@@ -66,7 +66,8 @@ class _SheltersGridState extends State<SheltersGrid> {
           ),
           Expanded(
             child: Padding(
-              padding: const EdgeInsets.only(top: 10, bottom: kToolbarHeight),
+              padding:
+                  const EdgeInsets.only(top: 10, bottom: kToolbarHeight * 1.2),
               child: PageView.builder(
                   scrollDirection: Axis.horizontal,
                   onPageChanged: (index) => setState(() {

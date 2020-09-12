@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:content_placeholder/content_placeholder.dart';
 import 'package:flutter/material.dart';
 import 'package:jumpets_app/models/models.dart';
 import 'package:transparent_image/transparent_image.dart';
@@ -29,11 +30,22 @@ class CircularProfileThumb extends StatelessWidget {
         child: InkWell(
           onTap: onTap,
           child: user.thumbnail != null
-              ? CircleAvatar(
-                  radius: radius,
-                  backgroundColor: Theme.of(context).accentColor,
-                  backgroundImage: NetworkImage(
+              ? ClipOval(
+                  child: Image.network(
                     user.thumbnail,
+                    loadingBuilder: (context, child, loadingProgress) {
+                      if (loadingProgress == null) return child;
+                      return FittedBox(
+                        child: ContentPlaceholder(
+                          borderRadius: 50,
+                          height: radius * 2,
+                          width: radius * 2,
+                        ),
+                      );
+                    },
+                    fit: BoxFit.cover,
+                    width: radius * 2,
+                    height: radius * 2,
                   ),
                 )
               : CircleAvatar(

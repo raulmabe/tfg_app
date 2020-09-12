@@ -7,7 +7,7 @@ class AppTheme {
 
   static const Color kerrorColor = Color(0xffff6b81);
 
-  static const Color kAccentColor = Color(0xFF76DEC2);
+  static const Color kAccentColor = Color(0xff76DEC8); //Color(0xFF76DEC2);
   static const Color kAccentColorLight = Color(0xffBBEEE1);
   static const Color kSecondaryColor = Color(0xff8E76DE);
   static const Color kThirdColor = Color(0xff7692DE);
