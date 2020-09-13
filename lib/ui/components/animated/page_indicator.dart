@@ -17,7 +17,7 @@ class PageIndicator extends ImplicitlyAnimatedWidget {
       Curve curve,
       Duration duration})
       : super(
-            duration: duration ?? Duration(milliseconds: 350),
+            duration: duration ?? Duration(milliseconds: 200),
             curve: curve ?? Curves.easeInOut);
   @override
   _PageIndicatorState createState() => _PageIndicatorState();

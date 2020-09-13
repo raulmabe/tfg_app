@@ -21,32 +21,36 @@ class CircularProfileThumb extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Material(
-        elevation: elevation,
-        shape: CircleBorder(
-          side: BorderSide(color: user.colorFromType, width: borderWidth),
-        ),
-        child: InkWell(
-          onTap: onTap,
+    return Material(
+      elevation: elevation,
+      shape: CircleBorder(
+        side: BorderSide(color: user.colorFromType, width: borderWidth),
+      ),
+      color: Colors.transparent,
+      child: InkWell(
+        onTap: onTap,
+        child: ClipOval(
           child: user.thumbnail != null
-              ? ClipOval(
-                  child: Image.network(
-                    user.thumbnail,
-                    loadingBuilder: (context, child, loadingProgress) {
-                      if (loadingProgress == null) return child;
-                      return FittedBox(
-                        child: ContentPlaceholder(
-                          borderRadius: 50,
-                          height: radius * 2,
-                          width: radius * 2,
+              ? Image.network(
+                  user.thumbnail,
+                  loadingBuilder: (context, child, loadingProgress) {
+                    if (loadingProgress == null) return child;
+                    return SizedBox(
+                      height: radius * 2,
+                      width: radius * 2,
+                      child: Center(
+                        child: CircularProgressIndicator(
+                          value: loadingProgress?.expectedTotalBytes != null
+                              ? loadingProgress.cumulativeBytesLoaded /
+                                  loadingProgress.expectedTotalBytes
+                              : null,
                         ),
-                      );
-                    },
-                    fit: BoxFit.cover,
-                    width: radius * 2,
-                    height: radius * 2,
-                  ),
+                      ),
+                    );
+                  },
+                  fit: BoxFit.cover,
+                  width: radius * 2,
+                  height: radius * 2,
                 )
               : CircleAvatar(
                   radius: radius,

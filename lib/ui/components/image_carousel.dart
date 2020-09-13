@@ -63,6 +63,7 @@ class _ImageCarouselState extends State<ImageCarousel> {
               Rect.fromLTWH(0, 0, bounds.width, bounds.height),
             ),
             child: Container(
+              padding: EdgeInsets.only(top: 10),
               height: 50,
               color: Colors.white,
             ),

@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:jumpets_app/app_localizations.dart';
 import 'package:jumpets_app/blocs/ads_bloc/ads_bloc.dart';
 import 'package:jumpets_app/models/enums/user_types.dart';
 import 'package:jumpets_app/models/models.dart';
 import 'package:jumpets_app/ui/components/auth/auth_sheet.dart';
+import 'package:jumpets_app/ui/components/social_media_sheet.dart';
 import 'package:jumpets_app/ui/filters_page/filters_page.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class Helper {
   static void showFilterBottomSheet(
@@ -20,8 +23,8 @@ class Helper {
         barrierColor: Colors.black26,
         shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(20.0),
-          topRight: Radius.circular(20.0),
+          topLeft: Radius.circular(32.0),
+          topRight: Radius.circular(32.0),
         )),
         isScrollControlled: true,
         context: context,
@@ -50,8 +53,8 @@ class Helper {
         barrierColor: Colors.black26,
         shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(20.0),
-          topRight: Radius.circular(20.0),
+          topLeft: Radius.circular(32.0),
+          topRight: Radius.circular(32.0),
         )),
         isScrollControlled: true,
         context: context,
@@ -60,6 +63,27 @@ class Helper {
               bottom: MediaQuery.of(context).viewInsets.bottom,
             ),
             child: AuthSheet()));
+  }
+
+  static void showSocialMediaBottomSheet(BuildContext context) {
+    showModalBottomSheet(
+        barrierColor: Colors.black26,
+        backgroundColor: Colors.transparent,
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(32.0),
+          topRight: Radius.circular(32.0),
+        )),
+        context: context,
+        builder: (_) => BottomSheet(
+            backgroundColor: Colors.transparent,
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(32),
+              topRight: Radius.circular(32),
+            )),
+            onClosing: () => true,
+            builder: (context) => SocialMediaSheet()));
   }
 
   static Color getUserColorByType(UserType type) {

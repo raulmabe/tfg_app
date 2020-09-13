@@ -71,7 +71,7 @@ class AdsBloc extends Bloc<AdsEvent, AdsState> {
         yield await _mapAdsFetchedToState(event);
         break;
       case MoreAdsFetched:
-        yield await _mapMoreAdsFetchedToState(event);
+        yield* _mapMoreAdsFetchedToState(event);
         break;
       case AdsSearched:
         if (isEventSearchValid(event)) {
@@ -142,33 +142,39 @@ class AdsBloc extends Bloc<AdsEvent, AdsState> {
     }
   }
 
-  Future<AdsState> _mapMoreAdsFetchedToState(MoreAdsFetched event) async {
-    if (category == Category.SHELTERS) return state;
-    print('Trying to fetch more ads but: $_hasNextPage');
-    if (_hasNextPage) {
-      try {
-        final paginatedAds = await repository.getPaginatedAds(
-          category: category,
-          first: 10,
-          after: _currentEndCursor,
-          photosWidth: event.photosWidth,
-          photosHeight: event.photosHeight,
-          thumbnailHeight: event.thumbnailHeight,
-          thumbnailWidth: event.thumbnailWidth,
-        );
-        return AdsSuccess(
-            paginatedAds: paginatedAds.rebuild((b) => b
-              ..ads = BuiltList<Ad>(
-                      []..addAll(_lastestAdsFetched)..addAll(paginatedAds.ads))
-                  .toBuilder()));
-      } catch (err, stacktrace) {
-        errorBloc
-            .add(ErrorHandlerCatched(bloc: this, event: event, error: err));
-        print('Ads BLoC OnCatch $err, $stacktrace');
-        return AdsFailure();
+  Stream<AdsState> _mapMoreAdsFetchedToState(MoreAdsFetched event) async* {
+    if (category == Category.SHELTERS) {
+      yield state;
+    } else {
+      print('Trying to fetch more ads but: $_hasNextPage');
+      if (_hasNextPage) {
+        yield AdsLoadingMore(ads: _lastestAdsFetched);
+        try {
+          final paginatedAds = await repository.getPaginatedAds(
+            category: category,
+            first: 10,
+            after: _currentEndCursor,
+            photosWidth: event.photosWidth,
+            photosHeight: event.photosHeight,
+            thumbnailHeight: event.thumbnailHeight,
+            thumbnailWidth: event.thumbnailWidth,
+          );
+          yield AdsSuccess(
+              paginatedAds: paginatedAds.rebuild((b) => b
+                ..ads = BuiltList<Ad>([]
+                      ..addAll(_lastestAdsFetched)
+                      ..addAll(paginatedAds.ads))
+                    .toBuilder()));
+        } catch (err, stacktrace) {
+          errorBloc
+              .add(ErrorHandlerCatched(bloc: this, event: event, error: err));
+          print('Ads BLoC OnCatch $err, $stacktrace');
+          yield AdsFailure();
+        }
+      } else {
+        yield state;
       }
     }
-    return state;
   }
 
   Future<AdsState> _mapAdsFetchedToState(AdsFetched event) async {

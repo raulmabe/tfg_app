@@ -1,4 +1,5 @@
 import 'package:animations/animations.dart';
+import 'package:content_placeholder/content_placeholder.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jumpets_app/app_localizations.dart';

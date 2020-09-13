@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:jumpets_app/app_localizations.dart';
 import 'package:jumpets_app/blocs/auth_bloc/auth_bloc.dart';
 import 'package:jumpets_app/blocs/locale_bloc/locale_bloc.dart';
@@ -72,18 +73,6 @@ class SettingsPage extends StatelessWidget {
                     .translate('not_a_real_app_msg')),
             dense: false,
           ),
-          ListTile(
-            title: Text(AppLocalizations.of(context).translate('developed_by')),
-            subtitle: Text('raulmabe.dev'),
-            onTap: () async {
-              if (await canLaunch('http://www.raulmabe.dev')) {
-                await launch('http://www.raulmabe.dev');
-              } else {
-                throw 'Could not launch website';
-              }
-            },
-            dense: false,
-          ),
           if (Platform.isAndroid)
             ListTile(
               trailing: Icon(Icons.exit_to_app),
@@ -92,6 +81,23 @@ class SettingsPage extends StatelessWidget {
                   SystemChannels.platform.invokeMethod('SystemNavigator.pop'),
               dense: false,
             ),
+          _header(AppLocalizations.of(context).translate('about_me'), context),
+          ListTile(
+            title: Text(AppLocalizations.of(context).translate('social_media')),
+            onTap: () => Helper.showSocialMediaBottomSheet(context),
+            dense: false,
+          ),
+          ListTile(
+            title: Text(
+                '${AppLocalizations.of(context).translate('buy_me_a_coffee')} 🍺'),
+            onTap: () async {
+              if (await canLaunch('https://www.buymeacoffee.com/mabe')) {
+                await launch('https://www.buymeacoffee.com/mabe');
+              } else {
+                throw 'Could not launch website';
+              }
+            },
+          ),
         ],
       ),
     );

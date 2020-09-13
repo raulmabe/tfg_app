@@ -183,7 +183,10 @@ class _MainPageState extends State<MainPage> {
         );
     }
     return SliverToBoxAdapter(
-      child: _contentOfCategory(),
+      child: Padding(
+        padding: const EdgeInsets.only(bottom: kToolbarHeight * 1.3),
+        child: _contentOfCategory(),
+      ),
     );
   }
 
@@ -198,7 +201,9 @@ class _MainPageState extends State<MainPage> {
         _refreshCompleter = Completer();
       },
       builder: (context, state) {
-        if (state is AdsLoading || state is AdsSuccess) {
+        if (state is AdsLoadingMore ||
+            state is AdsLoading ||
+            state is AdsSuccess) {
           switch (context.bloc<AdsBloc>().category) {
             case Category.SHELTERS:
               if (state is AdsSuccess && state.shelters.isEmpty)
@@ -213,6 +218,8 @@ class _MainPageState extends State<MainPage> {
                 ads = context.bloc<AdsBloc>().searchMode
                     ? state.searchedAds
                     : state.paginatedAds.ads.asList();
+              } else if (state is AdsLoadingMore) {
+                ads = state.ads;
               }
 
               if (state is AdsSuccess && ads.isEmpty) return EmptySpace();
@@ -225,6 +232,7 @@ class _MainPageState extends State<MainPage> {
                 ),
                 ads: ads,
                 usePlaceholders: state is AdsLoading,
+                insertPlaceholderAtLast: state is AdsLoadingMore,
               );
           }
         }
