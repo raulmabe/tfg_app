@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:jumpets_app/models/models.dart';
 import 'package:jumpets_app/ui/components/cards/animated_minishelter_card.dart';
+import 'package:jumpets_app/ui/components/maps/google_map_shelters.dart';
 import 'package:jumpets_app/ui/profile_page/profile_page.dart';
 import 'package:transparent_image/transparent_image.dart';
 import 'dart:math' as math;
@@ -24,30 +25,19 @@ class ShelterCard extends StatelessWidget {
         mainAxisSize: MainAxisSize.max,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Spacer(),
-          _img(),
-          Spacer(),
+          SizedBox(
+            height: 20,
+          ),
           AnimatedShelterCard(
             edgePadding: edgePadding,
             shelter: shelter,
             isSelected: isSelected,
           ),
           Spacer(),
+          SizedBox(
+            height: kToolbarHeight * 1.5,
+          ),
         ],
-      ),
-    );
-  }
-
-  Widget _img() {
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(20),
-      child: FadeInImage.memoryNetwork(
-        alignment: Alignment(-(offset.abs() * 2), 0),
-        fadeInDuration: Duration(milliseconds: 200),
-        placeholder: kTransparentImage,
-        image: shelter.thumbnail,
-        fit: BoxFit.cover,
-        width: double.maxFinite,
       ),
     );
   }

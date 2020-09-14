@@ -48,6 +48,9 @@ dependencies:
   dio: ^3.0.10
   http_parser: ^3.1.4
   graphql_flutter: ^3.1.0
+  google_maps_flutter: ^0.5.32
+  geocoder: ^0.2.1
+  flutter_dotenv: ^2.1.0
 
 
 dev_dependencies:
@@ -73,17 +76,21 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
+   - .env
+   - assets/styles/map_style.txt
+
    - assets/img/bebe.jpg
    - assets/img/pollo1.png
    - assets/img/pollo2.png
    - assets/img/pollo3.png
    - assets/img/default_avatar.png
-   - assets/img/empty_background.png
    - assets/img/404.png
+   - assets/img/no_data.png
 
    - lang/en.json
    - lang/es.json
    - lang/ca.json
+
    
   fonts:
     - family:  JumpetsIcons

@@ -1,10 +1,9 @@
 import 'package:content_placeholder/content_placeholder.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:jumpets_app/blocs/auth_bloc/auth_bloc.dart';
 import 'package:jumpets_app/models/models.dart';
 import 'package:jumpets_app/ui/components/cards/shelter_card.dart';
+
+import 'maps/google_map_shelters.dart';
 
 class SheltersGrid extends StatefulWidget {
   final bool usePlaceholders;
@@ -25,7 +24,7 @@ class _SheltersGridState extends State<SheltersGrid> {
   void initState() {
     super.initState();
     _index = 0;
-    _pageController = PageController(viewportFraction: 0.7);
+    _pageController = PageController(viewportFraction: 0.8);
 
     _pageController.addListener(() {
       setState(() {
@@ -36,60 +35,61 @@ class _SheltersGridState extends State<SheltersGrid> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        mainAxisSize: MainAxisSize.max,
-        children: [
-          BlocBuilder<AuthBloc, AuthState>(
-            builder: (context, state) {
-              String msg;
-              if (state.authStatus?.authData?.user?.address == null) {
-                msg =
-                    'Before searching for closest shelters you must first enter a valid address';
-              } else {
-                msg =
-                    'Buscando desde "${state.authStatus.authData?.user?.address}"';
-              }
-              return Padding(
-                  padding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-                  child: widget.usePlaceholders
-                      ? ContentPlaceholder(
-                          borderRadius: 20,
-                          height: 20,
-                          width: 20,
-                        )
-                      : Container(
-                          child: Text(msg,
-                              style: Theme.of(context).textTheme.subtitle1)));
-            },
+    return Stack(
+      children: [
+        Positioned(
+          bottom: 0,
+          left: 0,
+          right: 0,
+          top: 10,
+          child: AnimatedSwitcher(
+              duration: Duration(milliseconds: 350),
+              child: widget.shelters != null && widget.shelters.isNotEmpty
+                  ? ClipRRect(
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(32),
+                        topRight: Radius.circular(32),
+                      ),
+                      /* borderRadius: BorderRadius.circular(32), */
+                      child: MapAddress(
+                        address: widget.shelters[_index].address,
+                      ),
+                    )
+                  : Container()),
+        ),
+        SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.only(top: 10),
+            child: PageView.builder(
+                scrollDirection: Axis.horizontal,
+                onPageChanged: (index) => setState(() {
+                      _index = index;
+                    }),
+                controller: _pageController,
+                itemCount: widget.usePlaceholders ? 1 : widget.shelters.length,
+                itemBuilder: (context, index) => Transform.scale(
+                      scale: index == _index ? 1 : .9,
+                      child: widget.usePlaceholders
+                          ? Column(
+                              children: [
+                                SizedBox(
+                                  height: 20,
+                                ),
+                                ContentPlaceholder(
+                                  height: 100,
+                                ),
+                                Spacer()
+                              ],
+                            )
+                          : ShelterCard(
+                              shelter: widget.shelters[index],
+                              isSelected: index == _index,
+                              offset: pageOffset - index,
+                            ),
+                    )),
           ),
-          Expanded(
-            child: Padding(
-              padding:
-                  const EdgeInsets.only(top: 10, bottom: kToolbarHeight * 1.2),
-              child: PageView.builder(
-                  scrollDirection: Axis.horizontal,
-                  onPageChanged: (index) => setState(() {
-                        _index = index;
-                      }),
-                  controller: _pageController,
-                  itemCount:
-                      widget.usePlaceholders ? 1 : widget.shelters.length,
-                  itemBuilder: (context, index) => Transform.scale(
-                        scale: index == _index ? 1 : .9,
-                        child: widget.usePlaceholders
-                            ? ContentPlaceholder()
-                            : ShelterCard(
-                                shelter: widget.shelters[index],
-                                isSelected: index == _index,
-                                offset: pageOffset - index,
-                              ),
-                      )),
-            ),
-          ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }

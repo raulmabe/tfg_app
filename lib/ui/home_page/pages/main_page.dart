@@ -74,7 +74,7 @@ class _MainPageState extends State<MainPage> {
                                 isBlocked: !context
                                     .bloc<AdsBloc>()
                                     .isCategoryValidToSearch,
-                                size: 50,
+                                size: 45,
                                 borderRadius: 10,
                                 isSelected: context.bloc<AdsBloc>().searchMode,
                                 child: Icon(
@@ -104,24 +104,25 @@ class _MainPageState extends State<MainPage> {
                                     ));
                           },
                         ),
-                      )
-                    ]..addAll(Category.values
-                        .toList()
-                        .map((category) => Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 10),
-                              child: CategoryButton.fromCategory(
-                                isSelected: adsBloc.category == category,
-                                category: category,
-                                size: 50,
-                                isCollapsed: true,
-                                borderRadius: 10,
-                                onTap: (category) => adsBloc
-                                  ..add(CategorySelected(category: category))
-                                  ..add(LastAdsRefreshed()),
-                              ),
-                            ))
-                        .toList()),
+                      ),
+                      ...Category.values
+                          .toList()
+                          .map((category) => Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 10),
+                                child: CategoryButton.fromCategory(
+                                  isSelected: adsBloc.category == category,
+                                  category: category,
+                                  size: 45,
+                                  isCollapsed: true,
+                                  borderRadius: 10,
+                                  onTap: (category) => adsBloc
+                                    ..add(CategorySelected(category: category))
+                                    ..add(LastAdsRefreshed()),
+                                ),
+                              ))
+                          .toList()
+                    ],
                   ),
                 ),
               ),

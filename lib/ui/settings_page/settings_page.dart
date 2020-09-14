@@ -5,13 +5,15 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:jumpets_app/app_localizations.dart';
 import 'package:jumpets_app/blocs/auth_bloc/auth_bloc.dart';
 import 'package:jumpets_app/blocs/locale_bloc/locale_bloc.dart';
+import 'package:jumpets_app/data/api_base_helper.dart';
 import 'package:jumpets_app/models/models.dart';
 import 'package:jumpets_app/models/wrappers/auth_status.dart';
 import 'package:jumpets_app/ui/components/jumpets_icons_icons.dart';
+import 'package:jumpets_app/ui/components/server_status_tile.dart';
 import 'package:jumpets_app/ui/helper.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'dart:math' as math;
-import 'dart:io' show Platform;
+import 'dart:io' show InternetAddress, Platform, SocketException;
 
 class SettingsPage extends StatelessWidget {
   @override
@@ -60,6 +62,7 @@ class SettingsPage extends StatelessWidget {
                   context.bloc<LocaleBloc>().add(LocaleChanged(idioma)),
             ),
           ),
+          ServerStatusTile(),
           ListTile(
             title: Text(AppLocalizations.of(context).translate('licenses')),
             onTap: () => showAboutDialog(

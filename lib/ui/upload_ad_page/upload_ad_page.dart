@@ -166,7 +166,7 @@ class SelectableCategories extends StatelessWidget {
                       child: CategoryButton.fromCategory(
                         isSelected: state.category == category,
                         category: category,
-                        size: 50,
+                        size: 45,
                         isCollapsed: true,
                         borderRadius: 10,
                         onTap: (category) => context

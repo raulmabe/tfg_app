@@ -138,5 +138,8 @@
     "hi": "Hey",
     "buy_me_a_coffee": "Convida'm a un cervesa",
     "about_me": "Sobre mi",
-    "social_media": "Reds socials"
+    "social_media": "Reds socials",
+    "server_status": "Estat del servidor",
+    "server_down": "Desconnectat",
+    "server_up": "Connectat"
 }

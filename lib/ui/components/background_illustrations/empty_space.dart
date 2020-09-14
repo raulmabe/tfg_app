@@ -8,27 +8,27 @@ class BaseSpace extends StatelessWidget {
   final String titleUntranslated;
   final String subtitleUntranslated;
   final bool greyScale;
+  final double widthFactor;
 
   BaseSpace(
       {@required this.assetName,
       @required this.titleUntranslated,
       @required this.subtitleUntranslated,
-      this.greyScale = true});
+      this.greyScale = true,
+      this.widthFactor = 0.8});
 
   @override
   Widget build(BuildContext context) {
     return Column(
       mainAxisSize: MainAxisSize.max,
-      mainAxisAlignment: MainAxisAlignment.start,
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         if (!greyScale)
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 60),
-            child: FractionallySizedBox(
-              widthFactor: .8,
-              child: Image.asset(
-                assetName,
-              ),
+          FractionallySizedBox(
+            widthFactor: widthFactor,
+            child: Image.asset(
+              assetName,
             ),
           ),
         if (greyScale)
@@ -55,23 +55,27 @@ class BaseSpace extends StatelessWidget {
               1,
               0,
             ]),
-            child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 60),
-              child: FractionallySizedBox(
-                widthFactor: .8,
-                child: Image.asset(
-                  assetName,
-                ),
+            child: FractionallySizedBox(
+              widthFactor: widthFactor,
+              child: Image.asset(
+                assetName,
               ),
             ),
           ),
         Padding(
           padding: const EdgeInsets.symmetric(vertical: 10),
-          child: Text(AppLocalizations.of(context).translate(titleUntranslated),
-              style: Theme.of(context).textTheme.headline6),
+          child: Text(
+            AppLocalizations.of(context).translate(titleUntranslated),
+            style: Theme.of(context).textTheme.headline6,
+            textAlign: TextAlign.center,
+          ),
         ),
         Text(AppLocalizations.of(context).translate(subtitleUntranslated),
-            style: Theme.of(context).textTheme.caption)
+            style: Theme.of(context).textTheme.caption,
+            textAlign: TextAlign.center),
+        SizedBox(
+          height: kToolbarHeight * 1.3,
+        ),
       ],
     );
   }
@@ -81,8 +85,10 @@ class EmptySpace extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BaseSpace(
-        assetName: 'assets/img/empty_background.png',
+        assetName: 'assets/img/no_data.png',
         titleUntranslated: 'empty_space_title',
+        widthFactor: .4,
+        greyScale: false,
         subtitleUntranslated: 'empty_space_subtitle');
   }
 }

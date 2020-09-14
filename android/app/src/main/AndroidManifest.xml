@@ -10,6 +10,8 @@
         android:label="jumpets_app"
         android:icon="@mipmap/ic_launcher"
         android:requestLegacyExternalStorage="true">
+        <meta-data android:name="com.google.android.geo.API_KEY"
+               android:value="AIzaSyAZcLmsH5ooXy-LEnmTB-rERf-tJpKsS3M"/>
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"

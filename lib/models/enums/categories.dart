@@ -6,6 +6,9 @@ import 'package:jumpets_app/models/serializers/serializers.dart';
 part 'categories.g.dart';
 
 class Category extends EnumClass {
+  static const Category SHELTERS = _$SHELTERS;
+  static const Category PRODUCTS = _$PRODUCTS;
+  static const Category SERVICES = _$SERVICES;
   static const Category DOGS = _$DOGS;
   static const Category CATS = _$CATS;
   static const Category BUNNIES = _$BUNNIES;
@@ -15,10 +18,7 @@ class Category extends EnumClass {
   static const Category RODENTS = _$RODENTS;
   static const Category FISHES = _$FISHES;
 
-  static const Category PRODUCTS = _$PRODUCTS;
-  static const Category SERVICES = _$SERVICES;
 /*   static const Category VETS = _$VETS; */
-  static const Category SHELTERS = _$SHELTERS;
 
   const Category._(String name) : super(name);
 

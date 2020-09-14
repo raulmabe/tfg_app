@@ -6,6 +6,9 @@ part of 'categories.dart';
 // BuiltValueGenerator
 // **************************************************************************
 
+const Category _$SHELTERS = const Category._('SHELTERS');
+const Category _$PRODUCTS = const Category._('PRODUCTS');
+const Category _$SERVICES = const Category._('SERVICES');
 const Category _$DOGS = const Category._('DOGS');
 const Category _$CATS = const Category._('CATS');
 const Category _$BUNNIES = const Category._('BUNNIES');
@@ -14,12 +17,15 @@ const Category _$OTHERS = const Category._('OTHERS');
 const Category _$BIRDS = const Category._('BIRDS');
 const Category _$RODENTS = const Category._('RODENTS');
 const Category _$FISHES = const Category._('FISHES');
-const Category _$PRODUCTS = const Category._('PRODUCTS');
-const Category _$SERVICES = const Category._('SERVICES');
-const Category _$SHELTERS = const Category._('SHELTERS');
 
 Category _$categoryValueOf(String name) {
   switch (name) {
+    case 'SHELTERS':
+      return _$SHELTERS;
+    case 'PRODUCTS':
+      return _$PRODUCTS;
+    case 'SERVICES':
+      return _$SERVICES;
     case 'DOGS':
       return _$DOGS;
     case 'CATS':
@@ -36,12 +42,6 @@ Category _$categoryValueOf(String name) {
       return _$RODENTS;
     case 'FISHES':
       return _$FISHES;
-    case 'PRODUCTS':
-      return _$PRODUCTS;
-    case 'SERVICES':
-      return _$SERVICES;
-    case 'SHELTERS':
-      return _$SHELTERS;
     default:
       throw new ArgumentError(name);
   }
@@ -49,6 +49,9 @@ Category _$categoryValueOf(String name) {
 
 final BuiltSet<Category> _$categoryValues =
     new BuiltSet<Category>(const <Category>[
+  _$SHELTERS,
+  _$PRODUCTS,
+  _$SERVICES,
   _$DOGS,
   _$CATS,
   _$BUNNIES,
@@ -57,9 +60,6 @@ final BuiltSet<Category> _$categoryValues =
   _$BIRDS,
   _$RODENTS,
   _$FISHES,
-  _$PRODUCTS,
-  _$SERVICES,
-  _$SHELTERS,
 ]);
 
 Serializer<Category> _$categorySerializer = new _$CategorySerializer();

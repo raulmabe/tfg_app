@@ -138,5 +138,8 @@
     "hi": "Hi",
     "buy_me_a_coffee": "Buy me a beer",
     "about_me": "About me",
-    "social_media": "Social media"
+    "social_media": "Social media",
+    "server_status": "Server status",
+    "server_down": "Down",
+    "server_up": "Up"
 }
