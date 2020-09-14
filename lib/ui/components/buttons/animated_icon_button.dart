@@ -113,7 +113,7 @@ class AnimatedIcon extends ImplicitlyAnimatedWidget {
   AnimatedIcon({
     @required this.child,
     @required this.offset,
-  }) : super(duration: Duration(milliseconds: 250));
+  }) : super(duration: Duration(milliseconds: 400), curve: Curves.easeOutQuad);
 
   @override
   _AnimatedIconState createState() => _AnimatedIconState();

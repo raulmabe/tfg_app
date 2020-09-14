@@ -10,6 +10,7 @@ import 'package:jumpets_app/data/repositories/authentication_repository.dart';
 import 'package:jumpets_app/models/enums/user_types.dart';
 import 'package:jumpets_app/models/wrappers/auth_status.dart';
 import 'package:jumpets_app/ui/components/buttons/raised_button.dart';
+import 'package:jumpets_app/ui/components/draggable_indicator.dart';
 import 'package:jumpets_app/ui/components/forms/login_form_components.dart';
 
 // ! AuthSheet solo es un wrapper
@@ -17,8 +18,8 @@ class AuthSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DraggableScrollableSheet(
-        initialChildSize: .7,
-        minChildSize: .7,
+        initialChildSize: .8,
+        minChildSize: .5,
         maxChildSize: .9,
         expand: false,
         builder: (_, scrollController) => BlocListener<AuthBloc, AuthState>(
@@ -31,7 +32,12 @@ class AuthSheet extends StatelessWidget {
                 }
               },
               child: SafeArea(
-                child: AuthBody(controller: scrollController),
+                child: Column(
+                  children: [
+                    DraggableIndicator(),
+                    Expanded(child: AuthBody(controller: scrollController)),
+                  ],
+                ),
               ),
             ));
   }

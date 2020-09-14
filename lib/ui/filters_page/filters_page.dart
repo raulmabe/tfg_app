@@ -11,6 +11,7 @@ import 'package:jumpets_app/ui/components/buttons/flat_button.dart';
 import 'package:jumpets_app/ui/components/buttons/raised_button.dart';
 import 'package:jumpets_app/ui/components/buttons/sex_radio_button.dart';
 import 'package:jumpets_app/ui/components/buttons/text_radio_button.dart';
+import 'package:jumpets_app/ui/components/draggable_indicator.dart';
 import 'package:jumpets_app/ui/components/jumpets_icons_icons.dart';
 import 'package:jumpets_app/ui/components/searchbar/searchbar.dart';
 import 'package:jumpets_app/ui/helper.dart';

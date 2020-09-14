@@ -14,7 +14,7 @@ class ApiBaseHelper {
 
 // 192.168.1.48:3030/graphql
 // raulmabe.dev:3030/graphql
-  static const String domain = '192.168.1.48:3030/graphql';
+  static const String domain = 'raulmabe.dev:3030/graphql';
 
   Future<dynamic> get(String url) async {
     var responseJson;
