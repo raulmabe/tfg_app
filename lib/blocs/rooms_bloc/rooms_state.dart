@@ -12,4 +12,8 @@ class RoomsSuccess extends RoomsState {
   RoomsSuccess({this.rooms});
 }
 
-class RoomsFailure extends RoomsState {}
+class RoomsFailure extends RoomsState {
+  final Function retry;
+  final String msg;
+  RoomsFailure({this.retry, this.msg});
+}

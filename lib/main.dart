@@ -28,6 +28,7 @@ void main() async {
     statusBarColor: Colors.transparent,
   ));
   await DotEnv().load('.env');
+  await initHiveForFlutter();
 
   runApp(MyApp(
     adsRepository: AdsRepository(),

@@ -1,21 +1,35 @@
 import 'package:flutter/material.dart';
 import 'package:jumpets_app/app_localizations.dart';
+import 'package:jumpets_app/ui/components/buttons/raised_button.dart';
 
 // https://undraw.co/illustrations
 
-class BaseSpace extends StatelessWidget {
+class BaseSpace extends StatefulWidget {
   final String assetName;
   final String titleUntranslated;
   final String subtitleUntranslated;
   final bool greyScale;
   final double widthFactor;
+  final Function retry;
 
   BaseSpace(
       {@required this.assetName,
       @required this.titleUntranslated,
       @required this.subtitleUntranslated,
       this.greyScale = true,
-      this.widthFactor = 0.8});
+      this.widthFactor = 0.8,
+      this.retry});
+
+  @override
+  _BaseSpaceState createState() => _BaseSpaceState();
+}
+
+class _BaseSpaceState extends State<BaseSpace> {
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    precacheImage(AssetImage(widget.assetName), context);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -24,61 +38,74 @@ class BaseSpace extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        if (!greyScale)
-          FractionallySizedBox(
-            widthFactor: widthFactor,
-            child: Image.asset(
-              assetName,
-            ),
-          ),
-        if (greyScale)
+        if (!widget.greyScale) asset,
+        if (widget.greyScale)
           ColorFiltered(
-            colorFilter: ColorFilter.matrix(<double>[
-              0.2126,
-              0.7152,
-              0.0722,
-              0,
-              0,
-              0.2126,
-              0.7152,
-              0.0722,
-              0,
-              0,
-              0.2126,
-              0.7152,
-              0.0722,
-              0,
-              0,
-              0,
-              0,
-              0,
-              1,
-              0,
-            ]),
-            child: FractionallySizedBox(
-              widthFactor: widthFactor,
-              child: Image.asset(
-                assetName,
-              ),
-            ),
-          ),
+              colorFilter: ColorFilter.matrix(<double>[
+                0.2126,
+                0.7152,
+                0.0722,
+                0,
+                0,
+                0.2126,
+                0.7152,
+                0.0722,
+                0,
+                0,
+                0.2126,
+                0.7152,
+                0.0722,
+                0,
+                0,
+                0,
+                0,
+                0,
+                1,
+                0,
+              ]),
+              child: asset),
         Padding(
           padding: const EdgeInsets.symmetric(vertical: 10),
           child: Text(
-            AppLocalizations.of(context).translate(titleUntranslated),
+            AppLocalizations.of(context).translate(widget.titleUntranslated),
             style: Theme.of(context).textTheme.headline6,
             textAlign: TextAlign.center,
           ),
         ),
-        Text(AppLocalizations.of(context).translate(subtitleUntranslated),
-            style: Theme.of(context).textTheme.caption,
-            textAlign: TextAlign.center),
+        if (widget.retry != null)
+          FractionallySizedBox(
+            widthFactor: .5,
+            child: MyRaisedButton(
+              text: AppLocalizations.of(context)
+                  .translate(widget.subtitleUntranslated),
+              filled: false,
+              borders: false,
+              textColor: Theme.of(context).accentColor,
+              onPressed: widget.retry,
+            ),
+          ),
+        if (widget.retry == null)
+          Text(
+              AppLocalizations.of(context)
+                  .translate(widget.subtitleUntranslated),
+              style: Theme.of(context).textTheme.caption,
+              textAlign: TextAlign.center),
         SizedBox(
           height: kToolbarHeight * 1.3,
         ),
       ],
     );
   }
+
+  Widget get asset => Padding(
+        padding: const EdgeInsets.only(bottom: 60.0),
+        child: FractionallySizedBox(
+          widthFactor: widget.widthFactor,
+          child: Image.asset(
+            widget.assetName,
+          ),
+        ),
+      );
 }
 
 class EmptySpace extends StatelessWidget {
@@ -100,5 +127,22 @@ class NotFoundSpace extends StatelessWidget {
         assetName: 'assets/img/404.png',
         titleUntranslated: 'page_not_found_title',
         subtitleUntranslated: 'page_not_found_msg');
+  }
+}
+
+class ErrorSpace extends StatelessWidget {
+  final Function retry;
+  final String msg;
+  ErrorSpace({this.retry, this.msg});
+
+  @override
+  Widget build(BuildContext context) {
+    return BaseSpace(
+        widthFactor: .5,
+        assetName: 'assets/img/ovni.png',
+        greyScale: false,
+        titleUntranslated: msg ?? 'error_on_request_title',
+        retry: retry,
+        subtitleUntranslated: 'error_on_request_msg');
   }
 }

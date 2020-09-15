@@ -53,7 +53,8 @@ class FavouritesBloc extends Bloc<FavouritesEvent, FavouritesState> {
       errorBloc.add(ErrorHandlerCatched(
           bloc: this, event: event, error: err, notification: true));
       print('OnCatch $err, $stack');
-      return FavouritesFailure();
+      return FavouritesFailure(
+          retry: () => this.add(event), msg: err.toString());
     }
   }
 
@@ -66,7 +67,8 @@ class FavouritesBloc extends Bloc<FavouritesEvent, FavouritesState> {
       errorBloc.add(ErrorHandlerCatched(
           bloc: this, event: event, error: err, notification: true));
       print('OnCatch $err, $stack');
-      return FavouritesFailure();
+      return FavouritesFailure(
+          retry: () => this.add(event), msg: err.toString());
     }
   }
 
@@ -76,9 +78,9 @@ class FavouritesBloc extends Bloc<FavouritesEvent, FavouritesState> {
       List<Ad> favs = await repository.getFavs(token: token);
       return FavouritesSuccess(ads: favs);
     } catch (err, stack) {
-      errorBloc.add(ErrorHandlerCatched(bloc: this, event: event, error: err));
       print('OnCatch $err, $stack');
-      return FavouritesFailure();
+      return FavouritesFailure(
+          retry: () => this.add(event), msg: err.toString());
     }
   }
 

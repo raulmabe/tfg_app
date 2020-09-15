@@ -141,5 +141,8 @@
     "social_media": "Redes sociales",
     "server_status": "Estado del servidor",
     "server_down": "Desconectado",
-    "server_up": "Conectado"
+    "server_up": "Conectado",
+    "error_on_request_title": "Petición perdida",
+    "error_on_request_msg": "Inténtalo de nuevo",
+    "category_not_valid": "La categoría es inválida"
 }

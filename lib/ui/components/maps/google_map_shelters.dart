@@ -75,6 +75,7 @@ class _MapAddressState extends State<MapAddress> {
       mapToolbarEnabled: false,
       rotateGesturesEnabled: false,
       myLocationButtonEnabled: false,
+      zoomControlsEnabled: false,
       onMapCreated: _onMapCreated,
       markers: Set.from([
         Marker(

@@ -12,4 +12,8 @@ class FavouritesSuccess extends FavouritesState {
   FavouritesSuccess({this.ads});
 }
 
-class FavouritesFailure extends FavouritesState {}
+class FavouritesFailure extends FavouritesState {
+  final Function retry;
+  final String msg;
+  FavouritesFailure({this.retry, this.msg});
+}

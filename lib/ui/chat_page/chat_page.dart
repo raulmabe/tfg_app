@@ -24,18 +24,12 @@ class ChatPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GraphQLProvider(
-        client: WebSocketRepository.initailizeClient(
-            context.bloc<AuthBloc>().state.authStatus.authData.token),
+        client: WebSocketRepository.initailizeClient,
         child: Subscription(
-          'messageSent',
-          WebSocketRepository.messageSent(room.id),
-          initial: [],
-          builder: ({error, loading, payload}) {
-            print('PARAMS $error $loading ${payload.toString()}');
-
-            if (payload != null) {
-              print('Payload: ${payload.toString()}');
-            }
+          options: SubscriptionOptions(
+              document: WebSocketRepository.messageSent(room.id)),
+          builder: (result) {
+            print('PARAMS $result');
 
             return _InnerChatPage(
               room: room,

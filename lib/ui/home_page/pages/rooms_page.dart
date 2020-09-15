@@ -108,7 +108,9 @@ class _RoomsPageState extends State<RoomsPage> {
             return Column(
               children: [
                 Spacer(),
-                EmptySpace(),
+                ErrorSpace(
+                    retry: state is RoomsFailure ? state.retry : null,
+                    msg: state is RoomsFailure ? state.msg : null),
                 Spacer(
                   flex: 2,
                 ),

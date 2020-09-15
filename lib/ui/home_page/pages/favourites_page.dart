@@ -53,7 +53,7 @@ class _FavouritesPageState extends State<FavouritesPage> {
           shrinkWrap: true,
           children: <Widget>[
             (state is FavouritesFailure)
-                ? EmptySpace()
+                ? ErrorSpace(retry: state.retry, msg: state.msg)
                 : VerticalGrid(
                     usePlaceholders: state is FavouritesLoading,
                     ads: ads,

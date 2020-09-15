@@ -10,7 +10,7 @@ class AdsInitial extends AdsState {}
 class AdsLoading extends AdsState {}
 
 class AdsLoadingMore extends AdsState {
-  List<Ad> ads;
+  final List<Ad> ads;
   AdsLoadingMore({this.ads});
 }
 
@@ -21,7 +21,11 @@ class AdsSuccess extends AdsState {
   AdsSuccess({this.paginatedAds, this.shelters, this.searchedAds});
 }
 
-class AdsFailure extends AdsState {}
+class AdsFailure extends AdsState {
+  final Function retry;
+  final String msg;
+  AdsFailure({this.retry, this.msg});
+}
 
 class CategoryChanged extends AdsState {
   final category;

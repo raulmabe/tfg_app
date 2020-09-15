@@ -141,5 +141,8 @@
     "social_media": "Reds socials",
     "server_status": "Estat del servidor",
     "server_down": "Desconnectat",
-    "server_up": "Connectat"
+    "server_up": "Connectat",
+    "error_on_request_title": "Petició perduda",
+    "error_on_request_msg": "Torna-ho a provar",
+    "category_not_valid": "La categoria no és vàlida"
 }

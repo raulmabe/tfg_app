@@ -56,7 +56,6 @@ class AdsBloc extends Bloc<AdsEvent, AdsState> {
   Stream<AdsState> mapEventToState(
     AdsEvent event,
   ) async* {
-    print('INITIAL');
     switch (event.runtimeType) {
       case LastAdsRefreshed:
         yield _mapLastAdsRefreshedToState(event);
@@ -122,7 +121,9 @@ class AdsBloc extends Bloc<AdsEvent, AdsState> {
   }
 
   Future<AdsState> _mapAdsSearchedToState(AdsSearched event) async {
-    if (!isCategoryValidToSearch) return AdsFailure();
+    if (!isCategoryValidToSearch)
+      return AdsFailure(
+          retry: () => this.add(event), msg: 'category_not_valid');
 
     try {
       final ads = await repository.searchAds(
@@ -136,9 +137,8 @@ class AdsBloc extends Bloc<AdsEvent, AdsState> {
       );
       return AdsSuccess(searchedAds: ads);
     } catch (err, stacktrace) {
-      errorBloc.add(ErrorHandlerCatched(bloc: this, event: event, error: err));
       print('Ads BLoC OnCatch $err, $stacktrace');
-      return AdsFailure();
+      return AdsFailure(retry: () => this.add(event), msg: err.toString());
     }
   }
 
@@ -166,10 +166,8 @@ class AdsBloc extends Bloc<AdsEvent, AdsState> {
                       ..addAll(paginatedAds.ads))
                     .toBuilder()));
         } catch (err, stacktrace) {
-          errorBloc
-              .add(ErrorHandlerCatched(bloc: this, event: event, error: err));
           print('Ads BLoC OnCatch $err, $stacktrace');
-          yield AdsFailure();
+          yield AdsFailure(retry: () => this.add(event), msg: err.toString());
         }
       } else {
         yield state;
@@ -196,9 +194,8 @@ class AdsBloc extends Bloc<AdsEvent, AdsState> {
         return AdsSuccess(paginatedAds: paginatedAds);
       }
     } catch (err, stacktrace) {
-      errorBloc.add(ErrorHandlerCatched(bloc: this, event: event, error: err));
       print('Ads BLoC OnCatch $err, $stacktrace');
-      return AdsFailure();
+      return AdsFailure(retry: () => this.add(event), msg: err.toString());
     }
   }
 

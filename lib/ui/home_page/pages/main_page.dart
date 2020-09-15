@@ -240,7 +240,7 @@ class _MainPageState extends State<MainPage> {
         if (state is AdsFailure) {
           // * Si category == shelters, ha fallado por falta de token
 
-          return EmptySpace();
+          return ErrorSpace(retry: state.retry, msg: state.msg);
         }
         return EmptySpace();
       },

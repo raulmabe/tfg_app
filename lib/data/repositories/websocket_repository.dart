@@ -4,8 +4,7 @@ import 'package:jumpets_app/data/api_base_helper.dart';
 import 'package:jumpets_app/data/providers/ads_provider.dart';
 
 class WebSocketRepository {
-  static String messageSent(roomId) =>
-      """
+  static messageSent(roomId) => gql("""
    subscription messageSent {
    messageSent(roomId: "$roomId") {
     id: _id
@@ -21,25 +20,27 @@ class WebSocketRepository {
    }
  }
  """ +
-      AdsProvider.adFragment;
+      AdsProvider.adFragment);
 
-  static WebSocketLink websocketLink(token) => WebSocketLink(
-        url: 'ws://' + ApiBaseHelper.domain,
+  static HttpLink httpLink = HttpLink('http://' + ApiBaseHelper.domain);
+
+  static AuthLink authLink(token) =>
+      AuthLink(getToken: () async => 'Bearer $token');
+
+  static WebSocketLink get websocketLink => WebSocketLink(
+        'ws://' + ApiBaseHelper.domain,
         config: SocketClientConfig(
           autoReconnect: true,
           inactivityTimeout: Duration(hours: 1),
           delayBetweenReconnectionAttempts: Duration(seconds: 1),
-          initPayload: () => {
-            'headers': {'Authorization': 'Token $token'},
-          },
         ),
       );
 
-  static ValueNotifier<GraphQLClient> initailizeClient(String token) {
+  static ValueNotifier<GraphQLClient> get initailizeClient {
     ValueNotifier<GraphQLClient> client = ValueNotifier(
       GraphQLClient(
-        cache: OptimisticCache(dataIdFromObject: typenameDataIdFromObject),
-        link: websocketLink(token),
+        cache: GraphQLCache(store: HiveStore()),
+        link: websocketLink,
       ),
     );
     return client;

@@ -67,12 +67,7 @@ class RoomsBloc extends Bloc<RoomsEvent, RoomsState> {
 
       return RoomsSuccess(rooms: rooms);
     } catch (err, stack) {
-      errorBloc.add(ErrorHandlerCatched(
-        bloc: this,
-        event: event,
-        error: err,
-      ));
-      return RoomsFailure();
+      return RoomsFailure(retry: () => this.add(event), msg: err.toString());
     }
   }
 
