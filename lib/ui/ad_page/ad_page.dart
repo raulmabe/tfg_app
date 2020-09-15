@@ -95,7 +95,7 @@ class AdPage extends StatelessWidget {
               ),
             )
           ]),
-          Positioned(left: 0, bottom: 10, right: 0, child: _bottomBar(context))
+          Positioned(left: 0, bottom: 0, right: 0, child: _bottomBar(context))
         ],
       ),
     );

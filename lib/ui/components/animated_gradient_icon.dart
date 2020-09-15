@@ -4,15 +4,70 @@ import 'package:flutter/material.dart';
 
 import '../app_theme.dart';
 
+class MaterialGradient extends ImplicitlyAnimatedWidget {
+  final Widget child;
+  final ShapeBorder shape;
+  final double elevation;
+  final bool isColored;
+
+  List<Color> get targetColors => !isColored
+      ? [Colors.white, Colors.white]
+      : [AppTheme.kAccentColor, AppTheme.kFourthColor];
+
+  MaterialGradient({this.child, this.elevation, this.isColored, this.shape})
+      : super(duration: Duration(milliseconds: 300), curve: Curves.easeInOut);
+  @override
+  _MaterialGradientState createState() => _MaterialGradientState();
+}
+
+class _MaterialGradientState extends AnimatedWidgetBaseState<MaterialGradient> {
+  GradientTween _gradientTween;
+
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      children: [
+        ShaderMask(
+          shaderCallback: (bounds) =>
+              LinearGradient(colors: _gradientTween.evaluate(animation))
+                  .createShader(
+            Rect.fromLTWH(0, 0, bounds.width, bounds.height),
+          ),
+          child: Material(
+            elevation: widget.elevation,
+            shape: widget.shape,
+            child: widget.child,
+            color: Colors.white,
+          ),
+        ),
+        widget.child,
+      ],
+    );
+  }
+
+  @override
+  void forEachTween(visitor) {
+    _gradientTween = visitor(_gradientTween, widget.targetColors,
+        (value) => GradientTween(begin: value));
+  }
+}
+
 class AnimatedGradientIcon extends ImplicitlyAnimatedWidget {
   final IconData icon;
   final double size;
   final bool isSelected;
-  List<Color> get targetColors => !isSelected
-      ? [Colors.grey.shade500, Colors.grey.shade500]
-      : [AppTheme.kAccentColor, AppTheme.kFourthColor];
 
-  AnimatedGradientIcon(this.icon, {@required this.isSelected, this.size = 24.0})
+  final List<Color> offColors;
+  final List<Color> onColors;
+  List<Color> get targetColors => !isSelected
+      ? offColors ?? [Colors.grey.shade500, Colors.grey.shade500]
+      : onColors ?? [AppTheme.kAccentColor, AppTheme.kFourthColor];
+
+  AnimatedGradientIcon(this.icon,
+      {@required this.isSelected,
+      this.size = 24.0,
+      this.offColors,
+      this.onColors})
       : super(duration: Duration(milliseconds: 300), curve: Curves.easeInOut);
   @override
   _AnimatedGradientIconState createState() => _AnimatedGradientIconState();
@@ -22,7 +77,6 @@ class _AnimatedGradientIconState
     extends AnimatedWidgetBaseState<AnimatedGradientIcon> {
   GradientTween _gradientTween;
   BigBangTween _doubleTween;
-
   BigBangTween _backgroundSizeTween;
 
   @override

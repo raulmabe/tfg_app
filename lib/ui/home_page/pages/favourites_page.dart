@@ -5,7 +5,7 @@ import 'package:jumpets_app/blocs/auth_bloc/auth_bloc.dart';
 import 'package:jumpets_app/blocs/favs_bloc/favourites_bloc.dart';
 import 'package:jumpets_app/models/ads/ad.dart';
 import 'package:jumpets_app/models/wrappers/auth_status.dart';
-import 'package:jumpets_app/ui/components/background_illustrations/empty_space.dart';
+import 'package:jumpets_app/ui/components/background_illustrations/spaces.dart';
 import 'package:jumpets_app/ui/components/vertical_grid/vertical_grid.dart';
 
 class FavouritesPage extends StatefulWidget {

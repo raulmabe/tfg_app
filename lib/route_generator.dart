@@ -4,7 +4,7 @@ import 'package:jumpets_app/models/chats/room.dart';
 import 'package:jumpets_app/models/models.dart';
 import 'package:jumpets_app/ui/ad_page/ad_page.dart';
 import 'package:jumpets_app/ui/chat_page/chat_page.dart';
-import 'package:jumpets_app/ui/components/background_illustrations/empty_space.dart';
+import 'package:jumpets_app/ui/components/background_illustrations/spaces.dart';
 import 'package:jumpets_app/ui/edit_profile_page/edit_profile_page.dart';
 import 'package:jumpets_app/ui/home_page/home_page.dart';
 import 'package:jumpets_app/ui/profile_page/profile_page.dart';

@@ -55,7 +55,9 @@ class Notifier extends StatelessWidget {
           builder: (context) => MyAlertDialog(
                 msg: AppLocalizations.of(context).translate(state.msg),
                 actions: [
+                  Spacer(),
                   Expanded(
+                    flex: 2,
                     child: MyRaisedButton(
                       filled: false,
                       textColor: Theme.of(context).accentColor,
@@ -65,13 +67,16 @@ class Notifier extends StatelessWidget {
                       onPressed: state.onSecondaryCallback,
                     ),
                   ),
+                  Spacer(),
                   Expanded(
+                    flex: 2,
                     child: MyRaisedButton(
                       text: AppLocalizations.of(context)
                           .translate(state.onMainText),
                       onPressed: state.onMainCallback,
                     ),
                   ),
+                  Spacer(),
                 ],
               ));
     }

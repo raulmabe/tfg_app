@@ -22,17 +22,25 @@ class _ServerStatusTileState extends State<ServerStatusTile> {
   Widget build(BuildContext context) {
     return ListTile(
       title: Text(AppLocalizations.of(context).translate('server_status')),
-      subtitle: Text(AppLocalizations.of(context)
-          .translate(status ? 'server_up' : 'server_down')),
       onTap: checkStatus,
       dense: false,
-      trailing: Material(
-          shape: CircleBorder(),
-          color: status ? Theme.of(context).accentColor : Colors.grey,
-          child: SizedBox(
-            height: 12,
-            width: 12,
-          )),
+      trailing: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text(AppLocalizations.of(context)
+              .translate(status ? 'server_up' : 'server_down')),
+          SizedBox(
+            width: 10,
+          ),
+          Material(
+              shape: CircleBorder(),
+              color: status ? Theme.of(context).accentColor : Colors.grey,
+              child: SizedBox(
+                height: 12,
+                width: 12,
+              )),
+        ],
+      ),
     );
   }
 

@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -105,57 +103,6 @@ class FloatingBottomBar extends StatelessWidget {
                   )),
             ),
           ],
-        ),
-      ),
-    );
-  }
-}
-
-class BottomBar extends StatelessWidget {
-  final double elevation;
-  final double mainIconSize;
-
-  final int pageSelected;
-  final Function(int) onTap;
-  final Function onDoubleMainTap;
-
-  BottomBar(
-      {this.elevation = 10,
-      this.mainIconSize = 65,
-      @required this.pageSelected,
-      @required this.onTap,
-      this.onDoubleMainTap});
-  @override
-  Widget build(BuildContext context) {
-    return BottomAppBar(
-      notchMargin: 6,
-      elevation: elevation,
-      shape: CircularNotchedRectangle(),
-      color: Theme.of(context).primaryColor,
-      child: SafeArea(
-        child: Container(
-          height: kToolbarHeight * 1,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              IconButton(
-                icon: AnimatedGradientIcon(
-                  pageSelected == 0 ? Icons.favorite : Icons.favorite_border,
-                  isSelected: pageSelected == 0,
-                ),
-                onPressed: () => onTap(0),
-              ),
-              IconButton(
-                icon: AnimatedGradientIcon(
-                  pageSelected == 2
-                      ? FontAwesomeIcons.solidComment
-                      : FontAwesomeIcons.comment,
-                  isSelected: pageSelected == 2,
-                ),
-                onPressed: () => onTap(2),
-              ),
-            ],
-          ),
         ),
       ),
     );

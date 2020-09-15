@@ -8,7 +8,7 @@ import 'package:jumpets_app/blocs/auth_bloc/auth_bloc.dart';
 import 'package:jumpets_app/blocs/rooms_bloc/rooms_bloc.dart';
 import 'package:jumpets_app/models/chats/room.dart';
 import 'package:jumpets_app/models/models.dart';
-import 'package:jumpets_app/ui/components/background_illustrations/empty_space.dart';
+import 'package:jumpets_app/ui/components/background_illustrations/spaces.dart';
 import 'package:jumpets_app/ui/components/placeholders/chat_placeholders.dart';
 import 'package:jumpets_app/ui/components/profile_icon.dart';
 

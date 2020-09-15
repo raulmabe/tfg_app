@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:jumpets_app/app_localizations.dart';
 import 'package:jumpets_app/blocs/ads_bloc/ads_bloc.dart';
 import 'package:jumpets_app/blocs/auth_bloc/auth_bloc.dart';
 import 'package:jumpets_app/models/wrappers/auth_status.dart';
+import 'package:jumpets_app/ui/components/animated_gradient_icon.dart';
 import 'package:jumpets_app/ui/components/bottombar/bottombar.dart';
+import 'package:jumpets_app/ui/components/jumpets_icons_icons.dart';
 import 'package:jumpets_app/ui/components/notifier.dart';
 import 'package:jumpets_app/ui/components/profile_icon.dart';
 import 'package:jumpets_app/ui/components/searchbar/searchbar.dart';
@@ -102,7 +103,7 @@ class _HomePageState extends State<HomePage> {
                       scrollController: _scrollController,
                     )),
               ),
-              if (MediaQuery.of(context).viewInsets.bottom == 0)
+              /* if (MediaQuery.of(context).viewInsets.bottom == 0)
                 Positioned(
                     bottom: 0,
                     right: 0,
@@ -115,8 +116,40 @@ class _HomePageState extends State<HomePage> {
                           duration: Duration(milliseconds: 600),
                           curve: Curves.bounceIn),
                       pageSelected: _pageIndex,
-                    ))
+                    )) */
             ],
+          ),
+        ),
+        floatingActionButton: MaterialGradient(
+          shape: CircleBorder(),
+          elevation: 1,
+          isColored: _pageIndex == 1,
+          child: FloatingActionButton(
+            heroTag: null,
+            focusElevation: 0,
+            highlightElevation: 0,
+            elevation: 0,
+            backgroundColor: Colors.transparent,
+            child: Transform.translate(
+                offset: Offset(0, 0),
+                child: AnimatedGradientIcon(
+                  JumpetsIcons.nariz_jumpets,
+                  size: 31,
+                  isSelected: _pageIndex == 1,
+                  onColors: [Colors.white, Colors.white],
+                )),
+            onPressed: () => _pageController.jumpToPage(
+              1,
+            ),
+          ),
+        ),
+        extendBody: true,
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+        bottomNavigationBar: BottomBar(
+          elevation: 10,
+          pageSelected: _pageIndex,
+          onTap: (int index) => _pageController.jumpToPage(
+            index,
           ),
         ),
       ),
@@ -124,14 +157,14 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget get _getAppBarHeader {
-    if (_pageController.page?.floor() == 0) {
+    if (_pageIndex == 0) {
       return _title(
         Text(
           AppLocalizations.of(context).translate('favourites'),
           style: Theme.of(context).textTheme.headline3,
         ),
       );
-    } else if (_pageController.page?.floor() == 1) {
+    } else if (_pageIndex == 1) {
       return _title(
         SearchBar(
           onChange: (value) => context.bloc<AdsBloc>().add(AdsSearched(
@@ -142,23 +175,12 @@ class _HomePageState extends State<HomePage> {
             ..add(AdsFetched()),
         ),
       );
-    } else if (_pageController.page?.floor() == 2) {
+    } else if (_pageIndex == 2) {
       return _title(Text(
         AppLocalizations.of(context).translate('chats'),
         style: Theme.of(context).textTheme.headline3,
       ));
     }
-
-    return _title(
-      SearchBar(
-        onChange: (value) => context.bloc<AdsBloc>().add(AdsSearched(
-              text: value.trim(),
-            )),
-        onClear: () => context.bloc<AdsBloc>()
-          ..add(SearchModeDisabled())
-          ..add(AdsFetched()),
-      ),
-    );
   }
 
   Widget _title(Widget main) => Builder(builder: (context) {

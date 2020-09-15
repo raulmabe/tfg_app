@@ -8,7 +8,7 @@ import 'package:jumpets_app/blocs/auth_bloc/auth_bloc.dart';
 import 'package:jumpets_app/models/enums/categories.dart';
 import 'package:jumpets_app/ui/components/buttons/category_button.dart';
 import 'package:jumpets_app/ui/components/cards/info_card.dart';
-import 'package:jumpets_app/ui/components/background_illustrations/empty_space.dart';
+import 'package:jumpets_app/ui/components/background_illustrations/spaces.dart';
 import 'package:jumpets_app/ui/components/jumpets_icons_icons.dart';
 import 'package:jumpets_app/ui/components/shelters_grid.dart';
 import 'package:jumpets_app/ui/components/vertical_grid/vertical_grid.dart';
