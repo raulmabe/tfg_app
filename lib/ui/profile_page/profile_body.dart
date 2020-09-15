@@ -10,6 +10,7 @@ import 'package:jumpets_app/ui/components/cards/animal_card.dart';
 import 'package:jumpets_app/ui/components/cards/other_card.dart';
 import 'package:jumpets_app/ui/components/cards/valuation.dart';
 import 'package:jumpets_app/ui/components/forms/valuation_forms.dart';
+import 'package:jumpets_app/ui/components/tab_indicator.dart';
 import 'package:rxdart/rxdart.dart';
 
 class ProfileBody extends StatelessWidget {
@@ -17,37 +18,50 @@ class ProfileBody extends StatelessWidget {
   ProfileBody({@required this.user}) : assert(user != null);
   @override
   Widget build(BuildContext context) {
-    return DefaultTabController(
-      length: 2,
-      child: Column(
-        children: [
-          TabBar(
-              labelColor: Colors.black87,
-              unselectedLabelColor: Colors.black54,
-              indicatorColor: user.colorFromType,
-              tabs: [
-                Tab(
-                  child: Text(AppLocalizations.of(context).translate('ads'),
-                      style: Theme.of(context).textTheme.headline6),
+    return ClipRRect(
+      borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(32), topRight: Radius.circular(32)),
+      child: Material(
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(32), topRight: Radius.circular(32))),
+        color: Theme.of(context).backgroundColor,
+        child: DefaultTabController(
+          length: 2,
+          child: Column(
+            children: [
+              TabBar(
+                  labelStyle: Theme.of(context).textTheme.headline6,
+                  labelColor: Colors.grey.shade800,
+                  unselectedLabelColor: Colors.black26,
+                  indicator: CircleTabIndicator(
+                      color: Theme.of(context).accentColor, radius: 3),
+                  tabs: [
+                    Tab(
+                      child: Text(
+                        AppLocalizations.of(context).translate('ads'),
+                      ),
+                    ),
+                    Tab(
+                      child: Text(
+                        AppLocalizations.of(context).translate('valuations'),
+                      ),
+                    )
+                  ]),
+              Expanded(
+                child: Material(
+                  color: Theme.of(context).backgroundColor,
+                  child: TabBarView(
+                    children: [
+                      _adsBody(context),
+                      _reviewsBody(context),
+                    ],
+                  ),
                 ),
-                Tab(
-                  child: Text(
-                      AppLocalizations.of(context).translate('valuations'),
-                      style: Theme.of(context).textTheme.headline6),
-                )
-              ]),
-          Expanded(
-            child: Material(
-              color: Theme.of(context).backgroundColor,
-              child: TabBarView(
-                children: [
-                  _adsBody(context),
-                  _reviewsBody(context),
-                ],
               ),
-            ),
+            ],
           ),
-        ],
+        ),
       ),
     );
   }

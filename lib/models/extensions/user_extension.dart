@@ -32,10 +32,7 @@ extension UserExtension on User {
         double result = this.valuationAvg - index;
 
         if (result <= 0) {
-          return Icon(
-            Icons.star_border,
-            color: this.colorFromType,
-          );
+          return Icon(Icons.star_border, color: this.colorFromType);
         }
         if (result < 1) {
           return Icon(Icons.star_half, color: this.colorFromType);

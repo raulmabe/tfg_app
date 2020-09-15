@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formz/formz.dart';
-import 'package:jumpets_app/app_localizations.dart';
 import 'package:jumpets_app/blocs/auth_bloc/auth_bloc.dart';
 import 'package:jumpets_app/blocs/edit_profile_bloc/edit_profile_bloc.dart';
 import 'package:jumpets_app/blocs/error_handler_bloc/error_handler_bloc.dart';
@@ -11,7 +10,6 @@ import 'package:jumpets_app/models/models.dart';
 import 'package:jumpets_app/models/users/profesional.dart';
 import 'package:jumpets_app/models/users/user.dart';
 import 'package:jumpets_app/ui/components/forms/profile_forms.dart';
-import 'package:jumpets_app/ui/components/jumpets_icons_icons.dart';
 import 'package:jumpets_app/ui/components/profile_icon.dart';
 
 class EditProfilePage extends StatelessWidget {
@@ -48,10 +46,12 @@ class EditProfilePage extends StatelessWidget {
                 SizedBox(
                   height: 200,
                   child: Stack(fit: StackFit.expand, children: [
-                    CircularProfileThumb(
-                      user: user,
-                      radius: 80.0,
-                      borderWidth: 2.0,
+                    Center(
+                      child: CircularProfileThumb(
+                        user: user,
+                        radius: 80.0,
+                        borderWidth: 2.0,
+                      ),
                     ),
                     ProfileImagePicker(
                       radius: 80.0,
@@ -84,7 +84,7 @@ class EditProfilePage extends StatelessWidget {
           ),
           bottomNavigationBar: SafeArea(
               child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+            padding: const EdgeInsets.only(left: 8.0, right: 8.0, bottom: 10),
             child: ProfileEditButton(),
           )),
         ),

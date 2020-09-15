@@ -107,7 +107,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 style: Theme.of(context)
                     .textTheme
                     .headline3
-                    .copyWith(color: user.colorFromType),
+                    .copyWith(color: Theme.of(context).accentColor),
               ),
               centerTitle: true,
               actions: actionsList,
@@ -128,7 +128,7 @@ class _ProfilePageState extends State<ProfilePage> {
                           borderRadius: 20,
                           height: 130,
                           width: 150,
-                          borderWidth: 2,
+                          borderWidth: 0,
                           user: user,
                         ),
                       ),
@@ -140,8 +140,21 @@ class _ProfilePageState extends State<ProfilePage> {
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             crossAxisAlignment: CrossAxisAlignment.stretch,
                             children: [
-                              Text(user.name,
-                                  style: Theme.of(context).textTheme.headline5),
+                              Row(
+                                children: [
+                                  Container(
+                                    child: Text(user.name,
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .headline5),
+                                  ),
+                                  SizedBox(
+                                    width: 10,
+                                  ),
+                                  Icon(user.iconFromType,
+                                      color: user.colorFromType),
+                                ],
+                              ),
                               Padding(
                                   padding:
                                       const EdgeInsets.symmetric(vertical: 10),
@@ -149,24 +162,24 @@ class _ProfilePageState extends State<ProfilePage> {
                               if (user.address != null)
                                 SelectableText(
                                   user.address,
-                                  style: Theme.of(context).textTheme.subtitle1,
+                                  style: Theme.of(context).textTheme.caption,
                                 ),
                               if (user.phone != null)
                                 SelectableText(
                                   user.phone.toString(),
-                                  style: Theme.of(context).textTheme.subtitle1,
+                                  style: Theme.of(context).textTheme.caption,
                                 ),
                               if (user.isProfesional &&
                                   (user as Profesional).web != null)
                                 SelectableText(
                                   (user as Profesional).web.toString(),
-                                  style: Theme.of(context).textTheme.subtitle1,
+                                  style: Theme.of(context).textTheme.caption,
                                 ),
                               if (user.isProtectora &&
                                   (user as Protectora).web != null)
                                 SelectableText(
                                   (user as Protectora).web.toString(),
-                                  style: Theme.of(context).textTheme.subtitle1,
+                                  style: Theme.of(context).textTheme.caption,
                                 ),
                             ],
                           ),
