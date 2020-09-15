@@ -127,7 +127,7 @@ class _MainPageState extends State<MainPage> {
                 ),
               ),
             ),
-            _wrapperOfContent(adsBloc.category),
+            _contentOfCategory(),
           ],
         ),
       ),
@@ -175,18 +175,17 @@ class _MainPageState extends State<MainPage> {
         ),
       );
 
-  Widget _wrapperOfContent(Category category) {
-    switch (category) {
-      case Category.SHELTERS:
-        return SliverFillRemaining(
-          hasScrollBody: true,
-          child: _contentOfCategory(),
-        );
-    }
+  Widget _wrapperOfContent(bool fillRemaining, Widget child) {
+    if (fillRemaining)
+      return SliverFillRemaining(
+        hasScrollBody: true,
+        child: child,
+      );
+
     return SliverToBoxAdapter(
       child: Padding(
         padding: const EdgeInsets.only(bottom: kToolbarHeight * 1.3),
-        child: _contentOfCategory(),
+        child: child,
       ),
     );
   }
@@ -208,11 +207,13 @@ class _MainPageState extends State<MainPage> {
           switch (context.bloc<AdsBloc>().category) {
             case Category.SHELTERS:
               if (state is AdsSuccess && state.shelters.isEmpty)
-                return EmptySpace();
-              return SheltersGrid(
-                shelters: (state is AdsSuccess) ? state.shelters : null,
-                usePlaceholders: state is AdsLoading,
-              );
+                return _wrapperOfContent(true, EmptySpace());
+              return _wrapperOfContent(
+                  true,
+                  SheltersGrid(
+                    shelters: (state is AdsSuccess) ? state.shelters : null,
+                    usePlaceholders: state is AdsLoading,
+                  ));
             default:
               List<Ad> ads = [];
               if (state is AdsSuccess) {
@@ -225,24 +226,24 @@ class _MainPageState extends State<MainPage> {
 
               if (state is AdsSuccess && ads.isEmpty) return EmptySpace();
 
-              return VerticalGrid(
-                widgetInjection: InfoCard(
-                  title: 'PetsWorld',
-                  message:
-                      'Check our last update! This new version (2.2v) comes with 3 new functionalities.',
-                ),
-                ads: ads,
-                usePlaceholders: state is AdsLoading,
-                insertPlaceholderAtLast: state is AdsLoadingMore,
-              );
+              return _wrapperOfContent(
+                  false,
+                  VerticalGrid(
+                    widgetInjection: InfoCard(
+                      title: 'PetsWorld',
+                      message:
+                          'Check our last update! This new version (2.2v) comes with 3 new functionalities.',
+                    ),
+                    ads: ads,
+                    usePlaceholders: state is AdsLoading,
+                    insertPlaceholderAtLast: state is AdsLoadingMore,
+                  ));
           }
+        } else if (state is AdsFailure) {
+          return _wrapperOfContent(
+              true, ErrorSpace(retry: state.retry, msg: state.msg));
         }
-        if (state is AdsFailure) {
-          // * Si category == shelters, ha fallado por falta de token
-
-          return ErrorSpace(retry: state.retry, msg: state.msg);
-        }
-        return EmptySpace();
+        return _wrapperOfContent(true, EmptySpace());
       },
     );
   }
