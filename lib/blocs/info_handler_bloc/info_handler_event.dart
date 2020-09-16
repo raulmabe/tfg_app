@@ -24,3 +24,10 @@ class MessageActionAdded extends InfoHandlerEvent {
       this.onMainCallback,
       this.onSecondaryCallback});
 }
+
+class ChatMessageReceived extends InfoHandlerEvent {
+  final Message msg;
+  final String roomId;
+
+  ChatMessageReceived({this.msg, this.roomId});
+}

@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:jumpets_app/app_localizations.dart';
 import 'package:jumpets_app/blocs/error_handler_bloc/error_handler_bloc.dart';
 import 'package:jumpets_app/blocs/info_handler_bloc/info_handler_bloc.dart';
+import 'package:jumpets_app/blocs/rooms_bloc/rooms_bloc.dart';
 import 'package:jumpets_app/ui/app_theme.dart';
+import 'package:jumpets_app/ui/components/animated_gradient_icon.dart';
 import 'package:jumpets_app/ui/components/buttons/raised_button.dart';
+import 'package:jumpets_app/ui/components/profile_icon.dart';
 import 'package:overlay_support/overlay_support.dart';
 
 class Notifier extends StatelessWidget {
@@ -24,61 +28,84 @@ class Notifier extends StatelessWidget {
   }
 
   void _infoListener(context, InfoHandlerState state) {
-    if (state is InfoDialog) {
-      showDialog(
-          context: context,
-          builder: (context) => MyAlertDialog(
-                icon: Icon(
-                  Icons.info_outline,
-                  color: AppTheme.kThirdColor.withOpacity(.7),
-                  size: 65,
-                ),
-                msg: AppLocalizations.of(context).translate(state.msg),
-              ));
-    } else if (state is InfoNotification) {
-      showOverlayNotification((context) {
-        return Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10.0),
-            child: MyNotification(
-              msg: AppLocalizations.of(context).translate(state.msg),
-              color: AppTheme.kThirdColor,
-              leading: Icon(
-                Icons.info,
+    switch (state.runtimeType) {
+      case InfoDialog:
+        showDialog(
+            context: context,
+            builder: (context) => MyAlertDialog(
+                  icon: AnimatedGradientIcon(
+                    Icons.info_outline,
+                    isSelected: true,
+                    size: 65,
+                  ),
+                  msg: AppLocalizations.of(context)
+                      .translate((state as InfoDialog).msg),
+                ));
+        break;
+
+      case InfoNotification:
+        showOverlayNotification((context) {
+          return Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10.0),
+              child: MyNotification(
+                msg: AppLocalizations.of(context)
+                    .translate((state as InfoNotification).msg),
                 color: AppTheme.kThirdColor,
-                size: 30,
-              ),
-            ));
-      }, duration: Duration(seconds: 4));
-    } else if (state is InfoDialogAction) {
-      showDialog(
-          context: context,
-          builder: (context) => MyAlertDialog(
-                msg: AppLocalizations.of(context).translate(state.msg),
-                actions: [
-                  Spacer(),
-                  Expanded(
-                    flex: 2,
-                    child: MyRaisedButton(
-                      filled: false,
-                      textColor: Theme.of(context).accentColor,
-                      borders: false,
-                      text: AppLocalizations.of(context)
-                          .translate(state.onSecondaryText),
-                      onPressed: state.onSecondaryCallback,
-                    ),
-                  ),
-                  Spacer(),
-                  Expanded(
-                    flex: 2,
-                    child: MyRaisedButton(
-                      text: AppLocalizations.of(context)
-                          .translate(state.onMainText),
-                      onPressed: state.onMainCallback,
-                    ),
-                  ),
-                  Spacer(),
-                ],
+                leading: AnimatedGradientIcon(
+                  Icons.info,
+                  isSelected: false,
+                  size: 30,
+                ),
               ));
+        }, duration: Duration(seconds: 4));
+        break;
+
+      case ChatMessage:
+        showOverlayNotification((context) {
+          return Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10.0),
+              child: MyNotification(
+                  msg:
+                      '${(state as ChatMessage).msg.sender.name}: ${(state as ChatMessage).msg.text}',
+                  leading: CircularProfileThumb(
+                      user: (state as ChatMessage).msg.sender)));
+        }, duration: Duration(seconds: 4));
+        break;
+
+      case InfoDialogAction:
+        showDialog(
+            context: context,
+            builder: (context) => MyAlertDialog(
+                  msg: AppLocalizations.of(context)
+                      .translate((state as InfoDialogAction).msg),
+                  actions: [
+                    Spacer(),
+                    Expanded(
+                      flex: 2,
+                      child: MyRaisedButton(
+                        filled: false,
+                        textColor: Theme.of(context).accentColor,
+                        borders: false,
+                        text: AppLocalizations.of(context).translate(
+                            (state as InfoDialogAction).onSecondaryText),
+                        onPressed:
+                            (state as InfoDialogAction).onSecondaryCallback,
+                      ),
+                    ),
+                    Spacer(),
+                    Expanded(
+                      flex: 2,
+                      child: MyRaisedButton(
+                        text: AppLocalizations.of(context)
+                            .translate((state as InfoDialogAction).onMainText),
+                        onPressed: (state as InfoDialogAction).onMainCallback,
+                      ),
+                    ),
+                    Spacer(),
+                  ],
+                ));
+        break;
+      default:
     }
   }
 
@@ -136,7 +163,7 @@ class Notifier extends StatelessWidget {
 }
 
 class MyAlertDialog extends StatelessWidget {
-  final Icon icon;
+  final Widget icon;
   final String msg;
   final List<Widget> actions;
 
@@ -196,8 +223,10 @@ class MyNotification extends StatelessWidget {
   final Widget trailing;
   final Widget leading;
   final Color color;
+  final Function onTap;
 
-  MyNotification({this.color, @required this.msg, this.trailing, this.leading})
+  MyNotification(
+      {this.color, @required this.msg, this.trailing, this.leading, this.onTap})
       : assert(msg != null);
 
   @override
@@ -221,6 +250,10 @@ class MyNotification extends StatelessWidget {
             child: ListTile(
               leading: leading,
               title: Text(msg),
+              onTap: () {
+                onTap();
+                OverlaySupportEntry.of(context).dismiss();
+              },
               trailing: trailing ??
                   IconButton(
                       icon: Icon(Icons.clear),

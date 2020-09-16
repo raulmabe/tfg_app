@@ -23,7 +23,8 @@ class _FavouritesPageState extends State<FavouritesPage> {
 
     favBloc = context.bloc<FavouritesBloc>();
 
-    if (!(favBloc.state is FavouritesSuccess)) {
+    if (!(favBloc.state is FavouritesSuccess ||
+        favBloc.state is FavouritesLoading)) {
       favBloc.add(FavouritesFetched());
     }
   }

@@ -30,24 +30,54 @@ class ProfileBody extends StatelessWidget {
           length: 2,
           child: Column(
             children: [
-              TabBar(
-                  labelStyle: Theme.of(context).textTheme.headline6,
-                  labelColor: Colors.grey.shade800,
-                  unselectedLabelColor: Colors.black26,
-                  indicator: CircleTabIndicator(
-                      color: Theme.of(context).accentColor, radius: 3),
-                  tabs: [
-                    Tab(
-                      child: Text(
-                        AppLocalizations.of(context).translate('ads'),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 10.0),
+                child: TabBar(
+                    labelStyle: Theme.of(context).textTheme.caption,
+                    labelColor: Colors.grey.shade800,
+                    unselectedLabelColor: Colors.black26,
+                    indicatorSize: TabBarIndicatorSize.label,
+                    labelPadding: EdgeInsets.all(0),
+                    indicator: BoxDecoration(
+                        borderRadius: BorderRadius.circular(50),
+                        color: Theme.of(context).accentColor),
+                    /* CircleTabIndicator(
+                        color: Theme.of(context).accentColor, radius: 3), */
+                    tabs: [
+                      Tab(
+                        child: Container(
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(50),
+                              border: Border.all(
+                                  color: Theme.of(context).accentColor,
+                                  width: 1)),
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text(
+                              AppLocalizations.of(context).translate('ads'),
+                            ),
+                          ),
+                        ),
                       ),
-                    ),
-                    Tab(
-                      child: Text(
-                        AppLocalizations.of(context).translate('valuations'),
-                      ),
-                    )
-                  ]),
+                      Tab(
+                        child: Container(
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(50),
+                              border: Border.all(
+                                  color: Theme.of(context).accentColor,
+                                  width: 1)),
+                          child: FractionallySizedBox(
+                            widthFactor: .7,
+                            child: Text(
+                              AppLocalizations.of(context)
+                                  .translate('valuations'),
+                              textAlign: TextAlign.center,
+                            ),
+                          ),
+                        ),
+                      )
+                    ]),
+              ),
               Expanded(
                 child: Material(
                   color: Theme.of(context).backgroundColor,

@@ -26,7 +26,7 @@ class _RoomsPageState extends State<RoomsPage> {
 
     roomsBloc = context.bloc<RoomsBloc>();
 
-    if (!(roomsBloc.state is RoomsSuccess)) {
+    if (!(roomsBloc.state is RoomsSuccess || roomsBloc.state is RoomsLoading)) {
       roomsBloc.add(RoomsFetched());
     }
   }

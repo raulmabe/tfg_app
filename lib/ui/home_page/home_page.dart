@@ -202,7 +202,7 @@ class _HomePageState extends State<HomePage> {
                       color: Colors.black54);
                 }
                 return Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 20),
+                    padding: EdgeInsets.only(left: 10),
                     child: CircularProfileThumb(
                       onTap: () => Navigator.pushNamed(context, '/profile',
                           arguments: state.authStatus.authData.user),

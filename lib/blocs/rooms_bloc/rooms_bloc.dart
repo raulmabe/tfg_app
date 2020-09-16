@@ -78,4 +78,13 @@ class RoomsBloc extends Bloc<RoomsEvent, RoomsState> {
     }
     return null;
   }
+
+  Room getRoomWithId(String id) {
+    if (state is RoomsSuccess) {
+      return (state as RoomsSuccess)
+          .rooms
+          .firstWhere((room) => room.id == id, orElse: () => null);
+    }
+    return null;
+  }
 }

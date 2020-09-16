@@ -1,134 +1,133 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:jumpets_app/app_localizations.dart';
 import 'package:jumpets_app/blocs/auth_bloc/auth_bloc.dart';
-import 'package:jumpets_app/blocs/error_handler_bloc/error_handler_bloc.dart';
 import 'package:jumpets_app/blocs/message_bloc/message_bloc.dart';
 import 'package:jumpets_app/blocs/rooms_bloc/rooms_bloc.dart';
-import 'package:jumpets_app/data/repositories/user_repository.dart';
-import 'package:jumpets_app/data/repositories/websocket_repository.dart';
 import 'package:jumpets_app/models/chats/message.dart';
 import 'package:jumpets_app/models/chats/room.dart';
 import 'package:jumpets_app/models/models.dart';
 import 'package:jumpets_app/ui/app_theme.dart';
 import 'package:jumpets_app/ui/components/buttons/animated_icon_button.dart';
-import 'package:jumpets_app/ui/components/buttons/gradient_icon_button.dart';
+
 import 'package:jumpets_app/ui/components/chat_bubbles.dart';
 import 'package:jumpets_app/ui/components/profile_icon.dart';
 import 'dart:math' as math;
 
-class ChatPage extends StatelessWidget {
+class ChatPage extends StatefulWidget {
   final Room room;
   ChatPage({@required this.room});
   @override
-  Widget build(BuildContext context) {
-    return GraphQLProvider(
-        client: WebSocketRepository.initailizeClient,
-        child: Subscription(
-          options: SubscriptionOptions(
-              document: WebSocketRepository.messageSent(room.id)),
-          builder: (result) {
-            print('PARAMS $result');
-
-            return _InnerChatPage(
-              room: room,
-            );
-          },
-        ));
-  }
+  _ChatPageState createState() => _ChatPageState();
 }
 
-class _InnerChatPage extends StatefulWidget {
-  final Room room;
-  _InnerChatPage({@required this.room});
-  @override
-  _InnerChatPageState createState() => _InnerChatPageState();
-}
-
-class _InnerChatPageState extends State<_InnerChatPage> {
+class _ChatPageState extends State<ChatPage> {
   List<Message> _messages;
 
   @override
   void initState() {
     super.initState();
 
-    print('Room id: ${widget.room.id}');
     _messages = widget.room.messages.toList();
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider<MessageBloc>(
-        create: (context) => MessageBloc(
-            roomsBloc: context.bloc<RoomsBloc>(),
-            repository: RepositoryProvider.of<UserRepository>(context),
-            authBloc: context.bloc<AuthBloc>(),
-            errorBloc: context.bloc<ErrorHandlerBloc>()),
-        child: _buildContent);
+    return _buildContent;
   }
 
   Widget get _buildContent {
-    return Scaffold(
-      resizeToAvoidBottomInset: true,
-      backgroundColor: Theme.of(context).backgroundColor,
-      appBar: AppBar(
-        title: Row(
-          children: [
-            Expanded(
-              child: Text(
-                '${otherUser(context).email}',
-                textAlign: TextAlign.center,
-                style: Theme.of(context).textTheme.subtitle1,
-              ),
+    return BlocListener<RoomsBloc, RoomsState>(
+        listenWhen: (previous, current) {
+          Room room;
+          if (current is RoomsSuccess) {
+            room = current.rooms.firstWhere((aux) => aux.id == widget.room.id,
+                orElse: () => null);
+          }
+
+          return room != null && room != widget.room;
+        },
+        listener: (context, state) {
+          if (state is RoomsSuccess) {
+            Room room = state.rooms.firstWhere(
+                (aux) => aux.id == widget.room.id,
+                orElse: () => null);
+
+            if (room != null &&
+                room.messages != null &&
+                room.messages.isNotEmpty) {
+              print('Updating!');
+
+              updateMessages(room.messages.toList());
+            }
+          }
+        },
+        child: Scaffold(
+          resizeToAvoidBottomInset: true,
+          backgroundColor: Theme.of(context).backgroundColor,
+          appBar: AppBar(
+            title: Row(
+              children: [
+                Expanded(
+                  child: Text(
+                    '${otherUser(context).email}',
+                    textAlign: TextAlign.center,
+                    style: Theme.of(context).textTheme.subtitle1,
+                  ),
+                ),
+                CircularProfileThumb(user: otherUser(context))
+              ],
             ),
-            CircularProfileThumb(user: otherUser(context))
-          ],
-        ),
-      ),
-      body: Stack(
-        fit: StackFit.expand,
-        children: [
-          BlocBuilder<MessageBloc, MessageState>(
-            builder: (context, state) {
-              // maybe sort messages
-
-              if (state is MessageSuccess) {
-                _messages = state.room.messages.toList();
-              }
-
-              return ListView(
-                  reverse: true,
-                  shrinkWrap: true,
-                  children: <Widget>[
-                    SizedBox(
-                      height: kToolbarHeight + 20,
-                    )
-                  ]..addAll(_messages.reversed
-                      .map(
-                        (message) => BubbleMessage(
-                            text: message.text,
-                            time: message.createdAt.timeago(
-                                locale: AppLocalizations.of(context)
-                                    .locale
-                                    .languageCode),
-                            isMine: otherUser(context).id != message.sender.id,
-                            delivered: message.id.isEmpty ? false : true),
-                      )
-                      .toList()));
-            },
           ),
-          Positioned(
-              bottom: 0,
-              right: 0,
-              left: 0,
-              child: MessageBar(
-                otherUserId: otherUser(context).id,
-                onSubmitted: (str) => addMessage(text: str),
-              )),
-        ],
-      ),
-    );
+          body: Stack(
+            fit: StackFit.expand,
+            children: [
+              BlocListener<MessageBloc, MessageState>(
+                listenWhen: (previous, current) => current is MessageSuccess,
+                listener: (context, state) {
+                  if (state is MessageSuccess) {
+                    updateMessages(state.room.messages.toList());
+                  }
+                },
+                child: ListView(
+                    reverse: true,
+                    shrinkWrap: true,
+                    children: <Widget>[
+                      SizedBox(
+                        height: kToolbarHeight + 20,
+                      )
+                    ]..addAll(_messages.reversed
+                        .map(
+                          (message) => BubbleMessage(
+                              text: message.text,
+                              time: message.createdAt.timeago(
+                                  locale: AppLocalizations.of(context)
+                                      .locale
+                                      .languageCode),
+                              isMine:
+                                  otherUser(context).id != message.sender.id,
+                              delivered: message.id.isEmpty ? false : true),
+                        )
+                        .toList())),
+              ),
+              Positioned(
+                  bottom: 0,
+                  right: 0,
+                  left: 0,
+                  child: MessageBar(
+                    otherUserId: otherUser(context).id,
+                    onSubmitted: (str) => addMessage(text: str),
+                  )),
+            ],
+          ),
+        ));
+  }
+
+  void updateMessages(List<Message> messages) {
+    setState(() {
+      _messages = messages;
+      _messages?.sort((one, two) => one.createdAt.compare(two.createdAt));
+    });
   }
 
   void addMessage({String text, Message message}) {
@@ -168,6 +167,7 @@ class _MessageBarState extends State<MessageBar> {
 
   @override
   void initState() {
+    super.initState();
     textEditingController.addListener(() {
       setState(() {});
     });

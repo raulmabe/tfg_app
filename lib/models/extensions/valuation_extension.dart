@@ -1,11 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:jumpets_app/models/users/particular.dart';
-import 'package:jumpets_app/models/users/profesional.dart';
-import 'package:jumpets_app/models/users/protectora.dart';
-import 'package:jumpets_app/models/users/user.dart';
 import 'package:jumpets_app/models/users/valuation.dart';
-import 'package:jumpets_app/ui/components/jumpets_icons_icons.dart';
-import '../../ui/app_theme.dart';
 
 extension ValuationExtension on Valuation {
   Widget valuationsStars({Color color, double size}) => Builder(

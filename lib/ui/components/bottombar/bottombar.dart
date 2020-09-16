@@ -127,34 +127,40 @@ class BottomBar extends StatelessWidget {
       this.onDoubleMainTap});
   @override
   Widget build(BuildContext context) {
-    return BottomAppBar(
-      notchMargin: 6,
-      elevation: elevation,
-      shape: CircularNotchedRectangle(),
-      color: Theme.of(context).primaryColor,
-      child: SafeArea(
-        child: Container(
-          height: kToolbarHeight * 1,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              IconButton(
-                icon: AnimatedGradientIcon(
-                  pageSelected == 0 ? Icons.favorite : Icons.favorite_border,
-                  isSelected: pageSelected == 0,
+    return ClipRRect(
+      borderRadius: BorderRadius.only(
+        topLeft: Radius.circular(32),
+        topRight: Radius.circular(32),
+      ),
+      child: BottomAppBar(
+        notchMargin: 6,
+        elevation: elevation,
+        shape: CircularNotchedRectangle(),
+        color: Theme.of(context).primaryColor,
+        child: SafeArea(
+          child: Container(
+            height: kToolbarHeight * 1,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                IconButton(
+                  icon: AnimatedGradientIcon(
+                    pageSelected == 0 ? Icons.favorite : Icons.favorite_border,
+                    isSelected: pageSelected == 0,
+                  ),
+                  onPressed: () => onTap(0),
                 ),
-                onPressed: () => onTap(0),
-              ),
-              IconButton(
-                icon: AnimatedGradientIcon(
-                  pageSelected == 2
-                      ? FontAwesomeIcons.solidComment
-                      : FontAwesomeIcons.comment,
-                  isSelected: pageSelected == 2,
+                IconButton(
+                  icon: AnimatedGradientIcon(
+                    pageSelected == 2
+                        ? FontAwesomeIcons.solidComment
+                        : FontAwesomeIcons.comment,
+                    isSelected: pageSelected == 2,
+                  ),
+                  onPressed: () => onTap(2),
                 ),
-                onPressed: () => onTap(2),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),

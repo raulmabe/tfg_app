@@ -26,3 +26,10 @@ class InfoDialogAction extends InfoHandlerState {
   InfoDialogAction(this.msg, this.onMainCallback, this.onMainText,
       this.onSecondaryCallback, this.onSecondaryText);
 }
+
+class ChatMessage extends InfoHandlerState {
+  final Message msg;
+  final String roomId;
+
+  ChatMessage(this.msg, this.roomId);
+}

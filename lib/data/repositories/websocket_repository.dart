@@ -22,27 +22,17 @@ class WebSocketRepository {
  """ +
       AdsProvider.adFragment);
 
-  static HttpLink httpLink = HttpLink('http://' + ApiBaseHelper.domain);
-
-  static AuthLink authLink(token) =>
-      AuthLink(getToken: () async => 'Bearer $token');
-
-  static WebSocketLink get websocketLink => WebSocketLink(
+  static WebSocketLink websocketLink(token) => WebSocketLink(
         'ws://' + ApiBaseHelper.domain,
         config: SocketClientConfig(
-          autoReconnect: true,
-          inactivityTimeout: Duration(hours: 1),
-          delayBetweenReconnectionAttempts: Duration(seconds: 1),
-        ),
+            autoReconnect: true,
+            inactivityTimeout: Duration(hours: 1),
+            delayBetweenReconnectionAttempts: Duration(seconds: 1),
+            initialPayload: {"Authorization": "Bearer $token"}),
       );
 
-  static ValueNotifier<GraphQLClient> get initailizeClient {
-    ValueNotifier<GraphQLClient> client = ValueNotifier(
-      GraphQLClient(
+  static GraphQLClient client(token) => GraphQLClient(
         cache: GraphQLCache(store: HiveStore()),
-        link: websocketLink,
-      ),
-    );
-    return client;
-  }
+        link: websocketLink(token),
+      );
 }

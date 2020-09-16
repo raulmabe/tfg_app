@@ -124,6 +124,8 @@ class NotFoundSpace extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BaseSpace(
+        widthFactor: .5,
+        greyScale: false,
         assetName: 'assets/img/404.png',
         titleUntranslated: 'page_not_found_title',
         subtitleUntranslated: 'page_not_found_msg');

@@ -199,6 +199,11 @@ class EditProfileBloc extends Bloc<EditProfileEvent, EditProfileState> {
           email = state.email.value;
         }
 
+        if (state.file != null) {
+          infoBloc.add(
+              MessageAdded(msg: 'uploading_background', notification: true));
+        }
+
         User user = await repository.updateUser(
             file: state.file,
             email: email,
@@ -212,9 +217,6 @@ class EditProfileBloc extends Bloc<EditProfileEvent, EditProfileState> {
         authBloc.add(AuthUserUpdated(user));
 
         yield state.copyWith(status: FormzStatus.submissionSuccess);
-
-        infoBloc
-            .add(MessageAdded(msg: 'uploading_background', notification: true));
       } catch (err, stack) {
         errorBloc
             .add(ErrorHandlerCatched(bloc: this, event: event, error: err));

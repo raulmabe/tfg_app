@@ -92,12 +92,13 @@ class _BubbleMessageState extends State<BubbleMessage>
                         .caption
                         .copyWith(fontSize: 12),
                   ),
-                  SizedBox(width: 3.0),
-                  Icon(
-                    icon,
-                    size: 16.0,
-                    color: iconColor,
-                  )
+                  if (isMine) SizedBox(width: 3.0),
+                  if (isMine)
+                    Icon(
+                      icon,
+                      size: 16.0,
+                      color: iconColor,
+                    )
                 ])
               ],
             ),

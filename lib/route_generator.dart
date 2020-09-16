@@ -54,7 +54,9 @@ class RouteGenerator {
   static Route<dynamic> _errorRoute() {
     return MaterialPageRoute(
         builder: (context) => Scaffold(
-              appBar: AppBar(),
+              appBar: AppBar(
+                elevation: 0,
+              ),
               body: Center(
                 child: NotFoundSpace(),
               ),

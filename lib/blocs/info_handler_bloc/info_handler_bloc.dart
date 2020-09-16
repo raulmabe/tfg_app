@@ -1,6 +1,8 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
+import 'package:flutter/material.dart';
+import 'package:jumpets_app/models/chats/message.dart';
 import 'package:meta/meta.dart';
 
 part 'info_handler_event.dart';
@@ -25,6 +27,8 @@ class InfoHandlerBloc extends Bloc<InfoHandlerEvent, InfoHandlerState> {
     } else if (event is MessageActionAdded) {
       yield InfoDialogAction(event.msg, event.onMainCallback, event.onMainText,
           event.onSecondaryCallback, event.onSecondaryText);
+    } else if (event is ChatMessageReceived) {
+      yield ChatMessage(event.msg, event.roomId);
     }
   }
 

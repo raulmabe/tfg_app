@@ -5,6 +5,8 @@ import 'package:jumpets_app/app_localizations.dart';
 import 'package:jumpets_app/data/api_base_helper.dart';
 
 class ServerStatusTile extends StatefulWidget {
+  final bool dense;
+  ServerStatusTile({this.dense = false});
   @override
   _ServerStatusTileState createState() => _ServerStatusTileState();
 }
@@ -23,7 +25,7 @@ class _ServerStatusTileState extends State<ServerStatusTile> {
     return ListTile(
       title: Text(AppLocalizations.of(context).translate('server_status')),
       onTap: checkStatus,
-      dense: false,
+      dense: widget.dense,
       trailing: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
