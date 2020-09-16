@@ -13,6 +13,7 @@ import 'package:jumpets_app/models/models.dart';
 import 'package:jumpets_app/models/users/user.dart';
 
 import 'package:jumpets_app/ui/components/profile_icon.dart';
+import 'package:jumpets_app/ui/components/user_chip.dart';
 import 'package:jumpets_app/ui/profile_page/profile_body.dart';
 
 class ProfilePage extends StatefulWidget {
@@ -101,22 +102,14 @@ class _ProfilePageState extends State<ProfilePage> {
             appBar: AppBar(
               backgroundColor: Theme.of(context).primaryColor,
               elevation: 0,
-              title: Text(
-                AppLocalizations.of(context)
-                    .translate(user.stringFromType.toLowerCase()),
-                style: Theme.of(context)
-                    .textTheme
-                    .headline3
-                    .copyWith(color: Theme.of(context).accentColor),
-              ),
               centerTitle: true,
               actions: actionsList,
             ),
             body: Column(
               children: [
                 Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+                  padding: const EdgeInsets.only(
+                      left: 20, right: 20, bottom: 20, top: 10),
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -140,25 +133,27 @@ class _ProfilePageState extends State<ProfilePage> {
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             crossAxisAlignment: CrossAxisAlignment.stretch,
                             children: [
-                              Row(
-                                children: [
-                                  Container(
-                                    child: Text(user.name,
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .headline5),
-                                  ),
-                                  SizedBox(
-                                    width: 10,
-                                  ),
-                                  Icon(user.iconFromType,
-                                      color: user.colorFromType),
-                                ],
+                              Container(
+                                child: Text(user.name,
+                                    style:
+                                        Theme.of(context).textTheme.headline5),
                               ),
                               Padding(
-                                  padding:
-                                      const EdgeInsets.symmetric(vertical: 10),
-                                  child: user.valuationsStars),
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 8),
+                                child: Row(
+                                  children: [
+                                    UserChip(
+                                      paddingValue: 0,
+                                      withBorder: true,
+                                      user: user,
+                                      tag: user.id,
+                                    ),
+                                    user.oneStarWidget,
+                                    Text(user.valuationAvg.toStringAsFixed(1))
+                                  ],
+                                ),
+                              ),
                               if (user.address != null)
                                 SelectableText(
                                   user.address,

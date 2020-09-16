@@ -40,6 +40,9 @@ class FavouritesBloc extends Bloc<FavouritesEvent, FavouritesState> {
         yield FavouritesLoading();
         yield await _mapFavouritesAdRemovedToState(event);
         break;
+      case FavouriteInitialized:
+        yield FavouritesInitial();
+        break;
       default:
     }
   }

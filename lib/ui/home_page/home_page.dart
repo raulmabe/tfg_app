@@ -8,7 +8,7 @@ import 'package:jumpets_app/models/wrappers/auth_status.dart';
 import 'package:jumpets_app/ui/components/animated_gradient_icon.dart';
 import 'package:jumpets_app/ui/components/bottombar/bottombar.dart';
 import 'package:jumpets_app/ui/components/jumpets_icons_icons.dart';
-import 'package:jumpets_app/ui/components/notifier.dart';
+import 'package:jumpets_app/ui/components/listeners/notifier.dart';
 import 'package:jumpets_app/ui/components/profile_icon.dart';
 import 'package:jumpets_app/ui/components/searchbar/searchbar.dart';
 import 'package:jumpets_app/ui/home_page/page_view.dart';

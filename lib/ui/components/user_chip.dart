@@ -7,7 +7,14 @@ class UserChip extends StatelessWidget {
   final User user;
   final bool small;
   final String tag;
-  UserChip({@required this.tag, @required this.user, this.small = false})
+  final double paddingValue;
+  final bool withBorder;
+  UserChip(
+      {@required this.tag,
+      @required this.user,
+      this.withBorder = false,
+      this.paddingValue = 8.0,
+      this.small = false})
       : assert(user != null),
         assert(tag != null);
 
@@ -20,12 +27,14 @@ class UserChip extends StatelessWidget {
     double factor = small ? 0.7 : 1.0;
 
     return Padding(
-        padding: EdgeInsets.all(8.0 * factor),
+        padding: EdgeInsets.all(paddingValue * factor),
         child: Hero(
           tag: tag,
           child: Material(
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(50)),
+            shape: RoundedRectangleBorder(
+                side: BorderSide(
+                    color: Colors.black12, width: withBorder ? 1 : 0),
+                borderRadius: BorderRadius.circular(50)),
             color: Theme.of(context).primaryColor,
             child: Padding(
               padding: EdgeInsets.all(8.0 * factor),

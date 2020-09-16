@@ -30,54 +30,32 @@ class ProfileBody extends StatelessWidget {
           length: 2,
           child: Column(
             children: [
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 10.0),
-                child: TabBar(
-                    labelStyle: Theme.of(context).textTheme.caption,
-                    labelColor: Colors.grey.shade800,
-                    unselectedLabelColor: Colors.black26,
-                    indicatorSize: TabBarIndicatorSize.label,
-                    labelPadding: EdgeInsets.all(0),
-                    indicator: BoxDecoration(
-                        borderRadius: BorderRadius.circular(50),
-                        color: Theme.of(context).accentColor),
-                    /* CircleTabIndicator(
-                        color: Theme.of(context).accentColor, radius: 3), */
-                    tabs: [
-                      Tab(
-                        child: Container(
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(50),
-                              border: Border.all(
-                                  color: Theme.of(context).accentColor,
-                                  width: 1)),
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Text(
-                              AppLocalizations.of(context).translate('ads'),
-                            ),
-                          ),
+              TabBar(
+                  labelStyle: Theme.of(context).textTheme.subtitle1,
+                  labelColor: Colors.grey.shade700,
+                  unselectedLabelColor: Colors.black26,
+                  indicatorSize: TabBarIndicatorSize.label,
+                  indicatorColor: Theme.of(context).accentColor,
+                  tabs: [
+                    Tab(
+                      child: FractionallySizedBox(
+                        widthFactor: .6,
+                        child: Text(
+                          AppLocalizations.of(context).translate('ads'),
+                          textAlign: TextAlign.center,
                         ),
                       ),
-                      Tab(
-                        child: Container(
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(50),
-                              border: Border.all(
-                                  color: Theme.of(context).accentColor,
-                                  width: 1)),
-                          child: FractionallySizedBox(
-                            widthFactor: .7,
-                            child: Text(
-                              AppLocalizations.of(context)
-                                  .translate('valuations'),
-                              textAlign: TextAlign.center,
-                            ),
-                          ),
+                    ),
+                    Tab(
+                      child: FractionallySizedBox(
+                        widthFactor: .6,
+                        child: Text(
+                          AppLocalizations.of(context).translate('valuations'),
+                          textAlign: TextAlign.center,
                         ),
-                      )
-                    ]),
-              ),
+                      ),
+                    )
+                  ]),
               Expanded(
                 child: Material(
                   color: Theme.of(context).backgroundColor,
@@ -210,7 +188,7 @@ class ProfileBody extends StatelessWidget {
         }
 
         return Padding(
-          padding: EdgeInsets.symmetric(horizontal: 10),
+          padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
           child: SingleChildScrollView(
             child: Column(
               children: [
@@ -219,13 +197,17 @@ class ProfileBody extends StatelessWidget {
                     userAuth: userAuth,
                     valuation: valuation),
                 if (valuations != null)
-                  ListView.builder(
+                  ListView.separated(
                     physics: NeverScrollableScrollPhysics(),
                     itemCount: valuations?.length,
                     shrinkWrap: true,
                     itemBuilder: (context, index) => Padding(
-                      padding: const EdgeInsets.all(8.0),
+                      padding: const EdgeInsets.symmetric(vertical: 4),
                       child: ValuationCard(valuations.reversed.toList()[index]),
+                    ),
+                    separatorBuilder: (_, index) => Divider(
+                      color: Colors.black12,
+                      height: 0,
                     ),
                   ),
               ],

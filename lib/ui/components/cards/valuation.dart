@@ -10,8 +10,8 @@ class ValuationCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Material(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-      elevation: 1,
-      color: Theme.of(context).primaryColor,
+      elevation: 0,
+      color: Colors.transparent,
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Row(
@@ -19,7 +19,7 @@ class ValuationCard extends StatelessWidget {
             SizedBox(
               width: 85,
               child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 10),
+                padding: const EdgeInsets.symmetric(horizontal: 0),
                 child: Column(
                   children: [
                     CircularProfileThumb(

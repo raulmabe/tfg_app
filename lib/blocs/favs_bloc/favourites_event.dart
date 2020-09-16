@@ -3,6 +3,8 @@ part of 'favourites_bloc.dart';
 @immutable
 abstract class FavouritesEvent {}
 
+class FavouriteInitialized extends FavouritesEvent {}
+
 class FavouriteAdAdded extends FavouritesEvent {
   final Ad ad;
 

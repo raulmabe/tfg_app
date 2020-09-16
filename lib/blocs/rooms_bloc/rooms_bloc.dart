@@ -56,6 +56,9 @@ class RoomsBloc extends Bloc<RoomsEvent, RoomsState> {
           yield RoomsSuccess(rooms: rooms);
         }
         break;
+      case RoomsInitialized:
+        yield RoomsInitial();
+        break;
       default:
     }
   }

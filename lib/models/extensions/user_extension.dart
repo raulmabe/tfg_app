@@ -24,7 +24,7 @@ extension UserExtension on User {
         (this.valuationAvg == 0)
             ? Icons.star_border
             : (this.valuationAvg < 5) ? Icons.star_half : Icons.star,
-        color: this.colorFromType,
+        color: Colors.orange.shade200,
       );
 
   Widget get valuationsStars => Row(
@@ -32,12 +32,12 @@ extension UserExtension on User {
         double result = this.valuationAvg - index;
 
         if (result <= 0) {
-          return Icon(Icons.star_border, color: this.colorFromType);
+          return Icon(Icons.star_border, color: Colors.orange.shade200);
         }
         if (result < 1) {
-          return Icon(Icons.star_half, color: this.colorFromType);
+          return Icon(Icons.star_half, color: Colors.orange.shade200);
         }
-        return Icon(Icons.star, color: this.colorFromType);
+        return Icon(Icons.star, color: Colors.orange.shade200);
       })
             ..add(Text(' ${this?.valuations?.length ?? 0}')));
 
@@ -55,6 +55,8 @@ extension UserExtension on User {
   }
 
   Color get colorFromType {
+    return AppTheme.kAccentColor;
+
     if (isProfesional) return AppTheme.kThirdColor;
     if (isProtectora) return Colors.orange.shade200;
     if (isParticular) return AppTheme.kAccentColor;

@@ -21,6 +21,7 @@ import 'package:jumpets_app/ui/app_theme.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter/services.dart';
 import 'package:jumpets_app/ui/components/graphql_provider.dart';
+import 'package:jumpets_app/ui/components/listeners/auth_listener.dart';
 import 'package:overlay_support/overlay_support.dart';
 
 void main() async {
@@ -110,17 +111,7 @@ class MyApp extends StatelessWidget {
                     repository: adsRepository, errorBloc: errorBloc),
               ),
             ],
-            // * Listener for when the users log in
-            child: BlocListener<AuthBloc, AuthState>(
-              listenWhen: (previous, current) =>
-                  previous.authStatus.status !=
-                      AuthenticationStatus.authenticated &&
-                  current.authStatus.status ==
-                      AuthenticationStatus.authenticated,
-              listener: (context, state) {
-                context.bloc<FavouritesBloc>().add(FavouritesFetched());
-                context.bloc<RoomsBloc>().add(RoomsFetched());
-              },
+            child: AuthListener(
               child: BlocBuilder<LocaleBloc, LocaleState>(
                 builder: (context, state) {
                   return MyGraphQLProvider(
