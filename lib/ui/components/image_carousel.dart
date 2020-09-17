@@ -56,18 +56,20 @@ class _ImageCarouselState extends State<ImageCarousel> {
           right: 0,
           left: 0,
           bottom: 0,
-          child: ShaderMask(
-            shaderCallback: (bounds) => LinearGradient(
-                    colors: [Colors.transparent, Colors.black26],
-                    begin: Alignment.topCenter,
-                    end: Alignment.bottomCenter)
-                .createShader(
-              Rect.fromLTWH(0, 0, bounds.width, bounds.height),
-            ),
-            child: Container(
-              padding: EdgeInsets.only(top: 10),
-              height: 50,
-              color: Colors.white,
+          child: IgnorePointer(
+            child: ShaderMask(
+              shaderCallback: (bounds) => LinearGradient(
+                      colors: [Colors.transparent, Colors.black26],
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter)
+                  .createShader(
+                Rect.fromLTWH(0, 0, bounds.width, bounds.height),
+              ),
+              child: Container(
+                padding: EdgeInsets.only(top: 10),
+                height: 50,
+                color: Colors.white,
+              ),
             ),
           ),
         ),
