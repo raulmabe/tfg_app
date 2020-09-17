@@ -70,7 +70,7 @@ class _ChatPageState extends State<ChatPage> {
               children: [
                 Expanded(
                   child: Text(
-                    '${otherUser(context).email}',
+                    '${otherUser(context).name}',
                     textAlign: TextAlign.center,
                     style: Theme.of(context).textTheme.subtitle1,
                   ),

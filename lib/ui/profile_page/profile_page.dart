@@ -149,6 +149,10 @@ class _ProfilePageState extends State<ProfilePage> {
                                       user: user,
                                       tag: user.id,
                                     ),
+                                    if (user.isParticular)
+                                      SizedBox(
+                                        width: 10,
+                                      ),
                                     user.oneStarWidget,
                                     Text(user.valuationAvg.toStringAsFixed(1))
                                   ],
