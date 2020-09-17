@@ -10,11 +10,20 @@ class MaterialGradient extends ImplicitlyAnimatedWidget {
   final double elevation;
   final bool isColored;
 
-  List<Color> get targetColors => !isColored
-      ? [Colors.white, Colors.white]
-      : [AppTheme.kAccentColor, AppTheme.kFourthColor];
+  final List<Color> onColors;
+  final List<Color> offColors;
 
-  MaterialGradient({this.child, this.elevation, this.isColored, this.shape})
+  List<Color> get targetColors => !isColored
+      ? offColors ?? [Colors.white, Colors.white]
+      : onColors ?? [AppTheme.kAccentColor, AppTheme.kFourthColor];
+
+  MaterialGradient(
+      {this.child,
+      this.offColors,
+      this.onColors,
+      this.elevation,
+      this.isColored,
+      this.shape})
       : super(duration: Duration(milliseconds: 300), curve: Curves.easeInOut);
   @override
   _MaterialGradientState createState() => _MaterialGradientState();

@@ -144,5 +144,7 @@
     "server_up": "Conectado",
     "error_on_request_title": "Petición perdida",
     "error_on_request_msg": "Inténtalo de nuevo",
-    "category_not_valid": "La categoría es inválida"
+    "category_not_valid": "La categoría es inválida",
+    "appearance": "Apariencia",
+    "theme": "Tema"
 }

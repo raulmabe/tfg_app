@@ -50,10 +50,14 @@ class Notifier extends StatelessWidget {
               child: MyNotification(
                 msg: AppLocalizations.of(context)
                     .translate((state as InfoNotification).msg),
-                color: AppTheme.kThirdColor,
+                color: AppTheme.kFourthColor,
                 leading: AnimatedGradientIcon(
                   Icons.info,
                   isSelected: false,
+                  offColors: [
+                    AppTheme.kAccentColor,
+                    AppTheme.kFourthColor,
+                  ],
                   size: 30,
                 ),
               ));
@@ -65,6 +69,7 @@ class Notifier extends StatelessWidget {
           return Padding(
               padding: const EdgeInsets.symmetric(horizontal: 10.0),
               child: MyNotification(
+                  color: AppTheme.kFourthColor,
                   msg:
                       '${(state as ChatMessage).msg.sender.name}: ${(state as ChatMessage).msg.text}',
                   leading: CircularProfileThumb(

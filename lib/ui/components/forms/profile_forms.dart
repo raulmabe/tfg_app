@@ -102,7 +102,7 @@ class _ProfilePhoneInputState extends State<ProfilePhoneInput> {
               enabledBorder: UnderlineInputBorder(
                   borderSide: BorderSide(color: Colors.black54)),
               labelText: AppLocalizations.of(context).translate('phone'),
-              labelStyle: TextStyle(color: Colors.black54)),
+              labelStyle: Theme.of(context).textTheme.caption),
         );
       },
     );
@@ -151,7 +151,7 @@ class _ProfileWebInputState extends State<ProfileWebInput> {
               enabledBorder: UnderlineInputBorder(
                   borderSide: BorderSide(color: Colors.black54)),
               labelText: AppLocalizations.of(context).translate('web'),
-              labelStyle: TextStyle(color: Colors.black54)),
+              labelStyle: Theme.of(context).textTheme.caption),
         );
       },
     );
@@ -201,7 +201,7 @@ class _ProfileAddressInputState extends State<ProfileAddressInput> {
               enabledBorder: UnderlineInputBorder(
                   borderSide: BorderSide(color: Colors.black54)),
               labelText: AppLocalizations.of(context).translate('address'),
-              labelStyle: TextStyle(color: Colors.black54)),
+              labelStyle: Theme.of(context).textTheme.caption),
         );
       },
     );
@@ -249,7 +249,7 @@ class _ProfileNameInputState extends State<ProfileNameInput> {
               enabledBorder: UnderlineInputBorder(
                   borderSide: BorderSide(color: Colors.black54)),
               labelText: AppLocalizations.of(context).translate('name'),
-              labelStyle: TextStyle(color: Colors.black54)),
+              labelStyle: Theme.of(context).textTheme.caption),
         );
       },
     );
@@ -298,7 +298,7 @@ class _ProfileEmailInputState extends State<ProfileEmailInput> {
               enabledBorder: UnderlineInputBorder(
                   borderSide: BorderSide(color: Colors.black54)),
               labelText: AppLocalizations.of(context).translate('email'),
-              labelStyle: TextStyle(color: Colors.black54)),
+              labelStyle: Theme.of(context).textTheme.caption),
         );
       },
     );
@@ -329,7 +329,7 @@ class ProfilePasswordInput extends StatelessWidget {
               /*  suffixText: "Forgot your password?",
               suffixStyle: TextStyle(color: Colors.black54), */
               labelText: AppLocalizations.of(context).translate('password'),
-              labelStyle: TextStyle(color: Colors.black54)),
+              labelStyle: Theme.of(context).textTheme.caption),
         );
       },
     );

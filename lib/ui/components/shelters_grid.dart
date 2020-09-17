@@ -1,7 +1,7 @@
-import 'package:content_placeholder/content_placeholder.dart';
 import 'package:flutter/material.dart';
 import 'package:jumpets_app/models/models.dart';
 import 'package:jumpets_app/ui/components/cards/shelter_card.dart';
+import 'package:jumpets_app/ui/components/placeholders/custom_content_placeholder.dart';
 
 import 'maps/google_map_shelters.dart';
 

@@ -1,19 +1,14 @@
 import 'dart:async';
-import 'dart:convert';
 import 'dart:typed_data';
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:geocoder/geocoder.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:jumpets_app/app_localizations.dart';
 import 'package:flutter/services.dart' show rootBundle;
 import 'dart:ui' as ui;
-
-import 'package:http/http.dart' as http;
-
+import 'package:jumpets_app/blocs/theme_bloc/theme_bloc.dart';
 import 'package:jumpets_app/ui/app_theme.dart';
 
 class MapAddress extends StatefulWidget {
@@ -27,6 +22,7 @@ class MapAddress extends StatefulWidget {
 class _MapAddressState extends State<MapAddress> {
   GoogleMapController _mapController;
   String _mapStyle;
+  String _darkMapStyle;
 
   var currentLocation;
   BitmapDescriptor pinLocationIcon;
@@ -38,6 +34,10 @@ class _MapAddressState extends State<MapAddress> {
 
     rootBundle.loadString('assets/styles/map_style.txt').then((string) {
       _mapStyle = string;
+    });
+
+    rootBundle.loadString('assets/styles/dark_map_style.txt').then((string) {
+      _darkMapStyle = string;
     });
 
     _updateAddress(widget.address);
@@ -71,29 +71,41 @@ class _MapAddressState extends State<MapAddress> {
 
   @override
   Widget build(BuildContext context) {
-    return GoogleMap(
-      mapToolbarEnabled: false,
-      rotateGesturesEnabled: false,
-      myLocationButtonEnabled: false,
-      zoomControlsEnabled: false,
-      onMapCreated: _onMapCreated,
-      markers: Set.from([
-        Marker(
-          markerId: MarkerId(widget.address),
-          position: LatLng(
-              currentLocation?.latitude ?? 0, currentLocation?.longitude ?? 0),
-          icon: pinLocationIcon,
-          infoWindow: InfoWindow(title: widget.address, snippet: '*'),
-        ),
-      ]),
-      initialCameraPosition: CameraPosition(target: LatLng(0, 0), zoom: 10.0),
+    return BlocListener<ThemeBloc, ThemeState>(
+      listener: _onThemeChanged,
+      child: GoogleMap(
+        mapToolbarEnabled: false,
+        rotateGesturesEnabled: false,
+        myLocationButtonEnabled: false,
+        zoomControlsEnabled: false,
+        onMapCreated: _onMapCreated,
+        markers: Set.from([
+          Marker(
+            markerId: MarkerId(widget.address),
+            position: LatLng(currentLocation?.latitude ?? 0,
+                currentLocation?.longitude ?? 0),
+            icon: pinLocationIcon,
+            infoWindow: InfoWindow(title: widget.address, snippet: '*'),
+          ),
+        ]),
+        initialCameraPosition: CameraPosition(target: LatLng(0, 0), zoom: 10.0),
+      ),
     );
+  }
+
+  void _onThemeChanged(context, state) {
+    setState(() {
+      _mapController
+          .setMapStyle(state is LightTheme ? _mapStyle : _darkMapStyle);
+    });
   }
 
   void _onMapCreated(controller) {
     setState(() {
       _mapController = controller;
-      _mapController.setMapStyle(_mapStyle);
+      _mapController.setMapStyle(context.bloc<ThemeBloc>().state is LightTheme
+          ? _mapStyle
+          : _darkMapStyle);
     });
   }
 
@@ -117,7 +129,7 @@ class _MapAddressState extends State<MapAddress> {
     final Canvas canvas = Canvas(pictureRecorder);
 
     final Paint paintCircle = Paint()
-      ..color = Colors.white
+      ..color = Theme.of(context).primaryColor
       ..style = PaintingStyle.fill;
 
     final Paint paint = Paint()

@@ -34,7 +34,7 @@ class LoginEmailInput extends StatelessWidget {
               enabledBorder: UnderlineInputBorder(
                   borderSide: BorderSide(color: Colors.black54)),
               labelText: AppLocalizations.of(context).translate('email'),
-              labelStyle: TextStyle(color: Colors.black54)),
+              labelStyle: Theme.of(context).textTheme.caption),
         );
       },
     );
@@ -64,7 +64,7 @@ class LoginPasswordInput extends StatelessWidget {
               /*  suffixText: "Forgot your password?",
               suffixStyle: TextStyle(color: Colors.black54), */
               labelText: AppLocalizations.of(context).translate('password'),
-              labelStyle: TextStyle(color: Colors.black54)),
+              labelStyle: Theme.of(context).textTheme.caption),
         );
       },
     );
@@ -118,7 +118,7 @@ class RegisterNameInput extends StatelessWidget {
               enabledBorder: UnderlineInputBorder(
                   borderSide: BorderSide(color: Colors.black54)),
               labelText: AppLocalizations.of(context).translate('name'),
-              labelStyle: TextStyle(color: Colors.black54)),
+              labelStyle: Theme.of(context).textTheme.caption),
         );
       },
     );
@@ -147,7 +147,7 @@ class RegisterEmailInput extends StatelessWidget {
               enabledBorder: UnderlineInputBorder(
                   borderSide: BorderSide(color: Colors.black54)),
               labelText: AppLocalizations.of(context).translate('email'),
-              labelStyle: TextStyle(color: Colors.black54)),
+              labelStyle: Theme.of(context).textTheme.caption),
         );
       },
     );
@@ -180,7 +180,7 @@ class RegisterPasswordInput extends StatelessWidget {
               /*  suffixText: "Forgot your password?",
               suffixStyle: TextStyle(color: Colors.black54), */
               labelText: AppLocalizations.of(context).translate('password'),
-              labelStyle: TextStyle(color: Colors.black54)),
+              labelStyle: Theme.of(context).textTheme.caption),
         );
       },
     );

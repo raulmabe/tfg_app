@@ -38,7 +38,7 @@ class AdTitleInput extends StatelessWidget {
               enabledBorder: UnderlineInputBorder(
                   borderSide: BorderSide(color: Colors.black54)),
               labelText: AppLocalizations.of(context).translate('title'),
-              labelStyle: TextStyle(color: Colors.black54)),
+              labelStyle: Theme.of(context).textTheme.caption),
         );
       },
     );
@@ -67,7 +67,7 @@ class AdNameInput extends StatelessWidget {
               enabledBorder: UnderlineInputBorder(
                   borderSide: BorderSide(color: Colors.black54)),
               labelText: AppLocalizations.of(context).translate('name'),
-              labelStyle: TextStyle(color: Colors.black54)),
+              labelStyle: Theme.of(context).textTheme.caption),
         );
       },
     );
@@ -98,7 +98,7 @@ class AdDescriptionInput extends StatelessWidget {
               enabledBorder: UnderlineInputBorder(
                   borderSide: BorderSide(color: Colors.black54)),
               labelText: AppLocalizations.of(context).translate('description'),
-              labelStyle: TextStyle(color: Colors.black54)),
+              labelStyle: Theme.of(context).textTheme.caption),
         );
       },
     );
@@ -127,7 +127,7 @@ class AdMustKnowInput extends StatelessWidget {
               enabledBorder: UnderlineInputBorder(
                   borderSide: BorderSide(color: Colors.black54)),
               labelText: AppLocalizations.of(context).translate('must_know'),
-              labelStyle: TextStyle(color: Colors.black54)),
+              labelStyle: Theme.of(context).textTheme.caption),
         );
       },
     );
@@ -156,7 +156,7 @@ class AdBreedInput extends StatelessWidget {
               enabledBorder: UnderlineInputBorder(
                   borderSide: BorderSide(color: Colors.black54)),
               labelText: AppLocalizations.of(context).translate('breed'),
-              labelStyle: TextStyle(color: Colors.black54)),
+              labelStyle: Theme.of(context).textTheme.caption),
         );
       },
     );
@@ -193,7 +193,7 @@ class AdPriceInput extends StatelessWidget {
                   borderSide: BorderSide(color: Colors.black54)),
               labelText: AppLocalizations.of(context)
                   .translate(isPriceHour ? 'price_hour' : 'price'),
-              labelStyle: TextStyle(color: Colors.black54)),
+              labelStyle: Theme.of(context).textTheme.caption),
         );
       },
     );
@@ -228,7 +228,7 @@ class AdAdoptionTaxInput extends StatelessWidget {
               enabledBorder: UnderlineInputBorder(
                   borderSide: BorderSide(color: Colors.black54)),
               labelText: AppLocalizations.of(context).translate('adoption_tax'),
-              labelStyle: TextStyle(color: Colors.black54)),
+              labelStyle: Theme.of(context).textTheme.caption),
         );
       },
     );
@@ -262,7 +262,7 @@ class AdWeightInput extends StatelessWidget {
               enabledBorder: UnderlineInputBorder(
                   borderSide: BorderSide(color: Colors.black54)),
               labelText: AppLocalizations.of(context).translate('weight'),
-              labelStyle: TextStyle(color: Colors.black54)),
+              labelStyle: Theme.of(context).textTheme.caption),
         );
       },
     );

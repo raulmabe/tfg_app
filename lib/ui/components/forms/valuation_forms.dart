@@ -185,48 +185,43 @@ class _OwnValuationState extends State<OwnValuation> {
               ),
               Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: Material(
-                  elevation: 1,
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10)),
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(10),
-                    child: Dismissible(
-                        background: Container(
-                            color: Colors.grey,
-                            padding: EdgeInsets.all(8.0),
-                            child: Align(
-                                alignment: Alignment.centerLeft,
-                                child: Icon(
-                                  Icons.edit,
-                                  color: Colors.white,
-                                ))),
-                        secondaryBackground: Container(
-                            color: Colors.red,
-                            padding: EdgeInsets.all(8.0),
-                            child: Align(
-                                alignment: Alignment.centerRight,
-                                child: Icon(
-                                  Icons.cancel,
-                                  color: Colors.white,
-                                ))),
-                        confirmDismiss: (direction) async {
-                          if (direction == DismissDirection.startToEnd) {
-                            toggleEdit(true);
-                            return false;
-                          }
-                          return true;
-                        },
-                        onDismissed: (direction) {
-                          if (direction == DismissDirection.endToStart) {
-                            context
-                                .bloc<ValuationsBloc>()
-                                .add(ValuationDeleted(user.id));
-                          }
-                        },
-                        key: Key(valuation.comment + valuation.author.name),
-                        child: ValuationCard(valuation)),
-                  ),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(10),
+                  child: Dismissible(
+                      background: Container(
+                          color: Theme.of(context).disabledColor,
+                          padding: EdgeInsets.all(8.0),
+                          child: Align(
+                              alignment: Alignment.centerLeft,
+                              child: Icon(
+                                Icons.edit,
+                                color: Colors.white,
+                              ))),
+                      secondaryBackground: Container(
+                          color: Theme.of(context).errorColor,
+                          padding: EdgeInsets.all(8.0),
+                          child: Align(
+                              alignment: Alignment.centerRight,
+                              child: Icon(
+                                Icons.cancel,
+                                color: Colors.white,
+                              ))),
+                      confirmDismiss: (direction) async {
+                        if (direction == DismissDirection.startToEnd) {
+                          toggleEdit(true);
+                          return false;
+                        }
+                        return true;
+                      },
+                      onDismissed: (direction) {
+                        if (direction == DismissDirection.endToStart) {
+                          context
+                              .bloc<ValuationsBloc>()
+                              .add(ValuationDeleted(user.id));
+                        }
+                      },
+                      key: Key(valuation.comment + valuation.author.name),
+                      child: ValuationCard(valuation)),
                 ),
               ),
               Divider(),

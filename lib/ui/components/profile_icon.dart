@@ -1,6 +1,5 @@
 import 'dart:math';
 
-import 'package:content_placeholder/content_placeholder.dart';
 import 'package:flutter/material.dart';
 import 'package:jumpets_app/models/models.dart';
 import 'package:transparent_image/transparent_image.dart';

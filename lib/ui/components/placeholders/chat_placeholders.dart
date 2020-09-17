@@ -1,5 +1,5 @@
-import 'package:content_placeholder/content_placeholder.dart';
 import 'package:flutter/material.dart';
+import 'package:jumpets_app/ui/components/placeholders/custom_content_placeholder.dart';
 
 class ChatTilePlaceholder extends StatelessWidget {
   @override

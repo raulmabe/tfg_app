@@ -1,6 +1,5 @@
 import 'dart:math';
 
-import 'package:content_placeholder/content_placeholder.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:jumpets_app/models/ads/ad.dart';
@@ -9,6 +8,7 @@ import 'package:jumpets_app/models/ads/animal_ad.dart';
 import 'package:jumpets_app/ui/components/cards/animal_card.dart';
 import 'package:jumpets_app/ui/components/cards/info_card.dart';
 import 'package:jumpets_app/ui/components/cards/other_card.dart';
+import 'package:jumpets_app/ui/components/placeholders/custom_content_placeholder.dart';
 
 class VerticalGrid extends StatelessWidget {
   final List<Ad> ads;

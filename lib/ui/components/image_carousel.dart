@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:jumpets_app/blocs/theme_bloc/theme_bloc.dart';
 import 'package:jumpets_app/ui/components/animated/page_indicator.dart';
 
 class ImageCarousel extends StatefulWidget {
@@ -73,11 +75,17 @@ class _ImageCarouselState extends State<ImageCarousel> {
             bottom: 10,
             right: 10,
             left: 10,
-            child: PageIndicator(
-                selectedColor: Theme.of(context).accentColor,
-                unselectedColor: Colors.white,
-                selectedIndex: selectedIndex,
-                length: imagesUrls.length)),
+            child: BlocBuilder<ThemeBloc, ThemeState>(
+              builder: (context, state) {
+                return PageIndicator(
+                    selectedColor: Theme.of(context).accentColor,
+                    unselectedColor: state is LightTheme
+                        ? Colors.white
+                        : Theme.of(context).disabledColor,
+                    selectedIndex: selectedIndex,
+                    length: imagesUrls.length);
+              },
+            )),
       ],
     );
   }

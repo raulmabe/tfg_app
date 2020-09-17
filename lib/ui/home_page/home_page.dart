@@ -121,6 +121,10 @@ class _HomePageState extends State<HomePage> {
           ),
         ),
         floatingActionButton: MaterialGradient(
+          offColors: [
+            Theme.of(context).primaryColor,
+            Theme.of(context).primaryColor
+          ],
           shape: CircleBorder(),
           elevation: 1,
           isColored: _pageIndex == 1,
@@ -130,13 +134,21 @@ class _HomePageState extends State<HomePage> {
             highlightElevation: 0,
             elevation: 0,
             backgroundColor: Colors.transparent,
+            foregroundColor: Colors.transparent,
             child: Transform.translate(
                 offset: Offset(0, 0),
                 child: AnimatedGradientIcon(
                   JumpetsIcons.nariz_jumpets,
                   size: 31,
                   isSelected: _pageIndex == 1,
-                  onColors: [Colors.white, Colors.white],
+                  offColors: [
+                    Theme.of(context).iconTheme.color,
+                    Theme.of(context).iconTheme.color,
+                  ],
+                  onColors: [
+                    Theme.of(context).primaryColor,
+                    Theme.of(context).primaryColor
+                  ],
                 )),
             onPressed: () => _pageController.jumpToPage(
               1,
@@ -181,6 +193,17 @@ class _HomePageState extends State<HomePage> {
         style: Theme.of(context).textTheme.headline3,
       ));
     }
+
+    return _title(
+      SearchBar(
+        onChange: (value) => context.bloc<AdsBloc>().add(AdsSearched(
+              text: value.trim(),
+            )),
+        onClear: () => context.bloc<AdsBloc>()
+          ..add(SearchModeDisabled())
+          ..add(AdsFetched()),
+      ),
+    );
   }
 
   Widget _title(Widget main) => Builder(builder: (context) {
@@ -195,11 +218,10 @@ class _HomePageState extends State<HomePage> {
                 if (state.authStatus.status !=
                     AuthenticationStatus.authenticated) {
                   return IconButton(
-                      icon: Icon(Icons.menu),
-                      iconSize: 24,
-                      onPressed: () =>
-                          Navigator.pushNamed(context, '/settings'),
-                      color: Colors.black54);
+                    icon: Icon(Icons.menu),
+                    iconSize: 24,
+                    onPressed: () => Navigator.pushNamed(context, '/settings'),
+                  );
                 }
                 return Padding(
                     padding: EdgeInsets.only(left: 10),

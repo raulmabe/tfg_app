@@ -39,10 +39,7 @@ class AdPage extends StatelessWidget {
         children: <Widget>[
           CustomScrollView(slivers: [
             SliverAppBar(
-              iconTheme: Theme.of(context)
-                  .appBarTheme
-                  .iconTheme
-                  .copyWith(color: Colors.white),
+              iconTheme: Theme.of(context).appBarTheme.iconTheme,
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(32)),
               actions: [
@@ -77,22 +74,17 @@ class AdPage extends StatelessWidget {
               ),
             ),
             SliverToBoxAdapter(
-              child: Transform.translate(
-                offset: Offset(0, -0),
-                child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      isAnimal
-                          ? _animalHeader(context)
-                          : _othersHeader(context),
-                      isAnimal ? _InfoSquares(ad: ad) : Container(),
-                      _about(context),
-                      _morePhotosLayout(context),
-                      SizedBox(
-                        height: kToolbarHeight * 2,
-                      )
-                    ]),
-              ),
+              child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    isAnimal ? _animalHeader(context) : _othersHeader(context),
+                    isAnimal ? _InfoSquares(ad: ad) : Container(),
+                    _about(context),
+                    _morePhotosLayout(context),
+                    SizedBox(
+                      height: kToolbarHeight * 2,
+                    )
+                  ]),
             )
           ]),
           Positioned(left: 0, bottom: 10, right: 0, child: _bottomBar(context))
@@ -170,6 +162,7 @@ class AdPage extends StatelessWidget {
               child: Row(
                 children: [
                   CircularProfileThumb(
+                    borderWidth: 1,
                     user: ad.creator,
                   ),
                   SizedBox(
@@ -289,7 +282,7 @@ class AdPage extends StatelessWidget {
                               state.ads.any((element) => element.id == ad.id);
                         }
                         return MyIconButton(
-                          color: Colors.grey.shade200,
+                          color: Theme.of(context).backgroundColor,
                           size: 50,
                           child: state is FavouritesLoading
                               ? Padding(
@@ -304,7 +297,7 @@ class AdPage extends StatelessWidget {
                                       : Icons.favorite_border,
                                   color: alreadyFaved
                                       ? Colors.pinkAccent
-                                      : Colors.black54),
+                                      : Theme.of(context).iconTheme.color),
                           onTap: () => isAuth
                               ? context.bloc<FavouritesBloc>().add(alreadyFaved
                                   ? FavouriteAdRemoved(adId: ad.id)

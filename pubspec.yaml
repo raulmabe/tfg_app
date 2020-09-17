@@ -32,7 +32,7 @@ dependencies:
   http: ^0.12.0+4
   liquid_pull_to_refresh: ^2.0.0
   flutter_staggered_grid_view: ^0.3.0
-  content_placeholder: ^0.1.0
+  shimmer: ^1.1.1
   transparent_image: ^1.0.0
   font_awesome_flutter: ^8.8.1
   formz: ^0.3.0
@@ -51,6 +51,7 @@ dependencies:
   google_maps_flutter: ^0.5.32
   geocoder: ^0.2.1
   flutter_dotenv: ^2.1.0
+  hydrated_bloc: ^6.0.1
 
 
 dev_dependencies:
@@ -78,6 +79,7 @@ flutter:
   assets:
    - .env
    - assets/styles/map_style.txt
+   - assets/styles/dark_map_style.txt
 
    - assets/img/bebe.jpg
    - assets/img/pollo1.png

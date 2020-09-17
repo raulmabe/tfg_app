@@ -27,8 +27,9 @@ class MyRaisedButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Color finalColor =
-        blocked ? Colors.grey : color ?? Theme.of(context).accentColor;
+    Color finalColor = blocked
+        ? Theme.of(context).disabledColor
+        : color ?? Theme.of(context).accentColor;
 
     return Hero(
       tag: tag ?? text,
@@ -40,9 +41,7 @@ class MyRaisedButton extends StatelessWidget {
             borderRadius: BorderRadius.circular(50),
             child: Material(
               shape: RoundedRectangleBorder(
-                  side: BorderSide(
-                      width: borders ? 1 : 0,
-                      color: borders ? finalColor : Colors.transparent),
+                  side: BorderSide(width: borders ? 1 : 0, color: finalColor),
                   borderRadius: BorderRadius.circular(50)),
               color: (filled ? finalColor : Colors.transparent),
               child: InkWell(

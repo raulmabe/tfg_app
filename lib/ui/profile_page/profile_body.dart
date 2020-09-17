@@ -1,4 +1,3 @@
-import 'package:content_placeholder/content_placeholder.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jumpets_app/app_localizations.dart';
@@ -10,6 +9,7 @@ import 'package:jumpets_app/ui/components/cards/animal_card.dart';
 import 'package:jumpets_app/ui/components/cards/other_card.dart';
 import 'package:jumpets_app/ui/components/cards/valuation.dart';
 import 'package:jumpets_app/ui/components/forms/valuation_forms.dart';
+import 'package:jumpets_app/ui/components/placeholders/custom_content_placeholder.dart';
 import 'package:jumpets_app/ui/components/tab_indicator.dart';
 import 'package:rxdart/rxdart.dart';
 
@@ -32,8 +32,12 @@ class ProfileBody extends StatelessWidget {
             children: [
               TabBar(
                   labelStyle: Theme.of(context).textTheme.subtitle1,
-                  labelColor: Colors.grey.shade700,
-                  unselectedLabelColor: Colors.black26,
+                  labelColor: Theme.of(context).textTheme.subtitle1.color,
+                  unselectedLabelColor: Theme.of(context)
+                      .textTheme
+                      .subtitle1
+                      .color
+                      .withOpacity(.5),
                   indicatorSize: TabBarIndicatorSize.label,
                   indicatorColor: Theme.of(context).accentColor,
                   tabs: [
@@ -284,17 +288,6 @@ class _SearchSection extends StatelessWidget {
                       .toList()),
             ))
       ],
-    );
-  }
-}
-
-class VoidProfile extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      child: FittedBox(
-        child: Text('Aye! Too blank'),
-      ),
     );
   }
 }

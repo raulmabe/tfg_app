@@ -43,13 +43,14 @@ class TextRadioButton extends StatelessWidget {
     );
   }
 
-  Color color(context) =>
-      isSelected ? Theme.of(context).accentColor : Colors.grey.shade200;
+  Color color(context) => isSelected
+      ? Theme.of(context).accentColor
+      : Theme.of(context).disabledColor;
 
   List<Color> gradient(context) => isSelected
       ? [
           AppTheme.kFourthColor,
           AppTheme.kAccentColor,
         ]
-      : [Colors.grey.shade200, Colors.grey.shade200];
+      : [Theme.of(context).disabledColor, Theme.of(context).disabledColor];
 }

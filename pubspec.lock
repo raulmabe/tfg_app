@@ -190,13 +190,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.6"
-  content_placeholder:
-    dependency: "direct main"
-    description:
-      name: content_placeholder
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.1.0"
   convert:
     dependency: transitive
     description:
@@ -469,6 +462,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "3.1.4"
+  hydrated_bloc:
+    dependency: "direct main"
+    description:
+      name: hydrated_bloc
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "6.0.1"
   image_picker:
     dependency: "direct main"
     description:
@@ -722,7 +722,7 @@ packages:
     source: hosted
     version: "0.2.3"
   shimmer:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: shimmer
       url: "https://pub.dartlang.org"
@@ -782,6 +782,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.5"
+  synchronized:
+    dependency: transitive
+    description:
+      name: synchronized
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.2.0+2"
   term_glyph:
     dependency: transitive
     description:

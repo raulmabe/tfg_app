@@ -147,6 +147,10 @@ class BottomBar extends StatelessWidget {
                   icon: AnimatedGradientIcon(
                     pageSelected == 0 ? Icons.favorite : Icons.favorite_border,
                     isSelected: pageSelected == 0,
+                    offColors: [
+                      Theme.of(context).iconTheme.color,
+                      Theme.of(context).iconTheme.color,
+                    ],
                   ),
                   onPressed: () => onTap(0),
                 ),
@@ -155,6 +159,10 @@ class BottomBar extends StatelessWidget {
                     pageSelected == 2
                         ? FontAwesomeIcons.solidComment
                         : FontAwesomeIcons.comment,
+                    offColors: [
+                      Theme.of(context).iconTheme.color,
+                      Theme.of(context).iconTheme.color,
+                    ],
                     isSelected: pageSelected == 2,
                   ),
                   onPressed: () => onTap(2),

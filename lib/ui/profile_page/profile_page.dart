@@ -66,21 +66,21 @@ class _ProfilePageState extends State<ProfilePage> {
     var actionsList = isMyProfile
         ? [
             IconButton(
-                icon: Icon(Icons.edit),
-                iconSize: 22,
-                onPressed: () => Navigator.pushNamed(context, '/edit_profile',
-                    arguments: context
-                        .bloc<AuthBloc>()
-                        .state
-                        .authStatus
-                        ?.authData
-                        ?.user),
-                color: Colors.black54),
+              icon: Icon(Icons.edit),
+              iconSize: 22,
+              onPressed: () => Navigator.pushNamed(context, '/edit_profile',
+                  arguments: context
+                      .bloc<AuthBloc>()
+                      .state
+                      .authStatus
+                      ?.authData
+                      ?.user),
+            ),
             IconButton(
-                icon: Icon(Icons.menu),
-                iconSize: 22,
-                onPressed: () => Navigator.pushNamed(context, '/settings'),
-                color: Colors.black54),
+              icon: Icon(Icons.menu),
+              iconSize: 22,
+              onPressed: () => Navigator.pushNamed(context, '/settings'),
+            ),
           ]
         : <Widget>[];
 
@@ -109,7 +109,7 @@ class _ProfilePageState extends State<ProfilePage> {
               children: [
                 Padding(
                   padding: const EdgeInsets.only(
-                      left: 20, right: 20, bottom: 20, top: 10),
+                      left: 20, right: 0, bottom: 20, top: 10),
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -149,7 +149,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                       user: user,
                                       tag: user.id,
                                     ),
-                                    if (user.isParticular)
+                                    if (!user.isParticular)
                                       SizedBox(
                                         width: 10,
                                       ),

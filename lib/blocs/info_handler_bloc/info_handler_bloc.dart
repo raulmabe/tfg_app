@@ -34,7 +34,7 @@ class InfoHandlerBloc extends Bloc<InfoHandlerEvent, InfoHandlerState> {
 
   void _addFirstMsg() async {
     await Future.delayed(
-        Duration(seconds: 2),
+        Duration(seconds: 1),
         () => this.add(MessageAdded(
               msg: 'not_a_real_app_msg',
             )));

@@ -144,5 +144,7 @@
     "server_up": "Up",
     "error_on_request_title": "Petition lost",
     "error_on_request_msg": "Try again",
-    "category_not_valid": "Invalid category"
+    "category_not_valid": "Invalid category",
+    "appearance": "Appearance",
+    "theme": "Theme"
 }

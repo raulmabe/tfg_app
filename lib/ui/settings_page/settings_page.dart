@@ -4,8 +4,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jumpets_app/app_localizations.dart';
 import 'package:jumpets_app/blocs/auth_bloc/auth_bloc.dart';
 import 'package:jumpets_app/blocs/locale_bloc/locale_bloc.dart';
+import 'package:jumpets_app/blocs/theme_bloc/theme_bloc.dart';
 import 'package:jumpets_app/models/models.dart';
 import 'package:jumpets_app/models/wrappers/auth_status.dart';
+import 'package:jumpets_app/ui/components/buttons/theme_button.dart';
 import 'package:jumpets_app/ui/components/jumpets_icons_icons.dart';
 import 'package:jumpets_app/ui/components/server_status_tile.dart';
 import 'package:jumpets_app/ui/helper.dart';
@@ -29,6 +31,39 @@ class SettingsPage extends StatelessWidget {
       ),
       body: ListView(
         children: <Widget>[
+          _header(
+              AppLocalizations.of(context).translate('appearance'), context),
+          BlocBuilder<ThemeBloc, ThemeState>(
+            builder: (context, state) {
+              return ExpansionTile(
+                  title: Text(AppLocalizations.of(context).translate('theme')),
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 10),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          ThemeButton.light(
+                            isSelected: state is LightTheme,
+                          ),
+                          ThemeButton.dark(
+                            isSelected: state is! LightTheme,
+                          )
+                        ],
+                      ),
+                    )
+                  ],
+                  trailing: state is LightTheme
+                      ? ThemeButton.light(
+                          ignorePointer: true,
+                          isSelected: false,
+                        )
+                      : ThemeButton.dark(
+                          ignorePointer: true,
+                          isSelected: false,
+                        ));
+            },
+          ),
           Divider(
             color: Colors.transparent,
           ),

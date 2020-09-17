@@ -33,7 +33,8 @@ class UserChip extends StatelessWidget {
           child: Material(
             shape: RoundedRectangleBorder(
                 side: BorderSide(
-                    color: Colors.black12, width: withBorder ? 1 : 0),
+                    color: Theme.of(context).textTheme.caption.color,
+                    width: withBorder ? 1 : 0),
                 borderRadius: BorderRadius.circular(50)),
             color: Theme.of(context).primaryColor,
             child: Padding(

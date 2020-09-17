@@ -8,10 +8,13 @@ class AnimatedIconButton extends ImplicitlyAnimatedWidget {
   final double size;
   final double elevation;
   final List<Color> colors;
+  final List<Color> disabledColors;
+
   AnimatedIconButton(
       {@required this.onTap,
       @required this.child,
       @required this.colors,
+      @required this.disabledColors,
       this.size = 52,
       this.elevation = 0})
       : super(duration: Duration(milliseconds: 300));
@@ -93,16 +96,15 @@ class _AnimatedIconStateButton
   Widget get child => widget.child;
   Function get onTap => widget.onTap;
 
-  List<Color> get targetColors => widget.onTap == null
-      ? [Colors.grey.shade400, Colors.grey.shade400]
-      : widget.colors;
+  List<Color> targetColors() =>
+      widget.onTap == null ? widget.disabledColors : widget.colors;
 
   double get targetHeight => factor * size;
 
   @override
   void forEachTween(visitor) {
     _gradientTween = visitor(
-        _gradientTween, targetColors, (value) => GradientTween(begin: value));
+        _gradientTween, targetColors(), (value) => GradientTween(begin: value));
   }
 }
 

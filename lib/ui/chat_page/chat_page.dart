@@ -75,7 +75,11 @@ class _ChatPageState extends State<ChatPage> {
                     style: Theme.of(context).textTheme.subtitle1,
                   ),
                 ),
-                CircularProfileThumb(user: otherUser(context))
+                CircularProfileThumb(
+                  user: otherUser(context),
+                  borderWidth: 2,
+                  radius: 22,
+                )
               ],
             ),
           ),
@@ -223,9 +227,12 @@ class _MessageBarState extends State<MessageBar> {
                             AppTheme.kAccentColor,
                             AppTheme.kFourthColor
                           ],
+                          disabledColors: [
+                            Theme.of(context).disabledColor,
+                            Theme.of(context).disabledColor
+                          ],
                           child: Transform.rotate(
-                              angle: math.pi * 1.5,
-                              child: Icon(Icons.send, color: Colors.white)),
+                              angle: math.pi * 1.5, child: Icon(Icons.send)),
                           onTap: isMessageValid
                               ? () => onSubmit(textEditingController.text)
                               : null,

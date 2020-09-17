@@ -44,7 +44,6 @@ class _SearchBarState extends State<SearchBar> {
                 child: IconButton(
                   icon: Icon(
                     Icons.search,
-                    color: Colors.grey.shade800,
                   ),
                   onPressed: () => print('search'),
                 ),
@@ -60,11 +59,11 @@ class _SearchBarState extends State<SearchBar> {
                           }
                         },
                         decoration: InputDecoration.collapsed(
+                            hintStyle: Theme.of(context).textTheme.caption,
                             hintText: text(context)))),
               ),
               if (context.bloc<AdsBloc>().searchMode)
                 IconButton(
-                    color: Colors.black87,
                     icon: Icon(Icons.clear),
                     onPressed: () {
                       FocusScope.of(context).unfocus();

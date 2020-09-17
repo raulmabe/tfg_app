@@ -153,10 +153,7 @@ class _MainPageState extends State<MainPage> {
                 ),
               ),
               IconButton(
-                  icon: Icon(
-                    Icons.add,
-                    color: Colors.grey.shade500,
-                  ),
+                  icon: Icon(Icons.add),
                   onPressed: () {
                     if (context
                             .bloc<AuthBloc>()

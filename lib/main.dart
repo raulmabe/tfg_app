@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
+import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:jumpets_app/app_localizations.dart';
 import 'package:jumpets_app/blocs/ads_bloc/ads_bloc.dart';
 import 'package:jumpets_app/blocs/auth_bloc/auth_bloc.dart';
@@ -12,6 +13,7 @@ import 'package:jumpets_app/blocs/info_handler_bloc/info_handler_bloc.dart';
 import 'package:jumpets_app/blocs/locale_bloc/locale_bloc.dart';
 import 'package:jumpets_app/blocs/rooms_bloc/rooms_bloc.dart';
 import 'package:jumpets_app/blocs/search_bloc/search_ads_bloc.dart';
+import 'package:jumpets_app/blocs/theme_bloc/theme_bloc.dart';
 import 'package:jumpets_app/data/repositories/ads_repository.dart';
 import 'package:jumpets_app/data/repositories/authentication_repository.dart';
 import 'package:jumpets_app/data/repositories/user_repository.dart';
@@ -25,12 +27,15 @@ import 'package:jumpets_app/ui/components/listeners/auth_listener.dart';
 import 'package:overlay_support/overlay_support.dart';
 
 void main() async {
-  Bloc.observer = BlocDelegate();
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
     statusBarColor: Colors.transparent,
   ));
   await DotEnv().load('.env');
   await initHiveForFlutter();
+
+  Bloc.observer = BlocDelegate();
+  WidgetsFlutterBinding.ensureInitialized();
+  HydratedBloc.storage = await HydratedStorage.build();
 
   runApp(MyApp(
     adsRepository: AdsRepository(),
@@ -82,6 +87,7 @@ class MyApp extends StatelessWidget {
                       repository: userRepository,
                       authBloc: authBloc,
                       errorBloc: errorBloc)),
+              BlocProvider<ThemeBloc>(create: (context) => ThemeBloc()),
               BlocProvider<InfoHandlerBloc>(
                 create: (context) => infoBloc,
               ),
@@ -116,30 +122,36 @@ class MyApp extends StatelessWidget {
                 builder: (context, state) {
                   return MyGraphQLProvider(
                     child: OverlaySupport(
-                      child: MaterialApp(
-                        locale: Locale(state.code),
-                        title: 'PetsWorld',
-                        theme: AppTheme.getTheme(),
-                        onGenerateRoute: RouteGenerator.generateRoute,
-                        initialRoute: '/',
-                        supportedLocales: [
-                          const Locale('en', 'US'),
-                          const Locale('es', 'ES'),
-                          const Locale('ca', 'CA'),
-                        ],
-                        localizationsDelegates: [
-                          AppLocalizations.delegate,
-                          GlobalMaterialLocalizations.delegate,
-                          GlobalWidgetsLocalizations.delegate
-                        ],
-                        localeResolutionCallback: (locale, supportedLocales) {
-                          for (var supportedLocale in supportedLocales) {
-                            if (supportedLocale.languageCode ==
-                                locale.languageCode) {
-                              return supportedLocale;
-                            }
-                          }
-                          return supportedLocales.first;
+                      child: BlocBuilder<ThemeBloc, ThemeState>(
+                        builder: (context, themeState) {
+                          return MaterialApp(
+                            locale: Locale(state.code),
+                            title: 'PetsWorld',
+                            theme: AppTheme.getTheme(
+                                isLight: themeState is LightTheme),
+                            onGenerateRoute: RouteGenerator.generateRoute,
+                            initialRoute: '/',
+                            supportedLocales: [
+                              const Locale('en', 'US'),
+                              const Locale('es', 'ES'),
+                              const Locale('ca', 'CA'),
+                            ],
+                            localizationsDelegates: [
+                              AppLocalizations.delegate,
+                              GlobalMaterialLocalizations.delegate,
+                              GlobalWidgetsLocalizations.delegate
+                            ],
+                            localeResolutionCallback:
+                                (locale, supportedLocales) {
+                              for (var supportedLocale in supportedLocales) {
+                                if (supportedLocale.languageCode ==
+                                    locale.languageCode) {
+                                  return supportedLocale;
+                                }
+                              }
+                              return supportedLocales.first;
+                            },
+                          );
                         },
                       ),
                     ),
