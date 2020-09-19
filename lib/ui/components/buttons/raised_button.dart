@@ -14,7 +14,7 @@ class MyRaisedButton extends StatelessWidget {
   const MyRaisedButton({
     this.tag,
     this.blocked = false,
-    this.borders = true,
+    this.borders = false,
     this.child,
     this.text,
     this.onPressed,
@@ -41,7 +41,10 @@ class MyRaisedButton extends StatelessWidget {
             borderRadius: BorderRadius.circular(50),
             child: Material(
               shape: RoundedRectangleBorder(
-                  side: BorderSide(width: borders ? 1 : 0, color: finalColor),
+                  side: BorderSide(
+                      width: 1,
+                      color: finalColor,
+                      style: borders ? BorderStyle.solid : BorderStyle.none),
                   borderRadius: BorderRadius.circular(50)),
               color: (filled ? finalColor : Colors.transparent),
               child: InkWell(

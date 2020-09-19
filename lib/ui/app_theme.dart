@@ -39,6 +39,7 @@ class AppTheme {
         textTheme: _getTextTheme(
             GoogleFonts.ralewayTextTheme(baseTheme.textTheme), isLight),
         primaryTextTheme: _getPrimaryTextTheme(baseTheme.primaryTextTheme),
+        errorColor: kerrorColor,
         buttonTheme:
             _getButtonTheme(baseTheme.buttonTheme, baseTheme.colorScheme));
   }

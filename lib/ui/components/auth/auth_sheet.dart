@@ -147,6 +147,7 @@ class Step1Body extends StatelessWidget {
                   text: AppLocalizations.of(context).translate('join_jumpets'),
                   filled: false,
                   color: Theme.of(context).accentColor,
+                  borders: true,
                   onPressed: onNext),
               SizedBox(height: 50),
               SizedBox(

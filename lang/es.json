@@ -146,5 +146,6 @@
     "error_on_request_msg": "Inténtalo de nuevo",
     "category_not_valid": "La categoría es inválida",
     "appearance": "Apariencia",
-    "theme": "Tema"
+    "theme": "Tema",
+    "delete": "Eliminar"
 }

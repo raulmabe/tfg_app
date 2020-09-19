@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jumpets_app/app_localizations.dart';
 import 'package:jumpets_app/blocs/auth_bloc/auth_bloc.dart';
+import 'package:jumpets_app/blocs/delete_ads/delete_ads_bloc.dart';
 import 'package:jumpets_app/blocs/favs_bloc/favourites_bloc.dart';
 import 'package:jumpets_app/blocs/rooms_bloc/rooms_bloc.dart';
 import 'package:jumpets_app/models/ads/animal_ad.dart';
@@ -268,7 +269,32 @@ class AdPage extends StatelessWidget {
 
               if (isAuth &&
                   state.authStatus.authData?.user?.id == ad.creator?.id)
-                return Container();
+                return BlocConsumer<DeleteAdsBloc, DeleteAdsState>(
+                  listenWhen: (previous, current) =>
+                      current is DeleteAdsSuccess,
+                  listener: (context, state) {
+                    if (Navigator.canPop(context)) {
+                      Navigator.pop(context);
+                    }
+                  },
+                  buildWhen: (previous, current) => current is DeleteAdsLoading,
+                  builder: (context, state) {
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 10),
+                      child: MyRaisedButton(
+                        textColor: Theme.of(context).primaryColor,
+                        color: Theme.of(context).errorColor,
+                        text: AppLocalizations.of(context).translate('delete'),
+                        child: state is DeleteAdsLoading
+                            ? CircularProgressIndicator()
+                            : null,
+                        onPressed: () => context
+                            .bloc<DeleteAdsBloc>()
+                            .add(AdDeleted(ad: ad)),
+                      ),
+                    );
+                  },
+                );
 
               return Row(
                 children: [

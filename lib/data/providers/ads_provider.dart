@@ -433,4 +433,35 @@ class AdsProvider {
           adFragment
     });
   }
+
+  Future<dynamic> deleteAnimalAd({String id, String token}) async {
+    return _api.post({
+      'query': '''mutation{
+    deleteAnimalAd(id: "$id") {
+    id: _id
+      
+    }
+  }'''
+    }, token: token);
+  }
+
+  Future<dynamic> deleteServiceAd({String id, String token}) async {
+    return _api.post({
+      'query': '''mutation{
+    deleteServiceAd(id: "$id") {
+    id: _id
+    }
+  }'''
+    }, token: token);
+  }
+
+  Future<dynamic> deleteProductAd({String id, String token}) async {
+    return _api.post({
+      'query': '''mutation{
+    deleteProductAd(id: "$id") {
+    id: _id
+    }
+  }'''
+    }, token: token);
+  }
 }

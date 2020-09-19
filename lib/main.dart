@@ -17,7 +17,6 @@ import 'package:jumpets_app/blocs/theme_bloc/theme_bloc.dart';
 import 'package:jumpets_app/data/repositories/ads_repository.dart';
 import 'package:jumpets_app/data/repositories/authentication_repository.dart';
 import 'package:jumpets_app/data/repositories/user_repository.dart';
-import 'package:jumpets_app/models/wrappers/auth_status.dart';
 import 'package:jumpets_app/route_generator.dart';
 import 'package:jumpets_app/ui/app_theme.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -25,6 +24,8 @@ import 'package:flutter/services.dart';
 import 'package:jumpets_app/ui/components/graphql_provider.dart';
 import 'package:jumpets_app/ui/components/listeners/auth_listener.dart';
 import 'package:overlay_support/overlay_support.dart';
+
+import 'blocs/delete_ads/delete_ads_bloc.dart';
 
 void main() async {
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
@@ -82,6 +83,11 @@ class MyApp extends StatelessWidget {
           value: adsRepository,
           child: MultiBlocProvider(
             providers: [
+              BlocProvider<DeleteAdsBloc>(
+                  create: (context) => DeleteAdsBloc(
+                      repository: adsRepository,
+                      authBloc: authBloc,
+                      errorBloc: errorBloc)),
               BlocProvider<RoomsBloc>(
                   create: (context) => RoomsBloc(
                       repository: userRepository,

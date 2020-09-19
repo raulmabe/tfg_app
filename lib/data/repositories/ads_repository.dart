@@ -208,4 +208,30 @@ class AdsRepository {
 
     return Ad.fromJson(json['data']['createServiceAd']);
   }
+
+  void deleteAnimalAd({
+    String id,
+    String token,
+  }) async {
+    var json = await _adsProvider.deleteAnimalAd(id: id, token: token);
+    return;
+  }
+
+  void deleteServiceAd({
+    String id,
+    String token,
+  }) async {
+    var json = await _adsProvider.deleteServiceAd(id: id, token: token);
+
+    return;
+  }
+
+  void deleteProductAd({
+    String id,
+    String token,
+  }) async {
+    var json = await _adsProvider.deleteProductAd(id: id, token: token);
+
+    return;
+  }
 }

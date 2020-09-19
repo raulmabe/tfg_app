@@ -23,7 +23,10 @@ class CircularProfileThumb extends StatelessWidget {
     return Material(
       elevation: elevation,
       shape: CircleBorder(
-        side: BorderSide(color: user.colorFromType, width: borderWidth),
+        side: BorderSide(
+            color: user.colorFromType,
+            width: borderWidth,
+            style: borderWidth != 0 ? BorderStyle.solid : BorderStyle.none),
       ),
       color: Colors.transparent,
       child: InkWell(
@@ -88,7 +91,11 @@ class RoundedRectProfileThumb extends StatelessWidget {
         width: width,
         child: Material(
           shape: RoundedRectangleBorder(
-              side: BorderSide(color: user.colorFromType, width: borderWidth),
+              side: BorderSide(
+                  color: user.colorFromType,
+                  width: borderWidth,
+                  style:
+                      borderWidth != 0 ? BorderStyle.solid : BorderStyle.none),
               borderRadius: BorderRadius.circular(borderRadius)),
           child: InkWell(
             onTap: onTap,

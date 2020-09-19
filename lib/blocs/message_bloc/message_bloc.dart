@@ -42,87 +42,101 @@ class MessageBloc extends Bloc<MessageEvent, MessageState> {
   Stream<MessageState> mapEventToState(
     MessageEvent event,
   ) async* {
-    if (event is MessageSent) {
-      yield MessageLoading();
+    switch (event.runtimeType) {
+      case MessageSent:
+        yield MessageLoading();
+        yield await _mapMessageSentToState(event);
+        break;
+      case MessageReceived:
+        _mapMessageReceivedToUpdateRoom(event);
+        break;
+      case RoomsUpdated:
+        _mapUserRoomsUpdated(event);
+        break;
+      default:
+    }
+  }
 
-      try {
-        Room room = await repository.sendMessage(
-            text: event.text,
-            userId: event.toUserId,
-            adId: event.adId,
-            token: authBloc.state.authStatus?.authData?.token);
+  Future<MessageState> _mapMessageSentToState(MessageSent event) async {
+    try {
+      Room room = await repository.sendMessage(
+          text: event.text,
+          userId: event.toUserId,
+          adId: event.adId,
+          token: authBloc.state.authStatus?.authData?.token);
+
+      roomsBloc.add(RoomUpdated(room: room));
+
+      return MessageSuccess(room: room);
+    } catch (err, stack) {
+      errorBloc.add(ErrorHandlerCatched(
+        bloc: this,
+        event: event,
+        error: err,
+      ));
+      return MessageFailure();
+    }
+  }
+
+  void _mapMessageReceivedToUpdateRoom(MessageReceived event) async {
+    if (event.message.sender.id !=
+        authBloc.state.authStatus?.authData?.user?.id) {
+      Room room = roomsBloc.getRoomWithId(event.roomId);
+
+      if (room != null) {
+        if (!room.messages.any((msg) => msg.id == event.message.id)) {
+          room = room.rebuild((r) => r
+            ..messages = ListBuilder<Message>(
+                List.from(r.messages.build().asList())..add(event.message)));
+        }
 
         roomsBloc.add(RoomUpdated(room: room));
-
-        yield MessageSuccess(room: room);
-      } catch (err, stack) {
-        errorBloc.add(ErrorHandlerCatched(
-          bloc: this,
-          event: event,
-          error: err,
-        ));
-        yield MessageFailure();
       }
-    } else if (event is MessageReceived) {
-      if (event.message.sender.id !=
-          authBloc.state.authStatus?.authData?.user?.id) {
-        Room room = roomsBloc.getRoomWithId(event.roomId);
+    }
+  }
 
-        if (room != null) {
-          if (!room.messages.any((msg) => msg.id == event.message.id)) {
-            room = room.rebuild((r) => r
-              ..messages = ListBuilder<Message>(
-                  List.from(r.messages.build().asList())..add(event.message)));
-          }
+  void _mapUserRoomsUpdated(RoomsUpdated event) {
+    event.roomsIds.forEach((roomID) {
+      // * Add subscriptions of unsubscribed rooms
+      if (!_roomsSubscriptions.containsKey(roomID)) {
+        _roomsSubscriptions.putIfAbsent(
+            roomID,
+            () => WebSocketRepository.client(
+                        authBloc.state.authStatus?.authData?.token)
+                    .subscribe(
+                  SubscriptionOptions(
+                    document: WebSocketRepository.messageSent(roomID),
+                  ),
+                )
+                    .listen((result) async {
+                  if (result.data != null && result.data.isNotEmpty) {
+                    Message msg = Message.fromJson(result.data['messageSent']);
 
-          roomsBloc.add(RoomUpdated(room: room));
-        }
-      }
-    } else if (event is RoomsUpdated) {
-      event.roomsIds.forEach((roomID) {
-        // * Add subscriptions of unsubscribed rooms
-        if (!_roomsSubscriptions.containsKey(roomID)) {
-          _roomsSubscriptions.putIfAbsent(
-              roomID,
-              () => WebSocketRepository.client(
-                          authBloc.state.authStatus?.authData?.token)
-                      .subscribe(
-                    SubscriptionOptions(
-                      document: WebSocketRepository.messageSent(roomID),
-                    ),
-                  )
-                      .listen((result) async {
-                    if (result.data != null && result.data.isNotEmpty) {
-                      Message msg =
-                          Message.fromJson(result.data['messageSent']);
+                    if (msg.sender.id !=
+                        authBloc.state.authStatus?.authData?.user?.id) {
+                      Room room = roomsBloc.getRoomWithId(roomID);
 
-                      if (msg.sender.id !=
-                          authBloc.state.authStatus?.authData?.user?.id) {
-                        Room room = roomsBloc.getRoomWithId(roomID);
+                      if (room != null &&
+                          !room.messages
+                              .any((message) => message.id == msg.id)) {
+                        this.add(MessageReceived(message: msg, roomId: roomID));
 
-                        if (room != null &&
-                            !room.messages
-                                .any((message) => message.id == msg.id)) {
-                          this.add(
-                              MessageReceived(message: msg, roomId: roomID));
-
-                          infoBloc.add(
-                              ChatMessageReceived(msg: msg, roomId: roomID));
-                        }
+                        infoBloc
+                            .add(ChatMessageReceived(msg: msg, roomId: roomID));
                       }
                     }
-                  }));
-        }
-      });
+                  }
+                }));
+      }
+    });
 
-      // * Remove subscriptions of unused rooms
-      _roomsSubscriptions.keys.forEach((roomId) {
-        if (!event.roomsIds.contains(roomId)) {
-          _roomsSubscriptions[roomId]?.cancel();
-          _roomsSubscriptions.remove(roomId);
-        }
-      });
-    }
+    // * Remove subscriptions of unused rooms
+    _roomsSubscriptions.keys.forEach((roomId) {
+      if (!event.roomsIds.contains(roomId)) {
+        _roomsSubscriptions[roomId]?.cancel();
+        _roomsSubscriptions.remove(roomId);
+      }
+    });
   }
 
   @override

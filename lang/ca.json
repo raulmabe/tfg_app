@@ -146,5 +146,6 @@
     "error_on_request_msg": "Torna-ho a provar",
     "category_not_valid": "La categoria no és vàlida",
     "appearance": "Aparença",
-    "theme": "Tema"
+    "theme": "Tema",
+    "delete": "Eliminar"
 }
