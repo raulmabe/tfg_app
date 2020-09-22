@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:dio/dio.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
@@ -9,12 +10,13 @@ class ApiBaseHelper {
   final String baseUrl;
   final int timeout;
 
-  ApiBaseHelper({this.baseUrl = 'http://' + ApiBaseHelper.domain})
-      : timeout = 500;
+  ApiBaseHelper()
+      : timeout = 500,
+        baseUrl = 'http://' + ApiBaseHelper.domain;
 
-// 192.168.1.35:3030/graphql
-// raulmabe.dev:3030/graphql
-  static const String domain = 'raulmabe.dev:3030/graphql';
+// API_LOCAL_URL = 192.168.1.35:3030/graphql
+// API_URL = publicIP:3030/graphql
+  static String domain = DotEnv().env['API_URL'];
 
   Future<dynamic> get(String url) async {
     var responseJson;

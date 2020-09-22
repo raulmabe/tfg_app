@@ -96,9 +96,6 @@ class SettingsPage extends StatelessWidget {
                   context.bloc<LocaleBloc>().add(LocaleChanged(idioma)),
             ),
           ),
-          ServerStatusTile(
-            dense: denseTiles,
-          ),
           ListTile(
             title: Text(AppLocalizations.of(context).translate('licenses')),
             onTap: () => showAboutDialog(
