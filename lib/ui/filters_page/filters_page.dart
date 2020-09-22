@@ -11,10 +11,6 @@ import 'package:jumpets_app/ui/components/buttons/flat_button.dart';
 import 'package:jumpets_app/ui/components/buttons/raised_button.dart';
 import 'package:jumpets_app/ui/components/buttons/sex_radio_button.dart';
 import 'package:jumpets_app/ui/components/buttons/text_radio_button.dart';
-import 'package:jumpets_app/ui/components/draggable_indicator.dart';
-import 'package:jumpets_app/ui/components/jumpets_icons_icons.dart';
-import 'package:jumpets_app/ui/components/searchbar/searchbar.dart';
-import 'package:jumpets_app/ui/helper.dart';
 
 class FiltersPage extends StatefulWidget {
   final ScrollController scrollController;
@@ -116,18 +112,6 @@ class _FiltersPageState extends State<FiltersPage> {
                     child: ListView(
                       shrinkWrap: true,
                       children: [
-                        /* Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 10),
-                          child: SearchBar(
-                            onChange: (value) => setState(() {
-                              if (value.isEmpty) value = null;
-                              model.text = value?.trim();
-                            }),
-                          ),
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ), */
                         _categoryRow(),
                         Divider(),
                         _sexRow(),
