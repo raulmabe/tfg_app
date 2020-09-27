@@ -179,7 +179,8 @@ class ProfileBody extends StatelessWidget {
 
         valuations?.sort((one, two) => one.createdAt.compare(two.createdAt));
 
-        if (valuations.isEmpty) {
+        if (valuations.isEmpty &&
+            !context.bloc<AuthBloc>().state.authStatus.status.isAuthenticated) {
           return Column(
             children: [
               Spacer(),

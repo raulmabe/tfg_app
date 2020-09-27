@@ -147,5 +147,8 @@
     "category_not_valid": "La categoría es inválida",
     "appearance": "Apariencia",
     "theme": "Tema",
-    "delete": "Eliminar"
+    "delete": "Eliminar",
+    "title": "Titulo",
+    "camera": "Cámara",
+    "gallery": "Galería"
 }

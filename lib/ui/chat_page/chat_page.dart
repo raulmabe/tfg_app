@@ -232,7 +232,9 @@ class _MessageBarState extends State<MessageBar> {
                             Theme.of(context).disabledColor
                           ],
                           child: Transform.rotate(
-                              angle: math.pi * 1.5, child: Icon(Icons.send)),
+                              angle: math.pi * 1.5,
+                              child: Icon(Icons.send,
+                                  color: Theme.of(context).primaryColor)),
                           onTap: isMessageValid
                               ? () => onSubmit(textEditingController.text)
                               : null,

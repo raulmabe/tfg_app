@@ -39,7 +39,12 @@ class _RoomsPageState extends State<RoomsPage> {
           List<Widget> children = [];
 
           if (state is RoomsSuccess) {
-            children = state.rooms
+            List<Room> aux = state.rooms;
+
+            aux.sort((one, two) => one.updatedAt.compare(two.updatedAt));
+            aux = aux.reversed.toList();
+
+            children = aux
                 .map((room) => Column(
                       children: [
                         ListTile(
@@ -122,9 +127,7 @@ class _RoomsPageState extends State<RoomsPage> {
             children: <Widget>[
               (state is RoomsFailure)
                   ? EmptySpace()
-                  : Column(
-                      children: children,
-                    ),
+                  : Column(children: children),
             ],
           );
         },

@@ -77,7 +77,7 @@ class RoomsBloc extends Bloc<RoomsEvent, RoomsState> {
   Future<Room> gotAlreadyRoomWithUser(User user) async {
     if (state is RoomsSuccess) {
       return (state as RoomsSuccess).rooms.firstWhere(
-          (room) => room.user1.id == user.id || room.user2.id == user.id);
+          (room) => room.user1.id == user.id || room.user2.id == user.id, orElse: () => null);
     }
     return null;
   }

@@ -10,6 +10,7 @@ import 'package:jumpets_app/blocs/edit_profile_bloc/edit_profile_bloc.dart';
 import 'package:jumpets_app/ui/components/buttons/raised_button.dart';
 import 'package:formz/formz.dart';
 import 'package:jumpets_app/ui/components/jumpets_icons_icons.dart';
+import 'package:jumpets_app/ui/helper.dart';
 
 class ProfileImagePicker extends StatefulWidget {
   final double radius;
@@ -22,8 +23,12 @@ class _ProfileImagePickerState extends State<ProfileImagePicker> {
   File _image;
   final picker = ImagePicker();
 
-  Future getImage() async {
-    final pickedFile = await picker.getImage(source: ImageSource.gallery);
+  Future getImage(bool isCamera) async {
+    final pickedFile = await picker.getImage(
+        maxHeight: 480,
+        maxWidth: 640,
+        imageQuality: 10,
+        source: isCamera ? ImageSource.camera : ImageSource.gallery);
 
     if (pickedFile != null) {
       context
@@ -40,7 +45,8 @@ class _ProfileImagePickerState extends State<ProfileImagePicker> {
   Widget build(BuildContext context) {
     return Center(
       child: InkWell(
-        onTap: getImage,
+        onTap: () => Helper.showCameraOptions(context,
+            onCamera: () => getImage(true), onGallery: () => getImage(false)),
         child: CircleAvatar(
             radius: widget.radius ?? 20,
             backgroundImage: _image == null ? null : Image.file(_image).image,

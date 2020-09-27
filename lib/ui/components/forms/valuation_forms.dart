@@ -125,8 +125,8 @@ class ValuationButton extends StatelessWidget {
               )
             : Icon(Icons.send,
                 color: state.status.isValidated
-                    ? Colors.black54
-                    : Colors.grey.shade200);
+                    ? Theme.of(context).iconTheme.color
+                    : Theme.of(context).disabledColor);
 
         return MyIconButton(
           color: Colors.transparent,

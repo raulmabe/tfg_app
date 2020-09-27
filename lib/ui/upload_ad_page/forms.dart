@@ -15,6 +15,7 @@ import 'package:jumpets_app/ui/components/buttons/sex_radio_button.dart';
 import 'package:jumpets_app/ui/components/buttons/text_radio_button.dart';
 import 'package:jumpets_app/ui/components/jumpets_icons_icons.dart';
 import 'package:jumpets_app/ui/components/tags.dart';
+import 'package:jumpets_app/ui/helper.dart';
 
 class AdTitleInput extends StatelessWidget {
   @override
@@ -495,7 +496,7 @@ class AdPersonalityInput extends StatelessWidget {
                     hintText: AppLocalizations.of(context)
                         .translate('personality_examples'),
                     onTap: (value) {
-                      if (!state.personality.contains(value)) {
+                      if (value != null && !state.personality.contains(value)) {
                         context.bloc<UploadAdBloc>().add(AdPersonalityChanged(
                             state.personality..add(value)));
                       }
@@ -551,7 +552,7 @@ class AdTagsInput extends StatelessWidget {
                   hintText:
                       AppLocalizations.of(context).translate('tag_examples'),
                   onTap: (value) {
-                    if (!state.tags.contains(value)) {
+                    if (value != null && !state.tags.contains(value)) {
                       context
                           .bloc<UploadAdBloc>()
                           .add(AdTagsChanged(state.tags..add(value)));
@@ -592,13 +593,17 @@ class AdTagsInput extends StatelessWidget {
 class AdPhotosInput extends StatelessWidget {
   final picker = ImagePicker();
 
-  Future getImage(BuildContext context, int index) async {
-    final pickedFile = await picker.getImage(source: ImageSource.gallery);
+  Future getImage(BuildContext context, int index, bool camera) async {
+    final pickedFile = await picker.getImage(
+        maxHeight: 480,
+        maxWidth: 640,
+        imageQuality: 1,
+        source: camera ? ImageSource.camera : ImageSource.gallery);
 
     if (pickedFile != null) {
-      context.bloc<UploadAdBloc>().add(AdImgChanged(
-          context.bloc<UploadAdBloc>().state.photos
-            ..add(File(pickedFile.path))));
+      File file = File(pickedFile.path);
+      context.bloc<UploadAdBloc>().add(
+          AdImgChanged(context.bloc<UploadAdBloc>().state.photos..add(file)));
     }
   }
 
@@ -674,7 +679,9 @@ class AdPhotosInput extends StatelessWidget {
               ? context
                   .bloc<UploadAdBloc>()
                   .add(AdImgChanged(state.photos..remove(state.photos[index])))
-              : getImage(context, index),
+              : Helper.showCameraOptions(context,
+                  onCamera: () => getImage(context, index, true),
+                  onGallery: () => getImage(context, index, false)),
           isSelected: false),
     );
   }

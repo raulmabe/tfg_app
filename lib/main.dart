@@ -131,6 +131,7 @@ class MyApp extends StatelessWidget {
                       child: BlocBuilder<ThemeBloc, ThemeState>(
                         builder: (context, themeState) {
                           return MaterialApp(
+                            debugShowCheckedModeBanner: false,
                             locale: Locale(state.code),
                             title: 'PetsWorld',
                             theme: AppTheme.getTheme(

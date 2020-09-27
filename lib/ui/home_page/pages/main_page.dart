@@ -221,7 +221,8 @@ class _MainPageState extends State<MainPage> {
                 ads = state.ads;
               }
 
-              if (state is AdsSuccess && ads.isEmpty) return EmptySpace();
+              if (state is AdsSuccess && ads.isEmpty)
+                return _wrapperOfContent(true, EmptySpace());
 
               return _wrapperOfContent(
                   false,

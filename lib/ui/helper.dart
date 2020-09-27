@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:jumpets_app/app_localizations.dart';
@@ -5,6 +7,8 @@ import 'package:jumpets_app/blocs/ads_bloc/ads_bloc.dart';
 import 'package:jumpets_app/models/enums/user_types.dart';
 import 'package:jumpets_app/models/models.dart';
 import 'package:jumpets_app/ui/components/auth/auth_sheet.dart';
+import 'package:jumpets_app/ui/components/buttons/raised_button.dart';
+import 'package:jumpets_app/ui/components/jumpets_icons_icons.dart';
 import 'package:jumpets_app/ui/components/social_media_sheet.dart';
 import 'package:jumpets_app/ui/filters_page/filters_page.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -46,6 +50,68 @@ class Helper {
                     scrollController: scrollController,
                   ),
                 )));
+  }
+
+  static void showCameraOptions(BuildContext context,
+      {Function() onCamera, Function() onGallery}) {
+    showModalBottomSheet(
+        barrierColor: Colors.black26,
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(32.0),
+          topRight: Radius.circular(32.0),
+        )),
+        isScrollControlled: true,
+        context: context,
+        builder: (_) => BottomSheet(
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(32.0),
+              topRight: Radius.circular(32.0),
+            )),
+            onClosing: () {},
+            builder: (context) => Material(
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(32.0),
+                  topRight: Radius.circular(32.0),
+                )),
+                color: Theme.of(context).primaryColor,
+                child: SafeArea(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 20),
+                    child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              IconButton(
+                                  icon: Icon(JumpetsIcons.camara),
+                                  onPressed: () {
+                                    onCamera();
+                                    Navigator.pop(context);
+                                  }),
+                              Text(AppLocalizations.of(context)
+                                  .translate('camera'))
+                            ],
+                          ),
+                          Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              IconButton(
+                                  icon: Icon(Icons.photo),
+                                  onPressed: () {
+                                    onGallery();
+                                    Navigator.pop(context);
+                                  }),
+                              Text(AppLocalizations.of(context)
+                                  .translate('gallery'))
+                            ],
+                          ),
+                        ]),
+                  ),
+                ))));
   }
 
   static void showLoginBottomSheet(BuildContext context) {

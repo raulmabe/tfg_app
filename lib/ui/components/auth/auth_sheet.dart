@@ -183,7 +183,6 @@ class Step2Body extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              SizedBox(height: 50),
               _Header(
                 title: AppLocalizations.of(context).translate('your_data'),
                 imagePath: 'assets/img/pollo1.png',
@@ -195,7 +194,6 @@ class Step2Body extends StatelessWidget {
               RegisterStep2Button(
                 onTap: onNext,
               ),
-              SizedBox(height: 50),
               Text(
                 AppLocalizations.of(context)
                     .translate('you_can_modify_it_later_on_your_profile'),
@@ -241,7 +239,6 @@ class Step3Body extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              SizedBox(height: 50),
               _Header(
                 title: AppLocalizations.of(context).translate('one_more_step'),
                 imagePath: 'assets/img/pollo2.png',
@@ -280,7 +277,6 @@ class Step3Body extends StatelessWidget {
                 style:
                     Theme.of(context).textTheme.caption.copyWith(fontSize: 14),
               ),
-              SizedBox(height: 50),
               MyRaisedButton(
                 text: AppLocalizations.of(context).translate('go_back'),
                 filled: false,

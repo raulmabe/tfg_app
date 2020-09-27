@@ -188,7 +188,7 @@ class AdPage extends StatelessWidget {
           ),
           Padding(
             padding: const EdgeInsets.only(top: 8.0, bottom: 4.0),
-            child: Text(description),
+            child: Text(description, textAlign: TextAlign.justify),
           ),
           if (isAnimal && (ad as AnimalAd).mustKnow != null)
             Padding(
