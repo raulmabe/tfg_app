@@ -12,6 +12,7 @@ part 'serializers.g.dart';
 
 @SerializersFor(const [
   User,
+  InfoCardViewModel,
   Message,
   Room,
   Valuation,

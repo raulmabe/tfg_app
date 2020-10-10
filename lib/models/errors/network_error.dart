@@ -1,3 +1,13 @@
+class InvalidArgsError extends Error {
+  final String msg;
+  final String fromError;
+
+  InvalidArgsError({this.msg, this.fromError});
+
+  @override
+  String toString() => msg;
+}
+
 class NetworkError extends Error {
   final int status;
   final String msg;

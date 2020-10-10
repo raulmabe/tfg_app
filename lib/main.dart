@@ -16,6 +16,7 @@ import 'package:jumpets_app/blocs/search_bloc/search_ads_bloc.dart';
 import 'package:jumpets_app/blocs/theme_bloc/theme_bloc.dart';
 import 'package:jumpets_app/data/repositories/ads_repository.dart';
 import 'package:jumpets_app/data/repositories/authentication_repository.dart';
+import 'package:jumpets_app/data/repositories/general_repository.dart';
 import 'package:jumpets_app/data/repositories/user_repository.dart';
 import 'package:jumpets_app/route_generator.dart';
 import 'package:jumpets_app/ui/app_theme.dart';
@@ -41,6 +42,7 @@ void main() async {
   runApp(MyApp(
     adsRepository: AdsRepository(),
     authenticationRepository: AuthenticationRepository(),
+    generalRepository: GeneralRepository(),
     userRepository: UserRepository(),
     errorBloc: ErrorHandlerBloc(),
     infoBloc: InfoHandlerBloc(),
@@ -51,12 +53,14 @@ class MyApp extends StatelessWidget {
   MyApp(
       {@required this.adsRepository,
       @required this.authenticationRepository,
+      @required this.generalRepository,
       @required this.userRepository,
       @required this.errorBloc,
       @required this.infoBloc})
       : assert(authenticationRepository != null),
         assert(userRepository != null),
         assert(adsRepository != null),
+        assert(generalRepository != null),
         assert(errorBloc != null),
         authBloc = AuthBloc(
           authenticationRepository: authenticationRepository,
@@ -72,6 +76,7 @@ class MyApp extends StatelessWidget {
   final AdsRepository adsRepository;
   final AuthenticationRepository authenticationRepository;
   final UserRepository userRepository;
+  final GeneralRepository generalRepository;
 
   @override
   Widget build(BuildContext context) {
@@ -105,6 +110,7 @@ class MyApp extends StatelessWidget {
               ),
               BlocProvider<AdsBloc>(
                 create: (context) => AdsBloc(
+                    generalRepository: generalRepository,
                     repository: adsRepository,
                     authBloc: authBloc,
                     errorBloc: errorBloc)

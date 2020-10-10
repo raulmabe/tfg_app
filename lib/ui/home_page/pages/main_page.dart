@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jumpets_app/app_localizations.dart';
@@ -153,7 +154,7 @@ class _MainPageState extends State<MainPage> {
                 ),
               ),
               IconButton(
-                  icon: Icon(Icons.add),
+                  icon: Icon(CupertinoIcons.plus),
                   onPressed: () {
                     if (context
                             .bloc<AuthBloc>()
@@ -204,7 +205,8 @@ class _MainPageState extends State<MainPage> {
           switch (context.bloc<AdsBloc>().category) {
             case Category.SHELTERS:
               if (state is AdsSuccess && state.shelters.isEmpty)
-                return _wrapperOfContent(true, EmptySpace());
+                return _wrapperOfContent(
+                    true, EmptySpace(msg: 'need_a_valid_address'));
               return _wrapperOfContent(
                   true,
                   SheltersGrid(
@@ -213,10 +215,13 @@ class _MainPageState extends State<MainPage> {
                   ));
             default:
               List<Ad> ads = [];
+              List<InfoCardViewModel> infoCards = [];
               if (state is AdsSuccess) {
                 ads = context.bloc<AdsBloc>().searchMode
                     ? state.searchedAds
                     : state.paginatedAds.ads.asList();
+
+                infoCards = state.infoCards;
               } else if (state is AdsLoadingMore) {
                 ads = state.ads;
               }
@@ -227,11 +232,7 @@ class _MainPageState extends State<MainPage> {
               return _wrapperOfContent(
                   false,
                   VerticalGrid(
-                    widgetInjection: InfoCard(
-                      title: 'PetsWorld',
-                      message:
-                          'Check our last update! This new version (2.2v) comes with 3 new functionalities.',
-                    ),
+                    infoCards: infoCards,
                     ads: ads,
                     usePlaceholders: state is AdsLoading,
                     insertPlaceholderAtLast: state is AdsLoadingMore,

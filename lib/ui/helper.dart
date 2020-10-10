@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:jumpets_app/app_localizations.dart';
@@ -246,5 +247,15 @@ class Helper {
           '${AppLocalizations.of(context).translate('size').toLowerCase()}:${event.size};';
     }
     return s;
+  }
+
+  static IconData getFavIcon({bool filled = false}) {
+    return filled ? CupertinoIcons.heart_fill : CupertinoIcons.heart;
+  }
+
+  static IconData getChatBubble({bool filled = false}) {
+    return filled
+        ? CupertinoIcons.chat_bubble_fill
+        : CupertinoIcons.chat_bubble;
   }
 }

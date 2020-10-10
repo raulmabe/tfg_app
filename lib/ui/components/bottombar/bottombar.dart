@@ -6,6 +6,8 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:jumpets_app/ui/components/animated_gradient_icon.dart';
 import 'package:jumpets_app/ui/components/jumpets_icons_icons.dart';
 
+import '../../helper.dart';
+
 class FloatingBottomBar extends StatelessWidget {
   final double elevation;
   final double mainIconSize;
@@ -55,9 +57,7 @@ class FloatingBottomBar extends StatelessWidget {
                     children: [
                       IconButton(
                         icon: AnimatedGradientIcon(
-                          pageSelected == 0
-                              ? Icons.favorite
-                              : Icons.favorite_border,
+                          Helper.getFavIcon(filled: pageSelected == 0),
                           isSelected: pageSelected == 0,
                         ),
                         onPressed: () => onTap(0),
@@ -145,7 +145,7 @@ class BottomBar extends StatelessWidget {
               children: [
                 IconButton(
                   icon: AnimatedGradientIcon(
-                    pageSelected == 0 ? Icons.favorite : Icons.favorite_border,
+                    Helper.getFavIcon(filled: pageSelected == 0),
                     isSelected: pageSelected == 0,
                     offColors: [
                       Theme.of(context).iconTheme.color,
@@ -156,9 +156,7 @@ class BottomBar extends StatelessWidget {
                 ),
                 IconButton(
                   icon: AnimatedGradientIcon(
-                    pageSelected == 2
-                        ? FontAwesomeIcons.solidComment
-                        : FontAwesomeIcons.comment,
+                    Helper.getChatBubble(filled: pageSelected == 2),
                     offColors: [
                       Theme.of(context).iconTheme.color,
                       Theme.of(context).iconTheme.color,

@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -111,7 +112,7 @@ class SettingsPage extends StatelessWidget {
           ),
           if (Platform.isAndroid)
             ListTile(
-              trailing: Icon(Icons.exit_to_app),
+              trailing: Icon(CupertinoIcons.square_arrow_right),
               title: Text(AppLocalizations.of(context).translate('exit_app')),
               onTap: () =>
                   SystemChannels.platform.invokeMethod('SystemNavigator.pop'),
@@ -234,8 +235,7 @@ class SettingsPage extends StatelessWidget {
                 dense: denseTiles,
               ),
               ListTile(
-                trailing: Transform.rotate(
-                    angle: math.pi, child: Icon(Icons.exit_to_app)),
+                trailing: Icon(CupertinoIcons.square_arrow_left),
                 title: Text(AppLocalizations.of(context).translate('log_out')),
                 onTap: () =>
                     context.bloc<AuthBloc>().add(AuthLogoutRequested()),

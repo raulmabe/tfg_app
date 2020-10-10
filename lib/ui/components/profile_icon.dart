@@ -29,9 +29,9 @@ class CircularProfileThumb extends StatelessWidget {
             style: borderWidth != 0 ? BorderStyle.solid : BorderStyle.none),
       ),
       color: Colors.transparent,
-      child: InkWell(
-        onTap: onTap,
-        child: ClipOval(
+      child: ClipOval(
+        child: InkWell(
+          onTap: onTap,
           child: user.thumbnail != null
               ? Image.network(
                   user.thumbnail,
@@ -90,6 +90,7 @@ class RoundedRectProfileThumb extends StatelessWidget {
         height: height,
         width: width,
         child: Material(
+          color: Colors.transparent,
           shape: RoundedRectangleBorder(
               side: BorderSide(
                   color: user.colorFromType,
@@ -106,7 +107,9 @@ class RoundedRectProfileThumb extends StatelessWidget {
                     width: width,
                     placeholder: kTransparentImage,
                     image: user.thumbnail)
-                : Image.asset('assets/img/default_avatar.png'),
+                : Image.asset(
+                    'assets/img/default_avatar.png',
+                  ),
           ),
         ),
       ),

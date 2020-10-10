@@ -18,7 +18,9 @@ class AdsSuccess extends AdsState {
   final PaginatedAds paginatedAds;
   final List<Protectora> shelters;
   final List<Ad> searchedAds;
-  AdsSuccess({this.paginatedAds, this.shelters, this.searchedAds});
+  final List<InfoCardViewModel> infoCards;
+  AdsSuccess(
+      {this.paginatedAds, this.shelters, this.searchedAds, this.infoCards});
 }
 
 class AdsFailure extends AdsState {

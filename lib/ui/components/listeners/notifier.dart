@@ -1,10 +1,9 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:jumpets_app/app_localizations.dart';
 import 'package:jumpets_app/blocs/error_handler_bloc/error_handler_bloc.dart';
 import 'package:jumpets_app/blocs/info_handler_bloc/info_handler_bloc.dart';
-import 'package:jumpets_app/blocs/rooms_bloc/rooms_bloc.dart';
 import 'package:jumpets_app/ui/app_theme.dart';
 import 'package:jumpets_app/ui/components/animated_gradient_icon.dart';
 import 'package:jumpets_app/ui/components/buttons/raised_button.dart';
@@ -14,12 +13,15 @@ import 'package:overlay_support/overlay_support.dart';
 class Notifier extends StatelessWidget {
   final Widget child;
   Notifier({this.child});
+
   @override
   Widget build(BuildContext context) {
     return Builder(builder: (context) {
       return BlocListener<ErrorHandlerBloc, ErrorHandlerState>(
+        listenWhen: (previous, current) => current is! ErrorHandlerEmpty,
         listener: _errorListener,
         child: BlocListener<InfoHandlerBloc, InfoHandlerState>(
+          listenWhen: (previous, current) => current is! InfoHandlerEmpty,
           listener: _infoListener,
           child: child,
         ),
@@ -32,9 +34,9 @@ class Notifier extends StatelessWidget {
       case InfoDialog:
         showDialog(
             context: context,
-            builder: (context) => MyAlertDialog(
+            builder: (context) => SoloAlertDialog(
                   icon: AnimatedGradientIcon(
-                    Icons.info_outline,
+                    CupertinoIcons.info_circle,
                     isSelected: true,
                     size: 65,
                   ),
@@ -52,7 +54,7 @@ class Notifier extends StatelessWidget {
                     .translate((state as InfoNotification).msg),
                 color: AppTheme.kFourthColor,
                 leading: AnimatedGradientIcon(
-                  Icons.info,
+                  CupertinoIcons.info,
                   isSelected: false,
                   offColors: [
                     AppTheme.kAccentColor,
@@ -80,34 +82,28 @@ class Notifier extends StatelessWidget {
       case InfoDialogAction:
         showDialog(
             context: context,
-            builder: (context) => MyAlertDialog(
+            builder: (context) => SoloAlertDialog(
+                  icon: AnimatedGradientIcon(
+                    CupertinoIcons.info_circle,
+                    isSelected: true,
+                    size: 65,
+                  ),
                   msg: AppLocalizations.of(context)
                       .translate((state as InfoDialogAction).msg),
-                  actions: [
-                    Spacer(),
-                    Expanded(
-                      flex: 2,
-                      child: MyRaisedButton(
-                        filled: false,
-                        textColor: Theme.of(context).accentColor,
-                        borders: false,
-                        text: AppLocalizations.of(context).translate(
-                            (state as InfoDialogAction).onSecondaryText),
-                        onPressed:
-                            (state as InfoDialogAction).onSecondaryCallback,
-                      ),
-                    ),
-                    Spacer(),
-                    Expanded(
-                      flex: 2,
-                      child: MyRaisedButton(
-                        text: AppLocalizations.of(context)
-                            .translate((state as InfoDialogAction).onMainText),
-                        onPressed: (state as InfoDialogAction).onMainCallback,
-                      ),
-                    ),
-                    Spacer(),
-                  ],
+                  mainButton: AppLocalizations.of(context)
+                      .translate((state as InfoDialogAction).onMainText),
+                  secondaryButton: AppLocalizations.of(context)
+                      .translate((state as InfoDialogAction).onSecondaryText),
+                  onDismissed: (button) {
+                    if (button == DialogButtons.MAIN) {
+                      if ((state as InfoDialogAction).onMainCallback != null)
+                        (state as InfoDialogAction).onMainCallback();
+                    } else {
+                      if ((state as InfoDialogAction).onSecondaryCallback !=
+                          null)
+                        (state as InfoDialogAction).onSecondaryCallback();
+                    }
+                  },
                 ));
         break;
       default:
@@ -118,35 +114,24 @@ class Notifier extends StatelessWidget {
     if (state is ErrorThrownDialog) {
       showDialog(
           context: context,
-          builder: (context) => MyAlertDialog(
-                  icon: Icon(
-                    Icons.error_outline,
-                    color: Theme.of(context).errorColor.withOpacity(.7),
-                    size: 65,
-                  ),
-                  msg: AppLocalizations.of(context)
-                          .translate(state.error.toString()) ??
-                      state.error.toString(),
-                  actions: [
-                    Expanded(
-                      child: MyRaisedButton(
-                        filled: false,
-                        textColor: Theme.of(context).accentColor,
-                        borders: false,
-                        text: AppLocalizations.of(context).translate('retry'),
-                        onPressed: () {
-                          state.retry();
-                          Navigator.pop(context);
-                        },
-                      ),
-                    ),
-                    Expanded(
-                      child: MyRaisedButton(
-                        text: AppLocalizations.of(context).translate('cancel'),
-                        onPressed: () => Navigator.pop(context),
-                      ),
-                    ),
-                  ]));
+          builder: (context) => SoloAlertDialog(
+                icon: Icon(
+                  Icons.error_outline,
+                  color: Theme.of(context).errorColor.withOpacity(.7),
+                  size: 65,
+                ),
+                msg: AppLocalizations.of(context)
+                        .translate(state.error.toString()) ??
+                    state.error.toString(),
+                secondaryButton:
+                    AppLocalizations.of(context).translate('retry'),
+                mainButton: AppLocalizations.of(context).translate('cancel'),
+                onDismissed: (button) {
+                  if (button == DialogButtons.SECONDARY) {
+                    state.retry();
+                  }
+                },
+              ));
     } else if (state is ErrorThrownNotification) {
       showOverlayNotification((context) {
         return Padding(
@@ -167,12 +152,23 @@ class Notifier extends StatelessWidget {
   }
 }
 
-class MyAlertDialog extends StatelessWidget {
+enum DialogButtons { MAIN, SECONDARY }
+
+class SoloAlertDialog extends StatelessWidget {
   final Widget icon;
   final String msg;
-  final List<Widget> actions;
 
-  MyAlertDialog({this.actions, this.icon, @required this.msg})
+  final String mainButton;
+  final String secondaryButton;
+
+  final Function(DialogButtons) onDismissed;
+
+  SoloAlertDialog(
+      {this.mainButton,
+      this.secondaryButton,
+      this.icon,
+      @required this.msg,
+      this.onDismissed})
       : assert(msg != null);
 
   final ValueNotifier<bool> notifierStartup = ValueNotifier(false);
@@ -196,17 +192,30 @@ class MyAlertDialog extends StatelessWidget {
             height: 30,
           ),
           Row(children: [
-            if (actions != null && actions.isNotEmpty)
-              ...actions
-            else
+            Expanded(
+              child: MyRaisedButton(
+                text: mainButton ??
+                    AppLocalizations.of(context).translate('okay'),
+                onPressed: () {
+                  if (onDismissed != null) onDismissed(DialogButtons.MAIN);
+                  Navigator.pop(context);
+                },
+              ),
+            ),
+            if (secondaryButton != null)
               Expanded(
                 child: MyRaisedButton(
-                  text: AppLocalizations.of(context).translate('okay'),
+                  filled: false,
+                  textColor: Theme.of(context).accentColor,
+                  borders: false,
+                  text: secondaryButton,
                   onPressed: () {
+                    if (onDismissed != null)
+                      onDismissed(DialogButtons.SECONDARY);
                     Navigator.pop(context);
                   },
                 ),
-              )
+              ),
           ]),
         ]),
       ),

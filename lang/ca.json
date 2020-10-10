@@ -150,5 +150,7 @@
     "delete": "Eliminar",
     "title": "Títol",
     "camera": "Càmera",
-    "gallery": "Galeria"
+    "gallery": "Galeria",
+    "need_a_valid_address": "L'adreça de la teva conta es invàlida",
+    "Maximum call stack size exceeded": "Funcionalitat desactivada"
 }

@@ -150,5 +150,7 @@
     "delete": "Delete",
     "title": "Title",
     "camera": "Camera",
-    "gallery": "Gallery"
+    "gallery": "Gallery",
+    "need_a_valid_address": "You must enter a valid address to your account",
+    "Maximum call stack size exceeded": "Deactivated functionality"
 }

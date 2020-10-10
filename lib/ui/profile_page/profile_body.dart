@@ -42,21 +42,15 @@ class ProfileBody extends StatelessWidget {
                   indicatorColor: Theme.of(context).accentColor,
                   tabs: [
                     Tab(
-                      child: FractionallySizedBox(
-                        widthFactor: .6,
-                        child: Text(
-                          AppLocalizations.of(context).translate('ads'),
-                          textAlign: TextAlign.center,
-                        ),
+                      child: Text(
+                        AppLocalizations.of(context).translate('ads'),
+                        textAlign: TextAlign.center,
                       ),
                     ),
                     Tab(
-                      child: FractionallySizedBox(
-                        widthFactor: .6,
-                        child: Text(
-                          AppLocalizations.of(context).translate('valuations'),
-                          textAlign: TextAlign.center,
-                        ),
+                      child: Text(
+                        AppLocalizations.of(context).translate('valuations'),
+                        textAlign: TextAlign.center,
                       ),
                     )
                   ]),

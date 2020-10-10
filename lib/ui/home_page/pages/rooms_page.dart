@@ -108,7 +108,7 @@ class _RoomsPageState extends State<RoomsPage> {
             children = List.generate(6, (index) => ChatTilePlaceholder());
           }
 
-          if (children.isEmpty) {
+          if ((state is RoomsFailure)) {
             return Column(
               children: [
                 Spacer(),
@@ -122,13 +122,21 @@ class _RoomsPageState extends State<RoomsPage> {
             );
           }
 
+          if (children.isEmpty) {
+            return Column(
+              children: [
+                Spacer(),
+                EmptySpace(),
+                Spacer(
+                  flex: 2,
+                ),
+              ],
+            );
+          }
+
           return ListView(
             shrinkWrap: true,
-            children: <Widget>[
-              (state is RoomsFailure)
-                  ? EmptySpace()
-                  : Column(children: children),
-            ],
+            children: children,
           );
         },
       ),

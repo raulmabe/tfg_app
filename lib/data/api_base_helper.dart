@@ -16,7 +16,7 @@ class ApiBaseHelper {
 
 // API_LOCAL_URL = 192.168.1.35:3030/graphql
 // API_URL = publicIP:3030/graphql
-  static String domain = DotEnv().env['API_URL'];
+  static String domain = DotEnv().env['API_LOCAL_URL'];
 
   Future<dynamic> get(String url) async {
     var responseJson;

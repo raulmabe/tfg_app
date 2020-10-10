@@ -1,4 +1,5 @@
 import 'package:animations/animations.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:jumpets_app/app_localizations.dart';
 import 'package:jumpets_app/blocs/ads_bloc/ads_bloc.dart';
@@ -43,7 +44,7 @@ class _SearchBarState extends State<SearchBar> {
               AbsorbPointer(
                 child: IconButton(
                   icon: Icon(
-                    Icons.search,
+                    CupertinoIcons.search,
                   ),
                   onPressed: () => print('search'),
                 ),

@@ -4,7 +4,9 @@ import 'package:bloc/bloc.dart';
 import 'package:jumpets_app/blocs/auth_bloc/auth_bloc.dart';
 import 'package:jumpets_app/blocs/error_handler_bloc/error_handler_bloc.dart';
 import 'package:jumpets_app/data/repositories/ads_repository.dart';
+import 'package:jumpets_app/data/repositories/general_repository.dart';
 import 'package:jumpets_app/models/enums/categories.dart';
+import 'package:jumpets_app/models/errors/network_error.dart';
 import 'package:jumpets_app/models/models.dart';
 import 'package:jumpets_app/models/wrappers/paginated_ads.dart';
 import 'package:built_collection/built_collection.dart';
@@ -17,6 +19,7 @@ part 'ads_state.dart';
 
 class AdsBloc extends Bloc<AdsEvent, AdsState> {
   final AdsRepository repository;
+  final GeneralRepository generalRepository;
   final AuthBloc authBloc;
   String _currentEndCursor;
   Category category;
@@ -27,6 +30,7 @@ class AdsBloc extends Bloc<AdsEvent, AdsState> {
 
   AdsBloc(
       {@required this.repository,
+      @required this.generalRepository,
       @required this.authBloc,
       @required this.errorBloc,
       this.category = Category.DOGS,
@@ -135,7 +139,7 @@ class AdsBloc extends Bloc<AdsEvent, AdsState> {
         type: Helper.getAnimalTypeFromCategory(category),
         creator: event.creator,
       );
-      return AdsSuccess(searchedAds: ads);
+      return AdsSuccess(searchedAds: ads, infoCards: await _fetchInfo());
     } catch (err, stacktrace) {
       print('Ads BLoC OnCatch $err, $stacktrace');
       return AdsFailure(retry: () => this.add(event), msg: err.toString());
@@ -160,6 +164,7 @@ class AdsBloc extends Bloc<AdsEvent, AdsState> {
             thumbnailWidth: event.thumbnailWidth,
           );
           yield AdsSuccess(
+              infoCards: await _fetchInfo(),
               paginatedAds: paginatedAds.rebuild((b) => b
                 ..ads = BuiltList<Ad>([]
                       ..addAll(_lastestAdsFetched)
@@ -178,9 +183,18 @@ class AdsBloc extends Bloc<AdsEvent, AdsState> {
   Future<AdsState> _mapAdsFetchedToState(AdsFetched event) async {
     try {
       if (category == Category.SHELTERS) {
+        if (!authBloc.state.authStatus.status.isAuthenticated) {
+          throw InvalidArgsError(msg: 'You must be logged in');
+        }
+
+        if (authBloc.state.authStatus.authData.user.address == null ||
+            authBloc.state.authStatus.authData.user.address.isEmpty) {
+          throw InvalidArgsError(msg: 'need_a_valid_address');
+        }
+
         final shelters = await repository.getCloseShelters(
             token: authBloc.state.authStatus?.authData?.token);
-        return AdsSuccess(shelters: shelters);
+        return AdsSuccess(shelters: shelters, infoCards: await _fetchInfo());
       } else {
         final paginatedAds = await repository.getPaginatedAds(
           category: category,
@@ -191,11 +205,23 @@ class AdsBloc extends Bloc<AdsEvent, AdsState> {
           thumbnailHeight: event.thumbnailHeight,
           thumbnailWidth: event.thumbnailWidth,
         );
-        return AdsSuccess(paginatedAds: paginatedAds);
+        return AdsSuccess(
+            paginatedAds: paginatedAds, infoCards: await _fetchInfo());
       }
     } catch (err, stacktrace) {
       print('Ads BLoC OnCatch $err, $stacktrace');
       return AdsFailure(retry: () => this.add(event), msg: err.toString());
+    }
+  }
+
+  Future<List<InfoCardViewModel>> _fetchInfo() async {
+    try {
+      List<InfoCardViewModel> list = await generalRepository.getInfo();
+      print('Hola ${list.length}');
+      return list;
+    } catch (err, stack) {
+      print(err.toString() + stack.toString());
+      return [];
     }
   }
 

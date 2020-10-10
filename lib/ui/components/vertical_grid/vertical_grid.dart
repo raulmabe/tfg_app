@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:jumpets_app/models/ads/ad.dart';
 import 'package:jumpets_app/models/ads/animal_ad.dart';
+import 'package:jumpets_app/models/viewmodels/info_card_view_model.dart';
 
 import 'package:jumpets_app/ui/components/cards/animal_card.dart';
 import 'package:jumpets_app/ui/components/cards/info_card.dart';
@@ -12,13 +13,13 @@ import 'package:jumpets_app/ui/components/placeholders/custom_content_placeholde
 
 class VerticalGrid extends StatelessWidget {
   final List<Ad> ads;
-  final Widget widgetInjection;
+  final List<InfoCardViewModel> infoCards;
   final bool usePlaceholders;
   final bool insertPlaceholderAtLast;
 
   VerticalGrid({
     this.ads,
-    this.widgetInjection,
+    this.infoCards,
     this.usePlaceholders = false,
     this.insertPlaceholderAtLast = false,
   });
@@ -48,8 +49,15 @@ class VerticalGrid extends StatelessWidget {
             );
           }).toList());
 
-    if (!usePlaceholders && widgetInjection != null) {
-      list.insert(0, widgetInjection);
+    if (!usePlaceholders && (infoCards?.isNotEmpty ?? false)) {
+      list.insert(
+        0,
+        InfoCard(
+          title: infoCards.first.title,
+          message: infoCards.first.msg,
+          url: infoCards.first.url
+        ),
+      );
     }
 
     if (insertPlaceholderAtLast) {

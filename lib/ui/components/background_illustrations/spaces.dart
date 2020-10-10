@@ -109,6 +109,8 @@ class _BaseSpaceState extends State<BaseSpace> {
 }
 
 class EmptySpace extends StatelessWidget {
+  final String msg;
+  EmptySpace({this.msg});
   @override
   Widget build(BuildContext context) {
     return BaseSpace(
@@ -116,7 +118,7 @@ class EmptySpace extends StatelessWidget {
         titleUntranslated: 'empty_space_title',
         widthFactor: .4,
         greyScale: false,
-        subtitleUntranslated: 'empty_space_subtitle');
+        subtitleUntranslated: msg ?? 'empty_space_subtitle');
   }
 }
 
@@ -143,7 +145,9 @@ class ErrorSpace extends StatelessWidget {
         widthFactor: .5,
         assetName: 'assets/img/ovni.png',
         greyScale: false,
-        titleUntranslated: msg ?? 'error_on_request_title',
+        titleUntranslated: AppLocalizations.of(context).translate(msg) == null
+            ? 'error_on_request_title'
+            : msg,
         retry: retry,
         subtitleUntranslated: 'error_on_request_msg');
   }

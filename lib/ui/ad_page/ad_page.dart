@@ -317,10 +317,7 @@ class AdPage extends StatelessWidget {
                                     child: CircularProgressIndicator(),
                                   ),
                                 )
-                              : Icon(
-                                  alreadyFaved
-                                      ? Icons.favorite
-                                      : Icons.favorite_border,
+                              : Icon(Helper.getFavIcon(filled: alreadyFaved),
                                   color: alreadyFaved
                                       ? Colors.pinkAccent
                                       : Theme.of(context).iconTheme.color),
