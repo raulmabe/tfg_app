@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
+import 'package:jumpets_app/blocs/auth_bloc/auth_bloc.dart';
 import 'package:jumpets_app/blocs/error_handler_bloc/error_handler_bloc.dart';
 import 'package:jumpets_app/data/repositories/ads_repository.dart';
 import 'package:jumpets_app/models/models.dart';
@@ -12,9 +13,14 @@ part 'search_ads_state.dart';
 class SearchAdsBloc extends Bloc<SearchAdsEvent, SearchAdsState> {
   final AdsRepository repository;
   final ErrorHandlerBloc errorBloc;
-  SearchAdsBloc({@required this.repository, @required this.errorBloc})
+  final AuthBloc authBloc;
+  SearchAdsBloc(
+      {@required this.repository,
+      @required this.errorBloc,
+      @required this.authBloc})
       : assert(repository != null),
         assert(errorBloc != null),
+        assert(authBloc != null),
         super(SearchAdsInitial());
 
   @override
@@ -32,7 +38,8 @@ class SearchAdsBloc extends Bloc<SearchAdsEvent, SearchAdsState> {
               size: (event as AdsSearched).size,
               text: (event as AdsSearched).text,
               deliveryInfo: (event as AdsSearched).deliveryInfo,
-              type: (event as AdsSearched).type);
+              type: (event as AdsSearched).type,
+              token: authBloc.state.authStatus?.authData?.token);
 
           yield SearchAdsSuccess(ads: ads);
         } catch (err, stack) {

@@ -43,15 +43,17 @@ class AnimalCard extends StatelessWidget {
                           style: small
                               ? Theme.of(context).textTheme.bodyText2
                               : Theme.of(context).textTheme.subtitle1),
-                      small
-                          ? Container()
-                          : Text(
-                              '${(DateTime.now().difference(animalAd.birthDate).inDays / 365).floor().toString()} ${AppLocalizations.of(context).translate('years')}',
-                            )
+                      if (!small)
+                        Text(
+                          '${(DateTime.now().difference(animalAd.birthDate).inDays / 365).floor().toString()} ${AppLocalizations.of(context).translate('years')}',
+                        ),
                     ],
                   ),
                 ),
-                SexIcon(male: animalAd.male)
+                SexIcon(
+                  male: animalAd.male,
+                  padding: EdgeInsets.only(right: 10),
+                )
               ],
             )
           ]),

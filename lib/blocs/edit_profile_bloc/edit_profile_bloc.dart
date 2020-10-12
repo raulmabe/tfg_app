@@ -33,7 +33,9 @@ class EditProfileBloc extends Bloc<EditProfileEvent, EditProfileState> {
           address: Address.pure(user.address),
           web: Web.pure(user is Profesional
               ? user.web
-              : user is Protectora ? user.web : ''),
+              : user is Protectora
+                  ? user.web
+                  : ''),
           phone: Phone.pure(user.phone),
         ));
 
@@ -197,11 +199,6 @@ class EditProfileBloc extends Bloc<EditProfileEvent, EditProfileState> {
         if (state.email.value !=
             authBloc.state.authStatus?.authData?.user?.email) {
           email = state.email.value;
-        }
-
-        if (state.file != null) {
-          infoBloc.add(
-              MessageAdded(msg: 'uploading_background', notification: true));
         }
 
         User user = await repository.updateUser(

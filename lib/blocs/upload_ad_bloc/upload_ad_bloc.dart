@@ -198,9 +198,6 @@ class UploadAdBloc extends Bloc<UploadAdEvent, UploadAdState> {
         }
 
         yield UploadAdState(status: FormzStatus.submissionSuccess, ad: ad);
-        infoBloc.add(MessageAdded(
-            msg: 'uploading_background_will_be_redirected',
-            notification: true));
       } catch (err, stack) {
         errorBloc
             .add(ErrorHandlerCatched(bloc: this, event: event, error: err));

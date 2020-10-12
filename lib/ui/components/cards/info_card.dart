@@ -16,7 +16,7 @@ class InfoCard extends StatelessWidget {
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(20),
       ),
-      child: InkWell(
+      child: GestureDetector(
         onTap: url != null
             ? () async {
                 if (await canLaunch(url)) {

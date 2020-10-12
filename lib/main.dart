@@ -126,7 +126,9 @@ class MyApp extends StatelessWidget {
                       errorBloc: errorBloc)),
               BlocProvider<SearchAdsBloc>(
                 create: (context) => SearchAdsBloc(
-                    repository: adsRepository, errorBloc: errorBloc),
+                    repository: adsRepository,
+                    errorBloc: errorBloc,
+                    authBloc: authBloc),
               ),
             ],
             child: AuthListener(

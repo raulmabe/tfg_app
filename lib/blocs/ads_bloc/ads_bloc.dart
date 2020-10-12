@@ -28,6 +28,8 @@ class AdsBloc extends Bloc<AdsEvent, AdsState> {
   bool searchMode;
   final ErrorHandlerBloc errorBloc;
 
+  List<InfoCardViewModel> infoCards = [];
+
   AdsBloc(
       {@required this.repository,
       @required this.generalRepository,
@@ -38,7 +40,9 @@ class AdsBloc extends Bloc<AdsEvent, AdsState> {
       : assert(repository != null),
         assert(authBloc != null),
         assert(errorBloc != null),
-        super(AdsInitial());
+        super(AdsInitial()) {
+    _fetchInfo();
+  }
 
   @override
   void onTransition(Transition<AdsEvent, AdsState> transition) {
@@ -131,15 +135,15 @@ class AdsBloc extends Bloc<AdsEvent, AdsState> {
 
     try {
       final ads = await repository.searchAds(
-        text: event.text,
-        size: event.size,
-        deliveryInfo: event.deliveryInfo,
-        male: event.male,
-        activityLevel: event.activityLevel,
-        type: Helper.getAnimalTypeFromCategory(category),
-        creator: event.creator,
-      );
-      return AdsSuccess(searchedAds: ads, infoCards: await _fetchInfo());
+          text: event.text,
+          size: event.size,
+          deliveryInfo: event.deliveryInfo,
+          male: event.male,
+          activityLevel: event.activityLevel,
+          type: Helper.getAnimalTypeFromCategory(category),
+          creator: event.creator,
+          token: authBloc.state.authStatus?.authData?.token);
+      return AdsSuccess(searchedAds: ads, infoCards: infoCards);
     } catch (err, stacktrace) {
       print('Ads BLoC OnCatch $err, $stacktrace');
       return AdsFailure(retry: () => this.add(event), msg: err.toString());
@@ -152,19 +156,19 @@ class AdsBloc extends Bloc<AdsEvent, AdsState> {
     } else {
       print('Trying to fetch more ads but: $_hasNextPage');
       if (_hasNextPage) {
-        yield AdsLoadingMore(ads: _lastestAdsFetched);
+        yield AdsLoadingMore(ads: _lastestAdsFetched, infoCards: infoCards);
         try {
           final paginatedAds = await repository.getPaginatedAds(
-            category: category,
-            first: 10,
-            after: _currentEndCursor,
-            photosWidth: event.photosWidth,
-            photosHeight: event.photosHeight,
-            thumbnailHeight: event.thumbnailHeight,
-            thumbnailWidth: event.thumbnailWidth,
-          );
+              category: category,
+              first: 10,
+              after: _currentEndCursor,
+              photosWidth: event.photosWidth,
+              photosHeight: event.photosHeight,
+              thumbnailHeight: event.thumbnailHeight,
+              thumbnailWidth: event.thumbnailWidth,
+              token: authBloc.state.authStatus?.authData?.token);
           yield AdsSuccess(
-              infoCards: await _fetchInfo(),
+              infoCards: infoCards,
               paginatedAds: paginatedAds.rebuild((b) => b
                 ..ads = BuiltList<Ad>([]
                       ..addAll(_lastestAdsFetched)
@@ -194,19 +198,18 @@ class AdsBloc extends Bloc<AdsEvent, AdsState> {
 
         final shelters = await repository.getCloseShelters(
             token: authBloc.state.authStatus?.authData?.token);
-        return AdsSuccess(shelters: shelters, infoCards: await _fetchInfo());
+        return AdsSuccess(shelters: shelters, infoCards: infoCards);
       } else {
         final paginatedAds = await repository.getPaginatedAds(
-          category: category,
-          first: 10,
-          after: null,
-          photosWidth: event.photosWidth,
-          photosHeight: event.photosHeight,
-          thumbnailHeight: event.thumbnailHeight,
-          thumbnailWidth: event.thumbnailWidth,
-        );
-        return AdsSuccess(
-            paginatedAds: paginatedAds, infoCards: await _fetchInfo());
+            category: category,
+            first: 10,
+            after: null,
+            photosWidth: event.photosWidth,
+            photosHeight: event.photosHeight,
+            thumbnailHeight: event.thumbnailHeight,
+            thumbnailWidth: event.thumbnailWidth,
+            token: authBloc.state.authStatus?.authData?.token);
+        return AdsSuccess(paginatedAds: paginatedAds, infoCards: infoCards);
       }
     } catch (err, stacktrace) {
       print('Ads BLoC OnCatch $err, $stacktrace');
@@ -214,15 +217,10 @@ class AdsBloc extends Bloc<AdsEvent, AdsState> {
     }
   }
 
-  Future<List<InfoCardViewModel>> _fetchInfo() async {
+  void _fetchInfo() async {
     try {
-      List<InfoCardViewModel> list = await generalRepository.getInfo();
-      print('Hola ${list.length}');
-      return list;
-    } catch (err, stack) {
-      print(err.toString() + stack.toString());
-      return [];
-    }
+      infoCards = await generalRepository.getInfo();
+    } catch (err, stack) {}
   }
 
   @override

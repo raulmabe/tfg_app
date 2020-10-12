@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jumpets_app/app_localizations.dart';
@@ -174,7 +175,7 @@ class _OwnValuationState extends State<OwnValuation> {
                   children: [
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 4.0),
-                      child: Icon(Icons.info_outline),
+                      child: Icon(CupertinoIcons.info),
                     ),
                     Expanded(
                       child: Text(AppLocalizations.of(context)

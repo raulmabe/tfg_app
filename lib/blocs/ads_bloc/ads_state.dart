@@ -11,7 +11,8 @@ class AdsLoading extends AdsState {}
 
 class AdsLoadingMore extends AdsState {
   final List<Ad> ads;
-  AdsLoadingMore({this.ads});
+  final List<InfoCardViewModel> infoCards;
+  AdsLoadingMore({this.ads, this.infoCards});
 }
 
 class AdsSuccess extends AdsState {

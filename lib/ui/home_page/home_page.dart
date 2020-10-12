@@ -66,7 +66,7 @@ class _HomePageState extends State<HomePage> {
                   SystemChannels.platform.invokeMethod('SystemNavigator.pop'),
               onSecondaryText: 'yes',
               onMainText: 'cancel',
-              onMainCallback: () => Navigator.pop(context),
+              onMainCallback: () {},
             ));
         return Future.value(false);
       },

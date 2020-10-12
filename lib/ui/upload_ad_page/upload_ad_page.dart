@@ -20,6 +20,8 @@ class UploadAdPage extends StatefulWidget {
 class _UploadAdPageState extends State<UploadAdPage> {
   UploadAdBloc uploadAdBloc;
 
+  double horizontalPadding = 20;
+
   @override
   void initState() {
     super.initState();
@@ -53,20 +55,16 @@ class _UploadAdPageState extends State<UploadAdPage> {
                     icon: Icon(Icons.clear),
                     onPressed: () => Navigator.pop(context)),
               ),
-              body: Padding(
-                padding:
-                    const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
-                child: ListView(
-                  children: [
-                    Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text(
-                          '${AppLocalizations.of(context).translate('upload_your_ad_to')} ${AppLocalizations.of(context).translate(state.category.name.toLowerCase()).toLowerCase()}',
-                          style: Theme.of(context).textTheme.headline6,
-                        )),
-                    SelectableCategories(),
-                  ]..addAll(_inputs(context)),
-                ),
+              body: ListView(
+                children: [
+                  Padding(
+                      padding: EdgeInsets.all(8.0 + horizontalPadding),
+                      child: Text(
+                        '${AppLocalizations.of(context).translate('upload_your_ad_to')} ${AppLocalizations.of(context).translate(state.category.name.toLowerCase()).toLowerCase()}',
+                        style: Theme.of(context).textTheme.headline6,
+                      )),
+                  SelectableCategories(),
+                ]..add(_inputs(context)),
               ),
               bottomNavigationBar: SafeArea(
                   child: Padding(
@@ -78,11 +76,21 @@ class _UploadAdPageState extends State<UploadAdPage> {
     );
   }
 
-  List<Widget> _inputs(context) {
-    if (uploadAdBloc.state.category.isAnimal) return _animalInputs(context);
-    if (uploadAdBloc.state.category.isService) return _serviceInputs(context);
-    if (uploadAdBloc.state.category.isProduct) return _productInputs(context);
-    return [];
+  Widget _inputs(context) {
+    List<Widget> children = [];
+
+    if (uploadAdBloc.state.category.isAnimal) children = _animalInputs(context);
+    if (uploadAdBloc.state.category.isService)
+      children = _serviceInputs(context);
+    if (uploadAdBloc.state.category.isProduct)
+      children = _productInputs(context);
+
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: horizontalPadding),
+      child: Column(
+        children: children,
+      ),
+    );
   }
 
   List<Widget> _animalInputs(context) => [

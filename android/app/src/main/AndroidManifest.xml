@@ -7,7 +7,7 @@
          FlutterApplication and put your custom class here. -->
     <application
         android:name="io.flutter.app.FlutterApplication"
-        android:label="jumpets_app"
+        android:label="PetsWorld Demo"
         android:icon="@mipmap/ic_launcher"
         android:requestLegacyExternalStorage="true">
         <meta-data android:name="com.google.android.geo.API_KEY"

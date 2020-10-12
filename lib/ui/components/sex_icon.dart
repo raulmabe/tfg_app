@@ -5,12 +5,16 @@ import 'package:jumpets_app/ui/helper.dart';
 class SexIcon extends StatelessWidget {
   final bool male;
   final double size;
-  SexIcon({@required this.male, this.size = 17});
+  final EdgeInsets padding;
+  SexIcon(
+      {@required this.male,
+      this.size = 17,
+      this.padding = const EdgeInsets.all(8.0)});
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(8.0),
+      padding: padding,
       child: Icon(
         male ? FontAwesomeIcons.mars : FontAwesomeIcons.venus,
         size: size,

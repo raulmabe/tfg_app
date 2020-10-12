@@ -13,7 +13,9 @@ class PhotoIcon extends StatelessWidget {
       width: 50,
       decoration: BoxDecoration(
           border: Border.all(
-              color: Theme.of(context).accentColor, width: borderWidth),
+              color: Theme.of(context).accentColor,
+              width: borderWidth,
+              style: borderWidth == 0 ? BorderStyle.none : BorderStyle.solid),
           borderRadius: BorderRadius.circular(10),
           image: DecorationImage(fit: BoxFit.cover, image: NetworkImage(url))),
     );

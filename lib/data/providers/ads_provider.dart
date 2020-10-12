@@ -138,7 +138,8 @@ class AdsProvider {
       int photosWidth,
       int photosHeight,
       int thumbnailWidth,
-      int thumbnailHeight}) async {
+      int thumbnailHeight,
+      String token}) async {
     return _api.post({
       'query': '''{
     ads(category: $category, first: $first, after: \"$after\") {
@@ -157,7 +158,7 @@ class AdsProvider {
     }
   }''' +
           adFragment
-    });
+    }, token: token);
   }
 
   Future<dynamic> getFavs({String token}) async {
@@ -381,7 +382,8 @@ class AdsProvider {
       bool male,
       ActivityLevel activityLevel,
       AnimalType type,
-      String creator}) async {
+      String creator,
+      String token}) async {
     String creatorEscaped = creator != null ? '"$creator"' : null;
     String textEscaped = text != null ? '"$text"' : null;
     String tagsEscaped = text != null ? '["$text"]' : null;
@@ -431,7 +433,7 @@ class AdsProvider {
     }
   }''' +
           adFragment
-    });
+    }, token: token);
   }
 
   Future<dynamic> deleteAnimalAd({String id, String token}) async {

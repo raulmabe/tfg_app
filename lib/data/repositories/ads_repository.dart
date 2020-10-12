@@ -14,7 +14,7 @@ class AdsRepository {
       bool male,
       ActivityLevel activityLevel,
       AnimalType type,
-      String creator}) async {
+      String creator, String token}) async {
     var json = await _adsProvider.searchAds(
         text: text,
         creator: creator,
@@ -22,7 +22,7 @@ class AdsRepository {
         deliveryInfo: deliveryInfo,
         male: male,
         type: type,
-        activityLevel: activityLevel);
+        activityLevel: activityLevel, token: token);
 
     List list1 = json['data']['searchAds1'];
     List list2 = json['data']['searchAds2'];
@@ -57,7 +57,8 @@ class AdsRepository {
       int photosWidth,
       int photosHeight,
       int thumbnailWidth,
-      int thumbnailHeight}) async {
+      int thumbnailHeight,
+      String token}) async {
     var json = await _adsProvider.getPaginatedAds(
         category: category,
         first: first,
@@ -65,7 +66,8 @@ class AdsRepository {
         photosHeight: photosHeight,
         photosWidth: photosWidth,
         thumbnailHeight: thumbnailHeight,
-        thumbnailWidth: thumbnailWidth);
+        thumbnailWidth: thumbnailWidth,
+        token: token);
 
     List edgesArray = json['data']['ads']['edges'];
 

@@ -116,7 +116,7 @@ class Notifier extends StatelessWidget {
           context: context,
           builder: (context) => SoloAlertDialog(
                 icon: Icon(
-                  Icons.error_outline,
+                  CupertinoIcons.exclamationmark_circle,
                   color: Theme.of(context).errorColor.withOpacity(.7),
                   size: 65,
                 ),
@@ -142,7 +142,7 @@ class Notifier extends StatelessWidget {
                   state.error.toString(),
               color: Theme.of(context).errorColor,
               leading: Icon(
-                Icons.error,
+                CupertinoIcons.exclamationmark_circle_fill,
                 color: Theme.of(context).errorColor,
                 size: 30,
               ),
@@ -198,7 +198,7 @@ class SoloAlertDialog extends StatelessWidget {
                     AppLocalizations.of(context).translate('okay'),
                 onPressed: () {
                   if (onDismissed != null) onDismissed(DialogButtons.MAIN);
-                  Navigator.pop(context);
+                  if (Navigator.canPop(context)) Navigator.pop(context);
                 },
               ),
             ),
@@ -212,7 +212,7 @@ class SoloAlertDialog extends StatelessWidget {
                   onPressed: () {
                     if (onDismissed != null)
                       onDismissed(DialogButtons.SECONDARY);
-                    Navigator.pop(context);
+                    if (Navigator.canPop(context)) Navigator.pop(context);
                   },
                 ),
               ),

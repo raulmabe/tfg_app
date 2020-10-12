@@ -224,6 +224,7 @@ class _MainPageState extends State<MainPage> {
                 infoCards = state.infoCards;
               } else if (state is AdsLoadingMore) {
                 ads = state.ads;
+                infoCards = state.infoCards;
               }
 
               if (state is AdsSuccess && ads.isEmpty)
