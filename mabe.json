@@ -15,5 +15,8 @@
     "link_images": [
         "https://res.cloudinary.com/mabe-portfolio/image/upload/v1602609881/petsworld/mock.png"
     ],
+    "mocks_angle": [
+        "90"
+    ],
     "private": false
 }
