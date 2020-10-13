@@ -1,16 +1,10 @@
-# Jumpets App
+# A Pet Adoption App
 
-A new Flutter project.
+_Production-ready application developed with Flutter, using BLoC as state management pattern. Moreover, its backend uses GraphQL and MongoDB_
 
-## Getting Started
+Every year more than a thousand pets are sacrificed, only in Spain. Therefore, according to the diary 20minutos [3], the Fundacion Affinity’s director: Isabel Buil, remembered that adoption is “the best way to deal with abandonment short and long term”.
 
-This project is a starting point for a Flutter application.
+Another topic to be aware of is the increase of illegal animal trafficking, one of the main causes of abandonment. The reason for this is that currently there is not much control in the animal market in Spain.
 
-A few resources to get you started if this is your first Flutter project:
+Thus, this project aims to offer a platform to give more visibility to pets’ adoption. The final result will be an app where you will be able to contact to your closest shelters, buy animal related products, contract or offer services, put an animal for adoption, and more.
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
