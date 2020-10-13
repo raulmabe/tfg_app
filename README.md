@@ -1,6 +1,6 @@
 # A Pet Adoption App
 
-_Production-ready application developed with Flutter, using BLoC as state management pattern. Moreover, its backend uses GraphQL and MongoDB_
+_Production-ready application developed with Flutter, using BLoC as state management pattern. Moreover, this application connects with an independent back-end that uses GraphQL and MongoDB._
 
 ## Motivation
 
