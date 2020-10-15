@@ -11,7 +11,7 @@ description: A new Flutter project.
 # In iOS, build-name is used as CFBundleShortVersionString while build-number used as CFBundleVersion.
 # Read more about iOS versioning at
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
-version: 1.0.0+1
+version: 1.0.0+2
 
 environment:
   sdk: ">=2.6.0 <3.0.0"
@@ -20,7 +20,6 @@ dependencies:
   url_launcher: ^5.5.3
   flutter:
     sdk: flutter
-    
 
   flutter_localizations:
     sdk: flutter
@@ -53,7 +52,6 @@ dependencies:
   flutter_dotenv: ^2.1.0
   hydrated_bloc: ^6.0.1
 
-
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -61,7 +59,7 @@ dev_dependencies:
   flutter_launcher_icons: ^0.8.1
   built_value_generator: ^7.1.0
   build_runner: ^1.9.0
-    
+
 flutter_icons:
   image_path: "assets/img/icon.png"
   android: true
@@ -72,7 +70,6 @@ flutter_icons:
 
 # The following section is specific to Flutter.
 flutter:
-
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.
@@ -80,28 +77,27 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
-   - .env
-   - assets/styles/map_style.txt
-   - assets/styles/dark_map_style.txt
+    - .env
+    - assets/styles/map_style.txt
+    - assets/styles/dark_map_style.txt
 
-   - assets/img/bebe.jpg
-   - assets/img/pollo1.png
-   - assets/img/pollo2.png
-   - assets/img/pollo3.png
-   - assets/img/default_avatar.png
-   - assets/img/404.png
-   - assets/img/no_data.png
-   - assets/img/ovni.png
+    - assets/img/bebe.jpg
+    - assets/img/pollo1.png
+    - assets/img/pollo2.png
+    - assets/img/pollo3.png
+    - assets/img/default_avatar.png
+    - assets/img/404.png
+    - assets/img/no_data.png
+    - assets/img/ovni.png
 
-   - lang/en.json
-   - lang/es.json
-   - lang/ca.json
+    - lang/en.json
+    - lang/es.json
+    - lang/ca.json
 
-   
   fonts:
-    - family:  JumpetsIcons
+    - family: JumpetsIcons
       fonts:
-       - asset: assets/fonts/JumpetsIcons.ttf
-    - family:  VelvetHeart
+        - asset: assets/fonts/JumpetsIcons.ttf
+    - family: VelvetHeart
       fonts:
-       - asset: assets/fonts/velvet_heart_font.ttf
+        - asset: assets/fonts/velvet_heart_font.ttf
