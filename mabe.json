@@ -8,6 +8,6 @@
   ],
   "mocks_angle": ["90"],
   "private": false,
-  "link": "https://play.google.com/store/apps/details?id=com.mabe.petsworld_demo", //optional
-  "link_text": "Get it on PlayStore" //optional
+  "link": "https://play.google.com/store/apps/details?id=com.mabe.petsworld_demo",
+  "link_text": "Get it on PlayStore"
 }
