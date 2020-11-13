@@ -1,7 +1,7 @@
 part of 'login_bloc.dart';
 
 @immutable
-class LoginState {
+class LoginState extends Equatable{
   const LoginState({
     this.status = FormzStatus.pure,
     this.email = const Email.pure(),
@@ -23,4 +23,8 @@ class LoginState {
       password: password ?? this.password,
     );
   }
+  @override
+  bool get stringify => true;
+  @override
+  List<Object> get props => [status, email.value, password.value ];
 }

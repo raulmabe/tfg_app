@@ -1,7 +1,7 @@
 part of 'auth_bloc.dart';
 
 @immutable
-class AuthState {
+class AuthState extends Equatable{
   const AuthState({
     this.authStatus = const AuthStatus.unknown(),
   });
@@ -12,4 +12,9 @@ class AuthState {
   String toString() {
     return '${authStatus.status}';
   }
+
+  
+
+  @override
+  List<Object> get props => [authStatus.status];
 }
