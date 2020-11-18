@@ -15,9 +15,6 @@ import 'package:jumpets_app/models/wrappers/auth_status.dart';
 import 'package:mockito/mockito.dart';
 import 'package:test/test.dart';
 
-class MockUser extends Mock implements User{}
-
-class MockAuthData extends Mock implements AuthData{}
 
 class MockAuthenticationRepository extends Mock implements AuthenticationRepository {
   final _controller = StreamController<AuthStatus>();
