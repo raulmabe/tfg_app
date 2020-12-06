@@ -3,15 +3,13 @@
   "version": "1.0.0",
   "tag_tools": ["flutter", "dart", "BLoC", "graphql", "mongodb", "express"],
   "platforms": ["iOS", "Android"],
-  "link_images": [
-    "https://res.cloudinary.com/mabe-portfolio/image/upload/v1603895453/petsworld/mock.png"
-  ],
-  "link_videos": [
-    "https://res.cloudinary.com/mabe-portfolio/video/upload/v1603889628/petsworld/video.webm"
-  ],
-  "vertical_videos": [true],
-  "vertical_images": [true],
-  "private": false,
+  
   "link": "https://play.google.com/store/apps/details?id=com.mabe.petsworld_demo",
   "link_text": "Get it on PlayStore"
+
+  "assets": ["https://res.cloudinary.com/mabe-portfolio/video/upload/v1603889628/petsworld/video.webm", "https://res.cloudinary.com/mabe-portfolio/image/upload/v1603895453/petsworld/mock.png"],
+  "assets_is_vertical": [true, true], 
+  "assets_is_image": [false, true], 
+  "assets_platform": ["mobile", "mobile"]
 }
+
