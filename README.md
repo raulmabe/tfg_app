@@ -9,3 +9,6 @@ Every year more than a thousand pets are sacrificed, only in Spain. Therefore, a
 Another topic to be aware of is the increase of illegal animal trafficking, one of the main causes of abandonment. The reason for this is that currently there is not much control in the animal market in Spain.
 
 Thus, this project aims to offer a platform to give more visibility to pets’ adoption. The final result will be an app where you will be able to contact near shelters, buy animal related products, contract or offer services, put an animal for adoption, and more.
+
+
+![GitHub Repo stars](https://img.shields.io/github/stars/Rahuvich/tfg_app?color=yellow)
